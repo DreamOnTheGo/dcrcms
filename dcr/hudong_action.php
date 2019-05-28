@@ -4,36 +4,36 @@ include "../include/common.inc.php";
 include WEB_CLASS."/hudong_class.php";
 include "adminyz.php";
 
-//ÌáÊ¾ĞÅÏ¢¿ªÊ¼
-$errormsg=array();//´íÎóĞÅÏ¢
-$back=array('»¥¶¯ĞÅÏ¢ÁĞ±í'=>'hudong_list.php');
-//ÌáÊ¾ĞÅÏ¢½áÊø
+//æç¤ºä¿¡æ¯å¼€å§‹
+$errormsg=array();//é”™è¯¯ä¿¡æ¯
+$back=array('äº’åŠ¨ä¿¡æ¯åˆ—è¡¨'=>'hudong_list.php');
+//æç¤ºä¿¡æ¯ç»“æŸ
 
-//±¾Ò³Îª²Ù×÷ĞÂÎÅµÄÒ³Ãæ
+//æœ¬é¡µä¸ºæ“ä½œæ–°é—»çš„é¡µé¢
 $hudong=new HuDong(0);
 if($action=='delorder'){
 	if($hudong->Delete($id)){
-		$errormsg[]='É¾³ıÊı¾İ³É¹¦';
+		$errormsg[]='åˆ é™¤æ•°æ®æˆåŠŸ';
 		ShowMsg($errormsg,1,$back);
 	}else{
-		$errormsg[]='É¾³ıÊı¾İÊ§°Ü';
+		$errormsg[]='åˆ é™¤æ•°æ®å¤±è´¥';
 		ShowMsg($errormsg,1,$back);
 	}
 }elseif($action=='change_type_1'){
 	if($hudong->UpdateType($id,1)){
-		$errormsg[]='¸üĞÂ»¥¶¯ĞÅÏ¢×´Ì¬³É¹¦';
+		$errormsg[]='æ›´æ–°äº’åŠ¨ä¿¡æ¯çŠ¶æ€æˆåŠŸ';
 		ShowMsg($errormsg,1,$back);
 	}else{
-		$errormsg[]='¸üĞÂ»¥¶¯ĞÅÏ¢Ê§°Ü';
+		$errormsg[]='æ›´æ–°äº’åŠ¨ä¿¡æ¯å¤±è´¥';
 		ShowMsg($errormsg,1,$back);
 	}
 	
 }elseif($action=='change_type_2'){
 	if($hudong->UpdateType($id,2)){
-		$errormsg[]='¸üĞÂ»¥¶¯ĞÅÏ¢×´Ì¬³É¹¦';
+		$errormsg[]='æ›´æ–°äº’åŠ¨ä¿¡æ¯çŠ¶æ€æˆåŠŸ';
 		ShowMsg($errormsg,1,$back);
 	}else{
-		$errormsg[]='¸üĞÂ»¥¶¯ĞÅÏ¢Ê§°Ü';
+		$errormsg[]='æ›´æ–°äº’åŠ¨ä¿¡æ¯å¤±è´¥';
 		ShowMsg($errormsg,1,$back);
 	}
 }

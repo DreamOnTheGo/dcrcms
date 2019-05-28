@@ -1,27 +1,25 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
-<title>Ìá½»¶©µ¥_<{$web_name}></title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>æäº¤è®¢å•_<{$web_name}></title>
 <meta name="keywords" content="{art.keywords}"/>
 <meta name="description" content="{art.description}"/>
 <link href="<{$web_templeturl}><{$web_templetdir}>/css/common.css" rel="stylesheet" type="text/css" />
 <style>
-form {
+.hudong_frm {
 	background:#fff;
 	padding:1em;
 	border:1px solid #eee;
+	margin:1em;
+	width:570px;
+	margin:15px auto;
 }
 .contact {
 }
 fieldset div {
 	margin:0.3em 0;
 	clear:both;
-}
-form {
-	margin:1em;
-	width:570px;
-	margin:15px auto;
 }
 label {
 	float:left;
@@ -37,7 +35,7 @@ legend span {
 	width:10em;
 	text-align:right;
 }
-input {
+.txtbox{
 	padding:5px;
 	width:200px;
 	border:1px solid #ddd;
@@ -136,19 +134,19 @@ textarea{width:300px; height:50px;}
         </div>
     	<div id="con_main">
         	<div class="news_main">
-	        	<div class="position">µ±Ç°Î»ÖÃ£º<a href="/">Ê×Ò³</a> >> ÔÚÏß¶©µ¥ </span></div>
+	        	<div class="position">å½“å‰ä½ç½®ï¼š<a href="/">é¦–é¡µ</a> >> åœ¨çº¿è®¢å• </span></div>
 
-                <form method="post" action="hudong.php?action=addorder">
-		<p>»¶Ó­Äú¹âÁÙ±¾¹«Ë¾£¬Èç¹ûÄúÏëÍ¨¹ıÍøÂç¶©¹ºÎÒÃÇµÄ²úÆ·£¬ÇëÁôÏÂÏêÏ¸ÄÚÈİ¼°ÁªÏµ·½Ê½¡£ ÎÒÃÇ½«ÒÔ×î¿ìµÄ·½Ê½´ğ¸´Äú£¬²¢»¶Ó­ÄúÀ´µç×ÉÑ¯»òµ½±¾¹«Ë¾²Î¹Û¿¼²ì¡£</p>
+                <form method="post" action="hudong.php?action=addorder" class="hudong_frm">
+		<p>æ¬¢è¿æ‚¨å…‰ä¸´æœ¬å…¬å¸ï¼Œå¦‚æœæ‚¨æƒ³é€šè¿‡ç½‘ç»œè®¢è´­æˆ‘ä»¬çš„äº§å“ï¼Œè¯·ç•™ä¸‹è¯¦ç»†å†…å®¹åŠè”ç³»æ–¹å¼ã€‚ æˆ‘ä»¬å°†ä»¥æœ€å¿«çš„æ–¹å¼ç­”å¤æ‚¨ï¼Œå¹¶æ¬¢è¿æ‚¨æ¥ç”µå’¨è¯¢æˆ–åˆ°æœ¬å…¬å¸å‚è§‚è€ƒå¯Ÿã€‚</p>
 		<fieldset class="contact">
-			<legend>Ìá½»¶©µ¥</legend>
+			<legend>æäº¤è®¢å•</legend>
 	        <{section name=arr loop=$fieldList}>
 			<div>
 				<label for="firstname"><{$fieldList[arr].itemname}></label> <{$fieldList[arr].inputtxt}>
 			</div>
 	        <{/section}>
 		</fieldset>
-		<div><button type="submit">Ìá½»</button></div>
+		<div><button type="submit">æäº¤</button></div>
 	</form>
             </div>
         </div>

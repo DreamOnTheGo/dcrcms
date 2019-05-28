@@ -1,7 +1,7 @@
 <?php
 /**
-* Í¼Æ¬´¦ÀíÀà
-* @author À´Ô´ÓÚÍøÉÏ
+* å›¾ç‰‡å¤„ç†ç±»
+* @author æ¥æºäºç½‘ä¸Š
 * @version 1.0
 * @copyright 2006-2010
 * @package class
@@ -15,7 +15,7 @@ class Image {
     var $imageType = NULL;
     
     /**
-     * ³õÊ¼»¯Àà
+     * åˆå§‹åŒ–ç±»
      *
      * @param string $image
      * @return Image
@@ -42,9 +42,9 @@ class Image {
     }
     
     /**
-     * ÉèÖÃÍ¼Æ¬Ô´
+     * è®¾ç½®å›¾ç‰‡æº
      *
-     * @param string $image Í¼Æ¬Â·¾¶
+     * @param string $image å›¾ç‰‡è·¯å¾„
      * @return boolean
      */
     function setImage($image) {
@@ -52,7 +52,7 @@ class Image {
             $this->imageInfo = getimagesize($image);
             $img_mime = strtolower($this->imageInfo['mime']);
             if(!in_array($img_mime, $this->enableTypes)) {
-                exit('ÏµÍ³²»ÄÜ²Ù×÷ÕâÖÖÍ¼Æ¬ÀàĞÍ.');
+                exit('ç³»ç»Ÿä¸èƒ½æ“ä½œè¿™ç§å›¾ç‰‡ç±»å‹.');
             }
             switch ($img_mime) {
                 case 'image/gif':
@@ -79,7 +79,7 @@ class Image {
             if($link !== 'unknow') {
                 $this->imageResource = $link;
             } else {
-                exit('ÕâÖÖÍ¼Æ¬ÀàĞÍ²»ÄÜ¸Ä±ä³ß´ç.');
+                exit('è¿™ç§å›¾ç‰‡ç±»å‹ä¸èƒ½æ”¹å˜å°ºå¯¸.');
             }
             unset($link);
             return true;
@@ -89,7 +89,7 @@ class Image {
     }
     
     /**
-     * ÉèÖÃÍ·
+     * è®¾ç½®å¤´
      *
      */
     function setHeader() {
@@ -111,22 +111,22 @@ class Image {
     }
     
     /**
-     * ¸Ä±äÍ¼Æ¬´óĞ¡
+     * æ”¹å˜å›¾ç‰‡å¤§å°
      *
-     * @param int $width ĞÂÍ¼Æ¬µÄ¿í
-     * @param int $height ĞÂÍ¼Æ¬µÄ¸ß
+     * @param int $width æ–°å›¾ç‰‡çš„å®½
+     * @param int $height æ–°å›¾ç‰‡çš„é«˜
      * @return boolean
      */
     function changeSize($width, $height = -1) {
         if(!is_resource($this->imageResource)) {
-            exit('²»ÄÜ¸Ä±äÍ¼Æ¬µÄ³ß´ç,¿ÉÄÜÊÇÄãÃ»ÓĞÉèÖÃÍ¼Æ¬À´Ô´.');
+            exit('ä¸èƒ½æ”¹å˜å›¾ç‰‡çš„å°ºå¯¸,å¯èƒ½æ˜¯ä½ æ²¡æœ‰è®¾ç½®å›¾ç‰‡æ¥æº.');
         }
         $s_width = $this->imageInfo[0];
         $s_height = $this->imageInfo[1];
         $width = intval($width);
         $height = intval($height);
         
-        if($width <= 0) exit('Í¼Æ¬¿í¶È±ØĞë´óÓÚÁã.');
+        if($width <= 0) exit('å›¾ç‰‡å®½åº¦å¿…é¡»å¤§äºé›¶.');
         if($height <= 0) {
             $height = ($s_height / $s_width) * $width;
         }
@@ -148,14 +148,14 @@ class Image {
         if(file_exists($image) && is_file($image)) {
             $s_info = getimagesize($image);
         } else {
-            exit($image . 'ÎÄ¼ş²»´æÔÚ.');
+            exit($image . 'æ–‡ä»¶ä¸å­˜åœ¨.');
         }
 
         $r_width = $s_info[0];
         $r_height = $s_info[1];
 
-        if($r_width > $this->imageInfo[0]) exit('Ë®Ó¡Í¼Æ¬±ØĞëĞ¡ÓÚÄ¿±êÍ¼Æ¬');
-        if($r_height > $this->imageInfo[1]) exit('Ë®Ó¡Í¼Æ¬±ØĞëĞ¡ÓÚÄ¿±êÍ¼Æ¬');
+        if($r_width > $this->imageInfo[0]) exit('æ°´å°å›¾ç‰‡å¿…é¡»å°äºç›®æ ‡å›¾ç‰‡');
+        if($r_height > $this->imageInfo[1]) exit('æ°´å°å›¾ç‰‡å¿…é¡»å°äºç›®æ ‡å›¾ç‰‡');
         
         switch ($s_info['mime']) {
             case 'image/gif':
@@ -169,7 +169,7 @@ class Image {
                 $resource = imagecreatefrompng($image);
                 break;
             default:
-                exit($s_info['mime'] .'ÀàĞÍ²»ÄÜ×÷ÎªË®Ó¡À´Ô´.');
+                exit($s_info['mime'] .'ç±»å‹ä¸èƒ½ä½œä¸ºæ°´å°æ¥æº.');
                 break;
         }
         
@@ -180,9 +180,9 @@ class Image {
     }
     
     /**
-     * Éú³ÉÍ¼Æ¬
+     * ç”Ÿæˆå›¾ç‰‡
      *
-     * @param string $name Éú³ÉµÄÍ¼Æ¬Ãû
+     * @param string $name ç”Ÿæˆçš„å›¾ç‰‡å
      * @return boolean
      */
     function create($name = NULL) {
@@ -202,12 +202,12 @@ class Image {
             }
             return true;
         } else {
-            exit('²»ÄÜ´´½¨Í¼Æ¬,Ô­Òò¿ÉÄÜÊÇÃ»ÓĞÉèÖÃÍ¼Æ¬À´Ô´.');
+            exit('ä¸èƒ½åˆ›å»ºå›¾ç‰‡,åŸå› å¯èƒ½æ˜¯æ²¡æœ‰è®¾ç½®å›¾ç‰‡æ¥æº.');
         }
     }
     
     /**
-     * ¹Ø±Õ×ÊÔ´
+     * å…³é—­èµ„æº
      *
      */
     function free() {

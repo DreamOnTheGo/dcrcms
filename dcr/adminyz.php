@@ -9,4 +9,5 @@ if($isadmin){
 	ShowNext('','login.htm',1);
 	exit;
 }
+$_SESSION['web_dir']=$web_dir;
 ?>

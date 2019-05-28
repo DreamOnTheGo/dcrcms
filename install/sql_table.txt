@@ -7,7 +7,7 @@ CREATE TABLE  `{tablepre}admin` (
   `loginip` varchar(30) NOT NULL default '127.0.0.1',
   `logincount` mediumint(8) unsigned NOT NULL default '1',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=gbk;
+) ENGINE=MyISAM DEFAULT CHARSET=[web_code];
 DROP TABLE IF EXISTS `{tablepre}hudong`;
 CREATE TABLE  `{tablepre}hudong` (
   `id` integer unsigned NOT NULL auto_increment,
@@ -20,7 +20,7 @@ CREATE TABLE  `{tablepre}hudong` (
   `address` varchar(250) NOT NULL default '',
   `content` mediumtext,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=gbk;
+) ENGINE=MyISAM DEFAULT CHARSET=[web_code];
 DROP TABLE IF EXISTS `{tablepre}hudong_field`;
 CREATE TABLE  `{tablepre}hudong_field` (
   `id` integer unsigned NOT NULL auto_increment,
@@ -32,7 +32,7 @@ CREATE TABLE  `{tablepre}hudong_field` (
   `maxlength` int(2) unsigned NOT NULL default '250',
   `updatetime` timestamp NOT NULL default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=gbk;
+) ENGINE=MyISAM DEFAULT CHARSET=[web_code];
 DROP TABLE IF EXISTS `{tablepre}news`;
 CREATE TABLE  `{tablepre}news` (
   `id` integer unsigned NOT NULL auto_increment,
@@ -46,7 +46,7 @@ CREATE TABLE  `{tablepre}news` (
   `addtime` timestamp NOT NULL default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updatetime` timestamp NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=gbk;
+) ENGINE=MyISAM DEFAULT CHARSET=[web_code];
 DROP TABLE IF EXISTS `{tablepre}news_addon`;
 CREATE TABLE  `{tablepre}news_addon` (
   `id` integer unsigned NOT NULL auto_increment,
@@ -55,7 +55,7 @@ CREATE TABLE  `{tablepre}news_addon` (
   `keywords` varchar(100) NOT NULL,
   `description` varchar(200) NOT NULL default '',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=gbk;
+) ENGINE=MyISAM DEFAULT CHARSET=[web_code];
 DROP TABLE IF EXISTS `{tablepre}news_class`;
 CREATE TABLE  `{tablepre}news_class` (
   `id` integer unsigned NOT NULL auto_increment,
@@ -63,7 +63,7 @@ CREATE TABLE  `{tablepre}news_class` (
   `classdescription` mediumtext NOT NULL,
   `updatetime` timestamp NOT NULL default CURRENT_TIMESTAMP,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=gbk;
+) ENGINE=MyISAM DEFAULT CHARSET=[web_code];
 DROP TABLE IF EXISTS `{tablepre}product`;
 CREATE TABLE  `{tablepre}product` (
   `id` integer unsigned NOT NULL auto_increment,
@@ -71,10 +71,11 @@ CREATE TABLE  `{tablepre}product` (
   `classid` int(3) unsigned NOT NULL,
   `istop` tinyint(1) unsigned NOT NULL default '0',
   `logo` varchar(100) NOT NULL default '',
+  `biglogo` varchar(100) NOT NULL default '',
   `click` int(5) unsigned NOT NULL default '0',
   `updatetime` timestamp NOT NULL default CURRENT_TIMESTAMP,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=gbk;
+) ENGINE=MyISAM DEFAULT CHARSET=[web_code];
 DROP TABLE IF EXISTS `{tablepre}product_addon`;
 CREATE TABLE  `{tablepre}product_addon` (
   `id` integer unsigned NOT NULL auto_increment,
@@ -83,15 +84,17 @@ CREATE TABLE  `{tablepre}product_addon` (
   `keywords` varchar(100) NOT NULL,
   `description` varchar(200) NOT NULL default '',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=gbk;
+) ENGINE=MyISAM DEFAULT CHARSET=[web_code];
 DROP TABLE IF EXISTS `{tablepre}product_class`;
 CREATE TABLE  `{tablepre}product_class` (
   `id` integer unsigned NOT NULL auto_increment,
+  `parentid` mediumint(8) unsigned NOT NULL default '0',
+  `orderid` mediumint(3) unsigned NOT NULL default '1',
   `classname` varchar(100) NOT NULL,
   `classdescription` mediumtext NOT NULL,
   `updatetime` timestamp NOT NULL default CURRENT_TIMESTAMP,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=gbk;
+) ENGINE=MyISAM DEFAULT CHARSET=[web_code];
 DROP TABLE IF EXISTS `{tablepre}single`;
 CREATE TABLE  `{tablepre}single` (
   `id` integer unsigned NOT NULL auto_increment,
@@ -99,4 +102,4 @@ CREATE TABLE  `{tablepre}single` (
   `content` mediumtext NOT NULL,
   `updatetime` timestamp NOT NULL default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=gbk;
+) ENGINE=MyISAM DEFAULT CHARSET=[web_code];

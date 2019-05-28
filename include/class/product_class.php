@@ -1,16 +1,16 @@
 <?php
 include_once($WEB_CLASS.'article_class.php');
 /**
-* ²úÆ·´¦ÀíÀà
-* Õâ¸öÀàÖĞÓĞ¸üĞÂ¡¢²åÈë¡¢É¾³ı²úÆ·µÈ·½·¨
-* @author ÎÒ²»ÊÇµ¾²İÈË www.cntaiyn.cn
+* äº§å“å¤„ç†ç±»
+* è¿™ä¸ªç±»ä¸­æœ‰æ›´æ–°ã€æ’å…¥ã€åˆ é™¤äº§å“ç­‰æ–¹æ³•
+* @author æˆ‘ä¸æ˜¯ç¨»è‰äºº www.cntaiyn.cn
 * @version 1.0
 * @copyright 2006-2010
 * @package class
 */
 class Product extends Article{
 	/**
-	 * ProductµÄ¹¹Ôìº¯Êı ÎŞĞè´«²ÎÊı
+	 * Productçš„æ„é€ å‡½æ•° æ— éœ€ä¼ å‚æ•°
 	 */
 	 private $nopic;
 	function __construct(){
@@ -19,54 +19,111 @@ class Product extends Article{
 		$this->nopic=$web_url.'/include/images/nopic.png';
 	}
 	/**
-	 * º¯ÊısetTable,ÉèÖÃÀàÒª²Ù×÷µÄ±í
-	 * @param string $table ±íÃû
+	 * å‡½æ•°setTable,è®¾ç½®ç±»è¦æ“ä½œçš„è¡¨
+	 * @param string $table è¡¨å
 	 * @return true
 	 */
 	function setTable($table){
 		parent::setTable($table);
 	}
 	/**
-	 * º¯ÊıAddClass,Ìí¼Ó²úÆ··ÖÀà
-	 * ³É¹¦·µ»Øtrue Ê§°Ü·µ»Øfalse
-	 * @param array $proclassinfo ²åÈëµÄ²úÆ·Êı¾İ ÓÃÊı×é±íÊ¾,ÓÃ$key=>$valueÀ´±íÊ¾ÁĞÃû=>Öµ Èçarray('title'=>'±êÌâ') ±íÊ¾²åÈëtitleµÄÖµÎª ±êÌâ
+	 * å‡½æ•°AddClass,æ·»åŠ äº§å“åˆ†ç±»
+	 * æˆåŠŸè¿”å›true å¤±è´¥è¿”å›false
+	 * @param array $proclassinfo æ’å…¥çš„äº§å“æ•°æ® ç”¨æ•°ç»„è¡¨ç¤º,ç”¨$key=>$valueæ¥è¡¨ç¤ºåˆ—å=>å€¼ å¦‚array('title'=>'æ ‡é¢˜') è¡¨ç¤ºæ’å…¥titleçš„å€¼ä¸º æ ‡é¢˜
 	 * @return boolean
 	 */
 	function AddClass($proclassinfo){
-		//Ìí¼Ó²úÆ··ÖÀà
+		//æ·»åŠ äº§å“åˆ†ç±»
+			//p_r($proclassinfo);
+			//exit;
 		$this->setTable('{tablepre}product_class');
 		return parent::Add($proclassinfo);
 	}
 	/**
-	 * º¯ÊıGetClassList,·µ»Ø²úÆ·ÀàÁĞ±í
-	 * ·µ»ØÕâ¸öÁĞ±íÊı¾İµÄÊı×éÀàĞÍ
-	 * @param array $col Òª·µ»ØµÄ×Ö¶ÎÁĞ ÈçÄãÒª·µ»Øid,titleÎª£ºarray('id','title') Èç¹ûÎªarrya()Ê±·µ»ØÈ«²¿×Ö¶Î
-	 * @param string $order ÅÅĞò£¬²»Òª´øorder Èçupdatetime desc
-	 * @param string $start ¿ªÊ¼ID
-	 * @param string $listnum ·µ»Ø¼ÇÂ¼Êı
+	 * å‡½æ•°GetClassList,è¿”å›äº§å“ç±»åˆ—è¡¨
+	 * è¿”å›è¿™ä¸ªåˆ—è¡¨æ•°æ®çš„æ•°ç»„ç±»å‹
+	 * @param array $col è¦è¿”å›çš„å­—æ®µåˆ— å¦‚ä½ è¦è¿”å›id,titleä¸ºï¼šarray('id','title') å¦‚æœä¸ºarrya()æ—¶è¿”å›å…¨éƒ¨å­—æ®µ
+	 * @param string $order æ’åºï¼Œä¸è¦å¸¦order å¦‚updatetime desc
+	 * @param string $start å¼€å§‹ID
+	 * @param string $listnum è¿”å›è®°å½•æ•°
 	 * @return array
 	 */
-	function GetClassList($col=array(),$start='',$listnum='',$order='updatetime desc'){
+	function GetClassList($col=array(),$start='',$listnum='',$order='orderid asc,updatetime desc',$issub=true){
+		global $web_url_module,$web_url_surfix;
 		$this->setTable('{tablepre}product_class');
-		return parent::GetList($col,$start,$listnum,$where,$order);
+		//è·å–é¡¶çº§æ ç›®:
+		$where='parentid=0';
+		$info=parent::GetList($col,$start,$listnum,$where,$order);
+		foreach($info as $i_key=>$i_value){
+			if($web_url_module=='1'){
+				$info[$i_key]['url']='product_list.php?classid='.$i_value['id'];
+			}elseif($web_url_module=='2'){
+				$info[$i_key]['url']='product_list_'.$i_value['id'].'.'.$web_url_surfix;
+			}
+		}
+		if(!$issub && $info){
+			//åªè¿”å›ä¸€çº§ç›®å½•
+			return $info;			
+		}
+		//è·å–äºŒçº§æ ç›®ï¼š
+		if($info){
+			foreach($info as $ikey=>$ivalue){
+				$t_id=$ivalue['id'];
+				$sub_where='parentid='.$t_id;
+				//echo $sub_where;
+				$sub_info=parent::GetList($col,'','',$sub_where,$order);
+				if($sub_info)$info[$ikey]['sub']=$sub_info;
+			}
+		}else{
+			return false;
+		}
+		//æ’åºå‡ºæ¥
+		
+		foreach($info as $i_key=>$i_value){
+			//çœ‹çœ‹äºŒçº§çš„
+			if($i_value['sub']){
+				foreach($i_value['sub'] as $sub_key=>$sub_value){
+					if($web_url_module=='1'){
+						$info[$i_key]['sub'][$sub_key]['url']='product_list.php?classid='.$sub_value['id'];
+					}elseif($web_url_module=='2'){
+						$info[$i_key]['sub'][$sub_key]['url']='product_list_'.$sub_value['id'].'.'.$web_url_surfix;
+					}
+				}
+			}
+		}
+		return $info;
 	}
 	/**
-	 * º¯ÊıGetClassInfo,·µ»ØÖ¸¶¨²úÆ·ÀàµÄÊı¾İĞÅÏ¢
-	 * ·µ»ØÖµÎªÕâ¸ö²úÆ·ÀàµÄĞÅÏ¢(Array)
-	 * @param string|int $id ²úÆ·ÀàµÄID
-	 * @param array $productClassinfo Òª·µ»ØµÄ×Ö¶ÎÁĞ ÈçÄãÒª·µ»Øid,titleÎª£ºarray('id','title') Èç¹ûÎªarrya()Ê±·µ»ØÈ«²¿×Ö¶Î
+	 * å‡½æ•°GetClassInfo,è¿”å›æŒ‡å®šäº§å“ç±»çš„æ•°æ®ä¿¡æ¯
+	 * è¿”å›å€¼ä¸ºè¿™ä¸ªäº§å“ç±»çš„ä¿¡æ¯(Array)
+	 * @param string|int $id äº§å“ç±»çš„ID
+	 * @param array $col è¦è¿”å›çš„å­—æ®µåˆ— å¦‚ä½ è¦è¿”å›id,titleä¸ºï¼šarray('id','title') å¦‚æœä¸ºarray()æ—¶è¿”å›å…¨éƒ¨å­—æ®µ
 	 * @return array
 	 */
-	function GetClassInfo($id,$classinfo=array()){
-		global $db;
+	function GetClassInfo($id,$col=array()){
+		global $db,$web_url_module,$web_url_surfix;
 		$this->setTable('{tablepre}product_class');
-		return parent::GetInfo($classinfo,"id=$id");
+		$info=parent::GetInfo($col,"id=$id");
+		//è¿™é‡Œè¿”å›ç±»åˆ«çš„è·¯å¾„
+		$parent_info=$this->GetParentClassInfo($id,array('classname','id'));
+		if($parent_info){
+			if($web_url_module=='1'){
+				$position='<a href="'.$web_url.'/">é¦–é¡µ</a>>><a href="'.$web_url.'/product_list.php?id='.$parent_info['id'].'">'.$parent_info['classname'].'</a>>>'.$info['classname'].'';
+			}elseif($web_url_module=='2'){
+				$position='<a href="'.$web_url.'/">é¦–é¡µ</a>>><a href="'.$web_url.'/product_list_'.$parent_info['id'].'.'.$web_url_surfix.'">'.$parent_info['classname'].'</a>>>'.$info['classname'].'';
+			}
+			$info['position']=$position;
+		}else{
+			$position='<a href="'.$web_url.'/">é¦–é¡µ</a>>>'.$info['classname'].'';
+			$info['position']=$position;
+		}
+		return $info;
 	}
 	/**
-	 * º¯ÊıUpdateClass,¸üĞÂ²úÆ·ÀàĞÅÏ¢
-	 * ³É¹¦·µ»Øtrue Ê§°Ü·µ»Øfalse
-	 * @param string|int $id ²úÆ·ÀàµÄID
-	 * @param array $productClassinfo ¸üĞÂµÄÊı¾İ ÓÃÊı×é±íÊ¾,ÓÃ$key=>$valueÀ´±íÊ¾ÁĞÃû=>Öµ Èçarray('title'=>'±êÌâ') ±íÊ¾²åÈëtitleµÄÖµÎª ±êÌâ
+	 * å‡½æ•°UpdateClass,æ›´æ–°äº§å“ç±»ä¿¡æ¯
+	 * æˆåŠŸè¿”å›true å¤±è´¥è¿”å›false
+	 * @param string|int $id äº§å“ç±»çš„ID
+	 * @param array $productClassinfo æ›´æ–°çš„æ•°æ® ç”¨æ•°ç»„è¡¨ç¤º,ç”¨$key=>$valueæ¥è¡¨ç¤ºåˆ—å=>å€¼ å¦‚array('title'=>'æ ‡é¢˜') è¡¨ç¤ºæ’å…¥titleçš„å€¼ä¸º æ ‡é¢˜
 	 * @return boolean
 	 */
 	function UpdateClass($id,$productClassinfo=array()){
@@ -78,23 +135,80 @@ class Product extends Article{
 		}
 	}
 	/**
-	 * º¯ÊıDeleteClass,É¾³ıÖ¸¶¨IDÊı×éµÄ²úÆ··ÖÀà
-	 * ³É¹¦·µ»Øtrue Ê§°Ü·µ»Øfalse
-	 * @param array $idarr É¾³ıµÄIDÊı×é ±ÈÈçÒªÉ¾³ıIDÎª1£¬2£¬3µÄÎÄµµ ÔòÎª£ºarray(1,2,3)
+	 * å‡½æ•°DeleteClass,åˆ é™¤æŒ‡å®šIDæ•°ç»„çš„äº§å“åˆ†ç±»
+	 * æˆåŠŸè¿”å›true å¤±è´¥è¿”å›false
+	 * @param array $idarr åˆ é™¤çš„IDæ•°ç»„ æ¯”å¦‚è¦åˆ é™¤IDä¸º1ï¼Œ2ï¼Œ3çš„æ–‡æ¡£ åˆ™ä¸ºï¼šarray(1,2,3)
 	 * @return boolean
 	 */
 	function DeleteClass($idarr){
 		$this->setTable('{tablepre}product_class');
-		if(parent::Del($idarr)){
-			return true;
+		if($this->HasSubClass($idarr[0])){
+			return 2;
+		}else{
+			if(parent::Del($idarr)){
+				return 1;
+			}else{
+				return 3;
+			}
+		}
+	}
+	
+	/**
+	 * å‡½æ•°HasSubClass,åˆ¤æ–­ç±»æ˜¯ä¸æ˜¯æœ‰å­ç±»
+	 * æˆåŠŸè¿”å›true å¤±è´¥è¿”å›false
+	 * @param $classid ç±»ID
+	 * @return boolean
+	 */
+	function HasSubClass($id){
+		$this->setTable('{tablepre}product_class');
+		$sub_where='parentid='.$id;
+			//echo $sub_where;
+		$sub_info=parent::GetList($col,'','',$sub_where,$order);
+		return is_array($sub_info) && count($sub_info);
+	}
+	/**
+	 * å‡½æ•°GetSubClassList,è·å–å­ç±»åˆ—è¡¨
+	 * æˆåŠŸè¿”å›true å¤±è´¥è¿”å›false
+	 * @param $classid ç±»ID
+	 * @return boolean
+	 */
+	function GetSubClassList($id){
+		global $db,$web_url_module,$web_url_surfix;
+		$this->setTable('{tablepre}product_class');
+		$sub_where='parentid='.$id;
+			//echo $sub_where;
+		$order='orderid';
+		$sub_info=parent::GetList($col,'','',$sub_where,$order);
+		foreach($sub_info as $i_key=>$i_value){
+			if($web_url_module=='1'){
+				$sub_info[$i_key]['url']='product_list.php?classid='.$i_value['id'];
+			}elseif($web_url_module=='2'){
+				$sub_info[$i_key]['url']='product_list_'.$i_value['id'].'.'.$web_url_surfix;
+			}
+		}
+		return $sub_info;
+	}
+	/**
+	 * å‡½æ•°GetParentClass,è·å–çˆ¶ç±»å
+	 * æˆåŠŸè¿”å›true å¤±è´¥è¿”å›false
+	 * @param $classid ç±»ID
+	 * @return array|boolean(false)
+	 */
+	function GetParentClassInfo($id,$col=array()){
+		global $db;
+		$this->setTable('{tablepre}product_class');
+		$parent_info=parent::GetInfo(array('parentid'),"id=$id");
+		$parentid=$parent_info['parentid'];
+		if($parentid!=0){
+			return parent::GetInfo($col,"id=".$parentid);
 		}else{
 			return false;
 		}
 	}
 	/**
-	 * º¯ÊıGetClassName,·µ»Ø²úÆ·Àà±ğÃû
-	 * ³É¹¦·µ»Øtrue Ê§°Ü·µ»Øfalse
-	 * @param string|int $pid ²úÆ·Àà±ğID
+	 * å‡½æ•°GetClassName,è¿”å›äº§å“ç±»åˆ«å
+	 * æˆåŠŸè¿”å›true å¤±è´¥è¿”å›false
+	 * @param string|int $pid äº§å“ç±»åˆ«ID
 	 * @return string
 	 */
 	function GetClassName($pid){
@@ -102,14 +216,14 @@ class Product extends Article{
 		return $db->GetFieldValue('{tablepre}product_class','classname',"id=$pid");
 	}
 	/**
-	 * º¯ÊıAddProduct,Ìí¼Ó²úÆ·
-	 * ·µ»ØÖµÎªÎÄµµµÄID,Ê§°Ü·µ»Ø0
-	 * @param string $table ±íÃû
-	 * @param array $proinfo ²úÆ·Êı¾İ ÓÃÊı×é±íÊ¾,ÓÃ$key=>$valueÀ´±íÊ¾ÁĞÃû=>Öµ Èçarray('title'=>'±êÌâ') ±íÊ¾²åÈëtitleµÄÖµÎª ±êÌâ
+	 * å‡½æ•°AddProduct,æ·»åŠ äº§å“
+	 * è¿”å›å€¼ä¸ºæ–‡æ¡£çš„ID,å¤±è´¥è¿”å›0
+	 * @param string $table è¡¨å
+	 * @param array $proinfo äº§å“æ•°æ® ç”¨æ•°ç»„è¡¨ç¤º,ç”¨$key=>$valueæ¥è¡¨ç¤ºåˆ—å=>å€¼ å¦‚array('title'=>'æ ‡é¢˜') è¡¨ç¤ºæ’å…¥titleçš„å€¼ä¸º æ ‡é¢˜
 	 * @return int
 	 */
 	function Add($proinfo){
-		//°ÑÖ÷±íºÍ¸½¼Ó±í·Ö¿ªÀ´
+		//æŠŠä¸»è¡¨å’Œé™„åŠ è¡¨åˆ†å¼€æ¥
 		$this->setTable('{tablepre}product');
 		foreach($proinfo as $key=>$value){
 			if($key=='content' || $key=='keywords' ||  $key=='description'){
@@ -131,24 +245,66 @@ class Product extends Article{
 		exit;
 	}
 	/**
-	 * º¯ÊıGetList,·µ»Ø²úÆ·ÁĞ±í
-	 * ·µ»ØÕâ¸öÁĞ±íÊı¾İµÄÊı×éÀàĞÍ
-	 * @param string|int $classid ²úÆ·Àà±ğID
-	 * @param array $col Òª·µ»ØµÄ×Ö¶ÎÁĞ ÈçÄãÒª·µ»Øid,titleÎª£ºarray('id','title') Èç¹ûÎªarrya()Ê±·µ»ØÈ«²¿×Ö¶Î
-	 * @param string $where Ìõ¼ş£¬²»Òª´øwhere Èçid=1
-	 * @param string $order ÅÅĞò£¬²»Òª´øorder Èçupdatetime desc
-	 * @param string $start ¿ªÊ¼ID
-	 * @param string $listnum ·µ»Ø¼ÇÂ¼Êı
+	 * å‡½æ•°GetList,è¿”å›äº§å“åˆ—è¡¨
+	 * è¿”å›è¿™ä¸ªåˆ—è¡¨æ•°æ®çš„æ•°ç»„ç±»å‹
+	 * @param string|int $classid äº§å“ç±»åˆ«ID
+	 * @param array $col è¦è¿”å›çš„å­—æ®µåˆ— å¦‚ä½ è¦è¿”å›id,titleä¸ºï¼šarray('id','title') å¦‚æœä¸ºarrya()æ—¶è¿”å›å…¨éƒ¨å­—æ®µ
+	 * @param string $where æ¡ä»¶ï¼Œä¸è¦å¸¦where å¦‚id=1
+	 * @param string $start å¼€å§‹ID
+	 * @param string $listnum è¿”å›è®°å½•æ•°
+	 * @param string $order æ’åºï¼Œä¸è¦å¸¦order å¦‚updatetime desc
+	 * @param string $where_option é™„åŠ æŸ¥è¯¢æ¡ä»¶
+	 * @param boolean $issub æ˜¯ä¸æ˜¯ä¹Ÿè¦è¿”å›ä¸‹çº§çš„äº§å“
 	 * @return array
 	 */
-	function GetList($classid,$col=array(),$start='',$listnum='',$order='istop desc,id desc'){
+	function GetList($classid,$col=array(),$start='',$listnum='',$order='istop desc,id desc',$where_option='',$issub=0){
 		$this->setTable('{tablepre}product');
-		global $web_url;
-		$classid=(int)$classid;
-		if($classid!=0){
-			$where.="classid=$classid";
+		global $web_url,$web_url_module,$web_url_surfix;
+		$classid=(int)$classid;	
+		if($issub && $classid!=0){
+			if(is_array($col) && count($col)>0){
+				$cols=implode(',',$col);
+			}else{
+				$cols='*';
+			}
+			if(!empty($order)){
+				$order='order by '.$order;
+			}
+			if(strlen($start)>0 && strlen($listnum)>0){
+				$limit="limit $start,$listnum";
+			}
+			if($classid!=0){
+				$where_arr[]="classid=$classid";
+			}
+			if(!empty($where_option)){
+				$where_arr[]=$where_option;
+			}
+			$where=implode('and',$where_arr);
+			if(!empty($where)){
+				$where.=" or classid in (select id from {tablepre}product_class where parentid=$classid)";
+				$where=' where '.$where;
+			}else{
+			}
+			//echo $where;
+			$sql="select $cols from {tablepre}product $where $order $limit";
+			$proinfo=parent::GetListBySql($sql);
+		}else{
+			if($classid!=0){
+				$where.="classid=$classid";
+			}
+			if(!empty($where_option)){
+				if(!empty($where)){
+					$where.=' and '.$where_option;
+				}else{
+					$where=$where_option;
+				}
+			}
+			//è®¾ç½®å„ä¸ªå±æ€§çš„é»˜è®¤å€¼
+			if(empty($order)){
+				$order='istop desc,id desc';
+			}
+			$proinfo=parent::GetList($col,$start,$listnum,$where,$order);
 		}
-		$proinfo=parent::GetList($col,$start,$listnum,$where,$order);
 		$proCount=count($proinfo);
 		for($i=0;$i<$proCount;$i++){
 			if(empty($proinfo[$i]['logo'])){
@@ -156,26 +312,36 @@ class Product extends Article{
 			}else{
 				$proinfo[$i]['logo']=$web_url.'/uploads/product/'.$proinfo[$i]['logo'];
 				//echo $proinfo['logo'];
+			}
+			if(empty($proinfo[$i]['biglogo'])){
+				$proinfo[$i]['biglogo']=$this->nopic;
+			}else{
+				$proinfo[$i]['biglogo']=$web_url.'/uploads/product/'.$proinfo[$i]['biglogo'];
+				//echo $proinfo['logo'];
 			}			
-			$proinfo[$i]['url']="product.php?id=".$proinfo[$i]['id'];
+			if($web_url_module=='1'){
+				$proinfo[$i]['url']="product.php?id=".$proinfo[$i]['id'];
+			}elseif($web_url_module=='2'){
+				$proinfo[$i]['url']="product_".$proinfo[$i]['id'].".".$web_url_surfix;
+			}
 		}
 		return $proinfo;
 	}
 	/**
-	 * º¯ÊıGetInfo,·µ»Ø²úÆ·ĞÅÏ¢
-	 * ·µ»ØÖµÎªÕâ¸öÎÄµµµÄĞÅÏ¢(Array)
-	 * @param string|int $aid ²úÆ·ID
-	 * @param array $col Òª·µ»ØµÄ×Ö¶ÎÁĞ ÈçÄãÒª·µ»Øid,titleÎª£ºarray('id','title') Èç¹ûÎªarrya()Ê±·µ»ØÈ«²¿×Ö¶Î
+	 * å‡½æ•°GetInfo,è¿”å›äº§å“ä¿¡æ¯
+	 * è¿”å›å€¼ä¸ºè¿™ä¸ªæ–‡æ¡£çš„ä¿¡æ¯(Array)
+	 * @param string|int $aid äº§å“ID
+	 * @param array $col è¦è¿”å›çš„å­—æ®µåˆ— å¦‚ä½ è¦è¿”å›id,titleä¸ºï¼šarray('id','title') å¦‚æœä¸ºarrya()æ—¶è¿”å›å…¨éƒ¨å­—æ®µ
 	 * @return array
 	 */
 	function GetInfo($aid,$col=array()){
 		global $db,$web_url;
-		//Òª·µ»ØÀ¸Ä¿ID
+		//è¦è¿”å›æ ç›®ID
 		if(!in_array('classid',$col)){
 			array_push($col,'classid');
 		}
 		if(in_array('content',$col) || in_array('keywords',$col) || in_array('description',$col)){
-			//Èç¹ûÒª·µ»ØÄÚÈİ ÄÚÈİÔÚ²»Í¬µÄ±í ËùÒÔÒªÁíÍâ´¦Àí
+			//å¦‚æœè¦è¿”å›å†…å®¹ å†…å®¹åœ¨ä¸åŒçš„è¡¨ æ‰€ä»¥è¦å¦å¤–å¤„ç†
 			foreach($col as $key=>$colName){
 				if($col[$key]=='content' || $col[$key]=='keywords' ||  $col[$key]=='description'){
 					if($col[$key]=='content'){
@@ -200,10 +366,26 @@ class Product extends Article{
 		}else{
 			$newsInfo=parent::GetInfo($aid,$col);
 		}
-		//·µ»Øµ±Ç°Â·¾¶
-		//»ñµÃÀ¸Ä¿ĞÅÏ¢
+		//è¿”å›å½“å‰è·¯å¾„
+		//è·å¾—æ ç›®ä¿¡æ¯
+		global $web_url_module,$web_url_surfix;
+		$parent_info=$this->GetParentClassInfo($newsInfo['classid'],array('classname','id'));
+		if($parent_info){
+			if($web_url_module=='1'){
+				$parent_path='<a href="'.$web_url.'/product_list.php?id='.$parent_info['id'].'">'.$parent_info['classname'].'</a>>>';
+			}elseif($web_url_module=='2'){
+				$parent_path='<a href="'.$web_url.'/product_list_'.$parent_info['id'].'.'.$web_url_surfix.'">'.$parent_info['classname'].'</a>>>';
+			}
+		}
+		
 		$proclassname=$this->GetClassName($newsInfo['classid']);
-		$position='<a href="'.$web_url.'">Ê×Ò³</a>>><a href="'.$web_url.'/product_list.php?id='.$newsInfo['classid'].'">'.$proclassname.'</a>>>'.$newsInfo['title'];
+		if($web_url_module=='1'){
+			$class_path=$web_url.'/product_list.php?id='.$newsInfo['classid'];
+		}elseif($web_url_module=='2'){
+			$class_path=$web_url.'/product_list_'.$newsInfo['classid'].'.'.$web_url_surfix;
+		}
+		$position='<a href="'.$web_url.'">é¦–é¡µ</a>>>'.$parent_path.'<a href="'.$class_path.'">'.$proclassname.'</a>>>'.$newsInfo['title'];
+			
 		$newsInfo['position']=$position;
 		
 		if(empty($newsInfo['logo'])){
@@ -211,17 +393,23 @@ class Product extends Article{
 		}else{
 			$newsInfo['logo']=$web_url.'/uploads/product/'.$newsInfo['logo'];
 		}
+		
+		if(empty($newsInfo['logo'])){
+			$newsInfo['biglogo']=$this->nopic;
+		}else{
+			$newsInfo['biglogo']=$web_url.'/uploads/product/'.$newsInfo['biglogo'];
+		}
 		return $newsInfo;
 	}
 	/**
-	 * º¯ÊıUpdateProduct,¸üĞÂ²úÆ·ĞÅÏ¢
-	 * ³É¹¦·µ»Øtrue Ê§°Ü·µ»Øfalse
-	 * @param string|int $id ²úÆ·ID
-	 * @param array $productinfo ²úÆ·Êı¾İ ÓÃÊı×é±íÊ¾,ÓÃ$key=>$valueÀ´±íÊ¾ÁĞÃû=>Öµ Èçarray('title'=>'±êÌâ') ±íÊ¾²åÈëtitleµÄÖµÎª ±êÌâ
+	 * å‡½æ•°UpdateProduct,æ›´æ–°äº§å“ä¿¡æ¯
+	 * æˆåŠŸè¿”å›true å¤±è´¥è¿”å›false
+	 * @param string|int $id äº§å“ID
+	 * @param array $productinfo äº§å“æ•°æ® ç”¨æ•°ç»„è¡¨ç¤º,ç”¨$key=>$valueæ¥è¡¨ç¤ºåˆ—å=>å€¼ å¦‚array('title'=>'æ ‡é¢˜') è¡¨ç¤ºæ’å…¥titleçš„å€¼ä¸º æ ‡é¢˜
 	 * @return boolean
 	 */
 	function Update($id,$productinfo){
-		//°ÑÖ÷±íºÍ¸½¼Ó±í·Ö¿ªÀ´
+		//æŠŠä¸»è¡¨å’Œé™„åŠ è¡¨åˆ†å¼€æ¥
 		foreach($productinfo as $key=>$value){
 			if($key=='content' || $key=='keywords' ||  $key=='description'){
 				$col_addon[$key]=$value;
@@ -232,7 +420,7 @@ class Product extends Article{
 		
 		if(parent::Update($col_main,"id=$id")){
 			if(is_array($col_addon) && count($col_addon)>0){
-				$this->setTable('{tablepre}news_addon');
+				$this->setTable('{tablepre}product_addon');
 				if(parent::Update($col_addon,"aid=$id")){
 					return true;
 				}else{
@@ -246,34 +434,42 @@ class Product extends Article{
 		}
 	}
 	/**
-	 * º¯ÊıDeleteProduct,É¾³ı²úÆ·
-	 * ³É¹¦·µ»Øtrue Ê§°Ü·µ»Øfalse
-	 * @param array $idarr É¾³ıµÄIDÊı×é ±ÈÈçÒªÉ¾³ıIDÎª1£¬2£¬3µÄÎÄµµ ÔòÎª£ºarray(1,2,3)
-	 * @return boolean
+	 * å‡½æ•°DeleteProduct,åˆ é™¤äº§å“
+	 * æˆåŠŸè¿”å›true å¤±è´¥è¿”å›false
+	 * @param array $idarr åˆ é™¤çš„IDæ•°ç»„ æ¯”å¦‚è¦åˆ é™¤IDä¸º1ï¼Œ2ï¼Œ3çš„æ–‡æ¡£ åˆ™ä¸ºï¼šarray(1,2,3)
+	 * @return int 1è¡¨ç¤ºæ²¡æœ‰é€‰æ‹©è¦åˆ é™¤çš„æ•°æ® 3è¡¨ç¤ºåˆ é™¤æ•°æ®åº“ä¸­çš„æ•°æ®æ—¶å‡ºé”™ 3è¡¨ç¤ºæˆåŠŸ
 	 */
 	function Delete($idarr){
-		//ÕâÀïµÄidarrÊÇ¸öÊı×é
-		//ÏÈÉ¾³ıËõÂÔÍ¼
+		if(!$idarr){
+			//æ•°ç»„ä¸ºç©º
+			return 3;
+		}
+		//è¿™é‡Œçš„idarræ˜¯ä¸ªæ•°ç»„
+		//å…ˆåˆ é™¤ç¼©ç•¥å›¾
 		foreach($idarr as $value){
 			$logo=$this->GetLogo($value);
 			if(strlen($logo)>0){
-				//´æÔÚÍ¼Æ¬ ¾ÍÉ¾³ı
+				//å­˜åœ¨å›¾ç‰‡ å°±åˆ é™¤
 				$file=WEB_DR."/uploads/product/".$logo;
 				@unlink($file);
 			}
 		}
 		if(parent::Del($idarr)){
 			$this->setTable('{tablepre}product_addon');
-			return parent::Del($idarr,'aid');
+			if(parent::Del($idarr,'aid')){
+				return 1;
+			}else{
+				return 2;
+			}
 		}else{
-			return false;
+			return 2;
 		}
 	}
 	/**
-	 * º¯ÊıDeleteProduct,·µ»Ø²úÆ·µÄLOGO
-	 * ³É¹¦·µ»Ø²úÆ·LOGO Ê§°Ü·µ»Ø''
-	 * @param string|int $id ²úÆ·ID
-	 * @param boolean $emptyFillDefault µ±·µ»ØµÄLOGOÎª¿ÕÊ± ÊÇ²»ÊÇ·µ»ØËõÂÔÍ¼
+	 * å‡½æ•°DeleteProduct,è¿”å›äº§å“çš„LOGO
+	 * æˆåŠŸè¿”å›äº§å“LOGO å¤±è´¥è¿”å›''
+	 * @param string|int $id äº§å“ID
+	 * @param boolean $emptyFillDefault å½“è¿”å›çš„LOGOä¸ºç©ºæ—¶ æ˜¯ä¸æ˜¯è¿”å›ç¼©ç•¥å›¾
 	 * @return string
 	 */
 	function GetLogo($id,$emptyFillDefault=true){

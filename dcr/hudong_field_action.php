@@ -7,12 +7,12 @@ include WEB_CLASS."/hudong_class.php";
 
 $hd=new HuDong();
 
-//ÌáÊ¾ĞÅÏ¢¿ªÊ¼
-$errormsg=array();//´íÎóĞÅÏ¢
-$back=array('ĞÅÏ¢×Ö¶ÎÁĞ±í'=>'hudong_field_list.php');
-//ÌáÊ¾ĞÅÏ¢½áÊø
+//æç¤ºä¿¡æ¯å¼€å§‹
+$errormsg=array();//é”™è¯¯ä¿¡æ¯
+$back=array('ä¿¡æ¯å­—æ®µåˆ—è¡¨'=>'hudong_field_list.php');
+//æç¤ºä¿¡æ¯ç»“æŸ
 
-//±¾Ò³Îª²Ù×÷ĞÂÎÅµÄÒ³Ãæ
+//æœ¬é¡µä¸ºæ“ä½œæ–°é—»çš„é¡µé¢
 if($action=='add'){
 	if(checkinput()){
 		ShowMsg($errormsg,2,$back);	
@@ -25,11 +25,11 @@ if($action=='add'){
 						 'maxlength'=>$maxlength
 						 );
 		if($hd->AddField($hudongFieldInfo)){
-			$errormsg[]='Ìí¼ÓĞÅÏ¢×Ö¶Î³É¹¦';
-			$back['¼ÌĞøÌí¼Ó']='hudong_field_edit.php?action=add';
+			$errormsg[]='æ·»åŠ ä¿¡æ¯å­—æ®µæˆåŠŸ';
+			$back['ç»§ç»­æ·»åŠ ']='hudong_field_edit.php?action=add';
 			ShowMsg($errormsg,1,$back);
 		}else{
-			$errormsg[]='Ìí¼ÓĞÅÏ¢×Ö¶ÎÊ§°Ü,¿ÉÄÜµÄÔ­ÒòÓĞ£º±íÖĞÔ­À´ÓĞÕâ¸ö×Ö¶Î';
+			$errormsg[]='æ·»åŠ ä¿¡æ¯å­—æ®µå¤±è´¥,å¯èƒ½çš„åŸå› æœ‰ï¼šè¡¨ä¸­åŸæ¥æœ‰è¿™ä¸ªå­—æ®µ';
 			ShowMsg($errormsg,2,$back);
 		}
 	}
@@ -45,19 +45,19 @@ if($action=='add'){
 						 'maxlength'=>$maxlength
 						 );
 		if($hd->UpdateField($id,$hudongFieldInfo)){
-			$errormsg[]='¸ü¸Ä×Ö¶Î³É¹¦';
+			$errormsg[]='æ›´æ”¹å­—æ®µæˆåŠŸ';
 			ShowMsg($errormsg,1,$back);
 		}else{
-			$errormsg[]='¸ü¸Ä×Ö¶ÎÊ§°Ü';
+			$errormsg[]='æ›´æ”¹å­—æ®µå¤±è´¥';
 			ShowMsg($errormsg,2,$back);
 		}
 	}
 }elseif($action=='delfield'){
 	if($hd->DeleteField($id)){
-		$errormsg[]='É¾³ı×Ö¶Î³É¹¦';
+		$errormsg[]='åˆ é™¤å­—æ®µæˆåŠŸ';
 		ShowMsg($errormsg,1,$back);
 	}else{
-		$errormsg[]='É¾³ı×Ö¶ÎÊ§°Ü';
+		$errormsg[]='åˆ é™¤å­—æ®µå¤±è´¥';
 		ShowMsg($errormsg,2,$back);
 	}
 }elseif($action=='order'){
@@ -66,22 +66,22 @@ if($action=='add'){
 		$sql="update {tablepre}hudong_field set orderid=".$orderid[$value['id']]." where id=".$value['id'];
 		$db->ExecuteNoneQuery($sql);
 	}
-	$errormsg[]='¸üĞÂ×Ö¶ÎÅÅĞò³É¹¦';
+	$errormsg[]='æ›´æ–°å­—æ®µæ’åºæˆåŠŸ';
 	ShowMsg($errormsg);
 }
 function checkinput(){
 	global $errormsg,$itemname,$fieldname,$dtype,$vdefault;
 	if(strlen($itemname)==0){
-		$errormsg[]='ÇëÌîĞ´±íµ¥ÌáÊ¾ÎÄ×Ö';
+		$errormsg[]='è¯·å¡«å†™è¡¨å•æç¤ºæ–‡å­—';
 		$iserror=true;
 	}
 	if(strlen($fieldname)==0){
-		$errormsg[]='ÇëÌîĞ´±íµ¥×Ö¶ÎÃû³Æ';
+		$errormsg[]='è¯·å¡«å†™è¡¨å•å­—æ®µåç§°';
 		$iserror=true;
 	}
 	if(in_array($dtype,array('select','radio','checkbox'))){
 		if(empty($vdefault)){
-			$errormsg[]="ÄãÉè¶¨ÁË×Ö¶ÎÎª {$dtype} ÀàĞÍ£¬±ØĞëÔÚÄ¬ÈÏÖµÖĞÖ¸¶¨ÔªËØÁĞ±í£¬Èç£º'a,b,c' ";
+			$errormsg[]="ä½ è®¾å®šäº†å­—æ®µä¸º {$dtype} ç±»å‹ï¼Œå¿…é¡»åœ¨é»˜è®¤å€¼ä¸­æŒ‡å®šå…ƒç´ åˆ—è¡¨ï¼Œå¦‚ï¼š'a,b,c' ";
 			$iserror=true;
 		}
 	}

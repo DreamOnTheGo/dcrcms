@@ -6,26 +6,28 @@ include "adminyz.php";
 
 $config=new Config();
 
-$msg=array();//ÐÅÏ¢
+$msg=array();//ä¿¡æ¯
 
-//±¾Ò³Îª²Ù×÷ÐÂÎÅµÄÒ³Ãæ
+//æœ¬é¡µä¸ºæ“ä½œæ–°é—»çš„é¡µé¢
 if($action=='updateconfig'){
 	$configArr=array(
 					 'web_url'=>$web_url_new,
 					 'web_name'=>$web_name_new,
+					 'web_url_module'=>$web_url_module_new,
+					 'web_dir'=>$web_dir_new,
 					 'web_tiaoshi'=>$web_tiaoshi_new
 					 );
 	$rs=$config->UpdateConfig($configArr);
 	if($rs=='r1'){
-		$msg[]='¸üÐÂÅäÖÃÊ§°Ü£ºÅäÖÃÏîÄ¿ÇëÌîÐ´ÍêÕû£¡';
+		$msg[]='æ›´æ–°é…ç½®å¤±è´¥ï¼šé…ç½®é¡¹ç›®è¯·å¡«å†™å®Œæ•´ï¼';
 		ShowMsg($msg,2);	
 	}
 	if($rs=='r2'){
-		$msg[]='¸üÐÂÅäÖÃ³É¹¦';
+		$msg[]='æ›´æ–°é…ç½®æˆåŠŸ';
 		ShowMsg($msg);	
 	}
 	if($rs=='r3'){
-		$msg[]='¸üÐÂÅäÖÃÊ§°Ü£ºÎ´Öª´íÎó£¡';
+		$msg[]='æ›´æ–°é…ç½®å¤±è´¥ï¼šæœªçŸ¥é”™è¯¯ï¼';
 		ShowMsg($msg,2);	
 	}
 	
@@ -53,15 +55,15 @@ if($action=='updateconfig_tpl'){
 					 );
 	$rs=$config->UpdateConfig($configArr);
 	if($rs=='r1'){
-		$msg[]='¸üÐÂÅäÖÃÊ§°Ü£ºÅäÖÃÏîÄ¿ÇëÌîÐ´ÍêÕû£¡';
+		$msg[]='æ›´æ–°é…ç½®å¤±è´¥ï¼šé…ç½®é¡¹ç›®è¯·å¡«å†™å®Œæ•´ï¼';
 		ShowMsg($msg,2);	
 	}
 	if($rs=='r2'){
-		$msg[]='¸üÐÂÅäÖÃ³É¹¦';
+		$msg[]='æ›´æ–°é…ç½®æˆåŠŸ';
 		ShowMsg($msg);	
 	}
 	if($rs=='r3'){
-		$msg[]='¸üÐÂÅäÖÃÊ§°Ü£ºÎ´Öª´íÎó£¡';
+		$msg[]='æ›´æ–°é…ç½®å¤±è´¥ï¼šæœªçŸ¥é”™è¯¯ï¼';
 		ShowMsg($msg,2);	
 	}
 	

@@ -5,17 +5,17 @@ include "adminyz.php";
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><HEAD>
-<META http-equiv=Content-Type content="text/html; charset=gb2312">
+<META http-equiv=Content-Type content="text/html; charset=utf-8">
 <LINK href="css/admin.css" type="text/css" rel="stylesheet">
 <?php include "admin_common.php"; ?>
 <script type='text/javascript'>
 function check(){
 	if($("#title").val().length==0){
-		ShowMsg('ÇëÊäÈë×ÊÁÏ±êÌâ');
+		ShowMsg('è¯·è¾“å…¥èµ„æ–™æ ‡é¢˜');
 		return false;
 	}
 	if(getFckeditorText("content").length==0){
-		ShowMsg('ÇëÊäÈë×ÊÁÏÄÚÈİ');
+		ShowMsg('è¯·è¾“å…¥èµ„æ–™å†…å®¹');
 		return false;
 	}
 }
@@ -24,7 +24,7 @@ function check(){
 <BODY>
 <TABLE cellSpacing=0 cellPadding=0 width="100%" align=center border=0>
   <TR height=28>
-    <TD background=images/title_bg1.jpg>µ±Ç°Î»ÖÃ: <a href="main.php">ºóÌ¨Ê×Ò³</a>&gt;&gt;Ìí¼Ó×ÊÁÏ</TD></TR>
+    <TD background=images/title_bg1.jpg>å½“å‰ä½ç½®: <a href="main.php">åå°é¦–é¡µ</a>&gt;&gt;æ·»åŠ èµ„æ–™</TD></TR>
   <TR>
     <TD bgColor=#b1ceef height=1></TD></TR></TABLE>
 <TABLE cellSpacing=0 cellPadding=0 width="95%" align=center border=0>
@@ -32,7 +32,7 @@ function check(){
     <TD></TD></TR>
   <TR height=22>
     <TD style="PADDING-LEFT: 20px; FONT-WEIGHT: bold; COLOR: #ffffff" 
-    align=middle background=images/title_bg2.jpg>Ìí¼Ó×ÊÁÏ</TD></TR>
+    align=middle background=images/title_bg2.jpg>æ·»åŠ èµ„æ–™</TD></TR>
   <TR bgColor=#ecf4fc height=12>
     <TD></TD></TR>
   </TABLE>
@@ -46,7 +46,7 @@ function check(){
 		if($id!=0){
 			$singleinfo=$single->GetInfo($id);
 		}else{
-			ShowMsg('ÄúÃ»ÓĞÑ¡ÔñÒªĞŞ¸ÄµÄÎÄµµ');
+			ShowMsg('æ‚¨æ²¡æœ‰é€‰æ‹©è¦ä¿®æ”¹çš„æ–‡æ¡£');
 		}
 	}
 ?>
@@ -55,24 +55,17 @@ function check(){
 <input type="hidden" name="id" id="id" value="<?php echo $singleinfo['id']; ?>">
 <TABLE cellSpacing=2 cellPadding=5 width="95%" align=center border=0 bgcolor="#ecf4fc">  
   <TR>
-    <TD width=100 align=right bgcolor="#FFFFFF">×ÊÁÏ±êÌâ(<font color="red" class="txtRed">*</font>)£º</TD>
+    <TD width=100 align=right bgcolor="#FFFFFF">èµ„æ–™æ ‡é¢˜(<font color="red" class="txtRed">*</font>)ï¼š</TD>
     <TD bgcolor="#FFFFFF" style="COLOR: #880000"><input name="title" type="text" id="title" size="80" value="<?php echo $singleinfo['title']; ?>"></TD></TR>    
   <TR>
-    <TD align=right valign="top" bgcolor="#FFFFFF">×ÊÁÏÄÚÈİ(<font color="red">*</font>)£º</TD>
-    <TD bgcolor="#FFFFFF" style="COLOR: #880000"><?php
-include(WEB_INCLUDE."/editor/fckeditor.php");
-$editor = new FCKeditor('content') ;
-$editor->BasePath = '../include/editor/';
-$editor->ToolbarSet='Default'; //¹¤¾ß°´Å¥ÉèÖÃ
-$editor->Width = '100%' ; 
-$editor->Height = '500' ; 
-$editor->Value =$singleinfo['content'];
-$editor->Create() ;
-?></TD></TR>
+    <TD align=right valign="top" bgcolor="#FFFFFF">èµ„æ–™å†…å®¹(<font color="red">*</font>)ï¼š</TD>
+    <TD bgcolor="#FFFFFF" style="COLOR: #880000">
+	<?php App::GetEditor('content',$singleinfo['content'],'100%','500');?>
+    </TD></TR>
   <TR>
     <TD align=right bgcolor="#FFFFFF"></TD>
-    <TD bgcolor="#FFFFFF" style="COLOR: #880000"><input type="submit" name="button" id="button" value="<?php if($action=='add'){echo 'Ìí¼Ó';}else{echo 'ĞŞ¸Ä';} ?>×ÊÁÏ">
-    <input type="reset" name="button2" id="button2" value="ÖØÖÃ"></TD></TR>
+    <TD bgcolor="#FFFFFF" style="COLOR: #880000"><input type="submit" name="button" id="button" value="<?php if($action=='add'){echo 'æ·»åŠ ';}else{echo 'ä¿®æ”¹';} ?>èµ„æ–™">
+    <input type="reset" name="button2" id="button2" value="é‡ç½®"></TD></TR>
     </TABLE>
  </form>
  </BODY></HTML>

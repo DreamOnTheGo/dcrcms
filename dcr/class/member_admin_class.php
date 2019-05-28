@@ -3,7 +3,7 @@ class Member_Admin{
 	private $username;
 	private $password;
 	function __construct($username,$password){
-		//密码应该为加密后的字符串
+		//瀵嗙爜搴旇涓哄姞瀵嗗悗鐨勫瓧绗︿覆
 		$this->username=$username;
 		$this->password=$password;
 	}
@@ -12,17 +12,17 @@ class Member_Admin{
 		$this->password=$password;
 	}
 	function yz(){
-		//登陆验证
+		//鐧婚檰楠岃瘉
 		global $db;
 		$sql="select id from {tablepre}admin where username='".$this->username."' and password='".$this->password."'" ;
 		//var_dump($db->HasRs($sql));
 		return $db->HasRs($sql);
 	}
 	function login(){
-		//登陆
+		//鐧婚檰
 		$_SESSION['admin_u']=$this->username;
 		$_SESSION['admin_p']=$this->password;
-		//更新登陆信息
+		//鏇存柊鐧婚檰淇℃伅
 		global $db;
 		$ip=GetIp();
 		$sql="update {tablepre}admin set loginip='$ip',logintime='".date('Y-m-d H:i:s')."',logincount=logincount+1";

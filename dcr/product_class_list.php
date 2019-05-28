@@ -5,14 +5,14 @@ include "adminyz.php";
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><HEAD>
-<META http-equiv=Content-Type content="text/html; charset=gb2312">
+<META http-equiv=Content-Type content="text/html; charset=utf-8">
 <LINK href="css/admin.css" type="text/css" rel="stylesheet">
 <script src="../include/js/common.js"></script>
 </HEAD>
 <BODY>
 <TABLE cellSpacing=0 cellPadding=0 width="100%" align=center border=0>
   <TR height=28>
-    <TD background=images/title_bg1.jpg>当前位置: <a href="main.php">后台首页</a>&gt;&gt;产品分类列表</TD></TR>
+    <TD background=images/title_bg1.jpg>褰撳墠浣嶇疆: <a href="main.php">鍚庡彴棣栭〉</a>&gt;&gt;浜у搧鍒嗙被鍒楄〃</TD></TR>
   <TR>
     <TD bgColor=#b1ceef height=1></TD></TR></TABLE>
 <TABLE cellSpacing=0 cellPadding=0 width="95%" align=center border=0>
@@ -20,55 +20,49 @@ include "adminyz.php";
     <TD></TD></TR>
   <TR height=22>
     <TD style="PADDING-LEFT: 20px; FONT-WEIGHT: bold; COLOR: #ffffff" 
-    align=middle background=images/title_bg2.jpg>添加新闻</TD></TR>
+    align=middle background=images/title_bg2.jpg>浜у搧鍒嗙被</TD></TR>
   <TR bgColor=#ecf4fc height=12>
     <TD></TD></TR>
   </TABLE>
-<form action="product_class_action.php" method="post">
-<input type="hidden" name="action" id="action" value="delproductclass">
-<TABLE cellSpacing=1 cellPadding=2 width="95%" align=center border=0 bgcolor="#ecf4fc">
-  <TR>
-    <TD style="text-align: center" width=57>ID</TD>
-    <TD width="550" style="text-align: center">标题</TD>
-    <TD width="255" style="text-align: center">加入时间</TD>
-    <TD width="213" style="text-align: center">操作</TD>
-  </TR>
-  <?php
+  <form action="product_class_action.php" method="post">
+  <input type="hidden" name="action" value="order" />
+<table width="95%" border="0" cellspacing="1" cellpadding="5" bgcolor="#4776BE" align="center" class="itemtable">
+    <tr>
+      <td colspan="2" align="left" bgcolor="#FFFFFF"><table width="100%" border="0" cellspacing="0" cellpadding="5">
+      	<?php
 	include WEB_CLASS."/product_class.php";
-	$pageListNum=20;//每页显示9条
-	$totalPage=0;//总页数
-	$page=isset($page)?(int)$page:1;
-	$start=($page-1)*$pageListNum;
 	$pc=new Product(0);
-	$productClassList=$pc->GetClassList(array('id','classname','updatetime'),$start,$pageListNum);
-	foreach($productClassList as $value){
-  ?>  
-  <TR>
-    <TD bgcolor="#FFFFFF" style="text-align: center"><input type="checkbox" name="id[]" id="id[]" value="<?php echo $value['id']; ?>"><?php echo $value['id']; ?></TD>
-    <TD bgcolor="#FFFFFF" style="text-align: left"><a href="product_class_edit.php?action=modify&id=<?php echo $value['id']; ?>"><?php echo $value['classname']; ?></a></TD>
-    <TD bgcolor="#FFFFFF" style="text-align: center"><?php echo $value['updatetime']; ?></TD>
-    <TD bgcolor="#FFFFFF" style="text-align: center"><a href="product_class_edit.php?action=modify&id=<?php echo $value['id']; ?>">编辑</a></TD>
-  </TR>    
-  <?php } ?>  
-  <TR>
-    <TD colspan="4" bgcolor="#FFFFFF" align="right">
-    <?php
-	require_once(WEB_CLASS.'/page_class.php');
-	$sqlNum="select id from {tablepre}product_class";
-	$db->Execute($sqlNum);
-	$pageNum=$db->GetRsNum();
-	$totalPage=ceil($pageNum/$pageListNum);//总页数
-			
-	$page=new PageClass($page,$totalPage);
-	$showpage=$page->showPage(); 
-	echo $showpage;
-	?>
-    </TD>
-    </TR>  
-  <TR>
-    <TD colspan="4" bgcolor="#FFFFFF"><input type="button" name="button" id="button" value="全选/反选" onClick="javascript:selectAllChk('id[]');">
-      &nbsp; <input type="submit" name="button2" id="button2" value="删除"></TD>
-    </TR>  
-    </TABLE>
- </form>
+        	$class_list=$pc->GetClassList();
+           // p_r($class_list);
+            foreach($class_list as $value){
+        ?>
+        <tr onMouseMove="javascript:this.bgColor='#c0c0c0';" onMouseOut="javascript:this.bgColor='#FFFFFF';">
+          <td width="4%" bgcolor="#c0c0c0" style="border-bottom:1px dotted white"><?php echo $value['id']; ?></td>
+          <td width="70%" style="border-bottom:1px dotted #c0c0c0">路<?php echo $value['classname']; ?></td>
+          <td width="26%" style="border-bottom:1px dotted #c0c0c0"><span style="float:right;">鎺掑簭锛�
+            <input name="orderid[<?php echo $value['id']; ?>]" type="text" value="<?php echo $value['orderid']; ?>" size="5" />
+          </span><a href="product_class_edit.php?action=add&parentid=<?php echo $value['id'];?>">娣诲姞涓嬬骇鍒嗙被</a>&nbsp; <a href="product_class_edit.php?action=modify&id=<?php echo $value['id'];?>">缂栬緫</a>&nbsp; <a href="product_class_action.php?action=delproductclass&classid=<?php echo $value['id'];?>">鍒犻櫎</a></td>
+        </tr>
+         	<?php if(is_array($value['sub']) && count($value['sub'])){ 
+                   foreach($value['sub'] as $sub_value){
+                ?>
+            <tr onMouseMove="javascript:this.bgColor='#c0c0c0';" onMouseOut="javascript:this.bgColor='#FFFFFF';">
+              <td width="4%" bgcolor="#c0c0c0" style="border-bottom:1px dotted white"><?php echo $sub_value['id']; ?></td>
+              <td width="70%" style="border-bottom:1px dotted #c0c0c0"><?php echo str_repeat("&nbsp;",4); ?>路<?php echo $sub_value['classname']; ?></td>
+              <td width="26%" style="border-bottom:1px dotted #c0c0c0"><span style="float:right;">鎺掑簭锛�
+            <input name="orderid[<?php echo $sub_value['id']; ?>]" type="text" value="<?php echo $sub_value['orderid']; ?>" size="5" />
+          </span><a href="product_class_edit.php?action=modify&id=<?php echo $sub_value['id'];?>">缂栬緫</a>&nbsp; <a href="product_class_action.php?action=delproductclass&classid=<?php echo $sub_value['id'];?>">鍒犻櫎</a></td>
+            </tr>
+        <?php }?>
+        <?php }?>
+        <?php } ?>
+        <tr>
+          <td colspan="3"><input type="button" name="button" id="button" onclick="location.href='product_class_edit.php?action=add&parentid=0'" value="娣诲姞椤剁骇鍒嗙被" />
+            <input type="submit" name="button2" id="button2" value="鎺掑簭" /></td>
+          </tr>
+      </table>
+      </td>
+    </tr>
+    </table>
+  </form>
  </BODY></HTML>

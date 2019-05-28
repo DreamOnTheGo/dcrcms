@@ -5,19 +5,19 @@ if(!file_exists(dirname(__FILE__) . "/include/config_db.php"))
     exit();
 }
 require_once("include/common.inc.php");
-include WEB_DR."/common.php";//Ä£°åÍ¨ÓÃÎÄ¼þ ³õÊ¼»¯Ä£°åÀà¼°ÔØÈëÍ¨ÓÃ±äÁ¿Ö®ÀàµÄ
+include WEB_DR."/common.php";//æ¨¡æ¿é€šç”¨æ–‡ä»¶ åˆå§‹åŒ–æ¨¡æ¿ç±»åŠè½½å…¥é€šç”¨å˜é‡ä¹‹ç±»çš„
 
-//×îÐÂÐÂÎÅ
+//æœ€æ–°æ–°é—»
 $newslist=$news->GetList(0,array('id','title','addtime'),0,$index_news_count);
 $tpl->assign('newslist',$newslist);
 unset($newslist);
 
-//Í¼Æ¬ÐÂÎÅ
+//å›¾ç‰‡æ–°é—»
 $tw_news_list=$news->GetList(0,array('id','title','logo'),0,5,'istop desc,id desc',"logo<>''");
 $tpl->assign('tw_news_list',$tw_news_list);
 unset($tw_news_list);
 
-//×îÐÂ²úÆ·
+//æœ€æ–°äº§å“
 include_once WEB_CLASS."/product_class.php";
 $pro=new Product();
 $prolist=$pro->GetList(0,array('id','title','logo'),0,$index_product_count);

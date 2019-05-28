@@ -1,28 +1,28 @@
 <?php
 require_once("include/common.inc.php");
-include WEB_DR."/common.php";//Ä£°åÍ¨ÓÃÎÄ¼þ ³õÊ¼»¯Ä£°åÀà¼°ÔØÈëÍ¨ÓÃ±äÁ¿Ö®ÀàµÄ
+include WEB_DR."/common.php";//æ¨¡æ¿é€šç”¨æ–‡ä»¶ åˆå§‹åŒ–æ¨¡æ¿ç±»åŠè½½å…¥é€šç”¨å˜é‡ä¹‹ç±»çš„
 
 $id=intval($id);
 if($id>0){
 }else{
-	//ÌáÊ¾ÐÅÏ¢¿ªÊ¼
-	$msg=array();//´íÎóÐÅÏ¢
-	$back=array('²úÆ·ÁÐ±í'=>'product_list.php','Ê×Ò³'=>'index.php');
-	//ÌáÊ¾ÐÅÏ¢½áÊø
+	//æç¤ºä¿¡æ¯å¼€å§‹
+	$msg=array();//é”™è¯¯ä¿¡æ¯
+	$back=array('äº§å“åˆ—è¡¨'=>'product_list.php','é¦–é¡µ'=>'index.'.$web_url_surfix);
+	//æç¤ºä¿¡æ¯ç»“æŸ
 
-	$msg[]='²»´æÔÚÕâ¸ö²úÆ·ÐÅÏ¢£¡';
+	$msg[]='ä¸å­˜åœ¨è¿™ä¸ªäº§å“ä¿¡æ¯ï¼';
 	ShowMsg($msg,2,$back);
 }
 
 $p=new Product(0);
 $pro=$p->GetInfo($id,$productColList);
 if(!$pro){
-	//ÌáÊ¾ÐÅÏ¢¿ªÊ¼
-	$msg=array();//´íÎóÐÅÏ¢
-	$back=array('²úÆ·ÁÐ±í'=>'product_list.php','Ê×Ò³'=>'index.php');
-	//ÌáÊ¾ÐÅÏ¢½áÊø
+	//æç¤ºä¿¡æ¯å¼€å§‹
+	$msg=array();//é”™è¯¯ä¿¡æ¯
+	$back=array('äº§å“åˆ—è¡¨'=>'product_list.php','é¦–é¡µ'=>'index.'.$web_url_surfix);
+	//æç¤ºä¿¡æ¯ç»“æŸ
 
-	$msg[]='²»´æÔÚÕâ¸ö²úÆ·ÐÅÏ¢£¡';
+	$msg[]='ä¸å­˜åœ¨è¿™ä¸ªäº§å“ä¿¡æ¯ï¼';
 	ShowMsg($msg,2,$back);
 }
 $tpl->assign('pro',$pro);

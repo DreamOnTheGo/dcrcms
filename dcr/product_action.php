@@ -6,31 +6,35 @@ include "adminyz.php";
 
 $pro=new Product(0);
 
-//ÌáÊ¾ÐÅÏ¢¿ªÊ¼
-$errormsg=array();//´íÎóÐÅÏ¢
-$back=array('²úÆ·ÁÐ±í'=>'product_list.php');
-//ÌáÊ¾ÐÅÏ¢½áÊø
+//æç¤ºä¿¡æ¯å¼€å§‹
+$errormsg=array();//é”™è¯¯ä¿¡æ¯
+$back=array('äº§å“åˆ—è¡¨'=>'product_list.php');
+//æç¤ºä¿¡æ¯ç»“æŸ
 
-//±¾Ò³Îª²Ù×÷ÐÂÎÅµÄÒ³Ãæ
+//æœ¬é¡µä¸ºæ“ä½œæ–°é—»çš„é¡µé¢
 if($action=='add'){
 	$iserror=false;
 	if(empty($title)){		
-		$errormsg[]='ÇëÌîÐ´²úÆ·Ãû³Æ';
+		$errormsg[]='è¯·å¡«å†™äº§å“åç§°';
 		$iserror=true;
 	}
 	if($classid==0){
-		$errormsg[]='ÇëÑ¡Ôñ²úÆ·Àà±ð';
+		$errormsg[]='è¯·é€‰æ‹©äº§å“ç±»åˆ«';
 		$iserror=true;
 	}
 	if($iserror){
 		ShowMsg($errormsg,2);
 	}else{
-		//Ã»ÓÐ´íÎó
-		//ÉÏ´«²úÆ·Í¼Æ¬
-		$logo=UplodeFile("logo",WEB_DR."/uploads/product/",'',array('width'=>$prologowidth,'height'=>$prologoheight));		
-		$logo=basename($logo);
+		//æ²¡æœ‰é”™è¯¯
+		//ä¸Šä¼ äº§å“å›¾ç‰‡
+		include_once(WEB_CLASS."/upload_class.php");
+		$upload=new Upload();
+		$fileInfo=$upload->UploadFile("logo",WEB_DR."/uploads/product/",'',array('width'=>$prologowidth,'height'=>$prologoheight,'newpic'=>1));
+		$logo=basename($fileInfo['sl_filename']);
+		$biglogo=basename($fileInfo['filename']);
 		$rid=$pro->Add(array('title'=>$title,
 					   		 'logo'=>$logo,
+					   		 'biglogo'=>$biglogo,
 					   		 'classid'=>intval($classid),
 							 'istop'=>intval($istop),
 					   		 'keywords'=>$keywords,
@@ -39,21 +43,21 @@ if($action=='add'){
 							 )
 					   );
 		if(!$rid){
-			$errormsg[]='Ìí¼Ó²úÆ·Ê§°Ü';
+			$errormsg[]='æ·»åŠ äº§å“å¤±è´¥';
 			ShowMsg($errormsg,2);	
 		}else{
-			$errormsg[]='Ìí¼Ó²úÆ·³É¹¦';
-			$back['¼ÌÐøÌí¼Ó']='product_edit.php?action=add';
+			$errormsg[]='æ·»åŠ äº§å“æˆåŠŸ';
+			$back['ç»§ç»­æ·»åŠ ']='product_edit.php?action=add';
 			ShowMsg($errormsg,1,$back);
 		}
 	}
 }elseif($action=='modify'){	$iserror=false;
 	if(empty($title)){		
-		$errormsg[]='ÇëÌîÐ´²úÆ·Ãû³Æ';
+		$errormsg[]='è¯·å¡«å†™äº§å“åç§°';
 		$iserror=true;
 	}
 	if($classid==0){
-		$errormsg[]='ÇëÑ¡Ôñ²úÆ·Àà±ð';
+		$errormsg[]='è¯·é€‰æ‹©äº§å“ç±»åˆ«';
 		$iserror=true;
 	}
 	if($iserror){
@@ -66,23 +70,33 @@ if($action=='add'){
 					   'description'=>$description,
 					   'content'=>$content
 					  );
-	$logo=UplodeFile("logo",WEB_DR."/uploads/product/",$pro->GetLogo($id,false),array('width'=>$prologowidth,'height'=>$prologoheight));
-	if(strlen($logo)>0){
+	include_once(WEB_CLASS."/upload_class.php");
+		$upload=new Upload();
+	$fileInfo=$upload->UploadFile("logo",WEB_DR."/uploads/product/",$pro->GetLogo($id,false),array('width'=>$prologowidth,'height'=>$prologoheight,'newpic'=>1));
+	
+	if(strlen($fileInfo)>0){
+		$logo=basename($fileInfo['sl_filename']);
+		$biglogo=basename($fileInfo['filename']);
 		$productinfo['logo']=basename($logo);
+		$productinfo['biglogo']=basename($biglogo);
 	}
 	if($pro->Update($id,$productinfo)){
-		$errormsg[]='¸üÐÂ²úÆ·³É¹¦';
+		$errormsg[]='æ›´æ–°äº§å“æˆåŠŸ';
 		ShowMsg($errormsg,1,$back);
 	}else{
-		$errormsg[]='¸üÐÂ²úÆ·Ê§°Ü';
+		$errormsg[]='æ›´æ–°äº§å“å¤±è´¥';
 		ShowMsg($errormsg,2);
 	}	
 }elseif($action=='delproduct'){
-	if($pro->Delete($id)){
-		$errormsg[]='É¾³ýÊý¾Ý³É¹¦';
+	$r=$pro->Delete($id);
+	if($r==1){
+		$errormsg[]='åˆ é™¤æ•°æ®æˆåŠŸ';
 		ShowMsg($errormsg,1,$back);
-	}else{
-		$errormsg[]='É¾³ýÊý¾ÝÊ§°Ü';
+	}elseif($r==3){
+		$errormsg[]='åˆ é™¤æ•°æ®å¤±è´¥:æ²¡æœ‰é€‰æ‹©è¦åˆ é™¤çš„äº§å“';
+		ShowMsg($errormsg,2,$back);
+	}elseif($r==2){
+		$errormsg[]='åˆ é™¤æ•°æ®å¤±è´¥:å¤„ç†æ•°æ®åº“æ•°æ®æ—¶å¤±è´¥';
 		ShowMsg($errormsg,2,$back);
 	}
 }elseif($action=='top'){
@@ -90,10 +104,10 @@ if($action=='add'){
 				'istop'=>1
 				);
 	if($pro->Update($id,$info)){
-		$errormsg[]='ÖÃ¶¥³É¹¦';
+		$errormsg[]='ç½®é¡¶æˆåŠŸ';
 		ShowMsg($errormsg,1,$back);
 	}else{
-		$errormsg[]='ÖÃ¶¥Ê§°Ü'.mysql_error();
+		$errormsg[]='ç½®é¡¶å¤±è´¥'.mysql_error();
 		ShowMsg($errormsg,2,$back);
 	}
 }elseif($action=='top_no'){
@@ -101,13 +115,13 @@ if($action=='add'){
 				'istop'=>0
 				);
 	if($pro->Update($id,$info)){
-		$errormsg[]='È¡ÏûÖÃ¶¥³É¹¦';
+		$errormsg[]='å–æ¶ˆç½®é¡¶æˆåŠŸ';
 		ShowMsg($errormsg,1,$back);
 	}else{
-		$errormsg[]='È¡ÏûÖÃ¶¥Ê§°Ü'.mysql_error();
+		$errormsg[]='å–æ¶ˆç½®é¡¶å¤±è´¥'.mysql_error();
 		ShowMsg($errormsg,2,$back);
 	}
 }else{
-	echo '·Ç·¨²Ù×÷£¿';
+	echo 'éžæ³•æ“ä½œï¼Ÿ';
 }
 ?>

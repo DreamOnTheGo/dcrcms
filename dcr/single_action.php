@@ -5,28 +5,28 @@ include "adminyz.php";
 
 include WEB_CLASS."/single_class.php";
 $single=new Single;
-//ÌáÊ¾ĞÅÏ¢¿ªÊ¼
-$errormsg=array();//´íÎóĞÅÏ¢
-$back=array('¹«Ë¾×ÊÁÏ'=>'single_list.php');
-//ÌáÊ¾ĞÅÏ¢½áÊø
+//æç¤ºä¿¡æ¯å¼€å§‹
+$errormsg=array();//é”™è¯¯ä¿¡æ¯
+$back=array('å…¬å¸èµ„æ–™'=>'single_list.php');
+//æç¤ºä¿¡æ¯ç»“æŸ
 
-//±¾Ò³Îª²Ù×÷ĞÂÎÅµÄÒ³Ãæ
+//æœ¬é¡µä¸ºæ“ä½œæ–°é—»çš„é¡µé¢
 if($action=='add'){
 	if(checkinput()){
 		ShowMsg($errormsg,2,$back);
 	}else{
-		//Ã»ÓĞ´íÎó
+		//æ²¡æœ‰é”™è¯¯
 		$singleInfo=array('title'=>$title,
 						'content'=>$content
 						);
 		
 		$aid=$single->Add($singleInfo);
 		if(!$aid){
-			$errormsg[]='Ìí¼Óµ¥Ò³ÃæÊ§°Ü'.mysql_error();
+			$errormsg[]='æ·»åŠ å•é¡µé¢å¤±è´¥'.mysql_error();
 			ShowMsg($errormsg,2,$back);	
 		}else{
-			$errormsg[]='Ìí¼Óµ¥Ò³Ãæ³É¹¦';
-			$back['¼ÌĞøÌí¼Ó']='single_edit.php?action=add';
+			$errormsg[]='æ·»åŠ å•é¡µé¢æˆåŠŸ';
+			$back['ç»§ç»­æ·»åŠ ']='single_edit.php?action=add';
 			ShowMsg($errormsg,1,$back);
 		}
 	}
@@ -38,30 +38,30 @@ if($action=='add'){
 						'content'=>$content
 						);
 		if($single->Update($id,$singleInfo)){
-			$errormsg[]='¸üĞÂµ¥Ò³Ãæ³É¹¦';
+			$errormsg[]='æ›´æ–°å•é¡µé¢æˆåŠŸ';
 			ShowMsg($errormsg,1,$back);
 		}else{
-			$errormsg[]='¸üĞÂµ¥Ò³ÃæÊ§°Ü'.mysql_error();
+			$errormsg[]='æ›´æ–°å•é¡µé¢å¤±è´¥'.mysql_error();
 			ShowMsg($errormsg,2,$back);
 		}
 	}	
 }elseif($action=='delsingle'){
 	if($single->Delete($id)){
-		$errormsg[]='É¾³ıÊı¾İ³É¹¦';
+		$errormsg[]='åˆ é™¤æ•°æ®æˆåŠŸ';
 		ShowMsg($errormsg,1,$back);
 	}else{
-		$errormsg[]='É¾³ıÊı¾İÊ§°Ü';
+		$errormsg[]='åˆ é™¤æ•°æ®å¤±è´¥';
 		ShowMsg($errormsg,2,$back);
 	}
 }
 function checkinput(){
 	global $errormsg,$title,$content;
 	if(strlen($title)==0){
-		$errormsg[]='ÇëÌîĞ´×ÊÁÏ±êÌâ';
+		$errormsg[]='è¯·å¡«å†™èµ„æ–™æ ‡é¢˜';
 		$iserror=true;
 	}
 	if(strlen($content)==0){
-		$errormsg[]='ÇëÌîĞ´×ÊÁÏÄÚÈİ';
+		$errormsg[]='è¯·å¡«å†™èµ„æ–™å†…å®¹';
 		$iserror=true;
 	}
 	return $iserror;

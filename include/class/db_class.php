@@ -1,7 +1,7 @@
 <?php
 /**
-* Êı¾İ¿â´¦Àí
-* @author ÎÒ²»ÊÇµ¾²İÈË www.cntaiyn.cn
+* æ•°æ®åº“å¤„ç†
+* @author æˆ‘ä¸æ˜¯ç¨»è‰äºº www.cntaiyn.cn
 * @version 1.0
 * @copyright 2006-2010
 * @package class
@@ -20,14 +20,14 @@ class DB{
 	private $result;
 	private $rs;
 	/**
-	 * DBµÄ¹¹Ôìº¯Êı
-	 * ³É¹¦·µ»ØÒ»¸öÁ¬½ÓµÄresource
- 	 * @param string $db_type Êı¾İ¿âÀàĞÍ
- 	 * @param string $host Êı¾İ¿âµØÖ·
-	 * @param string $name Êı¾İ¿âÓÃ»§Ãû
-	 * @param string $pass Êı¾İ¿âÃÜÂë
-	 * @param string $table Êı¾İ¿âÃû
-	 * @param string $ut Êı¾İ¿â±àÂë
+	 * DBçš„æ„é€ å‡½æ•°
+	 * æˆåŠŸè¿”å›ä¸€ä¸ªè¿æ¥çš„resource
+ 	 * @param string $db_type æ•°æ®åº“ç±»å‹
+ 	 * @param string $host æ•°æ®åº“åœ°å€
+	 * @param string $name æ•°æ®åº“ç”¨æˆ·å
+	 * @param string $pass æ•°æ®åº“å¯†ç 
+	 * @param string $table æ•°æ®åº“å
+	 * @param string $ut æ•°æ®åº“ç¼–ç 
 	 * @return resource
 	 */
 	function __construct($db_type,$host,$name,$pass,$table,$ut){
@@ -42,8 +42,8 @@ class DB{
 		}
 	}
 	/**
-	 * º¯Êıconnect Á¬½ÓÊı¾İ¿âµÄº¯Êı
-	 * Õâ¸ö·½·¨ÎªÀà×Ô¶¯µ÷ÓÃ£¬²»ÓÃÎÒÃÇÊÖ¶¯µ÷ÓÃ
+	 * å‡½æ•°connect è¿æ¥æ•°æ®åº“çš„å‡½æ•°
+	 * è¿™ä¸ªæ–¹æ³•ä¸ºç±»è‡ªåŠ¨è°ƒç”¨ï¼Œä¸ç”¨æˆ‘ä»¬æ‰‹åŠ¨è°ƒç”¨
 	 * @return null
 	 */
 	function connect(){
@@ -52,35 +52,35 @@ class DB{
 				$db_path=WEB_DATA.$this->host;
 				$this->pdo=new PDO("sqlite:".$db_path);
 			}catch(PDOException $e) {
-    			echo 'Á¬½ÓÊ§°Ü: '.$e->getMessage();
+    			echo 'è¿æ¥å¤±è´¥: '.$e->getMessage();
 			}
 		}else if($this->db_type=='2'){
 			if(!$this->conn){
-				$this->conn=mysql_connect($this->host,$this->name,$this->pass)or die('Á¬½ÓÊı¾İ¿âÊ§°Ü£¬Çë¼ì²éÄúµÄÊı¾İ¿âÅäÖÃ');
+				$this->conn=mysql_connect($this->host,$this->name,$this->pass)or die('è¿æ¥æ•°æ®åº“å¤±è´¥ï¼Œè¯·æ£€æŸ¥æ‚¨çš„æ•°æ®åº“é…ç½®');
 			}else{
 				return false;
 			}
-			mysql_select_db($this->table,$this->conn) or die('Ñ¡ÔñÊı¾İ¿âÊ§°Ü,Çë¼ì²éÊı¾İ¿â['.$this->table.']ÊÇ·ñ´´½¨');
+			mysql_select_db($this->table,$this->conn) or die('é€‰æ‹©æ•°æ®åº“å¤±è´¥,è¯·æ£€æŸ¥æ•°æ®åº“['.$this->table.']æ˜¯å¦åˆ›å»º');
 			mysql_query("SET NAMES '$this->ut'");
 		}
 	}
 	/**
-	 * º¯Êıoption È«¾Ö´¦ÀísqlÓï¾ä,DBÀàµÄÃ¿¸ösqlÓï¾äÖ´ĞĞÇ°ÒªÍ¨¹ıÕâ¸öÀ´´¦ÀíÏÂ
-	 * ·µ»Ø´¦ÀíºóµÄsqlÓï¾ä
-	 * @param string $sql Òª´¦ÀíµÄsqlÓï¾ä
+	 * å‡½æ•°option å…¨å±€å¤„ç†sqlè¯­å¥,DBç±»çš„æ¯ä¸ªsqlè¯­å¥æ‰§è¡Œå‰è¦é€šè¿‡è¿™ä¸ªæ¥å¤„ç†ä¸‹
+	 * è¿”å›å¤„ç†åçš„sqlè¯­å¥
+	 * @param string $sql è¦å¤„ç†çš„sqlè¯­å¥
 	 * @return string
 	 */
 	function option($sql){
 		global $tablepre;
-		$sql=str_replace('{tablepre}',$tablepre,$sql);//Ìæ»»±íÃû
-		$sql=$this->SafeSql($sql);//°²È«´¦Àísql
+		$sql=str_replace('{tablepre}',$tablepre,$sql);//æ›¿æ¢è¡¨å
+		$sql=$this->SafeSql($sql);//å®‰å…¨å¤„ç†sql
 		return $sql;
 	}
 	/**
-	 * º¯ÊıExecute,Ö´ĞĞ$sql
-	 * ·µ»ØÖ´ĞĞ½á¹û£¬ÎÒÃÇÓÃDB->Next('colname')º¯ÊıÀ´»ñÈ¡Öµ
-	 * @param string $sql ÒªÖ´ĞĞµÄsqlÓï¾ä
-	 * @param int $result_type ·µ»Ø¼ÇÂ¼¼¯µÄÀàĞÍ Ä¬ÈÏÎªMYSQL_ASSOC
+	 * å‡½æ•°Execute,æ‰§è¡Œ$sql
+	 * è¿”å›æ‰§è¡Œç»“æœï¼Œæˆ‘ä»¬ç”¨DB->Next('colname')å‡½æ•°æ¥è·å–å€¼
+	 * @param string $sql è¦æ‰§è¡Œçš„sqlè¯­å¥
+	 * @param int $result_type è¿”å›è®°å½•é›†çš„ç±»å‹ é»˜è®¤ä¸ºMYSQL_ASSOC
 	 * @return boolean
 	 */
 	function Execute($sql,$result_type=MYSQL_ASSOC){
@@ -90,14 +90,14 @@ class DB{
 			unset($this->result);
 			if($this->db_type=='1'){
 				$arr_t=$this->pdo->query($sql);
-				$this->result=$arr_t->fetchAll(); 
+				if($arr_t)$this->result=$arr_t->fetchAll();
 				//$this->result=$arr_t;
 				unset($arr_t);
 			}elseif($this->db_type=='2'){
 				if($arr_t=mysql_query($sql)){
 				}else{
 					global $web_tiaoshi;
-					if($web_tiaoshi=='1'){die('Ö´ĞĞsql£º['.$sql.']Ê±Ê§°Ü£¬Çë¼ì²éÄúµÄSQLÓï¾ä'.mysql_error());}
+					if($web_tiaoshi=='1'){die('æ‰§è¡Œsqlï¼š['.$sql.']æ—¶å¤±è´¥ï¼Œè¯·æ£€æŸ¥æ‚¨çš„SQLè¯­å¥'.mysql_error());}
 				}				
 				$arr=array();
 				while($row=mysql_fetch_array($arr_t,$result_type)){
@@ -113,9 +113,9 @@ class DB{
 		}
 	}
 	/**
-	 * º¯ÊıExecuteNoneQuery,Ö´ĞĞÒ»¸ö²»Òª·µ»Ø½á¹ûµÄ$sql Èçupdate insert
-	 * ³É¹¦·µ»Øtrue Ê§°Ü·µ»Øfalse;
-	 * @param string $sql ÒªÖ´ĞĞµÄsqlÓï¾ä
+	 * å‡½æ•°ExecuteNoneQuery,æ‰§è¡Œä¸€ä¸ªä¸è¦è¿”å›ç»“æœçš„$sql å¦‚update insert
+	 * æˆåŠŸè¿”å›true å¤±è´¥è¿”å›false;
+	 * @param string $sql è¦æ‰§è¡Œçš„sqlè¯­å¥
 	 * @return boolean
 	 */
 	function ExecuteNoneQuery($sql){
@@ -133,10 +133,10 @@ class DB{
 		}
 	}
 	/**
-	 * º¯ÊıGetOne,Ö´ĞĞ·µ»ØÒ»ĞĞ½á¹û
-	 * ³É¹¦·µ»Ø¼ÇÂ¼¼¯ Ê§°Ü·µ»Øfalse;
-	 * @param string $sql ÒªÖ´ĞĞµÄsqlÓï¾ä
-	 * @param int $result_type ·µ»Ø¼ÇÂ¼¼¯µÄÀàĞÍ Ä¬ÈÏÎªMYSQL_ASSOC
+	 * å‡½æ•°GetOne,æ‰§è¡Œè¿”å›ä¸€è¡Œç»“æœ
+	 * æˆåŠŸè¿”å›è®°å½•é›† å¤±è´¥è¿”å›false;
+	 * @param string $sql è¦æ‰§è¡Œçš„sqlè¯­å¥
+	 * @param int $result_type è¿”å›è®°å½•é›†çš„ç±»å‹ é»˜è®¤ä¸ºMYSQL_ASSOC
 	 * @return boolean
 	 */
 	function GetOne($sql,$result_type=MYSQL_ASSOC){
@@ -150,8 +150,8 @@ class DB{
 		return current($this->result);
 	}
 	/**
-	 * º¯ÊıNext,ÓÃÀ´·µ»Ø¼ÇÂ¼¼¯ Í¬Ê±¹ö¶¯µ½ÏÂÒ»Ìõ
-	 * ³É¹¦·µ»Ø¼ÇÂ¼¼¯ Ê§°Ü·µ»Øfalse;
+	 * å‡½æ•°Next,ç”¨æ¥è¿”å›è®°å½•é›† åŒæ—¶æ»šåŠ¨åˆ°ä¸‹ä¸€æ¡
+	 * æˆåŠŸè¿”å›è®°å½•é›† å¤±è´¥è¿”å›false;
 	 * @return resource|boolean
 	 */
 	function Next(){
@@ -167,8 +167,8 @@ class DB{
 		}
 	}
 	/**
-	 * º¯Êıf,ÓÃÀ´·µ»Ø¼ÇÂ¼¼¯ÖĞÖ¸¶¨×Ö¶ÎµÄÖµ
-	 * ³É¹¦·µ»ØÖµ Ê§°Ü·µ»Øfalse;
+	 * å‡½æ•°f,ç”¨æ¥è¿”å›è®°å½•é›†ä¸­æŒ‡å®šå­—æ®µçš„å€¼
+	 * æˆåŠŸè¿”å›å€¼ å¤±è´¥è¿”å›false;
 	 * @return string|boolean
 	 */
 	function f($name){
@@ -179,16 +179,16 @@ class DB{
         }
 	}
 	/**
-	 * º¯ÊıGetArray,ÓÃÀ´·µ»Ø¼ÇÂ¼¼¯µÄÊı×éĞÎÊ½
-	 * ³É¹¦Êı×é Ê§°Ü·µ»Øfalse;
+	 * å‡½æ•°GetArray,ç”¨æ¥è¿”å›è®°å½•é›†çš„æ•°ç»„å½¢å¼
+	 * æˆåŠŸæ•°ç»„ å¤±è´¥è¿”å›false;
 	 * @return array
 	 */
 	function GetArray(){	
 		return $this->result;
 	}
 	/**
-	 * º¯ÊıGetRsNum,ÓÃÀ´·µ»Ø¼ÇÂ¼¼¯µÄ¼ÇÂ¼Êı
-	 * ³É¹¦¼ÇÂ¼Êı Ê§°Ü·µ»Ø0;
+	 * å‡½æ•°GetRsNum,ç”¨æ¥è¿”å›è®°å½•é›†çš„è®°å½•æ•°
+	 * æˆåŠŸè®°å½•æ•° å¤±è´¥è¿”å›0;
 	 * @return int
 	 */
 	function GetRsNum(){
@@ -199,8 +199,8 @@ class DB{
 		}
 	}
 	/**
-	 * º¯ÊıGetColArray,·µ»Øµ±Ç°¼ÇÂ¼¼¯µÄÁĞ±íÃû ±ÈÈçselect a,b from c Ôò·µ»ØÊı×éarray('a','b')
-	 * ³É¹¦¼ÇÂ¼¼¯µÄarray Ê§°Ü·µ»Ø0;
+	 * å‡½æ•°GetColArray,è¿”å›å½“å‰è®°å½•é›†çš„åˆ—è¡¨å æ¯”å¦‚select a,b from c åˆ™è¿”å›æ•°ç»„array('a','b')
+	 * æˆåŠŸè®°å½•é›†çš„array å¤±è´¥è¿”å›0;
 	 * @return array
 	 */
 	function GetColArray(){
@@ -212,11 +212,11 @@ class DB{
 		return $arr_t;
 	}
 	/**
-	 * º¯ÊıGetFieldValue,»ñÈ¡Ö¸¶¨±íÖ¸¶¨×Ö¶ÎµÄÖµ
-	 * ³É¹¦·µ»Ø×Ö¶ÎÖµ Ê§°Ü·µ»Øfalse;
-	 * @param string $tableName ±íÃû
-	 * @param string $fieldName ×Ö¶ÎÃû
-	 * @param string $whereSql Ìõ¼ş
+	 * å‡½æ•°GetFieldValue,è·å–æŒ‡å®šè¡¨æŒ‡å®šå­—æ®µçš„å€¼
+	 * æˆåŠŸè¿”å›å­—æ®µå€¼ å¤±è´¥è¿”å›false;
+	 * @param string $tableName è¡¨å
+	 * @param string $fieldName å­—æ®µå
+	 * @param string $whereSql æ¡ä»¶
 	 * @return string
 	 */
 	function GetFieldValue($tableName,$fieldName,$whereSql=''){	
@@ -229,11 +229,11 @@ class DB{
 		return $arr_t[0];
 	}
 	/**
-	 * º¯ÊıHasRs,»ñÈ¡ÊÇ²»ÊÇÓĞÕâ¸ö¼ÇÂ¼
-	 * ³É¹¦·µ»Øtrue Ê§°Ü·µ»Øfalse;
-	 * @param string $tableName ±íÃû
-	 * @param string $fieldName ×Ö¶ÎÃû
-	 * @param string $whereSql Ìõ¼ş
+	 * å‡½æ•°HasRs,è·å–æ˜¯ä¸æ˜¯æœ‰è¿™ä¸ªè®°å½•
+	 * æˆåŠŸè¿”å›true å¤±è´¥è¿”å›false;
+	 * @param string $tableName è¡¨å
+	 * @param string $fieldName å­—æ®µå
+	 * @param string $whereSql æ¡ä»¶
 	 * @return boolean
 	 */
 	function HasRs($sql){
@@ -241,8 +241,8 @@ class DB{
 		return is_array($t_arr);
 	}
 	/**
-	 * º¯ÊıGetInsertId,È¡µÃÉÏÒ»²½INSERT ²Ù×÷²úÉúµÄ ID
-	 * ³É¹¦·µ»ØÖµ Ê§°Ü·µ»Øfalse;
+	 * å‡½æ•°GetInsertId,å–å¾—ä¸Šä¸€æ­¥INSERT æ“ä½œäº§ç”Ÿçš„ ID
+	 * æˆåŠŸè¿”å›å€¼ å¤±è´¥è¿”å›false;
 	 * @return int
 	 */
 	function GetInsertId(){
@@ -253,13 +253,13 @@ class DB{
 		}
 	}
 	/**
-	 * º¯ÊıGetTableCol,·µ»ØÒ»¸ö±íµÄËùÓĞÁĞ
-	 * ³É¹¦·µ»ØËùÓĞÁĞµÄarray Ê§°Ü·µ»Øfalse;
-	 * @param string $tableName ±íÃû
+	 * å‡½æ•°GetTableCol,è¿”å›ä¸€ä¸ªè¡¨çš„æ‰€æœ‰åˆ—
+	 * æˆåŠŸè¿”å›æ‰€æœ‰åˆ—çš„array å¤±è´¥è¿”å›false;
+	 * @param string $tableName è¡¨å
 	 * @return array
 	 */
 	function GetTableCol($tableName){
-		//·µ»ØÒ»¸ö±íµÄËùÓĞÁĞ
+		//è¿”å›ä¸€ä¸ªè¡¨çš„æ‰€æœ‰åˆ—
 		$sql="show columns from $tableName";
 		$result=mysql_query($sql);
 		$t_arr=array();
@@ -269,11 +269,11 @@ class DB{
 		return $t_arr;
 	}
 	/**
-	 * º¯ÊıGetVersion,·µ»Øµ±Ç°Êı¾İ¿âµÄ°æ±¾
+	 * å‡½æ•°GetVersion,è¿”å›å½“å‰æ•°æ®åº“çš„ç‰ˆæœ¬
 	 * @return string
 	 */
 	function GetVersion(){
-		//»ñµÃÊı¾İ¿â°æ±¾ĞÅÏ¢
+		//è·å¾—æ•°æ®åº“ç‰ˆæœ¬ä¿¡æ¯
 		$version = mysql_query("SELECT VERSION();",$this->conn);
 		$row = mysql_fetch_array($version);
 		$mysqlVersions = explode('.',trim($row[0]));
@@ -281,7 +281,7 @@ class DB{
 		return $mysqlVersion;
 	}
 	/**
-	 * º¯ÊıCloseDB,¹Ø±Õµ±Ç°Êı¾İ¿âÁ¬½Ó
+	 * å‡½æ•°CloseDB,å…³é—­å½“å‰æ•°æ®åº“è¿æ¥
 	 * @return boolean
 	 */
 	function CloseDB(){
@@ -289,15 +289,15 @@ class DB{
 		@mysql_close($this->conn);
 	}
 	/**
-	 * º¯ÊıSafeSql,Óï¾ä¹ıÂË³ÌĞò
-	 * ·µ»ØÒ»¸ösqlÓï¾ä°²È«´¦ÀíºóµÄsql
-	 * @param string $db_string Òª´¦ÀíµÄsqlÓï¾ä
-	 * @param string $querytype Òª´¦ÀíµÄsqlÓï¾äµÄÀàĞÍ
+	 * å‡½æ•°SafeSql,è¯­å¥è¿‡æ»¤ç¨‹åº
+	 * è¿”å›ä¸€ä¸ªsqlè¯­å¥å®‰å…¨å¤„ç†åçš„sql
+	 * @param string $db_string è¦å¤„ç†çš„sqlè¯­å¥
+	 * @param string $querytype è¦å¤„ç†çš„sqlè¯­å¥çš„ç±»å‹
 	 * @return string
 	 */
 	function SafeSql($db_string,$querytype='select'){
 		//var_dump($db_string);
-		//ÍêÕûµÄSQL¼ì²é
+		//å®Œæ•´çš„SQLæ£€æŸ¥
 		if(empty($db_string)){
 			return false;
 		}
@@ -329,21 +329,21 @@ class DB{
 		$clean .= substr($db_string, $old_pos);
 		$clean = trim(strtolower(preg_replace(array('~\s+~s' ), array(' '), $clean)));
 
-		//ÀÏ°æ±¾µÄMysql²¢²»Ö§³Öunion£¬³£ÓÃµÄ³ÌĞòÀïÒ²²»Ê¹ÓÃunion£¬µ«ÊÇÒ»Ğ©ºÚ¿ÍÊ¹ÓÃËü£¬ËùÒÔ¼ì²éËü
+		//è€ç‰ˆæœ¬çš„Mysqlå¹¶ä¸æ”¯æŒunionï¼Œå¸¸ç”¨çš„ç¨‹åºé‡Œä¹Ÿä¸ä½¿ç”¨unionï¼Œä½†æ˜¯ä¸€äº›é»‘å®¢ä½¿ç”¨å®ƒï¼Œæ‰€ä»¥æ£€æŸ¥å®ƒ
 		if (strpos($clean, 'union') !== false && preg_match('~(^|[^a-z])union($|[^[a-z])~s', $clean) != 0)
 		{
 			$fail = true;
 			$error="union detect";
 		}
 
-		//·¢²¼°æ±¾µÄ³ÌĞò¿ÉÄÜ±È½ÏÉÙ°üÀ¨--,#ÕâÑùµÄ×¢ÊÍ£¬µ«ÊÇºÚ¿Í¾­³£Ê¹ÓÃËüÃÇ
+		//å‘å¸ƒç‰ˆæœ¬çš„ç¨‹åºå¯èƒ½æ¯”è¾ƒå°‘åŒ…æ‹¬--,#è¿™æ ·çš„æ³¨é‡Šï¼Œä½†æ˜¯é»‘å®¢ç»å¸¸ä½¿ç”¨å®ƒä»¬
 		elseif (strpos($clean, '/*') > 2 || strpos($clean, '--') !== false || strpos($clean, '#') !== false)
 		{
 			$fail = true;
 			$error="comment detect";
 		}
 
-		//ÕâĞ©º¯Êı²»»á±»Ê¹ÓÃ£¬µ«ÊÇºÚ¿Í»áÓÃËüÀ´²Ù×÷ÎÄ¼ş£¬downµôÊı¾İ¿â
+		//è¿™äº›å‡½æ•°ä¸ä¼šè¢«ä½¿ç”¨ï¼Œä½†æ˜¯é»‘å®¢ä¼šç”¨å®ƒæ¥æ“ä½œæ–‡ä»¶ï¼Œdownæ‰æ•°æ®åº“
 		elseif (strpos($clean, 'sleep') !== false && preg_match('~(^|[^a-z])sleep($|[^[a-z])~s', $clean) != 0)
 		{
 			$fail = true;
@@ -364,16 +364,9 @@ class DB{
 			$fail = true;
 			$error="file fun detect";
 		}
-
-		//ÀÏ°æ±¾µÄMYSQL²»Ö§³Ö×Ó²éÑ¯£¬ÎÒÃÇµÄ³ÌĞòÀï¿ÉÄÜÒ²ÓÃµÃÉÙ£¬µ«ÊÇºÚ¿Í¿ÉÒÔÊ¹ÓÃËüÀ´²éÑ¯Êı¾İ¿âÃô¸ĞĞÅÏ¢
-		elseif (preg_match('~\([^)]*?select~s', $clean) != 0)
-		{
-			$fail = true;
-			$error="sub select detect";
-		}
 		if (!empty($fail))
 		{
-			fputs(fopen($log_file,'a+'),"$userIP||$getUrl||$db_string||$error\r\n");
+			//fputs(fopen($log_file,'a+'),"$userIP||$getUrl||$db_string||$error\r\n");
 			exit("<font size='5' color='red'>Safe Alert: Request Error step 2!</font>");
 		}
 		else

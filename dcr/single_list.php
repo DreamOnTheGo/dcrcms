@@ -5,14 +5,14 @@ include "adminyz.php";
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><HEAD>
-<META http-equiv=Content-Type content="text/html; charset=gb2312">
+<META http-equiv=Content-Type content="text/html; charset=utf-8">
 <LINK href="css/admin.css" type="text/css" rel="stylesheet">
 <script src="../include/js/common.js"></script>
 </HEAD>
 <BODY>
 <TABLE cellSpacing=0 cellPadding=0 width="100%" align=center border=0>
   <TR height=28>
-    <TD background=images/title_bg1.jpg>µ±Ç°Î»ÖÃ: <a href="main.php">ºóÌ¨Ê×Ò³</a>&gt;&gt;×ÊÁÏÁĞ±í</TD></TR>
+    <TD background=images/title_bg1.jpg>å½“å‰ä½ç½®: <a href="main.php">åå°é¦–é¡µ</a>&gt;&gt;èµ„æ–™åˆ—è¡¨</TD></TR>
   <TR>
     <TD bgColor=#b1ceef height=1></TD></TR></TABLE>
 <TABLE cellSpacing=0 cellPadding=0 width="95%" align=center border=0>
@@ -20,7 +20,7 @@ include "adminyz.php";
     <TD></TD></TR>
   <TR height=22>
     <TD style="PADDING-LEFT: 20px; FONT-WEIGHT: bold; COLOR: #ffffff" 
-    align=middle background=images/title_bg2.jpg>×ÊÁÏÁĞ±í</TD></TR>
+    align=middle background=images/title_bg2.jpg>èµ„æ–™åˆ—è¡¨</TD></TR>
   <TR bgColor=#ecf4fc height=12>
     <TD></TD></TR>
   </TABLE>
@@ -29,14 +29,14 @@ include "adminyz.php";
 <TABLE cellSpacing=2 cellPadding=5 width="95%" align=center border=0 bgcolor="#ecf4fc">
   <TR>
     <TD style="text-align: center" width=56>ID</TD>
-    <TD width="534" style="text-align: center">±êÌâ</TD>
-    <TD width="183" style="text-align: center">¼ÓÈëÊ±¼ä</TD>
-    <TD width="132" style="text-align: center">²Ù×÷</TD>
+    <TD width="534" style="text-align: center">æ ‡é¢˜</TD>
+    <TD width="183" style="text-align: center">åŠ å…¥æ—¶é—´</TD>
+    <TD width="132" style="text-align: center">æ“ä½œ</TD>
   </TR>
   <?php
 	include WEB_CLASS."/single_class.php";
-	$pageListNum=20;//Ã¿Ò³ÏÔÊ¾?Ìõ
-	$totalPage=0;//×ÜÒ³Êı
+	$pageListNum=20;//æ¯é¡µæ˜¾ç¤º?æ¡
+	$totalPage=0;//æ€»é¡µæ•°
 	$page=isset($page)?(int)$page:1;
 	$start=($page-1)*$pageListNum;
 	$single=new Single(0);
@@ -48,7 +48,7 @@ include "adminyz.php";
     <TD bgcolor="#FFFFFF" style="text-align: center"><input type="checkbox" name="id[]" id="id[]" value="<?php echo $id; ?>"><?php echo $id; ?></TD>
     <TD bgcolor="#FFFFFF" style="text-align: left"><a href="single_edit.php?action=modify&id=<?php echo $id; ?>"><?php echo $value['title']; ?></a></TD>
     <TD bgcolor="#FFFFFF" style="text-align: center"><?php echo $value['updatetime']; ?></TD>
-    <TD bgcolor="#FFFFFF" style="text-align: center"><a href="single_edit.php?action=modify&id=<?php echo $id; ?>">±à¼­</a></TD>
+    <TD bgcolor="#FFFFFF" style="text-align: center"><a href="single_edit.php?action=modify&id=<?php echo $id; ?>">ç¼–è¾‘</a></TD>
   </TR>    
   <?php } ?>  
   <TR>
@@ -58,7 +58,7 @@ include "adminyz.php";
 	$sqlNum="select id from {tablepre}single";
 	$db->Execute($sqlNum);
 	$pageNum=$db->GetRsNum();
-	$totalPage=ceil($pageNum/$pageListNum);//×ÜÒ³Êı
+	$totalPage=ceil($pageNum/$pageListNum);//æ€»é¡µæ•°
 			
 	$page=new PageClass($page,$totalPage);
 	$showpage=$page->showPage(); 
@@ -67,8 +67,8 @@ include "adminyz.php";
     </TD>
     </TR>  
   <TR>
-    <TD colspan="5" bgcolor="#FFFFFF"><input type="button" name="button" id="button" value="È«Ñ¡/·´Ñ¡" onClick="javascript:selectAllChk('id[]');">
-      &nbsp; <input type="submit" name="button2" id="button2" value="É¾³ı"></TD>
+    <TD colspan="5" bgcolor="#FFFFFF"><input type="button" name="button" id="button" value="å…¨é€‰/åé€‰" onClick="javascript:selectAllChk('id[]');">
+      &nbsp; <input type="submit" name="button2" id="button2" value="åˆ é™¤"></TD>
     </TR>  
     </TABLE>
  </form>

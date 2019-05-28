@@ -10,12 +10,12 @@ define('WEB_DATA',WEB_DR.'data/');
 set_magic_quotes_runtime(0);
 $magic_quotes=get_magic_quotes_gpc();
 
-//ÅäÖÃÎÄ¼þ
+//é…ç½®æ–‡ä»¶
 require_once(WEB_INCLUDE.'/config.php');
 
 if($web_tiaoshi=='0'){error_reporting(0);}
 
-//sqliteµÄsqlite_escape_string
+//sqliteçš„sqlite_escape_string
 function my_sqlite_escape_string($str){
 	if(!empty($str)){
 		return str_replace("'","''",$str);
@@ -24,7 +24,7 @@ function my_sqlite_escape_string($str){
 	}
 }
 
-//¼ì²éºÍ×¢²áÍâ²¿Ìá½»µÄ±äÁ¿
+//æ£€æŸ¥å’Œæ³¨å†Œå¤–éƒ¨æäº¤çš„å˜é‡
 foreach($_REQUEST as $_k=>$_v)
 {
 	if( strlen($_k)>0 && eregi('^(GLOBALS)',$_k) )
@@ -46,7 +46,7 @@ function _GetRequest(&$svar){
 			}
 		}
 	}else{
-		//Ã»ÓÐ¿ª..¼æÈÝsqlite
+		//æ²¡æœ‰å¼€..å…¼å®¹sqlite
 		if(is_array($svar)){
 			foreach($svar as $_k => $_v) $svar[$_k] = _GetRequest($_v);
 		}else{
@@ -65,13 +65,13 @@ foreach(Array('_GET','_POST','_COOKIE') as $_request)
 }
 unset($_GET,$_POST);
 
-//Ê±Çø
+//æ—¶åŒº
 if(PHP_VERSION > '5.1')
 {
 	@date_default_timezone_set('PRC');
 }
 
-/*Session±£´æÂ·¾¶
+/*Sessionä¿å­˜è·¯å¾„
 $sessionPath = WEB_DR."/data/session";
 if(is_writeable($sessionPath) && is_readable($sessionPath))
 {
@@ -79,22 +79,25 @@ if(is_writeable($sessionPath) && is_readable($sessionPath))
 }
 */
 
-//¸÷¸ö±íµÄÁÐ	
+//å„ä¸ªè¡¨çš„åˆ—	
 $newsColList=array('id','classid','istop','logo','addtime','click','author','source','content','title','keywords','description');
-$productColList=array('id','title','istop','classid','logo','click','content','keywords','description','updatetime');
+$productColList=array('id','title','istop','classid','logo','biglogo','click','content','keywords','description','updatetime');
 
-//ÓÃ»§·ÃÎÊµÄÍøÕ¾host
+//ç”¨æˆ·è®¿é—®çš„ç½‘ç«™host
 $web_clihost = 'http://'.$_SERVER['HTTP_HOST'];
 
-//ÒýÈëÊý¾Ý¿âÀà
+//å¼•å…¥æ•°æ®åº“ç±»
 require_once(WEB_CLASS.'/db_class.php');
 
-//È«¾Ö³£ÓÃº¯Êý
+//å¼•å…¥å…¨ç«™ç¨‹åºé™æ€ç±»
+require_once(WEB_CLASS.'/app_class.php');
+
+//å…¨å±€å¸¸ç”¨å‡½æ•°
 require_once(WEB_INCLUDE.'/common.func.php');
 
-//Á¬½ÓÊý¾Ý¿â
+//è¿žæŽ¥æ•°æ®åº“
 $db=new DB($db_type,$host,$name,$pass,$table,$ut);
 
-//³ÌÐòÐÅÏ¢
-$version='1.0.2';
+//ç¨‹åºä¿¡æ¯
+$version='1.0.3';
 ?>

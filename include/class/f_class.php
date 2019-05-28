@@ -1,8 +1,8 @@
 <?php
 /**
-* ÎÄ¼þ´¦ÀíµÄ»ùÀà
-* Õâ¸öÀàÖÐÓÐÐ´Èë¡¢¶ÁÈ¡ÎÄ¼þµÄ²Ù×÷·½·¨
-* @author ÎÒ²»ÊÇµ¾²ÝÈË www.cntaiyn.cn
+* æ–‡ä»¶å¤„ç†çš„åŸºç±»
+* è¿™ä¸ªç±»ä¸­æœ‰å†™å…¥ã€è¯»å–æ–‡ä»¶çš„æ“ä½œæ–¹æ³•
+* @author æˆ‘ä¸æ˜¯ç¨»è‰äºº www.cntaiyn.cn
 * @version 1.0
 * @copyright 2006-2010
 * @package class
@@ -10,14 +10,14 @@
 class FClass{
 	private $text;
 	/**
-	 * ArticleµÄ¹¹Ôìº¯Êý ÎÞÐè´«²ÎÊý
+	 * Articleçš„æž„é€ å‡½æ•° æ— éœ€ä¼ å‚æ•°
 	 */
 	function __construct(){
 	}
 	/**
-	 * º¯ÊýsetText,ÉèÖÃÒªÐ´ÈëµÄ×Ö·û´®£¬saveToFile±£´æµ½ÎÄ¼þµÄÄÚÈÝ¾ÍÊÇÕâ¸öÉèÖÃ
-	 * ·µ»Øtrue
-	 * @param string $txt ×Ö·û´®
+	 * å‡½æ•°setText,è®¾ç½®è¦å†™å…¥çš„å­—ç¬¦ä¸²ï¼ŒsaveToFileä¿å­˜åˆ°æ–‡ä»¶çš„å†…å®¹å°±æ˜¯è¿™ä¸ªè®¾ç½®
+	 * è¿”å›žtrue
+	 * @param string $txt å­—ç¬¦ä¸²
 	 * @return boolean
 	 */
 	function setText($txt){
@@ -25,9 +25,9 @@ class FClass{
 		return true;
 	}
 	/**
-	 * º¯ÊýsaveToFile,°ÑsetTextÉèÖÃµÄ×Ö·û´®Ð´µ½µ½ÎÄ¼þÖÐ
-	 * ³É¹¦·µ»Øtrue Ê§°Ü:Èç¹û·µ»Ør1 Ôò±íÊ¾ÎÄ¼þ²»´æÔÚ r2ÎªÎÄ¼þ²»¿ÉÐ´
-	 * @param string $filename ÎÄ¼þÃû
+	 * å‡½æ•°saveToFile,æŠŠsetTextè®¾ç½®çš„å­—ç¬¦ä¸²å†™åˆ°åˆ°æ–‡ä»¶ä¸­
+	 * æˆåŠŸè¿”å›žtrue å¤±è´¥:å¦‚æžœè¿”å›žr1 åˆ™è¡¨ç¤ºæ–‡ä»¶ä¸å­˜åœ¨ r2ä¸ºæ–‡ä»¶ä¸å¯å†™
+	 * @param string $filename æ–‡ä»¶å
 	 * @return boolean
 	 */
 	function saveToFile($filename){
@@ -44,9 +44,9 @@ class FClass{
 		fclose($fileHandle);
 	}
 	/**
-	 * º¯ÊýgetContent,·µ»ØÎÄ¼þµÄÄÚÈÝ
-	 * ³É¹¦·µ»ØÄÚÈÝ Ê§°Ü·µ»Øfalse
-	 * @param string $filename ÎÄ¼þÃû
+	 * å‡½æ•°getContent,è¿”å›žæ–‡ä»¶çš„å†…å®¹
+	 * æˆåŠŸè¿”å›žå†…å®¹ å¤±è´¥è¿”å›žfalse
+	 * @param string $filename æ–‡ä»¶å
 	 * @return string|boolean
 	 */
 	function getContent($filename){

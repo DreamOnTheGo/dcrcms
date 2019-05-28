@@ -1,5 +1,5 @@
 <?php
-//Ê¹ÓÃsmartyÄ£°åµÄÍ¨ÓÃÎÄ¼ş
+//ä½¿ç”¨smartyæ¨¡æ¿çš„é€šç”¨æ–‡ä»¶
 include WEB_T."/Smarty.class.php";
 $tpl =new Smarty();
 $tpl->template_dir = WEB_Tpl.'/'.$tpl_dir;
@@ -16,26 +16,28 @@ if($web_cache_time>0){
 $tpl->left_delimiter = '<{';
 $tpl->right_delimiter = '}>';
 
-$templeturl=$web_url.WEB_TplPath; //Ä£°åurl
-$templetdir=$tpl_dir; //Ä£°åÄ¿Â¼Ãû
-$templetpath=WEB_TplPath.'/'.$tpl_dir; //Ä£°åÂ·¾¶
+$templeturl=$web_url.WEB_TplPath; //æ¨¡æ¿url
+$templetdir=$tpl_dir; //æ¨¡æ¿ç›®å½•å
+$templetpath=WEB_TplPath.'/'.$tpl_dir; //æ¨¡æ¿è·¯å¾„
 
 $tpl->assign('web_templeturl',$templeturl);
 $tpl->assign('web_templetdir',$templetdir);
 $tpl->assign('web_templetpath',$templetpath);
+$tpl->assign('web_url_surfix',$web_url_surfix);
 $tpl->assign('web_url',$web_url);
 $tpl->assign('web_name',$web_name);
 
-//²úÆ·Àà±ğ
+//äº§å“ç±»åˆ«
 include WEB_CLASS."/product_class.php";
 $pc=new Product(0);
-$productClassList=$pc->GetClassList(array('id','classname'));
+$productClassList=$pc->GetClassList(array('id','classname','parentid'));
 $tpl->assign('productClassList',$productClassList);
+//p_r($productClassList);
 
 include_once WEB_CLASS."/news_class.php";
 $news=new News();
 $news_class_list=$news->GetClassList(array('id','classname'));
 $tpl->assign('news_class_list',$news_class_list);
-
+//p_r($productClassList);
 unset($productClassList,$news_class_list);
 ?>

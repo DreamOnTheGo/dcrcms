@@ -1,26 +1,40 @@
 <?php
-//±¾Ò³µÄÅäÖÃÖµ¶¼ÒªÓÃ''°üÀ¨ÆðÀ´
+//æœ¬é¡µçš„é…ç½®å€¼éƒ½è¦ç”¨''åŒ…æ‹¬èµ·æ¥
 require_once('config_db.php');
 
-$web_url = 'http://1.com'; //ÍøÖ·
+$web_code='gbk'; //ç½‘ç«™ç¼–ç ..å»ºè®®ä¸è¦ç”¨æ‰‹åŠ¨åŽ»æ”¹
 
-$web_name = 'ÎÒµÄÍøÕ¾';//ÍøÕ¾±êÌâ
+$web_url = 'http://1.com'; //ç½‘å€
+$web_dir = '';//ç½‘ç«™ç›®å½• ä»¥/å¼€å¤´ å¦‚:/dcr
+$web_name = 'æˆ‘çš„ç½‘ç«™';//ç½‘ç«™æ ‡é¢˜
 
-//Ä£°åÉèÖÃ
-$prologowidth = '160';//²úÆ·ËõÂÔÍ¼´óÐ¡
+//æ¨¡æ¿è®¾ç½®
+$prologowidth = '160';//äº§å“ç¼©ç•¥å›¾å¤§å°
 $prologoheight = '120';
 
-$newslogowidth = '305';//ÎÄÕÂËõÂÔÍ¼´óÐ¡
+$newslogowidth = '305';//æ–‡ç« ç¼©ç•¥å›¾å¤§å°
 $newslogoheight = '240';
 
-$tpl_dir = 'default';   //Ä£°åÄ¿Â¼
-$web_cache_time = '0';   //Ä£°å»º´æÊ±¼ä
+$tpl_dir = 'default';   //æ¨¡æ¿ç›®å½•
+$web_cache_time = '0';   //æ¨¡æ¿ç¼“å­˜æ—¶é—´
 
-$index_news_count = '22'; //Ê×Ò³ÐÂÎÅÌõÊý
-$index_product_count = '6'; //Ê×Ò³²úÆ·ÌõÊý
+$index_news_count = '22'; //é¦–é¡µæ–°é—»æ¡æ•°
+$index_product_count = '6'; //é¦–é¡µäº§å“æ¡æ•°
 
-$list_news_count = '10';//ÐÂÎÅÁÐ±íÒ³Ã¿Ò³Êý
-$list_product_count = '9';//²úÆ·ÁÐ±íÒ³Ã¿Ò³Êý
+$list_news_count = '10';//æ–°é—»åˆ—è¡¨é¡µæ¯é¡µæ•°
+$list_product_count = '9';//äº§å“åˆ—è¡¨é¡µæ¯é¡µæ•°
 
-$web_tiaoshi = '0';//ÍøÕ¾ÔÚµ÷ÊÔ½×¶Î 1ÎªÊÇ 0Îª·ñ
+$web_tiaoshi = '0';//ç½‘ç«™åœ¨è°ƒè¯•é˜¶æ®µ 1ä¸ºæ˜¯ 0ä¸ºå¦
+
+$web_url_module = '2'; //å…¨ç«™ç½‘å€æ¨¡å¼1ä¸ºåŠ¨æ€ 2ä¸ºä¼ªé™æ€
+
+$web_url_surfix='php'; //æ–‡ä»¶ååŽç¼€. åŠ¨æ€ä¸ºphp é™æ€ä¸ºhtml
+if($web_url_module=='1'){
+	$web_url_surfix='php';
+}elseif($web_url_module=='2'){
+	$web_url_surfix='html';
+}
+
+//åˆå§‹åŒ–weburl
+if(!empty($web_dir))$web_url=$web_url.$web_dir;
 ?>

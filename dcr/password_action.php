@@ -4,37 +4,37 @@ include "../include/common.inc.php";
 include WEB_CLASS."/product_class.php";
 include "adminyz.php";
 
-//ÌáÊ¾ĞÅÏ¢¿ªÊ¼
-$errormsg=array();//´íÎóĞÅÏ¢
-$back=array('ĞÂÎÅÁĞ±í'=>'news_list.php');
-//ÌáÊ¾ĞÅÏ¢½áÊø
+//æç¤ºä¿¡æ¯å¼€å§‹
+$errormsg=array();//é”™è¯¯ä¿¡æ¯
+$back=array('æ–°é—»åˆ—è¡¨'=>'news_list.php');
+//æç¤ºä¿¡æ¯ç»“æŸ
 
-//±¾Ò³Îª²Ù×÷ĞÂÎÅµÄÒ³Ãæ
+//æœ¬é¡µä¸ºæ“ä½œæ–°é—»çš„é¡µé¢
 if($action=='changpas'){
 	$errormsg='';
 	$iserror=false;
 	$m_cp=new Member_Admin($admin_u,jiami($oldpassword));
 	if(!$m_cp->yz()){
-		$errormsg[]='Ô­ÃÜÂë´íÎó';
+		$errormsg[]='åŸå¯†ç é”™è¯¯';
 		$iserror=true;
 	}
 	if(strlen($newpassword1)<4 || strlen($newpassword1)>16){
-		$errormsg[]='ĞÂÃÜÂë³¤¶ÈÓ¦¸ÃÔÚ4-16Ö®¼ä';
+		$errormsg[]='æ–°å¯†ç é•¿åº¦åº”è¯¥åœ¨4-16ä¹‹é—´';
 		$iserror=true;
 	}
 	if($newpassword1!=$newpassword2){
-		$errormsg[]='ĞÂÃÜÂëÇ°ºóÊäÈë²»Ò»ÖÂ';
+		$errormsg[]='æ–°å¯†ç å‰åè¾“å…¥ä¸ä¸€è‡´';
 		$iserror=true;
 	}
 	if($iserror){
 		ShowMsg($errormsg,2);
 	}else{
 		if(!$m_cp->changpas($newpassword1)){
-			$errormsg[]='ĞŞ¸ÄÃÜÂëÊ§°Ü';
+			$errormsg[]='ä¿®æ”¹å¯†ç å¤±è´¥';
 			ShowMsg($errormsg,2);		
 		}else{
 			$m_cp->logout();
-			$errormsg[]='ĞŞ¸ÄÃÜÂë³É¹¦,ÇëÖØĞÂµÇÂ½';
+			$errormsg[]='ä¿®æ”¹å¯†ç æˆåŠŸ,è¯·é‡æ–°ç™»é™†';
 			ShowMsg($errormsg,1);
 		}
 	}

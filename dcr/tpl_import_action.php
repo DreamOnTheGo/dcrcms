@@ -7,7 +7,7 @@ include WEB_CLASS."/config_class.php";
 
 $config=new Config();
 
-//µÃµ½ÅäÖÃÎÄ¼þ
+//å¾—åˆ°é…ç½®æ–‡ä»¶
 $configFile=UplodeFile("configfile",WEB_DR."/uploads/cache/");
 include WEB_CLASS."/f_class.php";
 $f=new FClass();
@@ -16,15 +16,15 @@ $configArr=unserialize($configTxt);
 
 $rs=$config->UpdateConfig($configArr);
 if($rs=='r1'){
-	$msg[]='¸üÐÂÅäÖÃÊ§°Ü£ºÅäÖÃÏîÄ¿ÇëÌîÐ´ÍêÕû£¡';
+	$msg[]='æ›´æ–°é…ç½®å¤±è´¥ï¼šé…ç½®é¡¹ç›®è¯·å¡«å†™å®Œæ•´ï¼';
 	ShowMsg($msg,2);	
 }
 if($rs=='r2'){
-	$msg[]='¸üÐÂÅäÖÃ³É¹¦';
+	$msg[]='æ›´æ–°é…ç½®æˆåŠŸ';
 	ShowMsg($msg);	
 }
 if($rs=='r3'){
-	$msg[]='¸üÐÂÅäÖÃÊ§°Ü£ºÎ´Öª´íÎó£¡';
+	$msg[]='æ›´æ–°é…ç½®å¤±è´¥ï¼šæœªçŸ¥é”™è¯¯ï¼';
 	ShowMsg($msg,2);	
 }
 @unlink($configFile);

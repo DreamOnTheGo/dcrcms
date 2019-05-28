@@ -5,7 +5,7 @@ include "../include/common.inc.php";
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <HEAD>
-<META http-equiv=Content-Type content="text/html; charset=gb2312">
+<META http-equiv=Content-Type content="text/html; charset=utf-8">
 <LINK href="css/admin.css" type="text/css" rel="stylesheet">
 <SCRIPT language=javascript>
 	function expand(el)
@@ -34,7 +34,7 @@ include "../include/common.inc.php";
       </TABLE>
       <TABLE cellSpacing=0 cellPadding=0 width=150 border=0>
         <TR height=22>
-          <TD background=images/menu_bt.jpg><A class=menuParent onclick=expand(1) href="javascript:void(0);">公司资料</A></TD>
+          <TD background=images/menu_bt.jpg><A class=menuParent onclick=expand(1) href="javascript:void(0);">鍏徃璧勬枡</A></TD>
         </TR>
         <TR height=4>
           <TD></TD>
@@ -45,7 +45,7 @@ include "../include/common.inc.php";
         <TR height=20>
           <TD align=middle width=30><IMG height=9 
             src="images/menu_icon.gif" width=9></TD>
-          <TD align="left"><span style="float:right; font-size:11px;line-height:18px"><A class=menuChild href="single_edit.php?action=add" target=main>添加资料</A></span><a target="main" href="single_list.php">资料列表</a></TD>
+          <TD align="left"><span style="float:right; font-size:11px;line-height:18px"><A class=menuChild href="single_edit.php?action=add" target=main>娣诲姞璧勬枡</A></span><a target="main" href="single_list.php">璧勬枡鍒楄〃</a></TD>
         </TR>
         <TR height=4>
           <TD colSpan=2></TD>
@@ -53,7 +53,7 @@ include "../include/common.inc.php";
       </TABLE>
       <TABLE cellSpacing=0 cellPadding=0 width=150 border=0>
         <TR height=22>
-          <TD background=images/menu_bt.jpg><A class=menuParent onclick=expand(2) href="javascript:void(0);">新闻中心</A></TD>
+          <TD background=images/menu_bt.jpg><A class=menuParent onclick=expand(2) href="javascript:void(0);">鏂伴椈涓績</A></TD>
         </TR>
         <TR height=4>
           <TD></TD>
@@ -64,12 +64,12 @@ include "../include/common.inc.php";
         <TR height=20>
           <TD align=middle width=30><IMG height=9 
             src="images/menu_icon.gif" width=9></TD>
-          <TD align="left"><span style="float:right; font-size:11px;line-height:18px"><A class=menuChild href="news_edit.php?action=add" target=main>添加新闻</A></span><A class=menuChild href="news_list.php" target=main>新闻列表</A></TD>
+          <TD align="left"><span style="float:right; font-size:11px;line-height:18px"><A class=menuChild href="news_edit.php?action=add" target=main>娣诲姞鏂伴椈</A></span><A class=menuChild href="news_list.php" target=main>鏂伴椈鍒楄〃</A></TD>
         </TR>
         <TR height=20>
           <TD align=middle width=30><IMG height=9 
             src="images/menu_icon.gif" width=9></TD>
-          <TD align="left"><span style="float:right; font-size:11px;line-height:18px"><a href="news_class_edit.php?action=add" target="main">添加分类</a></span><A class=menuChild href="news_class_list.php" target=main>新闻分类</A></TD>
+          <TD align="left"><span style="float:right; font-size:11px;line-height:18px"><a href="news_class_edit.php?action=add" target="main">娣诲姞鍒嗙被</a></span><A class=menuChild href="news_class_list.php" target=main>鏂伴椈鍒嗙被</A></TD>
         </TR>
         <TR height=4>
           <TD colSpan=2></TD>
@@ -79,7 +79,7 @@ include "../include/common.inc.php";
         <TR height=22>
           <TD background=images/menu_bt.jpg><A 
             class=menuParent onclick=expand(3) 
-            href="javascript:void(0);">产品中心</A></TD>
+            href="javascript:void(0);">浜у搧涓績</A></TD>
         </TR>
         <TR height=4>
           <TD></TD>
@@ -90,12 +90,12 @@ include "../include/common.inc.php";
         <TR height=20>
           <TD align=middle width=30><IMG height=9 
             src="images/menu_icon.gif" width=9></TD>
-          <TD align="left"><span style="float:right; font-size:11px;line-height:18px"><a href="product_edit.php?action=add" target="main">添加产品</a></span><A class=menuChild href="product_list.php" target=main>产品列表</A></TD>
+          <TD align="left"><span style="float:right; font-size:11px;line-height:18px"><a href="product_edit.php?action=add" target="main">娣诲姞浜у搧</a></span><A class=menuChild href="product_list.php" target=main>浜у搧鍒楄〃</A></TD>
         </TR>
         <TR height=20>
           <TD align=middle width=30><IMG height=9 
             src="images/menu_icon.gif" width=9></TD>
-          <TD align="left"><span style="float:right; font-size:11px;line-height:18px"><a href="product_class_edit.php?action=add" target="main">添加分类</a></span><A class=menuChild href="product_class_list.php" target=main>产品分类</A></TD>
+          <TD align="left"><span style="float:right; font-size:11px;line-height:18px"><a href="product_class_edit.php?action=add" target="main">娣诲姞鍒嗙被</a></span><A class=menuChild href="product_class_list.php" target=main>浜у搧鍒嗙被</A></TD>
         </TR>
         <TR height=4>
           <TD colSpan=2></TD>
@@ -105,7 +105,7 @@ include "../include/common.inc.php";
         <TR height=22>
           <TD background=images/menu_bt.jpg><A 
             class=menuParent onclick=expand(4) 
-            href="javascript:void(0);">互动信息</A></TD>
+            href="javascript:void(0);">浜掑姩淇℃伅</A></TD>
         </TR>
         <TR height=4>
           <TD></TD>
@@ -116,21 +116,21 @@ include "../include/common.inc.php";
         <TR height=20>
           <TD align=middle width=30><IMG height=9 
             src="images/menu_icon.gif" width=9></TD>
-          <TD align="left"><A class=menuChild href="hudong_field_list.php" target=main>信息字段管理</A></TD>
+          <TD align="left"><A class=menuChild href="hudong_field_list.php" target=main>淇℃伅瀛楁绠＄悊</A></TD>
         </TR>
         <TD align=middle width=30><IMG height=9 
             src="images/menu_icon.gif" width=9></TD>
-          <TD align="left"><A class=menuChild href="hudong_list.php" target=main>信息列表</A></TD>
+          <TD align="left"><A class=menuChild href="hudong_list.php" target=main>淇℃伅鍒楄〃</A></TD>
         </TR>
         <TR height=20>
           <TD align=middle width=30><IMG height=9 
             src="images/menu_icon.gif" width=9></TD>
-          <TD align="left"><A class=menuChild href="hudong_list.php?type=1" target=main>未读信息</A></TD>
+          <TD align="left"><A class=menuChild href="hudong_list.php?type=1" target=main>鏈淇℃伅</A></TD>
         </TR>
         <TR height=20>
           <TD align=middle width=30><IMG height=9 
             src="images/menu_icon.gif" width=9></TD>
-          <TD align="left"><A class=menuChild href="hudong_list.php?type=2" target=main>已读信息</A></TD>
+          <TD align="left"><A class=menuChild href="hudong_list.php?type=2" target=main>宸茶淇℃伅</A></TD>
         </TR>
         <TR height=4>
           <TD colSpan=2></TD>
@@ -140,7 +140,7 @@ include "../include/common.inc.php";
         <TR height=22>
           <TD background=images/menu_bt.jpg><A 
             class=menuParent onclick=expand(7) 
-            href="javascript:void(0);">系统管理</A></TD>
+            href="javascript:void(0);">绯荤粺绠＄悊</A></TD>
         </TR>
         <TR height=4>
           <TD></TD>
@@ -150,22 +150,22 @@ include "../include/common.inc.php";
       width=150 border=0>
         <TR height=20>
           <TD align=middle width=30><IMG height=9 src="images/menu_icon.gif" width=9></TD>
-          <TD align="left"><A class=menuChild href="config_edit.php" target=main>基本设置</A></TD>
+          <TD align="left"><A class=menuChild href="config_edit.php" target=main>鍩烘湰璁剧疆</A></TD>
         </TR>
         <TR height=20>
           <TD align=middle width=30><IMG height=9 src="images/menu_icon.gif" width=9></TD>
-          <TD align="left"><A class=menuChild href="cache_clear.php" target=main>清空缓存</A></TD>
+          <TD align="left"><A class=menuChild href="cache_clear.php" target=main>娓呯┖缂撳瓨</A></TD>
         </TR>
         <TR height=20>
           <TD align=middle width=30><IMG height=9 
             src="images/menu_icon.gif" width=9></TD>
-          <TD align="left"><A class=menuChild href="password_edit.php" target=main>修改口令</A></TD>
+          <TD align="left"><A class=menuChild href="password_edit.php" target=main>淇敼鍙ｄ护</A></TD>
         </TR>
         <TR height=20>
           <TD align=middle width=30><IMG height=9 
             src="images/menu_icon.gif" width=9></TD>
           <TD align="left"><A class=menuChild 
-            onclick="if (confirm('确定要退出吗？')) return true; else return false;" href="logout.php" target=_top>退出系统</A></TD>
+            onclick="if (confirm('纭畾瑕侀��鍑哄悧锛�')) return true; else return false;" href="logout.php" target=_top>閫�鍑虹郴缁�</A></TD>
         </TR>
         <TR height=4>
           <TD colSpan=2></TD>
@@ -175,7 +175,7 @@ include "../include/common.inc.php";
         <TR height=22>
           <TD background=images/menu_bt.jpg><A 
             class=menuParent onclick=expand(11) 
-            href="javascript:void(0);">模板管理</A></TD>
+            href="javascript:void(0);">妯℃澘绠＄悊</A></TD>
         </TR>
         <TR height=4>
           <TD></TD>
@@ -185,15 +185,15 @@ include "../include/common.inc.php";
       width=150 border=0>
         <TR height=20>
           <TD align=middle width=30><IMG height=9 src="images/menu_icon.gif" width=9></TD>
-          <TD align="left"><A class=menuChild href="tpl_edit.php" target=main>模板设置</A></TD>
+          <TD align="left"><A class=menuChild href="tpl_edit.php" target=main>妯℃澘璁剧疆</A></TD>
         </TR>
         <TR height=20>
           <TD align=middle width=30><IMG height=9 src="images/menu_icon.gif" width=9></TD>
-          <TD align="left"><A class=menuChild href="tpl_export.php" target=main>导出模板</A></TD>
+          <TD align="left"><A class=menuChild href="tpl_export.php" target=main>瀵煎嚭妯℃澘</A></TD>
         </TR>
         <TR height=20>
           <TD align=middle width=30><IMG height=9 src="images/menu_icon.gif" width=9></TD>
-          <TD align="left"><A class=menuChild href="tpl_import.php" target=main>导入模板</A></TD>
+          <TD align="left"><A class=menuChild href="tpl_import.php" target=main>瀵煎叆妯℃澘</A></TD>
         </TR>
         <TR height=4>
           <TD colSpan=2></TD>
@@ -201,7 +201,7 @@ include "../include/common.inc.php";
       </TABLE>
       <TABLE cellSpacing=0 cellPadding=0 width=150 border=0>
         <TR height=22>
-          <TD background=images/menu_bt.jpg><A class=menuParent onclick=expand(12) href="javascript:void(0);">帮助中心</A></TD>
+          <TD background=images/menu_bt.jpg><A class=menuParent onclick=expand(12) href="javascript:void(0);">甯姪涓績</A></TD>
         </TR>
         <TR height=4>
           <TD></TD>
@@ -211,11 +211,11 @@ include "../include/common.inc.php";
       width=150 border=0>
         <TR height=20>
           <TD align=middle width=30><IMG height=9 src="images/menu_icon.gif" width=9></TD>
-          <TD align="left"><A class=menuChild href="http://www.dcrcms.com/help.php" target="_blank">系统帮助</A></TD>
+          <TD align="left"><A class=menuChild href="http://www.dcrcms.com/help.php" target="_blank">绯荤粺甯姪</A></TD>
         </TR>
         <TR height=20>
           <TD align=middle width=30><IMG height=9 src="images/menu_icon.gif" width=9></TD>
-          <TD align="left"><A class=menuChild href="http://www.dcrcms.com/hudong.php" target="_blank">意见留言</A></TD>
+          <TD align="left"><A class=menuChild href="http://www.dcrcms.com/hudong.php" target="_blank">鎰忚鐣欒█</A></TD>
         </TR>
       </TABLE></TD>
     <TD width=1 bgColor=#d1e6f7></TD>

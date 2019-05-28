@@ -1,10 +1,10 @@
 <?php
 /**
-* ·ÖÒ³Àà
-* URLÓĞ¶à¸ö²ÎÊıÒ²ÄÜ·ÖÒ³£¬»¹ÄÜ×Ô¶¨Òå·ÖÒ³ÑùÊ½
+* åˆ†é¡µç±»
+* URLæœ‰å¤šä¸ªå‚æ•°ä¹Ÿèƒ½åˆ†é¡µï¼Œè¿˜èƒ½è‡ªå®šä¹‰åˆ†é¡µæ ·å¼
 * php>=5.0
-* @author ÎÒ²»ÊÇµ¾²İÈË www.cntaiyn.cn
-* @version 0.1.1
+* @author æˆ‘ä¸æ˜¯ç¨»è‰äºº www.cntaiyn.cn
+* @version 0.1.2
 * @copyright 2006-2010
 * @package class
 */
@@ -13,20 +13,21 @@ class PageClass{
 	private $cpage;
 	private $totalPage;
 	private $tpl;
+	private $web_url_module;
 	/**
-	 * PageClassµÄ¹¹Ôìº¯Êı
-	 * Ä£°åËµÃ÷£º{index}±íÊ¾Ê×Ò³ {pagelist}Á´½ÓÁĞ±í {option}ÏÂÀ­ÁĞ±í¿ò {next}ÏÂÒ»Ò³ {pre}ÉÏÒ»Ò³ {cur}µ±Ç°Ò³ {index=Ê×Ò³}±íÊ¾Ê×Ò³µÄÁ´½ÓÎÄ×ÖÎªÊ×Ò³£¬¼´=ºÅºóÎªÁ´½ÓÎÄ×Ö£¬²»¹ıÕâ¶Ô{pagelist}{option}ÎŞĞ§
-	 * @param string $cpage µ±Ç°Ò³
-	 * @param string $tatolPage ×ÜÒ³Êı
-	 * @param string $tpl Ä£°å.
-	 * @param string $url Òª·ÖÒ³µÄurl Ä¬ÈÏÎªµ±Ç°Ò³
+	 * PageClassçš„æ„é€ å‡½æ•°
+	 * æ¨¡æ¿è¯´æ˜ï¼š{index}è¡¨ç¤ºé¦–é¡µ {pagelist}é“¾æ¥åˆ—è¡¨ {option}ä¸‹æ‹‰åˆ—è¡¨æ¡† {next}ä¸‹ä¸€é¡µ {pre}ä¸Šä¸€é¡µ {cur}å½“å‰é¡µ {index=é¦–é¡µ}è¡¨ç¤ºé¦–é¡µçš„é“¾æ¥æ–‡å­—ä¸ºé¦–é¡µï¼Œå³=å·åä¸ºé“¾æ¥æ–‡å­—ï¼Œä¸è¿‡è¿™å¯¹{pagelist}{option}æ— æ•ˆ
+	 * @param string $cpage å½“å‰é¡µ
+	 * @param string $tatolPage æ€»é¡µæ•°
+	 * @param string $tpl æ¨¡æ¿.
+	 * @param string $url è¦åˆ†é¡µçš„url é»˜è®¤ä¸ºå½“å‰é¡µ
 	 * @return PageClass
 	 */
 	function __construct($cpage,$totalPage,$tpl='',$url=''){
 	  $this->cpage=$cpage;
 	  $this->totalPage=$totalPage;
 	  if(strlen($tpl)==0){
-		  $this->tpl="{cur=µ±Ç°Ò³} {index=Ê×Ò³} {pre=ÉÏÒ»Ò³} {next=ÏÂÒ»Ò³} {end=×îºóÒ³} {option}"; //ÖĞÎÄ·ÖÒ³
+		  $this->tpl="{cur=å½“å‰é¡µ} {index=é¦–é¡µ} {pre=ä¸Šä¸€é¡µ} {next=ä¸‹ä¸€é¡µ} {end=æœ€åé¡µ} {option}"; //ä¸­æ–‡åˆ†é¡µ
 	  }else{
 		  $this->tpl=$tpl;
 	  }
@@ -35,18 +36,21 @@ class PageClass{
 	  }else{
 		  $this->url=$url;
 	  }
+	  //è¿™é‡Œç”¨ä¸€ä¸ªå¤–éƒ¨å˜é‡..æ¥è¯´æ˜æ˜¯ä¸æ˜¯ç”¨ä¼ªé™æ€.
+	  global $web_url_module;
+	  $this->web_url_module=$web_url_module;
 	}
 	/**
-	 * º¯ÊıshowPage,·µ»ØÉú³ÉµÄ·ÖÒ³HTML
+	 * å‡½æ•°showPage,è¿”å›ç”Ÿæˆçš„åˆ†é¡µHTML
 	 * @return string
 	 */
 	function showPage(){
-	  //ÏÔÊ¾·ÖÒ³
-	  $urlOption=array();//urlµÄºó×ºÈç£º?page=1&typeid=1
+	  //æ˜¾ç¤ºåˆ†é¡µ
+	  $urlOption=array();//urlçš„åç¼€å¦‚ï¼š?page=1&typeid=1
 	  $parse_url=parse_url($this->url);
 	  $urlMain='http://'.$parse_url['path'];
 	  if($parse_url['query']){
-	   //urlÓĞ²ÎÊı
+	   //urlæœ‰å‚æ•°
 	   $urlArr=split('&',$parse_url['query']);
 	   if(is_array($urlArr)){
 		   foreach($urlArr as $key=>$value){
@@ -58,7 +62,7 @@ class PageClass{
 		   }
 	   }
 	  }else{
-	   //urlÃ»ÓĞ²ÎÊı
+	   //urlæ²¡æœ‰å‚æ•°
 	   //if($this->cpage<$this->totalPage){
 	   // array_push($urlOption,"page=2");
 	   //}
@@ -70,66 +74,127 @@ class PageClass{
 		  $urlOptionStr.='&'.$urlOptionStr_t;
 	  }
 	
-	  $tplcontent=$this->tpl;//·ÖÒ³Ä£°å
+	  $tplcontent=$this->tpl;//åˆ†é¡µæ¨¡æ¿
 	  $showPage=$tplcontent;
-	  //Ê×Ò³
+	  //é¦–é¡µ
 	  if (preg_match_all('/\{index=([^}]*+)\}/', $tplcontent, $matches)){
-		  $t_tpl=$matches[0][0]; //Ä£°åÄÚÈİ
-		  $t_word=$matches[1][0]; //·ÖÒ³×Ö¶Î
-		  $indexStr='<a href="'.$urlMain.'?page=1'.$urlOptionStr.'">'.$t_word.'</a>';
+		  if($this->web_url_module=='1'){
+			  $newurl='';
+			  $newurl=$urlMain.'?page=1'.$urlOptionStr;
+		  }elseif($this->web_url_module=='2'){
+			  $newurl='';
+			  $t_arr=array();
+			  $t_file_arr=array();
+			  $urlMain=preg_replace('/_p_(\d+)/','',$urlMain);
+			  $t_arr=parse_url($urlMain);
+			  $t_file_arr=explode('.',$t_arr['path']);
+			  $newurl=$t_arr[0].$t_file_arr[0].'_p_1.'.$t_file_arr[1];
+		  }
+		  $t_tpl=$matches[0][0]; //æ¨¡æ¿å†…å®¹
+		  $t_word=$matches[1][0]; //åˆ†é¡µå­—æ®µ
+		  $indexStr='<a href="'.$newurl.'">'.$t_word.'</a>';
 		  $showPage=str_replace($t_tpl,$indexStr,$showPage);
 	  }
-	  //µ±Ç°Ò³
+	  //å½“å‰é¡µ
 	  if (preg_match_all('/\{cur=([^}]*+)\}/', $tplcontent, $matches)){
 		  $t_tpl=$matches[0][0];
 		  $t_word=$matches[1][0];
 		  $curStr=$t_word.$this->cpage.'/'.$this->totalPage;
 		  $showPage=str_replace($t_tpl,$curStr,$showPage);
 	  }
-	  //Ä©Ò³
+	  //æœ«é¡µ
 	  if (preg_match_all('/\{end=([^}]*+)\}/', $tplcontent, $matches)){
+		  //è¿™é‡Œåˆ¤æ–­ å¦‚æœæ€»é¡µæ•°ä¸º0 åˆ™æœ€åé¡µè®¾ç½®ä¸º1
+		  $total_page=$this->totalPage==0?1:$this->totalPage;
+		  if($this->web_url_module=='1'){
+			  $newurl='';
+			  $newurl=$urlMain.'?page='.$total_page.$urlOptionStr;
+		  }elseif($this->web_url_module=='2'){
+			  $newurl='';
+			  $t_arr=array();
+			  $t_file_arr=array();
+			  $urlMain=preg_replace('/_p_(\d+)/','',$urlMain);
+			  $t_arr=parse_url($urlMain);
+			  $t_file_arr=explode('.',$t_arr['path']);
+			  $newurl=$t_arr[0].$t_file_arr[0].'_p_'.$total_page.'.'.$t_file_arr[1];
+		  }
 		  $t_tpl=$matches[0][0];
 		  $t_word=$matches[1][0];
-			$endPage='<a href="'.$urlMain.'?page='.$this->totalPage.$urlOptionStr.'">'.$t_word.'</a>';
-			$showPage=str_replace($t_tpl,$endPage,$showPage);
+		  $endPage='<a href="'.$newurl.'">'.$t_word.'</a>';
+		  $showPage=str_replace($t_tpl,$endPage,$showPage);
 		}
-	  //ÉÏÒ»Ò³
+	  //ä¸Šä¸€é¡µ
 	  if (preg_match_all('/\{pre=([^}]*+)\}/', $tplcontent, $matches)){
 		  $t_tpl=$matches[0][0];
 		  $t_word=$matches[1][0];
 			if($this->cpage!=1){
-				   $prePage='<a href="'.$urlMain.'?page='.($this->cpage-1).$urlOptionStr.'">'.$t_word.'</a>';
+				if($this->web_url_module=='1'){
+					$newurl='';
+					$newurl=$urlMain.'?page='.($this->cpage-1).$urlOptionStr;
+				}elseif($this->web_url_module=='2'){
+					$newurl='';
+					$t_arr=array();
+					$t_file_arr=array();
+					$urlMain=preg_replace('/_p_(\d+)/','',$urlMain);
+					$t_arr=parse_url($urlMain);
+					$t_file_arr=explode('.',$t_arr['path']);
+					$newurl=$t_arr[0].$t_file_arr[0].'_p_'.($this->cpage-1).'.'.$t_file_arr[1];
+				}
+				$prePage='<a href="'.$newurl.'">'.$t_word.'</a>';
 			}else{
 				   $prePage=$t_word;
 			}
 			$showPage=str_replace($t_tpl,$prePage,$showPage);
 	  }
-		//ÏÂÒ»Ò³
+		//ä¸‹ä¸€é¡µ
 	  if (preg_match_all('/\{next=([^}]*+)\}/',$tplcontent, $matches)){
 		  $t_tpl=$matches[0][0];
 		  $t_word=$matches[1][0];
 			if($this->cpage!=$this->totalPage && $this->totalPage>1){
-			   $nextPage=' <a href="'.$urlMain.'?page='.($this->cpage+1).$urlOptionStr.'">'.$t_word.'</a>';
-			  }else{
+				if($this->web_url_module=='1'){
+					$newurl='';
+					$newurl=$urlMain.'?page='.($this->cpage+1).$urlOptionStr;
+				}elseif($this->web_url_module=='2'){
+					$newurl='';
+					$t_arr=array();
+					$t_file_arr=array();
+					$urlMain=preg_replace('/_p_(\d+)/','',$urlMain);
+					$t_arr=parse_url($urlMain);
+					$t_file_arr=explode('.',$t_arr['path']);
+					$newurl=$t_arr[0].$t_file_arr[0].'_p_'.($this->cpage+1).'.'.$t_file_arr[1];
+				}
+			   $nextPage=' <a href="'.$newurl.'">'.$t_word.'</a>';
+			}else{
 				   $nextPage=$t_word;
 			}
 			$showPage=str_replace($t_tpl,$nextPage,$showPage);
 		}
-		//Á´½ÓÁĞ±í
+		//é“¾æ¥åˆ—è¡¨
 		if (preg_match("{pagelist}",$tplcontent)){
 			for($i=1;$i<$this->totalPage+1;$i++){
-				$linkPage.=' <a href="'.$urlMain.'?page='.$i.$urlOptionStr.'">'.$i.'</a>';
+				if($this->web_url_module=='1'){
+					$newurl.=' <a href="'.$urlMain.'?page='.$i.$urlOptionStr.'">'.$i.'</a>';					
+				}elseif($this->web_url_module=='2'){
+					$newurl='';
+					$t_arr=array();
+					$t_file_arr=array();
+					$urlMain=preg_replace('/_p_(\d+)/','',$urlMain);
+					$t_arr=parse_url($urlMain);
+					$t_file_arr=explode('.',$t_arr['path']);
+					$newurl=$t_arr[0].$t_file_arr[0].'_p_'.$i.'.'.$t_file_arr[1];
+				}
+			   $linkPage.=' <a href="'.$newurl.'">'.$i.'</a>';
 			}
 			$showPage=str_replace('{pagelist}',$linkPage,$showPage);
 		}
-		//ÏÂÀ­¿ò·ÖÒ³
+		//ä¸‹æ‹‰æ¡†åˆ†é¡µ
 		if (preg_match("{option}",$tplcontent)){
 			$optionPage='<select onchange="javascript:window.location='."'".$urlMain."?page='+this.options[this.selectedIndex].value+"."'$urlOptionStr'".';">';
 			for($i=1;$i<$this->totalPage+1;$i++){
 				if($i==$this->cpage){
-					$optionPage.="<option selected='selected' value='$i'>µÚ".$i."Ò³</option>\n";
+					$optionPage.="<option selected='selected' value='$i'>ç¬¬".$i."é¡µ</option>\n";
 				}else{
-					$optionPage.="<option value='$i'>µÚ".$i."Ò³</option>\n";
+					$optionPage.="<option value='$i'>ç¬¬".$i."é¡µ</option>\n";
 				}
 			}
 			$optionPage.='</select>';

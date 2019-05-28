@@ -5,17 +5,17 @@ include "adminyz.php";
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><HEAD>
-<META http-equiv=Content-Type content="text/html; charset=gb2312">
+<META http-equiv=Content-Type content="text/html; charset=utf-8">
 <LINK href="css/admin.css" type="text/css" rel="stylesheet">
 <?php include "admin_common.php"; ?>
 <script type='text/javascript'>
 function check(){
 	if($("#title").val().length==0){
-		ShowMsg('ÇëÊäÈë²úÆ·±êÌâ');
+		ShowMsg('è¯·è¾“å…¥äº§å“æ ‡é¢˜');
 		return false;
 	}
 	if($("#classid").val().length==0 || $("#classid").val()==0){
-		ShowMsg('ÇëÑ¡Ôñ²úÆ·ÀàĞÍ');
+		ShowMsg('è¯·é€‰æ‹©äº§å“ç±»å‹');
 		return false;
 	}
 }
@@ -26,9 +26,9 @@ function AddClass(){
 	classdescription=encodeURI($('#classdescription').val());
 	actionArr={classname:classname,classdescription:classdescription};
 	$.post("product_class_action.php?action=add_ajax",actionArr, function(data){
-														if(data!='Ìí¼Ó²úÆ··ÖÀà³É¹¦'){
+														if(data!='æ·»åŠ äº§å“åˆ†ç±»æˆåŠŸ'){
 															alert(data);
-														}else if(data=='Ìí¼Ó²úÆ··ÖÀà³É¹¦'){
+														}else if(data=='æ·»åŠ äº§å“åˆ†ç±»æˆåŠŸ'){
 															closeProductClassForm();
 															refreshProductClassList();
 															//alert('dfs');
@@ -36,10 +36,10 @@ function AddClass(){
 														}); 
 }
 function refreshProductClassList(){
-	//Ë¢ĞÂ²úÆ·Àà±ğ
+	//åˆ·æ–°äº§å“ç±»åˆ«
 	$.post("product_class_action.php?action=getlist_ajax",function(list){
 																    var s='<select name="classid" id="classid">';
-																	s=s+"<option value='0'>ÇëÑ¡Ôñ²úÆ·Àà±ğ</option>";
+																	s=s+"<option value='0'>è¯·é€‰æ‹©äº§å“ç±»åˆ«</option>";
 																   	for(var i=0;i<list.length;i++){
 																		s=s+'<option value='+list[i].id+'>'+decodeURI(list[i].classname)+'</option>'
 																   	}
@@ -70,7 +70,7 @@ function tijiaoAddAction(){
 <BODY>
 <TABLE cellSpacing=0 cellPadding=0 width="100%" align=center border=0>
   <TR height=28>
-    <TD background=images/title_bg1.jpg>µ±Ç°Î»ÖÃ: <a href="main.php">ºóÌ¨Ê×Ò³</a>&gt;&gt;Ìí¼Ó²úÆ·</TD></TR>
+    <TD background=images/title_bg1.jpg>å½“å‰ä½ç½®: <a href="main.php">åå°é¦–é¡µ</a>&gt;&gt;æ·»åŠ äº§å“</TD></TR>
   <TR>
     <TD bgColor=#b1ceef height=1></TD></TR></TABLE>
 <TABLE cellSpacing=0 cellPadding=0 width="95%" align=center border=0>
@@ -78,7 +78,7 @@ function tijiaoAddAction(){
     <TD></TD></TR>
   <TR height=22>
     <TD style="PADDING-LEFT: 20px; FONT-WEIGHT: bold; COLOR: #ffffff" 
-    align=middle background=images/title_bg2.jpg>Ìí¼Ó²úÆ·</TD></TR>
+    align=middle background=images/title_bg2.jpg>æ·»åŠ äº§å“</TD></TR>
   <TR bgColor=#ecf4fc height=12>
     <TD></TD></TR>
   </TABLE>
@@ -92,7 +92,7 @@ function tijiaoAddAction(){
 			$pro=new Product(0);
 			$productinfo=$pro->GetInfo($id,$productColList);
 		}else{
-			$errormsg[]='ÄúÃ»ÓĞÑ¡ÔñÒªĞŞ¸ÄµÄÎÄµµ';
+			$errormsg[]='æ‚¨æ²¡æœ‰é€‰æ‹©è¦ä¿®æ”¹çš„æ–‡æ¡£';
 			ShowMsg($errormsg,2,$back);
 		}
 	}
@@ -102,22 +102,29 @@ function tijiaoAddAction(){
 <input type="hidden" name="id" id="id" value="<?php echo $productinfo['id']; ?>">
 <TABLE cellSpacing=2 cellPadding=5 width="95%" align=center border=0 bgcolor="#ecf4fc">
   <TR>
-    <TD width=100 align=right bgcolor="#FFFFFF">²úÆ·Ãû³Æ(<font color="red" class="txtRed">*</font>)£º</TD>
+    <TD width=100 align=right bgcolor="#FFFFFF">äº§å“åç§°(<font color="red" class="txtRed">*</font>)ï¼š</TD>
     <TD bgcolor="#FFFFFF" style="COLOR: #880000"><input name="title" type="text" id="title" size="80" value="<?php echo $productinfo['title']; ?>"></TD></TR>
   <TR>
-    <TD align=right valign="top" bgcolor="#FFFFFF">²úÆ·Àà±ğ(<font color="red" class="txtRed">*</font>)£º</TD>
+    <TD align=right valign="top" bgcolor="#FFFFFF">äº§å“ç±»åˆ«(<font color="red" class="txtRed">*</font>)ï¼š</TD>
     <TD bgcolor="#FFFFFF" style="COLOR: #880000"><span id="productClassList"> <?php 
 		$pro=new Product(0);
 		$productClassList=$pro->GetClassList(array('id','classname'));
 		if(count($productClassList)>0){
 			echo '<select name="classid" id="classid">';
-			echo "<option value='0'>ÇëÑ¡Ôñ²úÆ·Àà±ğ</option>";
+			echo "<option value='0'>è¯·é€‰æ‹©äº§å“ç±»åˆ«</option>";
 			foreach($productClassList as $value){
 				echo "<option value='$value[id]'>$value[classname]</option>";
+				if(is_array($value['sub']) && count($value['sub'])){ ?>
+				<?php
+                    foreach($value['sub'] as $subvalue){
+                ?>
+                <option value="<?php echo $subvalue['id'] ?>" <?php if($subvalue['id']==$parentid || $productClassInfo['parentid']==$subvalue['id']){ ?>selected="selected" <?php } ?>>----<?php echo $subvalue['classname'] ?></option>  
+        <?php }
+		}
 			}
 			echo '</select>';
 		}else{
-			echo "µ±Ç°Ã»ÓĞ·ÖÀà";
+			echo "å½“å‰æ²¡æœ‰åˆ†ç±»";
 		}
 	?>
     <script type="text/javascript">
@@ -126,30 +133,30 @@ function tijiaoAddAction(){
 		  document.frmAddProduct.classid.value=classid;
 	  }
 	  </script>
-    </span>&nbsp;&nbsp;&nbsp;<a href="#" onclick="javascript:showProductClassForm()">Ìí¼Ó²úÆ·Àà±ğ</a>  <!--<a href="javascript:refreshProductClassList();">ÊÖ¶¯Ë¢ĞÂÁĞ±í</a>-->
+    </span>&nbsp;&nbsp;&nbsp;<!--<a href="#" onclick="javascript:showProductClassForm()">æ·»åŠ äº§å“ç±»åˆ«</a>  <a href="javascript:refreshProductClassList();">æ‰‹åŠ¨åˆ·æ–°åˆ—è¡¨</a>-->
       <iframe id="myframe" style=" display:none;position:absolute;z-index:9;width:expression(this.nextSibling.offsetWidth);height:expression(this.nextSibling.offsetHeight);top:expression(this.nextSibling.offsetTop);left:expression(this.nextSibling.offsetLeft);" frameborder="0" ></iframe>
     <div id="AddClass" style="display:none;position:absolute;top:100px; border:5px #999 solid; padding:10px; height:100px; width:650px; left:100px; background-color:#ecf4fc; z-index:11">
 <TABLE cellSpacing=0 cellPadding=2 width="95%" align=center border=0>
   <TR>
-    <TD align=right width=100>·ÖÀàÃû(<font color="red" class="txtRed">*</font>)£º</TD>
+    <TD align=right width=100>åˆ†ç±»å(<font color="red" class="txtRed">*</font>)ï¼š</TD>
     <TD style="COLOR: #880000"><input name="classname" type="text" id="classname" size="80" onkeypress="tijiaoAddAction();"></TD></TR>
   <TR>
-    <TD align=right valign="top">·ÖÀàËµÃ÷£º</TD>
+    <TD align=right valign="top">åˆ†ç±»è¯´æ˜ï¼š</TD>
     <TD style="COLOR: #880000"><textarea name="classdescription" cols="80" rows="3" id="classdescription"></textarea></TD>
   </TR>
   <TR>
     <TD align=right></TD>
-    <TD style="COLOR: #880000"><input type="button" onClick="AddClass()" name="button" id="button" value="Ìí¼Ó·ÖÀà">
-    <input type="reset" name="button2" id="button2" value="ÖØÖÃ">  <input type="button" value="¹Ø±Õ" onClick="javascript:closeProductClassForm()"></TD></TR>
+    <TD style="COLOR: #880000"><input type="button" onClick="AddClass()" name="button" id="button" value="æ·»åŠ åˆ†ç±»">
+    <input type="reset" name="button2" id="button2" value="é‡ç½®">  <input type="button" value="å…³é—­" onClick="javascript:closeProductClassForm()"></TD></TR>
     </TABLE>
 </div>
     </TD>
   </TR>
   <TR>
-    <TD align=right valign="top" bgcolor="#FFFFFF">²úÆ·ËõÂÔÍ¼£º</TD>
+    <TD align=right valign="top" bgcolor="#FFFFFF">äº§å“ç¼©ç•¥å›¾ï¼š</TD>
     <TD bgcolor="#FFFFFF" style="COLOR: #880000"><table width="100" border="0" cellspacing="1" cellpadding="3" bgcolor="#33CCFF">
       <tr>
-        <td><span style="color:white">µ±Ç°ËõÂÔÍ¼</span></td>
+        <td><span style="color:white">å½“å‰ç¼©ç•¥å›¾</span></td>
       </tr>
       <tr>
         <td bgcolor="#FFFFFF"><?php if(strlen($productinfo['logo'])>0){echo "<img src='".$productinfo['logo']."'>";}?></td>
@@ -158,36 +165,29 @@ function tijiaoAddAction(){
       <input type="file" name="logo" id="logo"></TD>
   </TR>
   <TR>
-    <TD align=right valign="top" bgcolor="#FFFFFF">²úÆ·¹Ø¼ü×Ö£º</TD>
+    <TD align=right valign="top" bgcolor="#FFFFFF">äº§å“å…³é”®å­—ï¼š</TD>
     <TD bgcolor="#FFFFFF" style="COLOR: #880000"><input name="keywords" type="text" id="keywords" size="80" value="<?php echo $productinfo['keywords']; ?>">
-      (SEO£º²úÆ·¹Ø¼ü×Ö)</TD>
+      (SEOï¼šäº§å“å…³é”®å­—)</TD>
   </TR>
   <TR>
-    <TD align=right valign="top" bgcolor="#FFFFFF">²úÆ·ÃèÊö£º</TD>
+    <TD align=right valign="top" bgcolor="#FFFFFF">äº§å“æè¿°ï¼š</TD>
     <TD bgcolor="#FFFFFF" style="COLOR: #880000"><textarea name="description" cols="80" rows="3" id="description"><?php echo $productinfo['description']; ?></textarea>
-      (SEO£º²úÆ·µÄÃèÊö)</TD>
+      (SEOï¼šäº§å“çš„æè¿°)</TD>
   </TR>
   <TR>
-    <TD align=right valign="top" bgcolor="#FFFFFF">²úÆ·ÏêÏ¸½éÉÜ£º</TD>
-    <TD bgcolor="#FFFFFF" style="COLOR: #880000"><?php
-include(WEB_INCLUDE."/editor/fckeditor.php");
-$editor = new FCKeditor('content') ;
-$editor->BasePath = '../include/editor/';
-$editor->ToolbarSet='Default'; //¹¤¾ß°´Å¥ÉèÖÃ
-$editor->Width = '100%' ; 
-$editor->Height = '200' ; 
-$editor->Value =$productinfo['content'];
-$editor->Create() ;
-?></TD></TR>
+    <TD align=right valign="top" bgcolor="#FFFFFF">äº§å“è¯¦ç»†ä»‹ç»ï¼š</TD>
+    <TD bgcolor="#FFFFFF" style="COLOR: #880000">
+	<?php App::GetEditor('content',$productinfo['content'],'100%','200');?>
+    </TD></TR>
   <TR>
-    <TD align=right bgcolor="#FFFFFF">²úÆ·ÊôĞÔ£º</TD>
+    <TD align=right bgcolor="#FFFFFF">äº§å“å±æ€§ï¼š</TD>
     <TD bgcolor="#FFFFFF" style="COLOR: #880000"><input name="istop" type="checkbox" <?php if($productinfo['istop']){echo 'checked="checked"';} ?> id="istop" value="1" />
-ÖÃ¶¥</TD>
+ç½®é¡¶</TD>
   </TR>
   <TR>
     <TD align=right bgcolor="#FFFFFF"></TD>
-    <TD bgcolor="#FFFFFF" style="COLOR: #880000"><input type="submit" name="button" id="button" value="<?php if($action=='add'){echo 'Ìí¼Ó';}else{echo 'ĞŞ¸Ä';} ?>²úÆ·">
-    <input type="reset" name="button2" id="button2" value="ÖØÖÃ"></TD></TR>
+    <TD bgcolor="#FFFFFF" style="COLOR: #880000"><input type="submit" name="button" id="button" value="<?php if($action=='add'){echo 'æ·»åŠ ';}else{echo 'ä¿®æ”¹';} ?>äº§å“">
+    <input type="reset" name="button2" id="button2" value="é‡ç½®"></TD></TR>
     </TABLE>
 </form>
  </BODY></HTML>

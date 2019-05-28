@@ -1,25 +1,25 @@
 function selectAllChk(idname){
-	//È«Ñ¡checkbox ÓÃidÇø·Ö (°ÑÃû×ÖÎªidnameµÄÈ«Ñ¡)
+	//å…¨é€‰checkbox ç”¨idåŒºåˆ† (æŠŠåå­—ä¸ºidnameçš„å…¨é€‰)
 	var a = document.getElementsByTagName("input"); 
 	for (var i=0; i<a.length; i++){
 	   if (a[i].type == "checkbox" && a[i].name==idname ) a[i].checked =!a[i].checked; 
 	}
 }
 function ShowMsg(msg){
-	//ÌáÊ¾ĞÅÏ¢ ÔÚÕâ¸öµ÷ÓÃÇ°Òªµ÷ÓÃ£º
+	//æç¤ºä¿¡æ¯ åœ¨è¿™ä¸ªè°ƒç”¨å‰è¦è°ƒç”¨ï¼š
 	/*
 	<script type="text/javascript" src="../include/js/jquery.js"></script>
 	<script type='text/javascript' src='../include/js/boxy/javascripts/jquery.boxy.js'></script>
 	<link rel="stylesheet" href="../include/js/boxy/stylesheets/boxy.css" type="text/css" />
 	*/
 	var options;
-	options = $.extend({title: "ÌáÊ¾ĞÅÏ¢"}, options || {});
-	var dialog = new Boxy("<div ondblclick='Boxy.get(this).hide(); return false;'><p>"+ msg + ". <span style='color:#c0c0c0;'>Ë«»÷¹Ø±Õ</span></p></div>", options);
+	options = $.extend({title: "æç¤ºä¿¡æ¯"}, options || {});
+	var dialog = new Boxy("<div ondblclick='Boxy.get(this).hide(); return false;'><p>"+ msg + ". <span style='color:#c0c0c0;'>åŒå‡»å…³é—­</span></p></div>", options);
   	allDialogs.push(dialog);
 	return false;
 }
 function getFckeditorText(editor_name){
-	//»ñÈ¡fckeditorÄÚÈİ
+	//è·å–fckeditorå†…å®¹
 	var oEditor = FCKeditorAPI.GetInstance(editor_name) ; 
 	returnValue = oEditor.GetXHTML(true);
 	return returnValue; 

@@ -5,14 +5,14 @@ include "adminyz.php";
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><HEAD>
-<META http-equiv=Content-Type content="text/html; charset=gb2312">
+<META http-equiv=Content-Type content="text/html; charset=utf-8">
 <LINK href="css/admin.css" type="text/css" rel="stylesheet">
 <script src="../include/js/common.js"></script>
 </HEAD>
 <BODY>
 <TABLE cellSpacing=0 cellPadding=0 width="100%" align=center border=0>
   <TR height=28>
-    <TD background=images/title_bg1.jpg>µ±Ç°Î»ÖÃ: <a href="main.php">ºóÌ¨Ê×Ò³</a>&gt;&gt;ĞÂÎÅÁĞ±í</TD></TR>
+    <TD background=images/title_bg1.jpg>å½“å‰ä½ç½®: <a href="main.php">åå°é¦–é¡µ</a>&gt;&gt;æ–°é—»åˆ—è¡¨</TD></TR>
   <TR>
     <TD bgColor=#b1ceef height=1></TD></TR></TABLE>
 <TABLE cellSpacing=0 cellPadding=0 width="95%" align=center border=0>
@@ -20,13 +20,13 @@ include "adminyz.php";
     <TD></TD></TR>
   <TR height=22>
     <TD style="PADDING-LEFT: 20px; FONT-WEIGHT: bold; COLOR: #ffffff" 
-    align=middle background=images/title_bg2.jpg>Ìí¼ÓĞÂÎÅ</TD></TR>
+    align=middle background=images/title_bg2.jpg>æ·»åŠ æ–°é—»</TD></TR>
   <TR bgColor=#ecf4fc height=12>
     <TD></TD></TR>
   </TABLE>
   <TABLE cellSpacing=1 cellPadding=2 width="95%" align=center border=0 bgcolor="#ecf4fc">
   <TR>
-    <TD align="left" style="text-align: left">ĞÂÎÅ·ÖÀà£º<?php 
+    <TD align="left" style="text-align: left">æ–°é—»åˆ†ç±»ï¼š<?php 
 	include WEB_CLASS."/news_class.php";
 	$news=new News(0);
 	$newsClassList=$news->GetClassList(array('id','classname'),'','','id desc');
@@ -41,14 +41,14 @@ include "adminyz.php";
 <TABLE cellSpacing=1 cellPadding=2 width="95%" align=center border=0 bgcolor="#ecf4fc">
   <TR>
     <TD style="text-align: center" width=56>ID</TD>
-    <TD width="436" style="text-align: center">±êÌâ</TD>
-    <TD width="206" style="text-align: center">ĞÂÎÅ·ÖÀà</TD>
-    <TD width="201" style="text-align: center">¼ÓÈëÊ±¼ä</TD>
-    <TD width="171" style="text-align: center">²Ù×÷</TD>
+    <TD width="436" style="text-align: center">æ ‡é¢˜</TD>
+    <TD width="206" style="text-align: center">æ–°é—»åˆ†ç±»</TD>
+    <TD width="201" style="text-align: center">åŠ å…¥æ—¶é—´</TD>
+    <TD width="171" style="text-align: center">æ“ä½œ</TD>
   </TR>
   <?php
-	$pageListNum=20;//Ã¿Ò³ÏÔÊ¾9Ìõ
-	$totalPage=0;//×ÜÒ³Êı
+	$pageListNum=20;//æ¯é¡µæ˜¾ç¤º9æ¡
+	$totalPage=0;//æ€»é¡µæ•°
 	$page=isset($page)?(int)$page:1;
 	$classid=isset($classid)?intval($classid):0;
 	$start=($page-1)*$pageListNum;
@@ -57,13 +57,13 @@ include "adminyz.php";
   ?>  
   <TR>
     <TD bgcolor="#FFFFFF" style="text-align: center"><input type="checkbox" name="id[]" id="id[]" value="<?php echo $value['id']; ?>"><?php echo $value['id']; ?></TD>
-    <TD bgcolor="#FFFFFF" style="text-align: left"><a href="news_edit.php?action=modify&id=<?php echo $value['id']; ?>"><?php echo $value['title']; ?></a><?php if(!empty($value['logo'])){ ?>&nbsp;<span class="txtRed">[Í¼]</span><?php } ?><?php if($value['istop']){ ?>&nbsp;<span class="txtRed">[¶¥]</span><?php } ?></TD>
+    <TD bgcolor="#FFFFFF" style="text-align: left"><a href="news_edit.php?action=modify&id=<?php echo $value['id']; ?>"><?php echo $value['title']; ?></a><?php if(!empty($value['logo'])){ ?>&nbsp;<span class="txtRed">[å›¾]</span><?php } ?><?php if($value['istop']){ ?>&nbsp;<span class="txtRed">[é¡¶]</span><?php } ?></TD>
     <TD bgcolor="#FFFFFF" style="text-align: center"><?php
 		$t_newsclassinfo=$news->GetClassInfo($value['classid']);
 		echo "<a href='news_list.php?classid=".$t_newsclassinfo['id']."'>".$t_newsclassinfo['classname'].'</a>  ';
 	?></TD>
     <TD bgcolor="#FFFFFF" style="text-align: center"><?php echo $value['addtime']; ?></TD>
-    <TD bgcolor="#FFFFFF" style="text-align: center"><a href="news_edit.php?action=modify&id=<?php echo $value['id']; ?>">±à¼­</a><?php if(!$value['istop']){ ?>&nbsp;<a href="news_action.php?action=top&page=<?php echo $page; ?>&id=<?php echo $value['id']; ?>">ÖÃ¶¥</a><?php }else{ ?>&nbsp;<a href="news_action.php?action=top_no&page=<?php echo $page; ?>&id=<?php echo $value['id']; ?>">È¡ÏûÖÃ¶¥</a><?php } ?></TD>
+    <TD bgcolor="#FFFFFF" style="text-align: center"><a href="news_edit.php?action=modify&id=<?php echo $value['id']; ?>">ç¼–è¾‘</a><?php if(!$value['istop']){ ?>&nbsp;<a href="news_action.php?action=top&page=<?php echo $page; ?>&id=<?php echo $value['id']; ?>">ç½®é¡¶</a><?php }else{ ?>&nbsp;<a href="news_action.php?action=top_no&page=<?php echo $page; ?>&id=<?php echo $value['id']; ?>">å–æ¶ˆç½®é¡¶</a><?php } ?></TD>
   </TR>    
   <?php } ?>  
   <TR>
@@ -73,7 +73,7 @@ include "adminyz.php";
 	$sqlNum="select id from {tablepre}news";
 	$db->Execute($sqlNum);
 	$pageNum=$db->GetRsNum();
-	$totalPage=ceil($pageNum/$pageListNum);//×ÜÒ³Êı
+	$totalPage=ceil($pageNum/$pageListNum);//æ€»é¡µæ•°
 			
 	$page=new PageClass($page,$totalPage);
 	$showpage=$page->showPage(); 
@@ -82,8 +82,8 @@ include "adminyz.php";
     </TD>
     </TR>  
   <TR>
-    <TD colspan="5" bgcolor="#FFFFFF"><input type="button" name="button" id="button" value="È«Ñ¡/·´Ñ¡" onClick="javascript:selectAllChk('id[]');">
-      &nbsp; <input type="submit" name="button2" id="button2" value="É¾³ı"></TD>
+    <TD colspan="5" bgcolor="#FFFFFF"><input type="button" name="button" id="button" value="å…¨é€‰/åé€‰" onClick="javascript:selectAllChk('id[]');">
+      &nbsp; <input type="submit" name="button2" id="button2" value="åˆ é™¤"></TD>
     </TR>  
     </TABLE>
  </form>

@@ -5,17 +5,17 @@ include "adminyz.php";
 
 include WEB_CLASS."/news_class.php";
 $news=new News;
-//ÌáÊ¾ĞÅÏ¢¿ªÊ¼
-$errormsg=array();//´íÎóĞÅÏ¢
-$back=array('ĞÂÎÅÁĞ±í'=>'news_list.php');
-//ÌáÊ¾ĞÅÏ¢½áÊø
+//æç¤ºä¿¡æ¯å¼€å§‹
+$errormsg=array();//é”™è¯¯ä¿¡æ¯
+$back=array('æ–°é—»åˆ—è¡¨'=>'news_list.php');
+//æç¤ºä¿¡æ¯ç»“æŸ
 
-//±¾Ò³Îª²Ù×÷ĞÂÎÅµÄÒ³Ãæ
+//æœ¬é¡µä¸ºæ“ä½œæ–°é—»çš„é¡µé¢
 if($action=='add'){
 	if(checkinput()){
 		ShowMsg($errormsg,2,$back);
 	}else{
-		//Ã»ÓĞ´íÎó
+		//æ²¡æœ‰é”™è¯¯
 		$logo=UplodeFile("logo",WEB_DR."/uploads/news/",'',array('width'=>$newslogowidth,'height'=>$newslogoheight));
 		$logo=basename($logo);
 			$newsInfo=array('title'=>$title,
@@ -30,11 +30,11 @@ if($action=='add'){
 							);
 		$aid=$news->Add($newsInfo);
 		if(!$aid){
-			$errormsg[]='²åÈëĞÂÎÅÊ§°Ü'.mysql_error();
+			$errormsg[]='æ’å…¥æ–°é—»å¤±è´¥'.mysql_error();
 			ShowMsg($errormsg,2,$back);	
 		}else{
-			$back['¼ÌĞøÌí¼Ó']='news_edit.php?action=add';
-			$errormsg[]='²åÈëĞÂÎÅ³É¹¦';
+			$back['ç»§ç»­æ·»åŠ ']='news_edit.php?action=add';
+			$errormsg[]='æ’å…¥æ–°é—»æˆåŠŸ';
 			ShowMsg($errormsg,1,$back);
 		}
 	}
@@ -57,19 +57,19 @@ if($action=='add'){
 				$newsInfo['logo']=basename($logo);
 			}
 		if($news->Update($id,$newsInfo)){
-			$errormsg[]='¸üĞÂĞÂÎÅ³É¹¦';
+			$errormsg[]='æ›´æ–°æ–°é—»æˆåŠŸ';
 			ShowMsg($errormsg,1,$back);
 		}else{
-			$errormsg[]='¸üĞÂĞÂÎÅÊ§°Ü'.mysql_error();
+			$errormsg[]='æ›´æ–°æ–°é—»å¤±è´¥'.mysql_error();
 			ShowMsg($errormsg,2,$back);
 		}
 	}	
 }elseif($action=='delnews'){
 	if($news->Delete($id)){
-		$errormsg[]='É¾³ıÊı¾İ³É¹¦';
+		$errormsg[]='åˆ é™¤æ•°æ®æˆåŠŸ';
 		ShowMsg($errormsg,1,$back);
 	}else{
-		$errormsg[]='É¾³ıÊı¾İÊ§°Ü';
+		$errormsg[]='åˆ é™¤æ•°æ®å¤±è´¥';
 		ShowMsg($errormsg,2,$back);
 	}
 }elseif($action=='top'){
@@ -77,10 +77,10 @@ if($action=='add'){
 				'istop'=>1
 				);
 	if($news->Update($id,$info)){
-		$errormsg[]='ÖÃ¶¥³É¹¦';
+		$errormsg[]='ç½®é¡¶æˆåŠŸ';
 		ShowMsg($errormsg,1,$back);
 	}else{
-		$errormsg[]='ÖÃ¶¥Ê§°Ü'.mysql_error();
+		$errormsg[]='ç½®é¡¶å¤±è´¥'.mysql_error();
 		ShowMsg($errormsg,2,$back);
 	}
 }elseif($action=='top_no'){
@@ -88,27 +88,27 @@ if($action=='add'){
 				'istop'=>0
 				);
 	if($news->Update($id,$info)){
-		$errormsg[]='È¡ÏûÖÃ¶¥³É¹¦';
+		$errormsg[]='å–æ¶ˆç½®é¡¶æˆåŠŸ';
 		ShowMsg($errormsg,1,$back);
 	}else{
-		$errormsg[]='È¡ÏûÖÃ¶¥Ê§°Ü'.mysql_error();
+		$errormsg[]='å–æ¶ˆç½®é¡¶å¤±è´¥'.mysql_error();
 		ShowMsg($errormsg,2,$back);
 	}
 }else{
-	echo '·Ç·¨²Ù×÷£¿';
+	echo 'éæ³•æ“ä½œï¼Ÿ';
 }
 function checkinput(){
 	global $errormsg,$title,$classid,$content,$issystem;
 	if(strlen($title)==0){
-		$errormsg[]='ÇëÌîĞ´ĞÂÎÅ±êÌâ';
+		$errormsg[]='è¯·å¡«å†™æ–°é—»æ ‡é¢˜';
 		$iserror=true;
 	}
 	if($classid==0 && !$issystem){
-		$errormsg[]='ÇëÑ¡ÔñĞÂÎÅÀàĞÍ';
+		$errormsg[]='è¯·é€‰æ‹©æ–°é—»ç±»å‹';
 		$iserror=true;
 	}
 	if(strlen($content)==0){
-		$errormsg[]='ÇëÌîĞ´ĞÂÎÅÄÚÈİ';
+		$errormsg[]='è¯·å¡«å†™æ–°é—»å†…å®¹';
 		$iserror=true;
 	}
 	return $iserror;

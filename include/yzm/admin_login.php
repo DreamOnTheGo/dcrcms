@@ -14,7 +14,7 @@ header("content-type:image/png");
                 $gray = ImageColorAllocate($im, 243,232,212); 
                 imagefill($im,0,0,$gray); 
 
-               //将四位整数验证码绘入图片
+               //灏嗗洓浣嶆暣鏁伴獙璇佺爜缁樺叆鍥剧墖
                 imagestring($im, 5, 10, 3, $authnum, $black); 
                 for($i=0;$i<200;$i++) 
                 {         

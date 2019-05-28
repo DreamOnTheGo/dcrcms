@@ -2,22 +2,22 @@
 require_once("include/common.inc.php");
 include WEB_DR."/common.php";
 
-$page = isset($page) && is_numeric($page) ? $page : 1;//µ±Ç°Ò³
-$classid= isset($classid) && is_numeric($classid) ? $classid : 0;//µ±Ç°À¸Ä¿ID
+$page = isset($page) && is_numeric($page) ? $page : 1;//å½“å‰é¡µ
+$classid= isset($classid) && is_numeric($classid) ? $classid : 0;//å½“å‰æ ç›®ID
 
 $start=($page-1)*$list_news_count;
 
-//ĞÂÎÅÁĞ±í
+//æ–°é—»åˆ—è¡¨
 $newslist=$news->GetList($classid,array('id','title','addtime'),$start,$list_news_count);
 $tpl->assign('newslist',$newslist);
-//ĞÂÎÅÀ¸Ä¿
-$classname=isset($id)?$n->GetClassName($classid).'_ĞÂÎÅÖĞĞÄ':'ĞÂÎÅÖĞĞÄ';
+//æ–°é—»æ ç›®
+$classname=isset($id)?$n->GetClassName($classid).'_æ–°é—»ä¸­å¿ƒ':'æ–°é—»ä¸­å¿ƒ';
 $tpl->assign('classname',$classname);
 
-//·ÖÒ³
+//åˆ†é¡µ
 include WEB_CLASS."/page_class.php";
 $rsTotal=$news->GetNewsCount($classid);
-$totalPage=ceil($rsTotal/$list_news_count);//×ÜÒ³Êı
+$totalPage=ceil($rsTotal/$list_news_count);//æ€»é¡µæ•°
 $page=new PageClass($page,$totalPage);
 $fenye=$page->showPage();
 $tpl->assign('fenye',$fenye);

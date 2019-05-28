@@ -1,64 +1,64 @@
 <?php
 include_once($WEB_CLASS.'article_class.php');
 /**
-* µ¥Ò³Ãæ´¦ÀíÀà£¬¼´ºóÌ¨µÄ¹«Ë¾×ÊÁÏ´¦Àí
-* Õâ¸öÀàÖĞÓĞ¸üĞÂ¡¢²åÈë¡¢É¾³ıĞÂÎÅµÈ·½·¨
-* @author ÎÒ²»ÊÇµ¾²İÈË www.cntaiyn.cn
+* å•é¡µé¢å¤„ç†ç±»ï¼Œå³åå°çš„å…¬å¸èµ„æ–™å¤„ç†
+* è¿™ä¸ªç±»ä¸­æœ‰æ›´æ–°ã€æ’å…¥ã€åˆ é™¤æ–°é—»ç­‰æ–¹æ³•
+* @author æˆ‘ä¸æ˜¯ç¨»è‰äºº www.cntaiyn.cn
 * @version 1.0
 * @copyright 2006-2010
 * @package class
 */
 class Single extends Article{
 	/**
-	 * ArticleµÄ¹¹Ôìº¯Êı ÎŞĞè´«²ÎÊı
+	 * Articleçš„æ„é€ å‡½æ•° æ— éœ€ä¼ å‚æ•°
 	 */
 	function __construct(){
 		parent::__construct('{tablepre}single');
 	}
 	/**
-	 * º¯ÊısetTable,ÉèÖÃÀàÒª²Ù×÷µÄ±í
-	 * @param string $table ±íÃû
+	 * å‡½æ•°setTable,è®¾ç½®ç±»è¦æ“ä½œçš„è¡¨
+	 * @param string $table è¡¨å
 	 * @return true
 	 */
 	function setTable($table){
 		parent::setTable($table);
 	}
 	/**
-	 * º¯ÊıGetInfo,·µ»Øµ¥¸öĞÂÎÅµÄĞÅÏ¢ÄÚÈİ
-	 * ·µ»ØĞÂÎÅÊı¾İ
-	 * @param string|int $aid ÎÄµµID
-	 * @param array $col Òª·µ»ØµÄ×Ö¶ÎÁĞ ÈçÄãÒª·µ»Øid,titleÎª£ºarray('id','title') Èç¹ûÎªarrya()Ê±·µ»ØÈ«²¿×Ö¶Î
+	 * å‡½æ•°GetInfo,è¿”å›å•ä¸ªæ–°é—»çš„ä¿¡æ¯å†…å®¹
+	 * è¿”å›æ–°é—»æ•°æ®
+	 * @param string|int $aid æ–‡æ¡£ID
+	 * @param array $col è¦è¿”å›çš„å­—æ®µåˆ— å¦‚ä½ è¦è¿”å›id,titleä¸ºï¼šarray('id','title') å¦‚æœä¸ºarrya()æ—¶è¿”å›å…¨éƒ¨å­—æ®µ
 	 * @return array
 	 */
 	function GetInfo($aid,$col=array()){
 		$newsInfo=parent::GetInfo($col,"id=$aid");
-		$newsInfo['position']='<a href="'.$web_url.'">Ê×Ò³</a>>>'.$newsInfo['title'];
+		$newsInfo['position']='<a href="'.$web_url.'">é¦–é¡µ</a>>>'.$newsInfo['title'];
 		return $newsInfo;
 	}
 	/**
-	 * º¯ÊıAdd,²åÈëÒ»¸öµ¥Ò³Ãæ
-	 * ³É¹¦·µ»Øtrue Ê§°Ü·µ»Øfalse
-	 * @param array $singleinfo ²åÈëµÄÊı¾İ ÓÃÊı×é±íÊ¾,ÓÃ$key=>$valueÀ´±íÊ¾ÁĞÃû=>Öµ Èçarray('title'=>'±êÌâ') ±íÊ¾²åÈëtitleµÄÖµÎª ±êÌâ
+	 * å‡½æ•°Add,æ’å…¥ä¸€ä¸ªå•é¡µé¢
+	 * æˆåŠŸè¿”å›true å¤±è´¥è¿”å›false
+	 * @param array $singleinfo æ’å…¥çš„æ•°æ® ç”¨æ•°ç»„è¡¨ç¤º,ç”¨$key=>$valueæ¥è¡¨ç¤ºåˆ—å=>å€¼ å¦‚array('title'=>'æ ‡é¢˜') è¡¨ç¤ºæ’å…¥titleçš„å€¼ä¸º æ ‡é¢˜
 	 * @return int
 	 */
 	function Add($singleinfo){		
 		return parent::Add($singleinfo);
 	}
 	/**
-	 * º¯ÊıUpdate,¸üĞÂÒ»¸öÎÄµµ
-	 * ³É¹¦·µ»Øtrue Ê§°Ü·µ»Øfalse
-	 * @param string|int $id ÎÄµµID
-	 * @param array $singleInfo ¸üĞÂµÄÊı¾İ ÓÃÊı×é±íÊ¾,ÓÃ$key=>$valueÀ´±íÊ¾ÁĞÃû=>Öµ Èçarray('title'=>'±êÌâ') ±íÊ¾²åÈëtitleµÄÖµÎª ±êÌâ
+	 * å‡½æ•°Update,æ›´æ–°ä¸€ä¸ªæ–‡æ¡£
+	 * æˆåŠŸè¿”å›true å¤±è´¥è¿”å›false
+	 * @param string|int $id æ–‡æ¡£ID
+	 * @param array $singleInfo æ›´æ–°çš„æ•°æ® ç”¨æ•°ç»„è¡¨ç¤º,ç”¨$key=>$valueæ¥è¡¨ç¤ºåˆ—å=>å€¼ å¦‚array('title'=>'æ ‡é¢˜') è¡¨ç¤ºæ’å…¥titleçš„å€¼ä¸º æ ‡é¢˜
 	 * @return boolean
 	 */
 	function Update($id,$singleInfo){
 		return parent::Update($singleInfo,"id=$id");
 	}
 	/**
-	 * º¯ÊıUpdateClick,¸üĞÂÎÄµµµÄµã»÷Êı
-	 * ³É¹¦·µ»Øtrue Ê§°Ü·µ»Øfalse
-	 * @param string|int $aid ĞÂÎÅID
-	 * @param string $jizhunclick ¸üĞÂµÄ»ù×¼ÁĞÃû£¬Ä¬ÈÏÎªclick
+	 * å‡½æ•°UpdateClick,æ›´æ–°æ–‡æ¡£çš„ç‚¹å‡»æ•°
+	 * æˆåŠŸè¿”å›true å¤±è´¥è¿”å›false
+	 * @param string|int $aid æ–°é—»ID
+	 * @param string $jizhunclick æ›´æ–°çš„åŸºå‡†åˆ—åï¼Œé»˜è®¤ä¸ºclick
 	 * @return boolean
 	 */
 	function UpdateClick($aid,$jizhunclick='click'){
@@ -67,22 +67,22 @@ class Single extends Article{
 		return $db->ExecuteNoneQuery($sql);
 	}
 	/**
-	 * º¯ÊıDelete,É¾³ıÖ¸¶¨IDÊı×éµÄµ¥Ò³Ãæ
-	 * ³É¹¦·µ»Øtrue Ê§°Ü·µ»Øfalse
-	 * @param array $idarr É¾³ıµÄIDÊı×é ±ÈÈçÒªÉ¾³ıIDÎª1£¬2£¬3µÄÎÄµµ ÔòÎª£ºarray(1,2,3)
+	 * å‡½æ•°Delete,åˆ é™¤æŒ‡å®šIDæ•°ç»„çš„å•é¡µé¢
+	 * æˆåŠŸè¿”å›true å¤±è´¥è¿”å›false
+	 * @param array $idarr åˆ é™¤çš„IDæ•°ç»„ æ¯”å¦‚è¦åˆ é™¤IDä¸º1ï¼Œ2ï¼Œ3çš„æ–‡æ¡£ åˆ™ä¸ºï¼šarray(1,2,3)
 	 * @return boolean
 	 */
 	function Delete($idarr){
-		//ÕâÀïµÄidarrÊÇ¸öÊı×é ÒªÉ¾³ıµÄIDÊı×é
+		//è¿™é‡Œçš„idarræ˜¯ä¸ªæ•°ç»„ è¦åˆ é™¤çš„IDæ•°ç»„
 		return parent::Del($idarr);
 	}
 	/**
-	 * º¯ÊıGetList,µ÷ÓÃµ¥Ò³ÃæÁĞ±í
-	 * ·µ»Ø·µ»ØĞÂÎÅÁĞ±í
-	 * @param array $col Òª·µ»ØµÄ×Ö¶ÎÁĞ ÈçÄãÒª·µ»Øid,titleÎª£ºarray('id','title') Èç¹ûÎªarrya()Ê±·µ»ØÈ«²¿×Ö¶Î
-	 * @param string $order ÅÅĞò£¬²»Òª´øorder Èçupdatetime desc
-	 * @param string $start ¿ªÊ¼ID
-	 * @param string $listnum ·µ»Ø¼ÇÂ¼Êı
+	 * å‡½æ•°GetList,è°ƒç”¨å•é¡µé¢åˆ—è¡¨
+	 * è¿”å›è¿”å›æ–°é—»åˆ—è¡¨
+	 * @param array $col è¦è¿”å›çš„å­—æ®µåˆ— å¦‚ä½ è¦è¿”å›id,titleä¸ºï¼šarray('id','title') å¦‚æœä¸ºarrya()æ—¶è¿”å›å…¨éƒ¨å­—æ®µ
+	 * @param string $order æ’åºï¼Œä¸è¦å¸¦order å¦‚updatetime desc
+	 * @param string $start å¼€å§‹ID
+	 * @param string $listnum è¿”å›è®°å½•æ•°
 	 * @return array
 	 */
 	function GetList($col=array(),$start='',$listnum='',$order='updatetime desc'){

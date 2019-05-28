@@ -1,31 +1,31 @@
 <?php
 include_once($WEB_CLASS.'article_class.php');
 /**
-* »¥¶¯ĞÅÏ¢´¦ÀíÀà
-* @author ÎÒ²»ÊÇµ¾²İÈË www.cntaiyn.cn
+* äº’åŠ¨ä¿¡æ¯å¤„ç†ç±»
+* @author æˆ‘ä¸æ˜¯ç¨»è‰äºº www.cntaiyn.cn
 * @version 1.0
 * @copyright 2006-2010
 * @package class
 */
 class HuDong extends Article{
 	/**
-	 * HuDongµÄ¹¹Ôìº¯Êı ÎŞĞè´«²ÎÊı
+	 * HuDongçš„æ„é€ å‡½æ•° æ— éœ€ä¼ å‚æ•°
 	 */
 	function __construct(){
 		parent::__construct('{tablepre}hudong');
 	}
 	/**
-	 * º¯ÊısetTable,ÉèÖÃÀàÒª²Ù×÷µÄ±í
-	 * @param string $table ±íÃû
+	 * å‡½æ•°setTable,è®¾ç½®ç±»è¦æ“ä½œçš„è¡¨
+	 * @param string $table è¡¨å
 	 * @return true
 	 */
 	function setTable($table){
 		parent::setTable($table);
 	}
 	/**
-	 * º¯ÊıAdd,Ìí¼Ó»¥¶¯ĞÅÏ¢
-	 * ·µ»ØÖµÎªÎÄµµµÄID,Ê§°Ü·µ»Ø0
-	 * @param array $info ²åÈëµÄÊı¾İ ÓÃÊı×é±íÊ¾,ÓÃ$key=>$valueÀ´±íÊ¾ÁĞÃû=>Öµ Èçarray('title'=>'±êÌâ') ±íÊ¾²åÈëtitleµÄÖµÎª ±êÌâ
+	 * å‡½æ•°Add,æ·»åŠ äº’åŠ¨ä¿¡æ¯
+	 * è¿”å›å€¼ä¸ºæ–‡æ¡£çš„ID,å¤±è´¥è¿”å›0
+	 * @param array $info æ’å…¥çš„æ•°æ® ç”¨æ•°ç»„è¡¨ç¤º,ç”¨$key=>$valueæ¥è¡¨ç¤ºåˆ—å=>å€¼ å¦‚array('title'=>'æ ‡é¢˜') è¡¨ç¤ºæ’å…¥titleçš„å€¼ä¸º æ ‡é¢˜
 	 * @return int
 	 */
 	function Add($info){
@@ -53,14 +53,14 @@ class HuDong extends Article{
 		return $db->GetInsertId();
 	}
 	 /**
-	 * º¯ÊıGetList,ÓÃÀ´»ñÈ¡»¥¶¯ĞÅÏ¢
-	 * ·µ»ØÕâ¸öÁĞ±íÊı¾İµÄÊı×éÀàĞÍ
-	 * @param array $col Òª·µ»ØµÄ×Ö¶ÎÁĞ ÈçÄãÒª·µ»Øid,titleÎª£ºarray('id','title') Èç¹ûÎªarrya()Ê±·µ»ØÈ«²¿×Ö¶Î
-	 * @param string $type »¥¶¯ĞÅÏ¢ÀàĞÍ 0ÎªÈ«²¿ 1ÎªÎ´¶Á 2ÎªÒÑ¶Á
-	 * @param string $where Ìõ¼ş£¬²»Òª´øwhere Èçid=1
-	 * @param string $order ÅÅĞò£¬²»Òª´øorder Èçupdatetime desc
-	 * @param string $start ¿ªÊ¼ID
-	 * @param string $listnum ·µ»Ø¼ÇÂ¼Êı
+	 * å‡½æ•°GetList,ç”¨æ¥è·å–äº’åŠ¨ä¿¡æ¯
+	 * è¿”å›è¿™ä¸ªåˆ—è¡¨æ•°æ®çš„æ•°ç»„ç±»å‹
+	 * @param array $col è¦è¿”å›çš„å­—æ®µåˆ— å¦‚ä½ è¦è¿”å›id,titleä¸ºï¼šarray('id','title') å¦‚æœä¸ºarrya()æ—¶è¿”å›å…¨éƒ¨å­—æ®µ
+	 * @param string $type äº’åŠ¨ä¿¡æ¯ç±»å‹ 0ä¸ºå…¨éƒ¨ 1ä¸ºæœªè¯» 2ä¸ºå·²è¯»
+	 * @param string $where æ¡ä»¶ï¼Œä¸è¦å¸¦where å¦‚id=1
+	 * @param string $order æ’åºï¼Œä¸è¦å¸¦order å¦‚updatetime desc
+	 * @param string $start å¼€å§‹ID
+	 * @param string $listnum è¿”å›è®°å½•æ•°
 	 * @return array
 	 */
 	function GetList($col=array(),$type=0,$start='',$listnum='',$order='updatetime desc'){
@@ -71,19 +71,19 @@ class HuDong extends Article{
 		return parent::GetList($col,$start,$listnum,$where,$order);
 	}
 	/**
-	 * º¯ÊıDelete,É¾³ıÖ¸¶¨IDÊı×éµÄËùÓĞÎÄÕÂ
-	 * ³É¹¦·µ»Øtrue Ê§°Ü·µ»Øfalse
-	 * @param array $idarr É¾³ıµÄIDÊı×é ±ÈÈçÒªÉ¾³ıIDÎª1£¬2£¬3µÄÎÄµµ ÔòÎª£ºarray(1,2,3)
+	 * å‡½æ•°Delete,åˆ é™¤æŒ‡å®šIDæ•°ç»„çš„æ‰€æœ‰æ–‡ç« 
+	 * æˆåŠŸè¿”å›true å¤±è´¥è¿”å›false
+	 * @param array $idarr åˆ é™¤çš„IDæ•°ç»„ æ¯”å¦‚è¦åˆ é™¤IDä¸º1ï¼Œ2ï¼Œ3çš„æ–‡æ¡£ åˆ™ä¸ºï¼šarray(1,2,3)
 	 * @return boolean
 	 */
 	function Delete($idarr){
-		//ÕâÀïµÄidarrÊÇ¸öÊı×é
+		//è¿™é‡Œçš„idarræ˜¯ä¸ªæ•°ç»„
 		return parent::Del($idarr);		
 	}
 	/**
-	 * º¯ÊıGetInfo,»ñÈ¡Ö¸¶¨IDµÄ»¥¶¯ĞÅÏ¢
-	 * ³É¹¦·µ»Øtrue Ê§°Ü·µ»Øfalse
-	 * @param string|int $id »¥¶¯ĞÅÏ¢µÄID
+	 * å‡½æ•°GetInfo,è·å–æŒ‡å®šIDçš„äº’åŠ¨ä¿¡æ¯
+	 * æˆåŠŸè¿”å›true å¤±è´¥è¿”å›false
+	 * @param string|int $id äº’åŠ¨ä¿¡æ¯çš„ID
 	 * @return array
 	 */
 	function GetInfo($id){		
@@ -100,19 +100,19 @@ class HuDong extends Article{
 		return parent::GetInfo($col,$where);
 	}
 	/**
-	 * º¯ÊıUpdateType,¸üĞÂ»¥¶¯ĞÅÏ¢µÄÀàĞÍ 1ÎªÒÑ¶Á 2ÎªÎ´¶Á
-	 * ³É¹¦·µ»Øtrue Ê§°Ü·µ»Øfalse
-	 * @param string|int $id »¥¶¯ĞÅÏ¢µÄID
-	 * @param int $type ĞÅÏ¢ÉèÖÃÎªµÄÀàĞÍ
+	 * å‡½æ•°UpdateType,æ›´æ–°äº’åŠ¨ä¿¡æ¯çš„ç±»å‹ 1ä¸ºå·²è¯» 2ä¸ºæœªè¯»
+	 * æˆåŠŸè¿”å›true å¤±è´¥è¿”å›false
+	 * @param string|int $id äº’åŠ¨ä¿¡æ¯çš„ID
+	 * @param int $type ä¿¡æ¯è®¾ç½®ä¸ºçš„ç±»å‹
 	 * @return boolean
 	 */
 	function UpdateType($id,$type){
 		return parent::Update(array('type'=>$type),"id=$id");
 	}
 	/**
-	 * º¯ÊıGetNum,·µ»ØÖ¸¶¨ÀàĞÍµÄĞÅÏ¢µÄÊıÁ¿
-	 * ³É¹¦·µ»ØÊıÁ¿ Ê§°Ü·µ»Øfalse
-	 * @param int $type ĞÅÏ¢ÉèÖÃÎªµÄÀàĞÍ
+	 * å‡½æ•°GetNum,è¿”å›æŒ‡å®šç±»å‹çš„ä¿¡æ¯çš„æ•°é‡
+	 * æˆåŠŸè¿”å›æ•°é‡ å¤±è´¥è¿”å›false
+	 * @param int $type ä¿¡æ¯è®¾ç½®ä¸ºçš„ç±»å‹
 	 * @return boolean
 	 */
 	function GetNum($type=0){
@@ -123,13 +123,13 @@ class HuDong extends Article{
 		return parent::GetListCount($where);
 	}
 	/**
-	 * º¯ÊıAddField,Îª»¥¶¯±íµ¥Ôö¼Ó×Ö¶Î
-	 * ³É¹¦·µ»Øtrue Ê§°Ü·µ»Øfalse
-	 * @param array $fieldInfo ²åÈëµÄÊı¾İ ÓÃÊı×é±íÊ¾,ÓÃ$key=>$valueÀ´±íÊ¾ÁĞÃû=>Öµ Èçarray('title'=>'±êÌâ') ±íÊ¾²åÈëtitleµÄÖµÎª ±êÌâ
+	 * å‡½æ•°AddField,ä¸ºäº’åŠ¨è¡¨å•å¢åŠ å­—æ®µ
+	 * æˆåŠŸè¿”å›true å¤±è´¥è¿”å›false
+	 * @param array $fieldInfo æ’å…¥çš„æ•°æ® ç”¨æ•°ç»„è¡¨ç¤º,ç”¨$key=>$valueæ¥è¡¨ç¤ºåˆ—å=>å€¼ å¦‚array('title'=>'æ ‡é¢˜') è¡¨ç¤ºæ’å…¥titleçš„å€¼ä¸º æ ‡é¢˜
 	 * @return boolean
 	 */
 	function AddField($fieldInfo){
-		//Ôö¼Ó×Ö¶Îµ½hudongÖĞÈ¥
+		//å¢åŠ å­—æ®µåˆ°hudongä¸­å»
 		global $db;
 		if($fieldInfo['dtype']=='multitext'){
 			$addcolsql="column `".$fieldInfo['fieldname']."` MEDIUMTEXT";
@@ -146,14 +146,14 @@ class HuDong extends Article{
 		}
 	}
 	/**
-	 * º¯ÊıUpdateField,¸üĞÂ»¥¶¯±íµ¥×Ö¶Î
-	 * ³É¹¦·µ»Øtrue Ê§°Ü·µ»Øfalse
-	 * @param int|string $id ÔÚhudong_fieldµÄID
-	 * @param array $fieldInfo ¸üĞÂµÄÊı¾İ ÓÃÊı×é±íÊ¾,ÓÃ$key=>$valueÀ´±íÊ¾ÁĞÃû=>Öµ Èçarray('title'=>'±êÌâ') ±íÊ¾²åÈëtitleµÄÖµÎª ±êÌâ
+	 * å‡½æ•°UpdateField,æ›´æ–°äº’åŠ¨è¡¨å•å­—æ®µ
+	 * æˆåŠŸè¿”å›true å¤±è´¥è¿”å›false
+	 * @param int|string $id åœ¨hudong_fieldçš„ID
+	 * @param array $fieldInfo æ›´æ–°çš„æ•°æ® ç”¨æ•°ç»„è¡¨ç¤º,ç”¨$key=>$valueæ¥è¡¨ç¤ºåˆ—å=>å€¼ å¦‚array('title'=>'æ ‡é¢˜') è¡¨ç¤ºæ’å…¥titleçš„å€¼ä¸º æ ‡é¢˜
 	 * @return boolean
 	 */
 	function UpdateField($id,$fieldInfo){
-		//ĞŞ¸Ä×Ö¶Î
+		//ä¿®æ”¹å­—æ®µ
 		global $db;
 		$fieldname=$this->GetFieldName($id);
 		if(empty($fieldname)){
@@ -175,9 +175,9 @@ class HuDong extends Article{
 		}
 	}
 	/**
-	 * º¯ÊıDeleteField,É¾³ı»¥¶¯±íµ¥×Ö¶Î
-	 * ³É¹¦·µ»Øtrue Ê§°Ü·µ»Øfalse
-	 * @param int|string $id ÔÚhudong_fieldµÄID
+	 * å‡½æ•°DeleteField,åˆ é™¤äº’åŠ¨è¡¨å•å­—æ®µ
+	 * æˆåŠŸè¿”å›true å¤±è´¥è¿”å›false
+	 * @param int|string $id åœ¨hudong_fieldçš„ID
 	 * @return boolean
 	 */
 	function DeleteField($id){
@@ -197,12 +197,12 @@ class HuDong extends Article{
 		}
 	}
 	/**
-	 * º¯ÊıGetFiledList,·µ»Ø»¥¶¯±íµ¥µÄÁĞ
-	 * ³É¹¦·µ»Øtrue Ê§°Ü·µ»Øfalse	 
-	 * @param array $col Òª·µ»ØµÄ×Ö¶ÎÁĞ ÈçÄãÒª·µ»Øid,titleÎª£ºarray('id','title') Èç¹ûÎªarrya()Ê±·µ»ØÈ«²¿×Ö¶Î
-	 * @param string $order ÅÅĞò£¬²»Òª´øorder Èçupdatetime desc
-	 * @param string $start ¿ªÊ¼ID
-	 * @param string $listnum ·µ»Ø¼ÇÂ¼Êı	 
+	 * å‡½æ•°GetFiledList,è¿”å›äº’åŠ¨è¡¨å•çš„åˆ—
+	 * æˆåŠŸè¿”å›true å¤±è´¥è¿”å›false	 
+	 * @param array $col è¦è¿”å›çš„å­—æ®µåˆ— å¦‚ä½ è¦è¿”å›id,titleä¸ºï¼šarray('id','title') å¦‚æœä¸ºarrya()æ—¶è¿”å›å…¨éƒ¨å­—æ®µ
+	 * @param string $order æ’åºï¼Œä¸è¦å¸¦order å¦‚updatetime desc
+	 * @param string $start å¼€å§‹ID
+	 * @param string $listnum è¿”å›è®°å½•æ•°	 
 	 * @return array
 	 */
 	function GetFiledList($col=array(),$start='',$listnum='',$order='orderid,updatetime desc'){
@@ -210,21 +210,21 @@ class HuDong extends Article{
 		return parent::GetList($col,$start,$listnum,$where,$order);
 	}
 	/**
-	 * º¯ÊıGetFormatFiledList,·µ»Ø¸ñÊ½»¯ºóµÄ»¥¶¯±íµ¥
-	 * ·µ»ØÒ»¸öÊı×é ÆäÖĞarr['itemname']Îª±íµ¥ÌáÊ¾ÎÄ×Ö inputtxtÎªÉú³ÉµÄinput×Ö¶ÎHTML
-	 * @param array $col Òª·µ»ØµÄ×Ö¶ÎÁĞ ÈçÄãÒª·µ»Øid,titleÎª£ºarray('id','title') Èç¹ûÎªarray()Ê±·µ»ØÈ«²¿×Ö¶Î
-	 * @param string $order ÅÅĞò£¬²»Òª´øorder Èçupdatetime desc
-	 * @param string $start ¿ªÊ¼ID
-	 * @param string $listnum ·µ»Ø¼ÇÂ¼Êı	 
+	 * å‡½æ•°GetFormatFiledList,è¿”å›æ ¼å¼åŒ–åçš„äº’åŠ¨è¡¨å•
+	 * è¿”å›ä¸€ä¸ªæ•°ç»„ å…¶ä¸­arr['itemname']ä¸ºè¡¨å•æç¤ºæ–‡å­— inputtxtä¸ºç”Ÿæˆçš„inputå­—æ®µHTML
+	 * @param array $col è¦è¿”å›çš„å­—æ®µåˆ— å¦‚ä½ è¦è¿”å›id,titleä¸ºï¼šarray('id','title') å¦‚æœä¸ºarray()æ—¶è¿”å›å…¨éƒ¨å­—æ®µ
+	 * @param string $order æ’åºï¼Œä¸è¦å¸¦order å¦‚updatetime desc
+	 * @param string $start å¼€å§‹ID
+	 * @param string $listnum è¿”å›è®°å½•æ•°	 
 	 * @return array
 	 */
 	function GetFormatFiledList($col=array(),$start='',$listnum='',$order='orderid'){
 		$fieldList=$this->GetFiledList($col,$start,$listnum,$order);
 		$fieldFormatList=array();
-		//¼ÓÉÏÄ¬ÈÏµÄtitle
+		//åŠ ä¸Šé»˜è®¤çš„title
 		foreach($fieldList as $key=>$value){
 			if($value['dtype']=='text'){
-				$str_t="<input name='".$value['fieldname']."' id='".$value['fieldname']."' type='text' maxlength='".$value['maxlength']."' value='".$value['vdefault']."' />";
+				$str_t="<input class='txtbox' name='".$value['fieldname']."' id='".$value['fieldname']."' type='text' maxlength='".$value['maxlength']."' value='".$value['vdefault']."' />";
 				$arr_t=array('itemname'=>$value['itemname'],'inputtxt'=>$str_t);
 				$fieldFormatList[]=$arr_t;
 			}
@@ -255,7 +255,7 @@ class HuDong extends Article{
 			if($value['dtype']=='radio'){
 				$v_a=explode(',',$value['vdefault']);
 				$str_t='';
-				$setDefault=false;//ÊÇ²»ÊÇÉèÖÃÁËÄ¬ÈÏÖµ
+				$setDefault=false;//æ˜¯ä¸æ˜¯è®¾ç½®äº†é»˜è®¤å€¼
 				foreach($v_a as $v_v){
 					if($setDefault){
 						$str_t.="<input type='radio' name='".$value['fieldname']."' id='".$value['fieldname']."' value='$v_v' />$v_v";
@@ -274,21 +274,21 @@ class HuDong extends Article{
 		return $fieldFormatList;
 	}
 	/**
-	 * º¯ÊıGetFieldName,¸ù¾İID·µ»ØÖ¸¶¨µÄ»¥¶¯±íµ¥µÄfilename[±íµ¥Ãû]
-	 * ·µ»Ø±íµ¥Ãû
-	 * @param int|string $id ÔÚhudong_fieldµÄID
+	 * å‡½æ•°GetFieldName,æ ¹æ®IDè¿”å›æŒ‡å®šçš„äº’åŠ¨è¡¨å•çš„filename[è¡¨å•å]
+	 * è¿”å›è¡¨å•å
+	 * @param int|string $id åœ¨hudong_fieldçš„ID
 	 * @return string
 	 */
 	function GetFieldName($id){
-		//»ñÈ¡IDÎª$idµÄ×Ö¶ÎÃûfieldname
+		//è·å–IDä¸º$idçš„å­—æ®µåfieldname
 		global $db;
 		return $db->GetFieldValue('{tablepre}hudong_field','fieldname',"id=$id");
 	}
 	/**
-	 * º¯ÊıGetFieldInfo,·µ»Øµ¥¸ö±íµ¥µÄÊı¾İ
-	 * ·µ»ØÖµÎªÕâ¸öÎÄµµµÄĞÅÏ¢(Array)
-	 * @param int|string $id ÔÚhudong_fieldµÄID
-	 * @param array $col Òª·µ»ØµÄ×Ö¶ÎÁĞ ÈçÄãÒª·µ»Øid,titleÎª£ºarray('id','title') Èç¹ûÎªarray()Ê±·µ»ØÈ«²¿×Ö¶Î
+	 * å‡½æ•°GetFieldInfo,è¿”å›å•ä¸ªè¡¨å•çš„æ•°æ®
+	 * è¿”å›å€¼ä¸ºè¿™ä¸ªæ–‡æ¡£çš„ä¿¡æ¯(Array)
+	 * @param int|string $id åœ¨hudong_fieldçš„ID
+	 * @param array $col è¦è¿”å›çš„å­—æ®µåˆ— å¦‚ä½ è¦è¿”å›id,titleä¸ºï¼šarray('id','title') å¦‚æœä¸ºarray()æ—¶è¿”å›å…¨éƒ¨å­—æ®µ
 	 * @return array
 	 */
 	function GetFieldInfo($id,$col=array()){
@@ -297,8 +297,8 @@ class HuDong extends Article{
 		return parent::GetInfo($col,$where);
 	}
 	/**
-	 * º¯ÊıGetFieldForm,·µ»ØÌá½»µÄ±íµ¥ĞÅÏ¢
-	 * ·µ»ØÖµÎªÉú³ÉµÄformµÄHTML´úÂë
+	 * å‡½æ•°GetFieldForm,è¿”å›æäº¤çš„è¡¨å•ä¿¡æ¯
+	 * è¿”å›å€¼ä¸ºç”Ÿæˆçš„formçš„HTMLä»£ç 
 	 * @return string
 	 */
 	function GetFieldForm(){

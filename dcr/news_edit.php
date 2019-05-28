@@ -5,21 +5,21 @@ include "adminyz.php";
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><HEAD>
-<META http-equiv=Content-Type content="text/html; charset=gb2312">
+<META http-equiv=Content-Type content="text/html; charset=utf-8">
 <LINK href="css/admin.css" type="text/css" rel="stylesheet">
 <?php include "admin_common.php"; ?>
 <script type='text/javascript'>
 function check(){
 	if($("#title").val().length==0){
-		ShowMsg('ÇëÊäÈëĞÂÎÅ±êÌâ');
+		ShowMsg('è¯·è¾“å…¥æ–°é—»æ ‡é¢˜');
 		return false;
 	}
 	if($("#classid").val().length==0 || $("#classid").val()==0){
-		ShowMsg('ÇëÑ¡ÔñĞÂÎÅÀàĞÍ');
+		ShowMsg('è¯·é€‰æ‹©æ–°é—»ç±»å‹');
 		return false;
 	}
 	if(getFckeditorText("content").length==0){
-		ShowMsg('ÇëÊäÈëĞÂÎÅÄÚÈİ');
+		ShowMsg('è¯·è¾“å…¥æ–°é—»å†…å®¹');
 		return false;
 	}
 }
@@ -30,9 +30,9 @@ function AddClass(){
 	classdescription=encodeURI($('#classdescription').val());
 	actionArr={classname:classname,classdescription:classdescription};
 	$.post("news_class_action.php?action=add_ajax",actionArr, function(data){
-														if(data!='Ìí¼ÓĞÂÎÅ·ÖÀà³É¹¦'){
+														if(data!='æ·»åŠ æ–°é—»åˆ†ç±»æˆåŠŸ'){
 															alert(data);
-														}else if(data=='Ìí¼ÓĞÂÎÅ·ÖÀà³É¹¦'){
+														}else if(data=='æ·»åŠ æ–°é—»åˆ†ç±»æˆåŠŸ'){
 															closeClassForm();
 															refreshClassList();
 															//alert('dfs');
@@ -40,10 +40,10 @@ function AddClass(){
 														}); 
 }
 function refreshClassList(){
-	//Ë¢ĞÂ²úÆ·Àà±ğ
+	//åˆ·æ–°äº§å“ç±»åˆ«
 	$.post("news_class_action.php?action=getlist_ajax",function(list){
 																    var s='<select name="classid" id="classid">';
-																	s=s+"<option value='0'>ÇëÑ¡ÔñĞÂÎÅÀà±ğ</option>";
+																	s=s+"<option value='0'>è¯·é€‰æ‹©æ–°é—»ç±»åˆ«</option>";
 																   	for(var i=0;i<list.length;i++){
 																		s=s+'<option value='+list[i].id+'>'+decodeURI(list[i].classname)+'</option>'
 																   	}
@@ -74,7 +74,7 @@ function tijiaoAddAction(){
 <BODY>
 <TABLE cellSpacing=0 cellPadding=0 width="100%" align=center border=0>
   <TR height=28>
-    <TD background=images/title_bg1.jpg>µ±Ç°Î»ÖÃ: <a href="main.php">ºóÌ¨Ê×Ò³</a>&gt;&gt;Ìí¼ÓĞÂÎÅ</TD></TR>
+    <TD background=images/title_bg1.jpg>å½“å‰ä½ç½®: <a href="main.php">åå°é¦–é¡µ</a>&gt;&gt;æ·»åŠ æ–°é—»</TD></TR>
   <TR>
     <TD bgColor=#b1ceef height=1></TD></TR></TABLE>
 <TABLE cellSpacing=0 cellPadding=0 width="95%" align=center border=0>
@@ -82,7 +82,7 @@ function tijiaoAddAction(){
     <TD></TD></TR>
   <TR height=22>
     <TD style="PADDING-LEFT: 20px; FONT-WEIGHT: bold; COLOR: #ffffff" 
-    align=middle background=images/title_bg2.jpg>Ìí¼ÓĞÂÎÅ</TD></TR>
+    align=middle background=images/title_bg2.jpg>æ·»åŠ æ–°é—»</TD></TR>
   <TR bgColor=#ecf4fc height=12>
     <TD></TD></TR>
   </TABLE>
@@ -92,7 +92,7 @@ function tijiaoAddAction(){
 	if($action=='add'){
 		$newsinfo['click']=0;
 		$newsinfo['author']='admin';
-		$newsinfo['source']='±¾Õ¾';
+		$newsinfo['source']='æœ¬ç«™';
 	}else{
 		$action='modify';
 		$id=isset($id)?(int)$id:0;
@@ -100,7 +100,7 @@ function tijiaoAddAction(){
 			$news=new News();
 			$newsinfo=$news->GetInfo($id,$newsColList);
 		}else{
-			ShowMsg('ÄúÃ»ÓĞÑ¡ÔñÒªĞŞ¸ÄµÄÎÄµµ');
+			ShowMsg('æ‚¨æ²¡æœ‰é€‰æ‹©è¦ä¿®æ”¹çš„æ–‡æ¡£');
 		}
 	}
 	if(!isset($issystem)){
@@ -113,23 +113,23 @@ function tijiaoAddAction(){
 <input type="hidden" name="issystem" id="issystem" value="<?php echo $issystem; ?>">
 <TABLE cellSpacing=2 cellPadding=5 width="95%" align=center border=0 bgcolor="#ecf4fc">  
   <TR>
-    <TD width=100 align=right bgcolor="#FFFFFF">ĞÂÎÅ±êÌâ(<font color="red" class="txtRed">*</font>)£º</TD>
+    <TD width=100 align=right bgcolor="#FFFFFF">æ–°é—»æ ‡é¢˜(<font color="red" class="txtRed">*</font>)ï¼š</TD>
     <TD bgcolor="#FFFFFF" style="COLOR: #880000"><input name="title" type="text" id="title" size="80" value="<?php echo $newsinfo['title']; ?>"></TD></TR>
     <?php if(!$issystem){ ?>
   <tr>
-    <td align="right" valign="top" bgcolor="#FFFFFF">²úÆ·Àà±ğ(<font color="red" class="txtRed">*</font>)£º</td>
+    <td align="right" valign="top" bgcolor="#FFFFFF">äº§å“ç±»åˆ«(<font color="red" class="txtRed">*</font>)ï¼š</td>
     <td bgcolor="#FFFFFF" style="COLOR: #880000"><span id="productClassList">
       <?php 
 		$newsClassList=$news->GetClassList(array('id','classname'));
 		if(count($newsClassList)>0){
 			echo '<select name="classid" id="classid">';
-			echo "<option value='0'>ÇëÑ¡ÔñĞÂÎÅÀà±ğ</option>";
+			echo "<option value='0'>è¯·é€‰æ‹©æ–°é—»ç±»åˆ«</option>";
 			foreach($newsClassList as $value){
 				echo "<option value='$value[id]'>$value[classname]</option>";
 			}
 			echo '</select>';
 		}else{
-			echo "µ±Ç°Ã»ÓĞ·ÖÀà";
+			echo "å½“å‰æ²¡æœ‰åˆ†ç±»";
 		}
 	?>
       <script type="text/javascript">
@@ -138,90 +138,83 @@ function tijiaoAddAction(){
 		  document.frmAddNews.classid.value=classid;
 	  }
 	  </script>
-      </span>&nbsp;&nbsp;&nbsp;<a href="#" onclick="javascript:showClassForm()">Ìí¼ÓĞÂÎÅÀà±ğ</a>
-      <!--<a href="javascript:refreshClassList();">ÊÖ¶¯Ë¢ĞÂÁĞ±í</a>-->
+      </span>&nbsp;&nbsp;&nbsp;<a href="#" onclick="javascript:showClassForm()">æ·»åŠ æ–°é—»ç±»åˆ«</a>
+      <!--<a href="javascript:refreshClassList();">æ‰‹åŠ¨åˆ·æ–°åˆ—è¡¨</a>-->
       <iframe id="myframe" style="display:none;position:absolute;z-index:9;width:expression(this.nextSibling.offsetWidth);height:expression(this.nextSibling.offsetHeight);top:expression(this.nextSibling.offsetTop);left:expression(this.nextSibling.offsetLeft);" frameborder="0" ></iframe>
       <div id="AddClass" style="display:none;position:absolute;top:100px; border:5px #999 solid; padding:10px; height:100px; width:650px; left:100px; background-color:#ecf4fc; z-index:10000;">
         <table cellspacing="0" cellpadding="2" width="95%" align="center" border="0">
           <tr>
-            <td align="right" width="100">·ÖÀàÃû(<font color="red" class="txtRed">*</font>)£º</td>
+            <td align="right" width="100">åˆ†ç±»å(<font color="red" class="txtRed">*</font>)ï¼š</td>
             <td style="COLOR: #880000"><input name="classname" type="text" id="classname" size="80" onkeypress="tijiaoAddAction();" /></td>
           </tr>
           <tr>
-            <td align="right" valign="top">·ÖÀàËµÃ÷£º</td>
+            <td align="right" valign="top">åˆ†ç±»è¯´æ˜ï¼š</td>
             <td style="COLOR: #880000"><textarea name="classdescription" cols="80" rows="3" id="classdescription"></textarea></td>
           </tr>
           <tr>
             <td align="right"></td>
-            <td style="COLOR: #880000"><input type="button" onclick="AddClass()" name="button3" id="button3" value="Ìí¼Ó·ÖÀà" />
-              <input type="reset" name="button3" id="button4" value="ÖØÖÃ" />
-              <input type="button" value="¹Ø±Õ" onclick="javascript:closeClassForm()" /></td>
+            <td style="COLOR: #880000"><input type="button" onclick="AddClass()" name="button3" id="button3" value="æ·»åŠ åˆ†ç±»" />
+              <input type="reset" name="button3" id="button4" value="é‡ç½®" />
+              <input type="button" value="å…³é—­" onclick="javascript:closeClassForm()" /></td>
           </tr>
         </table>
       </div></td>
   </tr>
   <TR>
-    <TD align=right valign="top" bgcolor="#FFFFFF">ËõÂÔÍ¼£º</TD>
+    <TD align=right valign="top" bgcolor="#FFFFFF">ç¼©ç•¥å›¾ï¼š</TD>
     <TD bgcolor="#FFFFFF" style="COLOR: #880000">
 	<table border="0" cellspacing="1" cellpadding="3">
       <tr>
         <td>
         <table width="100" border="0" cellspacing="1" cellpadding="3" bgcolor="#33CCFF">
       <tr>
-        <td><span style="color:white">µ±Ç°ËõÂÔÍ¼</span></td>
+        <td><span style="color:white">å½“å‰ç¼©ç•¥å›¾</span></td>
       </tr>
       <tr>
         <td bgcolor="#FFFFFF"><?php if(strlen($newsinfo['logo'])>0){echo "<img src='".$newsinfo['logo']."'>";}?></td>
       </tr>
     </table>
           <input type="file" size="40" name="logo" id="logo"> 
-          (Ä¬ÈÏ´óĞ¡£º¿í<?php echo $newslogowidth ?>*¸ß<?php echo $newslogoheight ?>)</td>
+          (é»˜è®¤å¤§å°ï¼šå®½<?php echo $newslogowidth ?>*é«˜<?php echo $newslogoheight ?>)</td>
         </tr>
     </table>
       </TD>
   </TR>
   <TR>
-    <TD align=right bgcolor="#FFFFFF">ĞÂÎÅ×÷Õß£º</TD>
+    <TD align=right bgcolor="#FFFFFF">æ–°é—»ä½œè€…ï¼š</TD>
     <TD bgcolor="#FFFFFF" style="COLOR: #880000"><input name="author" type="text" id="author" size="50" value="<?php echo $newsinfo['author']; ?>"></TD></TR>
   <TR>
-    <TD align=right bgcolor="#FFFFFF">ĞÂÎÅÀ´Ô´£º</TD>
+    <TD align=right bgcolor="#FFFFFF">æ–°é—»æ¥æºï¼š</TD>
     <TD bgcolor="#FFFFFF" style="COLOR: #880000"><input name="source" type="text" id="source" size="50" value="<?php echo $newsinfo['source']; ?>"></TD></TR>
   <TR>
-    <TD align=right valign="top" bgcolor="#FFFFFF">ĞÂÎÅ¹Ø¼ü×Ö£º</TD>
+    <TD align=right valign="top" bgcolor="#FFFFFF">æ–°é—»å…³é”®å­—ï¼š</TD>
     <TD bgcolor="#FFFFFF" style="COLOR: #880000"><input name="keywords" type="text" id="keywords" size="80" value="<?php echo $newsinfo['keywords']; ?>">
-      (SEO£ºĞÂÎÅ¹Ø¼ü×Ö£¬ÒÔ,·Ö¸ô)</TD>
+      (SEOï¼šæ–°é—»å…³é”®å­—ï¼Œä»¥,åˆ†éš”)</TD>
   </TR>
   <TR>
-    <TD align=right valign="top" bgcolor="#FFFFFF">ĞÂÎÅÃèÊö£º</TD>
+    <TD align=right valign="top" bgcolor="#FFFFFF">æ–°é—»æè¿°ï¼š</TD>
     <TD bgcolor="#FFFFFF" style="COLOR: #880000"><textarea name="description" cols="80" rows="3" id="description"><?php echo $newsinfo['description']; ?></textarea>
-      (SEO£ºĞÂÎÅµÄÃèÊö)</TD>
+      (SEOï¼šæ–°é—»çš„æè¿°)</TD>
   </TR>
   <?php }?>
   <TR>
-    <TD align=right valign="top" bgcolor="#FFFFFF">µã»÷£º</TD>
+    <TD align=right valign="top" bgcolor="#FFFFFF">ç‚¹å‡»ï¼š</TD>
     <TD bgcolor="#FFFFFF" style="COLOR: #880000"><input name="click" type="text" id="click" size="10" value="<?php echo $newsinfo['click']; ?>" /></TD>
   </TR>
   <TR>
-    <TD align=right valign="top" bgcolor="#FFFFFF">ĞÂÎÅÄÚÈİ(<font color="red">*</font>)£º</TD>
-    <TD bgcolor="#FFFFFF" style="COLOR: #880000"><?php
-include(WEB_INCLUDE."/editor/fckeditor.php");
-$editor = new FCKeditor('content') ;
-$editor->BasePath = '../include/editor/';
-$editor->ToolbarSet='Default'; //¹¤¾ß°´Å¥ÉèÖÃ
-$editor->Width = '100%' ; 
-$editor->Height = '500' ; 
-$editor->Value =$newsinfo['content'];
-$editor->Create() ;
-?></TD></TR>
+    <TD align=right valign="top" bgcolor="#FFFFFF">æ–°é—»å†…å®¹(<font color="red">*</font>)ï¼š</TD>
+    <TD bgcolor="#FFFFFF" style="COLOR: #880000">
+	<?php App::GetEditor('content',$newsinfo['content'],'100%','500');?>
+    </TD></TR>
   <TR>
-    <TD align=right bgcolor="#FFFFFF">ĞÂÎÅÊôĞÔ£º</TD>
+    <TD align=right bgcolor="#FFFFFF">æ–°é—»å±æ€§ï¼š</TD>
     <TD bgcolor="#FFFFFF" style="COLOR: #880000"><input name="istop" type="checkbox" <?php if($newsinfo['istop']){echo 'checked="checked"';} ?> id="istop" value="1" />
-      ÖÃ¶¥</TD>
+      ç½®é¡¶</TD>
   </TR>
   <TR>
     <TD align=right bgcolor="#FFFFFF"></TD>
-    <TD bgcolor="#FFFFFF" style="COLOR: #880000"><input type="submit" name="button" id="button" value="<?php if($action=='add'){echo 'Ìí¼Ó';}else{echo 'ĞŞ¸Ä';} ?>ĞÂÎÅ">
-    <input type="reset" name="button2" id="button2" value="ÖØÖÃ"></TD></TR>
+    <TD bgcolor="#FFFFFF" style="COLOR: #880000"><input type="submit" name="button" id="button" value="<?php if($action=='add'){echo 'æ·»åŠ ';}else{echo 'ä¿®æ”¹';} ?>æ–°é—»">
+    <input type="reset" name="button2" id="button2" value="é‡ç½®"></TD></TR>
     </TABLE>
 </form>
  </BODY></HTML>

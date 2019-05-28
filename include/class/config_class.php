@@ -1,8 +1,8 @@
 <?php
 /**
-* ¸üÐÂ ÐÞ¸ÄÈ«Õ¾ÅäÖÃµÄÀà
-* Õâ¸öÀàÖÐÓÐ¸üÐÂÈ«Õ¾ÅäÖÃµÄ·½·¨
-* @author ÎÒ²»ÊÇµ¾²ÝÈË www.cntaiyn.cn
+* æ›´æ–° ä¿®æ”¹å…¨ç«™é…ç½®çš„ç±»
+* è¿™ä¸ªç±»ä¸­æœ‰æ›´æ–°å…¨ç«™é…ç½®çš„æ–¹æ³•
+* @author æˆ‘ä¸æ˜¯ç¨»è‰äºº www.cntaiyn.cn
 * @version 1.0
 * @copyright 2006-2010
 * @package class
@@ -11,12 +11,12 @@ class Config{
 	function __construct(){
 	}
 	/**
-	 * º¯ÊýUpdateConfig,¸üÐÂÈ«Õ¾ÅäÖÃ
-	 * ·µ»Ø r1ÎªÐÞ¸ÄµÄÅäÖÃÊý¾Ý´íÎó
-	 * ·µ»Ø r2ÎªÐÞ¸Ä³É¹¦
-	 * ·µ»Ø r3ÎªÐ´ÈëÅäÖÃÎÄ¼þÊ§°Ü
-	 * @param array $configInfo ÅäÖÃÊý¾Ý ÓÃÊý×é±íÊ¾,ÓÃ$key=>$valueÀ´±íÊ¾ÁÐÃû=>Öµ Èçarray('title'=>'±êÌâ') ±íÊ¾ÅäÖÃtitleµÄÖµÎª ±êÌâ
-	 * @param string $configFileName ÅäÖÃÎÄ¼þÃû
+	 * å‡½æ•°UpdateConfig,æ›´æ–°å…¨ç«™é…ç½®
+	 * è¿”å›ž r1ä¸ºä¿®æ”¹çš„é…ç½®æ•°æ®é”™è¯¯
+	 * è¿”å›ž r2ä¸ºä¿®æ”¹æˆåŠŸ
+	 * è¿”å›ž r3ä¸ºå†™å…¥é…ç½®æ–‡ä»¶å¤±è´¥
+	 * @param array $configInfo é…ç½®æ•°æ® ç”¨æ•°ç»„è¡¨ç¤º,ç”¨$key=>$valueæ¥è¡¨ç¤ºåˆ—å=>å€¼ å¦‚array('title'=>'æ ‡é¢˜') è¡¨ç¤ºé…ç½®titleçš„å€¼ä¸º æ ‡é¢˜
+	 * @param string $configFileName é…ç½®æ–‡ä»¶å
 	 * @return string
 	 */
 	function UpdateConfig($configInfo,$configFileName=''){
@@ -27,7 +27,7 @@ class Config{
 		}
 				 
 		$configTxt=$f->getContent($configFileName);
-		//Ìæ»»
+		//æ›¿æ¢
 		foreach($configInfo as $key=>$value){
 			$configTxt=preg_replace("/[$]".$key."\s*\=\s*[\"'].*?[\"'];/is", "\$".$key." = '".$value."';", $configTxt);
 			//$configTxt=str_replace("{\$".$key."}",$value,$configTxt);

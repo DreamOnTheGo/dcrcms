@@ -1,32 +1,32 @@
 <?php
-include_once($WEB_CLASS.'article_class.php');
+include_once('article_class.php');
 /**
-* ÐÂÎÅ´¦ÀíÀà
-* Õâ¸öÀàÖÐÓÐ¸üÐÂ¡¢²åÈë¡¢É¾³ýÐÂÎÅµÈ·½·¨
-* @author ÎÒ²»ÊÇµ¾²ÝÈË www.cntaiyn.cn
+* æ–°é—»å¤„ç†ç±»
+* è¿™ä¸ªç±»ä¸­æœ‰æ›´æ–°ã€æ’å…¥ã€åˆ é™¤æ–°é—»ç­‰æ–¹æ³•
+* @author æˆ‘ä¸æ˜¯ç¨»è‰äºº www.cntaiyn.cn
 * @version 1.0
 * @copyright 2006-2010
 * @package class
 */
 class News extends Article{
 	/**
-	 * ArticleµÄ¹¹Ôìº¯Êý ÎÞÐè´«²ÎÊý
+	 * Articleçš„æž„é€ å‡½æ•° æ— éœ€ä¼ å‚æ•°
 	 */
 	function __construct(){
 		parent::__construct('{tablepre}news');
 	}
 	/**
-	 * º¯ÊýsetTable,ÉèÖÃÀàÒª²Ù×÷µÄ±í
-	 * @param string $table ±íÃû
+	 * å‡½æ•°setTable,è®¾ç½®ç±»è¦æ“ä½œçš„è¡¨
+	 * @param string $table è¡¨å
 	 * @return true
 	 */
 	function setTable($table){
 		parent::setTable($table);
 	}
 	/**
-	 * º¯ÊýAddClass,Ìí¼ÓÐÂÎÅ·ÖÀà
-	 * ³É¹¦·µ»Øtrue Ê§°Ü·µ»Øfalse
-	 * @param array $classinfo ²åÈëµÄÐÂÎÅ·ÖÀà ÓÃÊý×é±íÊ¾,ÓÃ$key=>$valueÀ´±íÊ¾ÁÐÃû=>Öµ Èçarray('title'=>'±êÌâ') ±íÊ¾²åÈëtitleµÄÖµÎª ±êÌâ
+	 * å‡½æ•°AddClass,æ·»åŠ æ–°é—»åˆ†ç±»
+	 * æˆåŠŸè¿”å›žtrue å¤±è´¥è¿”å›žfalse
+	 * @param array $classinfo æ’å…¥çš„æ–°é—»åˆ†ç±» ç”¨æ•°ç»„è¡¨ç¤º,ç”¨$key=>$valueæ¥è¡¨ç¤ºåˆ—å=>å€¼ å¦‚array('title'=>'æ ‡é¢˜') è¡¨ç¤ºæ’å…¥titleçš„å€¼ä¸º æ ‡é¢˜
 	 * @return boolean
 	 */
 	function AddClass($classinfo){
@@ -34,23 +34,32 @@ class News extends Article{
 		return parent::Add($classinfo);
 	}
 	/**
-	 * º¯ÊýGetClassList,·µ»ØÐÂÎÅÀàÁÐ±í
-	 * ·µ»ØÕâ¸öÁÐ±íÊý¾ÝµÄÊý×éÀàÐÍ
-	 * @param array $col Òª·µ»ØµÄ×Ö¶ÎÁÐ ÈçÄãÒª·µ»Øid,titleÎª£ºarray('id','title') Èç¹ûÎªarrya()Ê±·µ»ØÈ«²¿×Ö¶Î
-	 * @param string $order ÅÅÐò£¬²»Òª´øorder Èçupdatetime desc
-	 * @param string $start ¿ªÊ¼ID
-	 * @param string $listnum ·µ»Ø¼ÇÂ¼Êý
+	 * å‡½æ•°GetClassList,è¿”å›žæ–°é—»ç±»åˆ—è¡¨
+	 * è¿”å›žè¿™ä¸ªåˆ—è¡¨æ•°æ®çš„æ•°ç»„ç±»åž‹
+	 * @param array $col è¦è¿”å›žçš„å­—æ®µåˆ— å¦‚ä½ è¦è¿”å›žid,titleä¸ºï¼šarray('id','title') å¦‚æžœä¸ºarrya()æ—¶è¿”å›žå…¨éƒ¨å­—æ®µ
+	 * @param string $order æŽ’åºï¼Œä¸è¦å¸¦order å¦‚updatetime desc
+	 * @param string $start å¼€å§‹ID
+	 * @param string $listnum è¿”å›žè®°å½•æ•°
 	 * @return array
 	 */
 	function GetClassList($col=array(),$start='',$listnum='',$order='updatetime desc'){
 		$this->setTable('{tablepre}news_class');
-		return parent::GetList($col,$start,$listnum,$where,$order);
+		$info=parent::GetList($col,$start,$listnum,$where,$order);
+		global $web_url_module,$web_url_surfix;
+		foreach($info as $i_key=>$i_value){
+			if($web_url_module=='1'){
+				$info[$i_key]['url']='news_list.php?classid='.$i_value['id'];
+			}elseif($web_url_module=='2'){
+				$info[$i_key]['url']='news_list_'.$i_value['id'].'.'.$web_url_surfix;
+			}
+		}
+		return $info;
 	}
 	/**
-	 * º¯ÊýGetClassInfo,·µ»ØÐÂÎÅ·ÖÀàµÄÊý¾ÝÐÅÏ¢
-	 * ·µ»ØÖµÎªÕâ¸ö²úÆ·ÀàµÄÐÅÏ¢(Array)
-	 * @param string|int $id ÐÂÎÅ·ÖÀàID
-	 * @param array $newsClassinfo Òª·µ»ØµÄ×Ö¶ÎÁÐ ÈçÄãÒª·µ»Øid,titleÎª£ºarray('id','title') Èç¹ûÎªarrya()Ê±·µ»ØÈ«²¿×Ö¶Î
+	 * å‡½æ•°GetClassInfo,è¿”å›žæ–°é—»åˆ†ç±»çš„æ•°æ®ä¿¡æ¯
+	 * è¿”å›žå€¼ä¸ºè¿™ä¸ªäº§å“ç±»çš„ä¿¡æ¯(Array)
+	 * @param string|int $id æ–°é—»åˆ†ç±»ID
+	 * @param array $newsClassinfo è¦è¿”å›žçš„å­—æ®µåˆ— å¦‚ä½ è¦è¿”å›žid,titleä¸ºï¼šarray('id','title') å¦‚æžœä¸ºarrya()æ—¶è¿”å›žå…¨éƒ¨å­—æ®µ
 	 * @return array
 	 */
 	function GetClassInfo($id,$classinfo=array()){
@@ -59,10 +68,10 @@ class News extends Article{
 		return parent::GetInfo($classinfo,"id=$id");
 	}
 	/**
-	 * º¯ÊýUpdateClass,¸üÐÂÐÂÎÅ·ÖÀàÐÅÏ¢
-	 * ³É¹¦·µ»Øtrue Ê§°Ü·µ»Øfalse
-	 * @param string|int $id ÐÂÎÅ·ÖÀàID
-	 * @param array $classinfo ¸üÐÂµÄÊý¾Ý ÓÃÊý×é±íÊ¾,ÓÃ$key=>$valueÀ´±íÊ¾ÁÐÃû=>Öµ Èçarray('title'=>'±êÌâ') ±íÊ¾²åÈëtitleµÄÖµÎª ±êÌâ
+	 * å‡½æ•°UpdateClass,æ›´æ–°æ–°é—»åˆ†ç±»ä¿¡æ¯
+	 * æˆåŠŸè¿”å›žtrue å¤±è´¥è¿”å›žfalse
+	 * @param string|int $id æ–°é—»åˆ†ç±»ID
+	 * @param array $classinfo æ›´æ–°çš„æ•°æ® ç”¨æ•°ç»„è¡¨ç¤º,ç”¨$key=>$valueæ¥è¡¨ç¤ºåˆ—å=>å€¼ å¦‚array('title'=>'æ ‡é¢˜') è¡¨ç¤ºæ’å…¥titleçš„å€¼ä¸º æ ‡é¢˜
 	 * @return boolean
 	 */
 	function UpdateClass($id,$classinfo=array()){
@@ -74,9 +83,9 @@ class News extends Article{
 		}
 	}
 	/**
-	 * º¯ÊýDeleteClass,É¾³ýÐÂÎÅ·ÖÀà
-	 * ³É¹¦·µ»Øtrue Ê§°Ü·µ»Øfalse
-	 * @param array $idarr É¾³ýµÄIDÊý×é ±ÈÈçÒªÉ¾³ýIDÎª1£¬2£¬3µÄÎÄµµ ÔòÎª£ºarray(1,2,3)
+	 * å‡½æ•°DeleteClass,åˆ é™¤æ–°é—»åˆ†ç±»
+	 * æˆåŠŸè¿”å›žtrue å¤±è´¥è¿”å›žfalse
+	 * @param array $idarr åˆ é™¤çš„IDæ•°ç»„ æ¯”å¦‚è¦åˆ é™¤IDä¸º1ï¼Œ2ï¼Œ3çš„æ–‡æ¡£ åˆ™ä¸ºï¼šarray(1,2,3)
 	 * @return boolean
 	 */
 	function DeleteClass($idarr){
@@ -88,8 +97,8 @@ class News extends Article{
 		}
 	}
 	/**
-	 * º¯ÊýGetClassNum,·µ»ØÐÂÎÅ·ÖÀàÊýÁ¿
-	 * ·µ»ØÐÂÎÅ·ÖÀàÊýÁ¿
+	 * å‡½æ•°GetClassNum,è¿”å›žæ–°é—»åˆ†ç±»æ•°é‡
+	 * è¿”å›žæ–°é—»åˆ†ç±»æ•°é‡
 	 * @return int
 	 */
 	function GetClassNum(){
@@ -97,9 +106,9 @@ class News extends Article{
 		return parent::GetListCount();
 	}
 	/**
-	 * º¯ÊýGetClassName,·µ»ØÐÂÎÅÀà±ðÃû
-	 * ³É¹¦·µ»ØÀàÃû Ê§°Ü·µ»Ø''
-	 * @param string|int $nid ÐÂÎÅÀà±ðID
+	 * å‡½æ•°GetClassName,è¿”å›žæ–°é—»ç±»åˆ«å
+	 * æˆåŠŸè¿”å›žç±»å å¤±è´¥è¿”å›ž''
+	 * @param string|int $nid æ–°é—»ç±»åˆ«ID
 	 * @return string
 	 */
 	function GetClassName($nid){
@@ -111,21 +120,21 @@ class News extends Article{
 		}
 	}
 	/**
-	 * º¯ÊýGetInfo,·µ»Øµ¥¸öÐÂÎÅµÄÐÅÏ¢ÄÚÈÝ
-	 * ·µ»ØÐÂÎÅÊý¾Ý
-	 * @param string|int $aid ÎÄµµID
-	 * @param array $col Òª·µ»ØµÄ×Ö¶ÎÁÐ ÈçÄãÒª·µ»Øid,titleÎª£ºarray('id','title') Èç¹ûÎªarrya()Ê±·µ»ØÈ«²¿×Ö¶Î
+	 * å‡½æ•°GetInfo,è¿”å›žå•ä¸ªæ–°é—»çš„ä¿¡æ¯å†…å®¹
+	 * è¿”å›žæ–°é—»æ•°æ®
+	 * @param string|int $aid æ–‡æ¡£ID
+	 * @param array $col è¦è¿”å›žçš„å­—æ®µåˆ— å¦‚ä½ è¦è¿”å›žid,titleä¸ºï¼šarray('id','title') å¦‚æžœä¸ºarrya()æ—¶è¿”å›žå…¨éƒ¨å­—æ®µ
 	 * @return array
 	 */
 	function GetInfo($aid,$col=array()){
 		$this->setTable('{tablepre}news');
 		global $db,$web_url;
-		//Òª·µ»ØÀ¸Ä¿ID
+		//è¦è¿”å›žæ ç›®ID
 		if(!in_array('classid',$col)){
 			array_push($col,'classid');
 		}
 		if(in_array('content',$col) || in_array('keywords',$col) || in_array('description',$col)){
-			//Èç¹ûÒª·µ»ØÄÚÈÝ ÄÚÈÝÔÚ²»Í¬µÄ±í ËùÒÔÒªÁíÍâ´¦Àí
+			//å¦‚æžœè¦è¿”å›žå†…å®¹ å†…å®¹åœ¨ä¸åŒçš„è¡¨ æ‰€ä»¥è¦å¦å¤–å¤„ç†
 			foreach($col as $key=>$colName){
 				if($col[$key]=='content' || $col[$key]=='keywords' ||  $col[$key]=='description'){
 					if($col[$key]=='content'){
@@ -151,10 +160,10 @@ class News extends Article{
 		}else{
 			$newsInfo=parent::GetInfo($col,"id=$aid");
 		}
-		//·µ»Øµ±Ç°Â·¾¶
-		//»ñµÃÀ¸Ä¿ÐÅÏ¢
+		//è¿”å›žå½“å‰è·¯å¾„
+		//èŽ·å¾—æ ç›®ä¿¡æ¯
 		$artclassname=$this->GetClassName($newsInfo['classid']);
-		$position='<a href="'.$web_url.'">Ê×Ò³</a>>><a href="news_list.php">ÐÂÎÅÖÐÐÄ</a>>><a href="'.$web_url.'/news_list.php?id='.$newsInfo['classid'].'">'.$artclassname.'</a>>>'.$newsInfo['title'];
+		$position='<a href="'.$web_url.'">é¦–é¡µ</a>>><a href="news_list.php">æ–°é—»ä¸­å¿ƒ</a>>><a href="'.$web_url.'/news_list.php?id='.$newsInfo['classid'].'">'.$artclassname.'</a>>>'.$newsInfo['title'];
 		$newsInfo['position']=$position;
 		
 		if(empty($newsInfo['logo'])){
@@ -165,9 +174,9 @@ class News extends Article{
 		return $newsInfo;
 	}
 	/**
-	 * º¯ÊýAddNews,²åÈëÒ»¸öÐÂÎÅ
-	 * ·µ»ØÖµÎªÎÄµµµÄID,Ê§°Ü·µ»Ø0
-	 * @param array $newsinfo ²åÈëµÄÊý¾Ý ÓÃÊý×é±íÊ¾,ÓÃ$key=>$valueÀ´±íÊ¾ÁÐÃû=>Öµ Èçarray('title'=>'±êÌâ') ±íÊ¾²åÈëtitleµÄÖµÎª ±êÌâ
+	 * å‡½æ•°AddNews,æ’å…¥ä¸€ä¸ªæ–°é—»
+	 * è¿”å›žå€¼ä¸ºæ–‡æ¡£çš„ID,å¤±è´¥è¿”å›ž0
+	 * @param array $newsinfo æ’å…¥çš„æ•°æ® ç”¨æ•°ç»„è¡¨ç¤º,ç”¨$key=>$valueæ¥è¡¨ç¤ºåˆ—å=>å€¼ å¦‚array('title'=>'æ ‡é¢˜') è¡¨ç¤ºæ’å…¥titleçš„å€¼ä¸º æ ‡é¢˜
 	 * @return int
 	 */
 	function Add($newsinfo){
@@ -192,15 +201,15 @@ class News extends Article{
 		}
 	}
 	/**
-	 * º¯ÊýUpdate,¸üÐÂÒ»¸öÎÄµµ
-	 * ³É¹¦·µ»Øtrue Ê§°Ü·µ»Øfalse
-	 * @param string|int $id ÐÂÎÅID
-	 * @param array $newsinfo ¸üÐÂµÄÊý¾Ý ÓÃÊý×é±íÊ¾,ÓÃ$key=>$valueÀ´±íÊ¾ÁÐÃû=>Öµ Èçarray('title'=>'±êÌâ') ±íÊ¾²åÈëtitleµÄÖµÎª ±êÌâ
+	 * å‡½æ•°Update,æ›´æ–°ä¸€ä¸ªæ–‡æ¡£
+	 * æˆåŠŸè¿”å›žtrue å¤±è´¥è¿”å›žfalse
+	 * @param string|int $id æ–°é—»ID
+	 * @param array $newsinfo æ›´æ–°çš„æ•°æ® ç”¨æ•°ç»„è¡¨ç¤º,ç”¨$key=>$valueæ¥è¡¨ç¤ºåˆ—å=>å€¼ å¦‚array('title'=>'æ ‡é¢˜') è¡¨ç¤ºæ’å…¥titleçš„å€¼ä¸º æ ‡é¢˜
 	 * @return boolean
 	 */
 	function Update($id,$newsinfo){		
 		$this->setTable('{tablepre}news');
-		//°ÑÖ÷±íºÍ¸½¼Ó±í·Ö¿ªÀ´
+		//æŠŠä¸»è¡¨å’Œé™„åŠ è¡¨åˆ†å¼€æ¥
 		foreach($newsinfo as $key=>$value){
 			if($key=='content' || $key=='keywords' ||  $key=='description'){
 				$col_addon[$key]=$value;
@@ -225,10 +234,10 @@ class News extends Article{
 		}
 	}
 	/**
-	 * º¯ÊýUpdateClick,¸üÐÂÎÄµµµÄµã»÷Êý
-	 * ³É¹¦·µ»Øtrue Ê§°Ü·µ»Øfalse
-	 * @param string|int $aid ÐÂÎÅID
-	 * @param string $jizhunclick ¸üÐÂµÄ»ù×¼ÁÐÃû£¬Ä¬ÈÏÎªclick
+	 * å‡½æ•°UpdateClick,æ›´æ–°æ–‡æ¡£çš„ç‚¹å‡»æ•°
+	 * æˆåŠŸè¿”å›žtrue å¤±è´¥è¿”å›žfalse
+	 * @param string|int $aid æ–°é—»ID
+	 * @param string $jizhunclick æ›´æ–°çš„åŸºå‡†åˆ—åï¼Œé»˜è®¤ä¸ºclick
 	 * @return boolean
 	 */
 	function UpdateClick($aid,$jizhunclick='click'){
@@ -237,14 +246,14 @@ class News extends Article{
 		return $db->ExecuteNoneQuery($sql);
 	}
 	/**
-	 * º¯ÊýDelete,É¾³ýÖ¸¶¨IDÊý×éµÄÐÂÎÅ
-	 * ³É¹¦·µ»Øtrue Ê§°Ü·µ»Øfalse
-	 * @param array $idarr É¾³ýµÄIDÊý×é ±ÈÈçÒªÉ¾³ýIDÎª1£¬2£¬3µÄÎÄµµ ÔòÎª£ºarray(1,2,3)
+	 * å‡½æ•°Delete,åˆ é™¤æŒ‡å®šIDæ•°ç»„çš„æ–°é—»
+	 * æˆåŠŸè¿”å›žtrue å¤±è´¥è¿”å›žfalse
+	 * @param array $idarr åˆ é™¤çš„IDæ•°ç»„ æ¯”å¦‚è¦åˆ é™¤IDä¸º1ï¼Œ2ï¼Œ3çš„æ–‡æ¡£ åˆ™ä¸ºï¼šarray(1,2,3)
 	 * @return boolean
 	 */
 	function Delete($idarr){
 		$this->setTable('{tablepre}news');
-		//ÕâÀïµÄidarrÊÇ¸öÊý×é ÒªÉ¾³ýµÄIDÊý×é
+		//è¿™é‡Œçš„idarræ˜¯ä¸ªæ•°ç»„ è¦åˆ é™¤çš„IDæ•°ç»„
 		if(parent::Del($idarr)){
 			$this->setTable('{tablepre}news_addon');
 			return parent::Del($idarr,'aid');
@@ -253,10 +262,10 @@ class News extends Article{
 		}
 	}
 	/**
-	 * º¯ÊýGetLogo,·µ»ØÐÂÎÅµÄLOGO
-	 * ³É¹¦·µ»ØLOGO Ê§°Ü·µ»Ø''
+	 * å‡½æ•°GetLogo,è¿”å›žæ–°é—»çš„LOGO
+	 * æˆåŠŸè¿”å›žLOGO å¤±è´¥è¿”å›ž''
 	 * @param string|int $id ID
-	 * @param boolean $emptyFillDefault µ±·µ»ØµÄLOGOÎª¿ÕÊ± ÊÇ²»ÊÇ·µ»ØËõÂÔÍ¼
+	 * @param boolean $emptyFillDefault å½“è¿”å›žçš„LOGOä¸ºç©ºæ—¶ æ˜¯ä¸æ˜¯è¿”å›žç¼©ç•¥å›¾
 	 * @return string
 	 */
 	function GetLogo($id,$emptyFillDefault=true){
@@ -270,27 +279,28 @@ class News extends Article{
 		return $logo;
 	}
 	/**
-	 * º¯ÊýGetList,µ÷ÓÃÐÂÎÅÁÐ±í
-	 * ·µ»Ø·µ»ØÐÂÎÅÁÐ±í
-	 * @param string|int $classid ÐÂÎÅÀàÐÍ
-	 * @param array $col Òª·µ»ØµÄ×Ö¶ÎÁÐ ÈçÄãÒª·µ»Øid,titleÎª£ºarray('id','title') Èç¹ûÎªarrya()Ê±·µ»ØÈ«²¿×Ö¶Î
-	 * @param int $issystem ÊÇ²»ÊÇÏµÍ³ÎÄÕÂ 0Îª·µ»Ø·ÇÏµÍ³ÎÄÕÂ 1Îª·µ»ØÏµÍ³ÎÄÕÂ 2±íÊ¾È«²¿ÎÄÕÂ
-	 * @param string $start ¿ªÊ¼ID
-	 * @param string $listnum ·µ»Ø¼ÇÂ¼Êý
-	 * @param string $order ÅÅÐò£¬²»Òª´øorder Èçupdatetime desc
-	 * @param string $whereoption Ìõ¼þ
+	 * å‡½æ•°GetList,è°ƒç”¨æ–°é—»åˆ—è¡¨
+	 * è¿”å›žè¿”å›žæ–°é—»åˆ—è¡¨
+	 * @param string|int $classid æ–°é—»ç±»åž‹
+	 * @param array $col è¦è¿”å›žçš„å­—æ®µåˆ— å¦‚ä½ è¦è¿”å›žid,titleä¸ºï¼šarray('id','title') å¦‚æžœä¸ºarrya()æ—¶è¿”å›žå…¨éƒ¨å­—æ®µ
+	 * @param int $issystem æ˜¯ä¸æ˜¯ç³»ç»Ÿæ–‡ç«  0ä¸ºè¿”å›žéžç³»ç»Ÿæ–‡ç«  1ä¸ºè¿”å›žç³»ç»Ÿæ–‡ç«  2è¡¨ç¤ºå…¨éƒ¨æ–‡ç« 
+	 * @param string $start å¼€å§‹ID
+	 * @param string $listnum è¿”å›žè®°å½•æ•°
+	 * @param string $order æŽ’åºï¼Œä¸è¦å¸¦order å¦‚updatetime desc
+	 * @param string $whereoption æ¡ä»¶
 	 * @return array
 	 */
-	function GetList($classid,$col=array(),$start='',$listnum='',$order='istop desc,id desc',$whereoption=''){
+	function GetList($classid,$col=array(),$start='',$listnum='',$order='istop desc,id desc',$where_option=''){
+		global $web_url,$web_url_module,$web_url_surfix;
 		$this->setTable('{tablepre}news');
 		if($classid!=0){
 			$where="classid=$classid";
 		}
-		if(!empty($whereoption)){
+		if(!empty($where_option)){
 			if(!empty($where)){
-				$where.=' and'.$whereoption;
+				$where.=' and'.$where_option;
 			}else{
-				$where=$whereoption;
+				$where=$where_option;
 			}
 		}
 		$arr=parent::GetList($col,$start,$listnum,$where,$order);
@@ -303,8 +313,12 @@ class News extends Article{
 				$arr[$i]['logo']=$web_url.'/uploads/news/'.$arr[$i]['logo'];
 				//echo $proinfo['logo'];
 			}
-			$arr[$i]['innerkey']=$i+1; //ÄÚ²¿Ê¹ÓÃµÄÏÂ±êÖµ
-			$arr[$i]['url']="news.php?id=".$arr[$i]['id'];
+			$arr[$i]['innerkey']=$i+1; //å†…éƒ¨ä½¿ç”¨çš„ä¸‹æ ‡å€¼
+			if($web_url_module=='1'){
+				$arr[$i]['url']="news.php?id=".$arr[$i]['id'];
+			}elseif($web_url_module=='2'){
+				$arr[$i]['url']="news_".$arr[$i]['id'].".".$web_url_surfix;
+			}
 		}
 		return $arr;
 	}

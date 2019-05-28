@@ -4,21 +4,21 @@ include "../include/common.inc.php";
 include WEB_CLASS."/product_class.php";
 include "adminyz.php";
 
-header('Content-type:text/html;charset=gb2312');
+header('Content-type:text/html;charset=utf-8');
 header('cache-control:no-cache;must-revalidate');
 $pro=new Product(0);
 
-//ÌáÊ¾ÐÅÏ¢¿ªÊ¼
-$errormsg=array();//´íÎóÐÅÏ¢
-$back=array('²úÆ··ÖÀàÁÐ±í'=>'product_class_list.php');
-//ÌáÊ¾ÐÅÏ¢½áÊø
+//æç¤ºä¿¡æ¯å¼€å§‹
+$errormsg=array();//é”™è¯¯ä¿¡æ¯
+$back=array('äº§å“åˆ†ç±»åˆ—è¡¨'=>'product_class_list.php');
+//æç¤ºä¿¡æ¯ç»“æŸ
 
-//±¾Ò³Îª²Ù×÷ÐÂÎÅµÄÒ³Ãæ
+//æœ¬é¡µä¸ºæ“ä½œæ–°é—»çš„é¡µé¢
 if($action=='add' || $action=='add_ajax'){
 	$errormsg='';
 	$iserror=false;
 	if(strlen($classname)==0){
-		$errormsg[]='ÇëÌîÐ´²úÆ··ÖÀàÃû';
+		$errormsg[]='è¯·å¡«å†™äº§å“åˆ†ç±»å';
 		$iserror=true;
 	}
 	if($iserror){
@@ -28,25 +28,28 @@ if($action=='add' || $action=='add_ajax'){
 			echo implode(',',$errormsg);
 		}
 	}else{
-		//Ã»ÓÐ´íÎó
+		//æ²¡æœ‰é”™è¯¯
 		if($action=='add_ajax'){
 			$classname=iconv('utf-8','gb2312',urldecode($classname));
 			$classdescription=iconv('utf-8','gb2312',urldecode($classdescription));
 		}
 		$rid=$pro->AddClass(array('classname'=>$classname,
+								  'parentid'=>(int)$parentid,
+								  'orderid'=>(int)$orderid,
 					   		 'classdescription'=>$classdescription
 							 )
 					   );
 		if(!$rid){
-			$errormsg[]='Ìí¼Ó²úÆ··ÖÀàÊ§°Ü';
+			$errormsg[]='æ·»åŠ äº§å“åˆ†ç±»å¤±è´¥';
 			if($action=='add'){
 				ShowMsg($errormsg,2,$back);	
 			}elseif($action='add_ajax'){
 				echo implode(',',$errormsg).$classname;
 			}
 		}else{
-			$errormsg[]='Ìí¼Ó²úÆ··ÖÀà³É¹¦';
+			$errormsg[]='æ·»åŠ äº§å“åˆ†ç±»æˆåŠŸ';
 			if($action=='add'){
+				$back['ç»§ç»­æ·»åŠ ']='product_class_edit.php?action=add';
 				ShowMsg($errormsg,1,$back);	
 			}elseif($action='add_ajax'){
 				echo implode(',',$errormsg);
@@ -62,21 +65,37 @@ if($action=='add' || $action=='add_ajax'){
 	echo json_encode($proclasslist);	
 }elseif($action=='modify'){
 	if($pro->UpdateClass($id,array('classname'=>$classname,
+								  'parentid'=>(int)$parentid,
+								  'orderid'=>(int)$orderid,
 					   		 'classdescription'=>$classdescription
 							 ))){
-		$errormsg[]='¸üÐÂ²úÆ··ÖÀà³É¹¦';
+		$errormsg[]='æ›´æ–°äº§å“åˆ†ç±»æˆåŠŸ';
 		ShowMsg($errormsg,1,$back);
 	}else{
-		$errormsg[]='¸üÐÂ²úÆ··ÖÀàÊ§°Ü';
+		$errormsg[]='æ›´æ–°äº§å“åˆ†ç±»å¤±è´¥';
 		ShowMsg($errormsg,2,$back);
 	}	
 }elseif($action=='delproductclass'){
-	if($pro->DeleteClass($id)){
-		$errormsg[]='É¾³ýÊý¾Ý³É¹¦';
-		ShowMsg($errormsg,1,$back);
-	}else{
-		$errormsg[]='É¾³ýÊý¾ÝÊ§°Ü';
+	$r_id=$pro->DeleteClass(array($classid));
+	if($r_id==2){
+		$errormsg[]='åˆ é™¤æ•°æ®å¤±è´¥ï¼šè¯·å…ˆåˆ é™¤è¿™ä¸ªç±»çš„å­ç±»';
 		ShowMsg($errormsg,2,$back);
+	}elseif($r_id==3){
+		$errormsg[]='åˆ é™¤æ•°æ®å¤±è´¥';
+		ShowMsg($errormsg,2,$back);
+	}elseif($r_id==1){
+		$errormsg[]='åˆ é™¤æ•°æ®æˆåŠŸ';
+		ShowMsg($errormsg,1,$back);
 	}
+}elseif($action=='order'){
+	if($orderid){
+		foreach($orderid as $key=>$value){
+			$pro->UpdateClass($key,array('orderid'=>$value));
+		}
+	}
+	$errormsg[]='æ›´æ–°æŽ’åºæˆåŠŸ';
+	ShowMsg($errormsg,1,$back);
+}else{
+	ShowMsg('éžæ³•å‚æ•°',2,$back);
 }
 ?>

@@ -2,9 +2,9 @@
 require_once("include/common.inc.php");
 include WEB_DR."/common.php";
 
-$aid = 1; //ндуб╣дID н╙ё╨ё╗╧╚к╬вйао>обцФ╣дндуб╣дIDё╘
+$aid = 1; //Ф√┤Г╚═Г └ID Д╦╨О╪ О╪┬Е┘╛Е▐╦Х╣└Ф√≥>Д╦▀И²╒Г └Ф√┤Г╚═Г └IDО╪┴
 if($aid==0){
-	ShowNext('ц╩сп╣╠г╟ID╣дндуб','index.php');
+	ShowNext('Ф╡║Ф°┴Е╫⌠Е┴█IDГ └Ф√┤Г╚═','index.php');
 }
 
 include WEB_CLASS."/single_class.php";

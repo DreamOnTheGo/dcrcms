@@ -5,16 +5,16 @@ include "adminyz.php";
 
 include WEB_CLASS."/news_class.php";
 
-header('Content-type:text/html;charset=gb2312');
+header('Content-type:text/html;charset=utf8');
 header('cache-control:no-cache;must-revalidate');
 $news=new News();
 
-//ÌáÊ¾ĞÅÏ¢¿ªÊ¼
-$errormsg=array();//´íÎóĞÅÏ¢
-$back=array('ĞÂÎÅ·ÖÀàÁĞ±í'=>'news_class_list.php');
-//ÌáÊ¾ĞÅÏ¢½áÊø
+//æç¤ºä¿¡æ¯å¼€å§‹
+$errormsg=array();//é”™è¯¯ä¿¡æ¯
+$back=array('æ–°é—»åˆ†ç±»åˆ—è¡¨'=>'news_class_list.php');
+//æç¤ºä¿¡æ¯ç»“æŸ
 
-//±¾Ò³Îª²Ù×÷ĞÂÎÅµÄÒ³Ãæ
+//æœ¬é¡µä¸ºæ“ä½œæ–°é—»çš„é¡µé¢
 if($action=='add' || $action=='add_ajax'){
 	$errormsg='';
 	$iserror=false;
@@ -25,7 +25,7 @@ if($action=='add' || $action=='add_ajax'){
 			echo implode(',',$errormsg);
 		}
 	}else{
-		//Ã»ÓĞ´íÎó
+		//æ²¡æœ‰é”™è¯¯
 		if($action=='add_ajax'){
 			$classname=iconv('utf-8','gb2312',urldecode($classname));
 			$classdescription=iconv('utf-8','gb2312',urldecode($classdescription));
@@ -35,14 +35,14 @@ if($action=='add' || $action=='add_ajax'){
 							 )
 					   );
 		if(!$rid){
-			$errormsg[]='Ìí¼ÓĞÂÎÅ·ÖÀàÊ§°Ü';
+			$errormsg[]='æ·»åŠ æ–°é—»åˆ†ç±»å¤±è´¥';
 			if($action=='add'){
 				ShowMsg($errormsg,2,$back);	
 			}elseif($action='add_ajax'){
 				echo implode(',',$errormsg).$classname;
 			}
 		}else{
-			$errormsg[]='Ìí¼ÓĞÂÎÅ·ÖÀà³É¹¦';
+			$errormsg[]='æ·»åŠ æ–°é—»åˆ†ç±»æˆåŠŸ';
 			if($action=='add'){
 				ShowMsg($errormsg,1,$back);	
 			}elseif($action='add_ajax'){
@@ -64,26 +64,26 @@ if($action=='add' || $action=='add_ajax'){
 		if($news->UpdateClass($id,array('classname'=>$classname,
 								 'classdescription'=>$classdescription
 								 ))){
-			$errormsg[]='¸üĞÂĞÂÎÅ·ÖÀà³É¹¦';
+			$errormsg[]='æ›´æ–°æ–°é—»åˆ†ç±»æˆåŠŸ';
 			ShowMsg($errormsg,1,$back);
 		}else{
-			$errormsg[]='¸üĞÂĞÂÎÅ·ÖÀàÊ§°Ü';
+			$errormsg[]='æ›´æ–°æ–°é—»åˆ†ç±»å¤±è´¥';
 			ShowMsg($errormsg,2,$back);
 		}
 	}
 }elseif($action=='delnewsclass'){
 	if($news->DeleteClass($id)){
-		$errormsg[]='É¾³ıÊı¾İ³É¹¦';
+		$errormsg[]='åˆ é™¤æ•°æ®æˆåŠŸ';
 		ShowMsg($errormsg,1,$back);
 	}else{
-		$errormsg[]='É¾³ıÊı¾İÊ§°Ü';
+		$errormsg[]='åˆ é™¤æ•°æ®å¤±è´¥';
 		ShowMsg($errormsg,2,$back);
 	}
 }
 function checkinput(){
 	global $errormsg,$classname;
 	if(strlen($classname)==0){
-		$errormsg[]='ÇëÌîĞ´ĞÂÎÅ·ÖÀàÃû';
+		$errormsg[]='è¯·å¡«å†™æ–°é—»åˆ†ç±»å';
 		$iserror=true;
 	}
 	return $iserror;

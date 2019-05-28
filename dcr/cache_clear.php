@@ -3,7 +3,7 @@ session_start();
 include "../include/common.inc.php";
 include WEB_CLASS."/config_class.php";
 include "adminyz.php";
-include WEB_DR."/common.php";//Ä£°åÍ¨ÓÃÎÄ¼þ ³õÊ¼»¯Ä£°åÀà¼°ÔØÈëÍ¨ÓÃ±äÁ¿Ö®ÀàµÄ
+include WEB_DR."/common.php";//æ¨¡æ¿é€šç”¨æ–‡ä»¶ åˆå§‹åŒ–æ¨¡æ¿ç±»åŠè½½å…¥é€šç”¨å˜é‡ä¹‹ç±»çš„
 
 $dirname=$tpl->compile_dir;
 
@@ -28,6 +28,6 @@ if($handle=opendir($dirname)){
 }
 
 $tpl->clear_all_cache();
-$errormsg[]='Çå¿Õ»º´æ³É¹¦';
+$errormsg[]='æ¸…ç©ºç¼“å­˜æˆåŠŸ';
 ShowMsg($errormsg);	
 ?>

@@ -2,17 +2,17 @@
 session_start();
 include "../include/common.inc.php";
 if($_SESSION['admin_yz']!=$admin_yz){
-	ShowBack('ÄúÊäÈëµÄÑéÖ¤ÂëÓÐÎó£¬ÇëÖØÐÂÊäÈë');
+	ShowBack('æ‚¨è¾“å…¥çš„éªŒè¯ç æœ‰è¯¯ï¼Œè¯·é‡æ–°è¾“å…¥');
 }
 include "class/member_admin_class.php";
 $password=encrypt($password);
 $m=new Member_Admin($username,$password);
 $isadmin=$m->yz();
 if($isadmin){
-	//Èç¹ûÊÇ µÇÂ½
+	//å¦‚æžœæ˜¯ ç™»é™†
 	$m->login();
 	ShowNext('','index.htm');
 }else{
-	ShowBack('ÄúÊäÈëµÄÓÃ»§Ãû»òÃÜÂë£¬ÇëÖØÐÂÊäÈë');
+	ShowBack('æ‚¨è¾“å…¥çš„ç”¨æˆ·åæˆ–å¯†ç ï¼Œè¯·é‡æ–°è¾“å…¥');
 }
 ?>

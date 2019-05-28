@@ -1,3 +1,4 @@
+@charset "utf-8";
 .boxy-wrapper { position: absolute; }
 .boxy-wrapper.fixed { position: fixed; }
 

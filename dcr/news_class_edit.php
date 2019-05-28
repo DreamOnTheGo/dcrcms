@@ -5,13 +5,13 @@ include "adminyz.php";
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><HEAD>
-<META http-equiv=Content-Type content="text/html; charset=gb2312">
+<META http-equiv=Content-Type content="text/html; charset=utf-8">
 <LINK href="css/admin.css" type="text/css" rel="stylesheet">
 <?php include "admin_common.php"; ?>
 <script type='text/javascript'>
 function check(){
 	if($("#classname").val().length==0){
-		ShowMsg('ÇëÊäÈëÐÂÎÅ·ÖÀàÃû');
+		ShowMsg('è¯·è¾“å…¥æ–°é—»åˆ†ç±»å');
 		return false;
 	}
 }
@@ -21,7 +21,7 @@ function check(){
 <div class="boxy"></div>
 <TABLE cellSpacing=0 cellPadding=0 width="100%" align=center border=0>
   <TR height=28>
-    <TD background=images/title_bg1.jpg>µ±Ç°Î»ÖÃ: <a href="main.php">ºóÌ¨Ê×Ò³</a>&gt;&gt;Ìí¼ÓÐÂÎÅ·ÖÀà</TD></TR>
+    <TD background=images/title_bg1.jpg>å½“å‰ä½ç½®: <a href="main.php">åŽå°é¦–é¡µ</a>&gt;&gt;æ·»åŠ æ–°é—»åˆ†ç±»</TD></TR>
   <TR>
     <TD bgColor=#b1ceef height=1></TD></TR></TABLE>
 <TABLE cellSpacing=0 cellPadding=0 width="95%" align=center border=0>
@@ -29,7 +29,7 @@ function check(){
     <TD></TD></TR>
   <TR height=22>
     <TD style="PADDING-LEFT: 20px; FONT-WEIGHT: bold; COLOR: #ffffff" 
-    align=middle background=images/title_bg2.jpg>Ìí¼ÓÐÂÎÅ·ÖÀà</TD></TR>
+    align=middle background=images/title_bg2.jpg>æ·»åŠ æ–°é—»åˆ†ç±»</TD></TR>
   <TR bgColor=#ecf4fc height=12>
     <TD></TD></TR>
   </TABLE>
@@ -43,7 +43,7 @@ function check(){
 			$news=new News();
 			$newsClassInfo=$news->GetClassInfo($id);
 		}else{
-			ShowMsg('ÄúÃ»ÓÐÑ¡ÔñÒªÐÞ¸ÄµÄÎÄµµ');
+			ShowMsg('æ‚¨æ²¡æœ‰é€‰æ‹©è¦ä¿®æ”¹çš„æ–‡æ¡£');
 		}
 	}
 ?>
@@ -52,16 +52,16 @@ function check(){
 <input type="hidden" name="id" id="id" value="<?php echo $newsClassInfo['id']; ?>">
 <TABLE cellSpacing=2 cellPadding=5 width="95%" align=center border=0 bgcolor="#ecf4fc">
   <TR>
-    <TD width=100 align=right bgcolor="#FFFFFF">·ÖÀàÃû(<font color="red" class="txtRed">*</font>)£º</TD>
+    <TD width=100 align=right bgcolor="#FFFFFF">åˆ†ç±»å(<font color="red" class="txtRed">*</font>)ï¼š</TD>
     <TD bgcolor="#FFFFFF" style="COLOR: #880000"><input name="classname" type="text" id="classname" size="80" value="<?php echo $newsClassInfo['classname']; ?>"></TD></TR>
   <TR>
-    <TD align=right valign="top" bgcolor="#FFFFFF">·ÖÀàËµÃ÷£º</TD>
+    <TD align=right valign="top" bgcolor="#FFFFFF">åˆ†ç±»è¯´æ˜Žï¼š</TD>
     <TD bgcolor="#FFFFFF" style="COLOR: #880000"><textarea name="classdescription" cols="80" rows="3" id="classdescription"><?php echo $newsClassInfo['classdescription']; ?></textarea></TD>
   </TR>
   <TR>
     <TD align=right bgcolor="#FFFFFF"></TD>
-    <TD bgcolor="#FFFFFF" style="COLOR: #880000"><input type="submit" name="button" id="button" value="<?php if($action=='add'){echo 'Ìí¼Ó';}else{echo 'ÐÞ¸Ä';} ?>·ÖÀà">
-    <input type="reset" name="button2" id="button2" value="ÖØÖÃ"></TD></TR>
+    <TD bgcolor="#FFFFFF" style="COLOR: #880000"><input type="submit" name="button" id="button" value="<?php if($action=='add'){echo 'æ·»åŠ ';}else{echo 'ä¿®æ”¹';} ?>åˆ†ç±»">
+    <input type="reset" name="button2" id="button2" value="é‡ç½®"></TD></TR>
     </TABLE>
  </form>
  </BODY></HTML>

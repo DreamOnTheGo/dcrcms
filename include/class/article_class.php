@@ -1,40 +1,39 @@
 <?php
 /**
-* ÎÄÕÂ´¦ÀíµÄ»ùÀà£¬Ò»°ãÎÄÕÂ´¦ÀíµÄÀà¶¼ÒÔÎªÕâ¸ö¸¸Àà.
-* Õâ¸öÀàÖĞÓĞ¸üĞÂ¡¢²åÈë¡¢É¾³ıÎÄµµ »¹ÓĞ»ñÈ¡Êı¾İµÈ·½·¨
-* @author ÎÒ²»ÊÇµ¾²İÈË www.cntaiyn.cn
+* æ–‡ç« å¤„ç†çš„åŸºç±»ï¼Œä¸€èˆ¬æ–‡ç« å¤„ç†çš„ç±»éƒ½ä»¥ä¸ºè¿™ä¸ªçˆ¶ç±».
+* è¿™ä¸ªç±»ä¸­æœ‰æ›´æ–°ã€æ’å…¥ã€åˆ é™¤æ–‡æ¡£ è¿˜æœ‰è·å–æ•°æ®ç­‰æ–¹æ³•
+* @author æˆ‘ä¸æ˜¯ç¨»è‰äºº www.cntaiyn.cn
 * @version 1.0
 * @copyright 2006-2010
 * @package class
 */
 class Article{
-	private $table; //²Ù×÷µÄ±íÃû
+	private $table; //æ“ä½œçš„è¡¨å
 	/**
-	 * ArticleµÄ¹¹Ôìº¯Êı ÎŞĞè´«²ÎÊı
-	 * @param string $table Õâ¸öÎÄÕÂÀàÒª²Ù×÷µÄ±íÃû
+	 * Articleçš„æ„é€ å‡½æ•° æ— éœ€ä¼ å‚æ•°
+	 * @param string $table è¿™ä¸ªæ–‡ç« ç±»è¦æ“ä½œçš„è¡¨å
 	 * @return Article
 	 */
 	function __construct($table){
 		$this->table=$table;
 	}
 	/**
-	 * º¯ÊısetTable,ÉèÖÃÀàÒª²Ù×÷µÄ±í
-	 * ËµÃ÷ Èç¹û×ÓÀàÖĞÒª²Ù×÷µÄ²»ÊÇ¹¹Ôìº¯ÊıµÄÀïÉèÖÃµÄ±íÃûÔòÒªÍ¨¹ıÕâ¸öº¯ÊıÉèÖÃ±íÃûºó²ÅÄÜ½øĞĞÏÂÒ»²½²Ù×÷
-	 * @param string $table ±íÃû
+	 * å‡½æ•°setTable,è®¾ç½®ç±»è¦æ“ä½œçš„è¡¨
+	 * è¯´æ˜ å¦‚æœå­ç±»ä¸­è¦æ“ä½œçš„ä¸æ˜¯æ„é€ å‡½æ•°çš„é‡Œè®¾ç½®çš„è¡¨ååˆ™è¦é€šè¿‡è¿™ä¸ªå‡½æ•°è®¾ç½®è¡¨ååæ‰èƒ½è¿›è¡Œä¸‹ä¸€æ­¥æ“ä½œ
+	 * @param string $table è¡¨å
 	 * @return true
 	 */
 	protected function setTable($table){
 		$this->table=$table;
 	}
 	/**
-	 * º¯ÊıGetList,ÊµÏÖ¶Ô±íÀïÊı¾İµÄµ÷ÓÃ(ÁĞ±íÊı¾İ)
-	 * ·µ»ØÕâ¸öÁĞ±íÊı¾İµÄÊı×éÀàĞÍ
-	 * @param string $table ±íÃû
-	 * @param array $col Òª·µ»ØµÄ×Ö¶ÎÁĞ ÈçÄãÒª·µ»Øid,titleÎª£ºarray('id','title') Èç¹ûÎªarrya()Ê±·µ»ØÈ«²¿×Ö¶Î
-	 * @param string $where Ìõ¼ş£¬²»Òª´øwhere Èçid=1
-	 * @param string $order ÅÅĞò£¬²»Òª´øorder Èçupdatetime desc
-	 * @param string $start ¿ªÊ¼ID
-	 * @param string $listnum ·µ»Ø¼ÇÂ¼Êı
+	 * å‡½æ•°GetList,å®ç°å¯¹è¡¨é‡Œæ•°æ®çš„è°ƒç”¨(åˆ—è¡¨æ•°æ®)
+	 * è¿”å›è¿™ä¸ªåˆ—è¡¨æ•°æ®çš„æ•°ç»„ç±»å‹
+	 * @param array $col è¦è¿”å›çš„å­—æ®µåˆ— å¦‚ä½ è¦è¿”å›id,titleä¸ºï¼šarray('id','title') å¦‚æœä¸ºarrya()æ—¶è¿”å›å…¨éƒ¨å­—æ®µ
+	 * @param string $where æ¡ä»¶ï¼Œä¸è¦å¸¦where å¦‚id=1
+	 * @param string $order æ’åºï¼Œä¸è¦å¸¦order å¦‚updatetime desc
+	 * @param string $start å¼€å§‹ID
+	 * @param string $listnum è¿”å›è®°å½•æ•°
 	 * @return array
 	 */
 	function GetList($col=array(),$start='',$listnum='',$where='',$order=''){
@@ -53,17 +52,31 @@ class Article{
 		if(strlen($start)>0 && strlen($listnum)>0){
 			$limit="limit $start,$listnum";
 		}
+		//echo $where;
 		$sql="select $cols from ".$this->table." $where $order $limit";
+		//echo $sql;
 		$db->Execute($sql);
 		$t_list=$db->GetArray();
 		return $t_list;				
 	}
 	/**
-	 * º¯ÊıGetInfo,·µ»Øµ¥¸öÎÄµµµÄÊı¾İ
-	 * ·µ»ØÖµÎªÕâ¸öÎÄµµµÄĞÅÏ¢(Array)
-	 * @param string $table ±íÃû
-	 * @param array $col Òª·µ»ØµÄ×Ö¶ÎÁĞ ÈçÄãÒª·µ»Øid,titleÎª£ºarray('id','title') Èç¹ûÎªarrya()Ê±·µ»ØÈ«²¿×Ö¶Î
-	 * @param string $where Ìõ¼ş£¬²»Òª´øwhere Èçid=1
+	 * å‡½æ•°GetListBySql,ç”¨SQLç›´æ¥å®ç°å¯¹è¡¨é‡Œæ•°æ®çš„è°ƒç”¨(åˆ—è¡¨æ•°æ®)
+	 * è¿”å›è¿™ä¸ªåˆ—è¡¨æ•°æ®çš„æ•°ç»„ç±»å‹
+	 * @param string $sql æ“ä½œçš„SQL
+	 * @return array
+	 */
+	function GetListBySql($sql){
+		global $db;
+		$db->Execute($sql);
+		$t_list=$db->GetArray();
+		return $t_list;				
+	}
+	/**
+	 * å‡½æ•°GetInfo,è¿”å›å•ä¸ªæ–‡æ¡£çš„æ•°æ®
+	 * è¿”å›å€¼ä¸ºè¿™ä¸ªæ–‡æ¡£çš„ä¿¡æ¯(Array)
+	 * @param string $table è¡¨å
+	 * @param array $col è¦è¿”å›çš„å­—æ®µåˆ— å¦‚ä½ è¦è¿”å›id,titleä¸ºï¼šarray('id','title') å¦‚æœä¸ºarrya()æ—¶è¿”å›å…¨éƒ¨å­—æ®µ
+	 * @param string $where æ¡ä»¶ï¼Œä¸è¦å¸¦where å¦‚id=1
 	 * @return array
 	 */
 	function GetInfo($col=array(),$where=''){
@@ -83,10 +96,10 @@ class Article{
 		return $t_r[0];
 	}
 	/**
-	 * º¯ÊıAdd,²åÈëÒ»¸öÎÄµµ
-	 * ·µ»ØÖµÎªÎÄµµµÄID,Ê§°Ü·µ»Ø0
-	 * @param string $table ±íÃû
-	 * @param array $info ²åÈëµÄÊı¾İ ÓÃÊı×é±íÊ¾,ÓÃ$key=>$valueÀ´±íÊ¾ÁĞÃû=>Öµ Èçarray('title'=>'±êÌâ') ±íÊ¾²åÈëtitleµÄÖµÎª ±êÌâ
+	 * å‡½æ•°Add,æ’å…¥ä¸€ä¸ªæ–‡æ¡£
+	 * è¿”å›å€¼ä¸ºæ–‡æ¡£çš„ID,å¤±è´¥è¿”å›0
+	 * @param string $table è¡¨å
+	 * @param array $info æ’å…¥çš„æ•°æ® ç”¨æ•°ç»„è¡¨ç¤º,ç”¨$key=>$valueæ¥è¡¨ç¤ºåˆ—å=>å€¼ å¦‚array('title'=>'æ ‡é¢˜') è¡¨ç¤ºæ’å…¥titleçš„å€¼ä¸º æ ‡é¢˜
 	 * @return int
 	 */
 	function Add($info){
@@ -105,10 +118,10 @@ class Article{
 		return $db->GetInsertId();
 	}
 	/**
-	 * º¯ÊıUpdate,¸üĞÂÒ»¸öÎÄµµ
-	 * ³É¹¦·µ»Øtrue Ê§°Ü·µ»Øfalse
-	 * @param string $table ±íÃû
-	 * @param array $info ¸üĞÂµÄÊı¾İ ÓÃÊı×é±íÊ¾,ÓÃ$key=>$valueÀ´±íÊ¾ÁĞÃû=>Öµ Èçarray('title'=>'±êÌâ') ±íÊ¾²åÈëtitleµÄÖµÎª ±êÌâ
+	 * å‡½æ•°Update,æ›´æ–°ä¸€ä¸ªæ–‡æ¡£
+	 * æˆåŠŸè¿”å›true å¤±è´¥è¿”å›false
+	 * @param string $table è¡¨å
+	 * @param array $info æ›´æ–°çš„æ•°æ® ç”¨æ•°ç»„è¡¨ç¤º,ç”¨$key=>$valueæ¥è¡¨ç¤ºåˆ—å=>å€¼ å¦‚array('title'=>'æ ‡é¢˜') è¡¨ç¤ºæ’å…¥titleçš„å€¼ä¸º æ ‡é¢˜
 	 * @return boolean
 	 */
 	function Update($info=array(),$where){
@@ -129,11 +142,11 @@ class Article{
 		}
 	}
 	/**
-	 * º¯ÊıDel,É¾³ıÖ¸¶¨IDÊı×éµÄËùÓĞÎÄÕÂ
-	 * ³É¹¦·µ»Øtrue Ê§°Ü·µ»Øfalse
-	 * @param string $table ±íÃû
-	 * @param array $idarr É¾³ıµÄIDÊı×é ±ÈÈçÒªÉ¾³ıIDÎª1£¬2£¬3µÄÎÄµµ ÔòÎª£ºarray(1,2,3)
-	 * @param string $jizhuncol É¾³ıµÄ»ù×¼ÁĞÃû£¬Ä¬ÈÏÎªID ÈçÉ¾³ıID=1µÄÎÄµµ ÒªÉ¾³ıaid=1µÄÎÄµµÔòÕâ¸öÖµÎª'aid'
+	 * å‡½æ•°Del,åˆ é™¤æŒ‡å®šIDæ•°ç»„çš„æ‰€æœ‰æ–‡ç« 
+	 * æˆåŠŸè¿”å›true å¤±è´¥è¿”å›false
+	 * @param string $table è¡¨å
+	 * @param array $idarr åˆ é™¤çš„IDæ•°ç»„ æ¯”å¦‚è¦åˆ é™¤IDä¸º1ï¼Œ2ï¼Œ3çš„æ–‡æ¡£ åˆ™ä¸ºï¼šarray(1,2,3)
+	 * @param string $jizhuncol åˆ é™¤çš„åŸºå‡†åˆ—åï¼Œé»˜è®¤ä¸ºID å¦‚åˆ é™¤ID=1çš„æ–‡æ¡£ è¦åˆ é™¤aid=1çš„æ–‡æ¡£åˆ™è¿™ä¸ªå€¼ä¸º'aid'
 	 * @return boolean
 	 */
 	function Del($idarr,$jizhuncol='id'){
@@ -155,10 +168,10 @@ class Article{
 		}
 	}
 	/**
-	 * º¯ÊıGetListCount,·µ»ØÖ¸¶¨ÎÄµµÌõ¼şµÄÎÄµµÊı
-	 * ³É¹¦Ôò·µ»Ø¼ÇÂ¼Êı Ê§°Ü·µ»Ø0
-	 * @param string $table ±íÃû
-	 * @param array $where Ìõ¼ş
+	 * å‡½æ•°GetListCount,è¿”å›æŒ‡å®šæ–‡æ¡£æ¡ä»¶çš„æ–‡æ¡£æ•°
+	 * æˆåŠŸåˆ™è¿”å›è®°å½•æ•° å¤±è´¥è¿”å›0
+	 * @param string $table è¡¨å
+	 * @param array $where æ¡ä»¶
 	 * @return int
 	 */
 	function GetListCount($where=''){

@@ -1,29 +1,29 @@
 <?php
 	/**
-	 * @author ÎÒ²»ÊÇµ¾²İÈË www.cntaiyn.cn
+	 * @author æˆ‘ä¸æ˜¯ç¨»è‰äºº www.cntaiyn.cn
 	 * @version 1.0
 	 * @copyright 2006-2010
 	 * @package function
-	 * º¯Êıencrypt,¶Ô×Ö·û´®½øĞĞ¼ÓÃÜ
-	 * @param string $s Òª¼ÓÃÜµÄ×Ö·û´®
+	 * å‡½æ•°encrypt,å¯¹å­—ç¬¦ä¸²è¿›è¡ŒåŠ å¯†
+	 * @param string $s è¦åŠ å¯†çš„å­—ç¬¦ä¸²
 	 * @return string
 	 */
 	function encrypt($s){
 		return crypt(md5($s),'dcr');
 	}
 	/**
-	 * º¯Êıjiami,¶Ô×Ö·û´®½øĞĞ¼ÓÃÜ ÕâÀïµ÷ÓÃencryptº¯Êı
-	 * @param string $s Òª¼ÓÃÜµÄ×Ö·û´®
+	 * å‡½æ•°jiami,å¯¹å­—ç¬¦ä¸²è¿›è¡ŒåŠ å¯† è¿™é‡Œè°ƒç”¨encryptå‡½æ•°
+	 * @param string $s è¦åŠ å¯†çš„å­—ç¬¦ä¸²
 	 * @return string
 	 */
 	function jiami($s){
 		return encrypt($s);
 	}
 	/**
-	 * º¯ÊıShowNext,Éú³ÉjavascriptÌø×ª
-	 * @param string $msg ÏÔÊ¾ĞÅÏ¢
-	 * @param string $url ÒªÌø×ªµÄµØÖ·
-	 * @param string $istop ÊÇ²»ÊÇÔÚ¸¸´°¿ÚÖĞÌø×ª
+	 * å‡½æ•°ShowNext,ç”Ÿæˆjavascriptè·³è½¬
+	 * @param string $msg æ˜¾ç¤ºä¿¡æ¯
+	 * @param string $url è¦è·³è½¬çš„åœ°å€
+	 * @param string $istop æ˜¯ä¸æ˜¯åœ¨çˆ¶çª—å£ä¸­è·³è½¬
 	 * @return boolean
 	 */
 	function ShowNext($msg,$url,$istop=0){
@@ -44,17 +44,21 @@
 		exit;
 	}
 	/**
-	 * º¯ÊıShowBack,·µ»ØÉÏÒ»Ò³
-	 * @param string $msg ÏÔÊ¾ĞÅÏ¢
+	 * å‡½æ•°ShowBack,è¿”å›ä¸Šä¸€é¡µ
+	 * @param string $msg æ˜¾ç¤ºä¿¡æ¯
 	 * @return boolean
 	 */
-	function ShowBack($msg){
-		echo "<script>alert('".$msg."');history.back();</script>'";
+	function ShowBack($msg=''){
+		if(!empty($msg)){
+			echo "<script>alert('".$msg."');history.back();</script>'";
+		}else{
+			echo "<script>history.back();</script>'";
+		}
 		exit;
 	}
 	/**
-	 * º¯ÊıRedirect,Ìø×ª
-	 * @param string $url ÒªÌø×ªµÄµØÖ·
+	 * å‡½æ•°Redirect,è·³è½¬
+	 * @param string $url è¦è·³è½¬çš„åœ°å€
 	 * @return boolean
 	 */
 	function Redirect($url){
@@ -62,10 +66,10 @@
 		exit;
 	}
 	/**
-	 * º¯Êımysubstr,½ØÈ¡×Ö·û´® ÄÜ¶ÔÖĞÎÄ½øĞĞ½ØÈ¡
-	 * @param string $str Òª½ØÈ¡µÄ×ÖÌõ´®
-	 * @param string $start ¿ªÊ¼½ØÈ¡µÄÎ»ÖÃ
-	 * @param string $len ½ØÈ¡µÄ³¤¶È
+	 * å‡½æ•°mysubstr,æˆªå–å­—ç¬¦ä¸² èƒ½å¯¹ä¸­æ–‡è¿›è¡Œæˆªå–
+	 * @param string $str è¦æˆªå–çš„å­—æ¡ä¸²
+	 * @param string $start å¼€å§‹æˆªå–çš„ä½ç½®
+	 * @param string $len æˆªå–çš„é•¿åº¦
 	 * @return string
 	 */
 	function mysubstr($str, $start, $len) {
@@ -81,11 +85,11 @@
 		return $tmpstr;
 	}
 	/**
-	 * º¯ÊıPutCookie,Ğ´Èëcookie
-	 * @param string $key cookieÃû
-	 * @param string $value cookieÖµ
-	 * @param string $kptime cookieÓĞĞ§ÆÚ
-	 * @param string $pa cookieÂ·¾¶
+	 * å‡½æ•°PutCookie,å†™å…¥cookie
+	 * @param string $key cookieå
+	 * @param string $value cookieå€¼
+	 * @param string $kptime cookieæœ‰æ•ˆæœŸ
+	 * @param string $pa cookieè·¯å¾„
 	 * @return boolean
 	 */
 	function PutCookie($key,$value,$kptime=0,$pa="/")
@@ -93,8 +97,8 @@
 		setcookie($key,$value,time()+$kptime,$pa);
 	}
 	/**
-	 * º¯ÊıDropCookie,É¾³ıcookie
-	 * @param string $key cookieÃû
+	 * å‡½æ•°DropCookie,åˆ é™¤cookie
+	 * @param string $key cookieå
 	 * @return boolean
 	 */	
 	function DropCookie($key)
@@ -102,8 +106,8 @@
 		setcookie($key,'',time()-360000,"/");
 	}
 	/**
-	 * º¯ÊıGetCookie,»ñÈ¡cookieÖµ
-	 * @param string $key cookieÃû
+	 * å‡½æ•°GetCookie,è·å–cookieå€¼
+	 * @param string $key cookieå
 	 * @return string
 	 */		
 	function GetCookie($key)
@@ -118,7 +122,7 @@
 		}
 	}
 	/**
-	 * º¯ÊıGetIP,»ñÈ¡µ±Ç°IP
+	 * å‡½æ•°GetIP,è·å–å½“å‰IP
 	 * @return string
 	 */	
 	function GetIP()
@@ -145,8 +149,8 @@
 		return $cip;
 	}
 	/**
-	 * º¯ÊıGetTopUrl,»ñÈ¡¶¥¼¶ÓòÃû
-	 * @param string $url Òª²Ù×÷µÄµØÖ·
+	 * å‡½æ•°GetTopUrl,è·å–é¡¶çº§åŸŸå
+	 * @param string $url è¦æ“ä½œçš„åœ°å€
 	 * @return string
 	 */	
 	function GetTopUrl($url=''){
@@ -158,23 +162,23 @@
 		return $t_url;
 	}
 	/**
-	 * º¯ÊıUplodeFile,ÉÏ´«ÎÄ¼ş
-	 * @param string $fileInput ÉÏ´«ÎÄ¼ş¿òµÄÃû×Ö
-	 * @param string $dirName ÎÄ¼şÉÏ´«ºó·ÅµÄÄ¿Â¼Ãû
-	 * @param string $fileName ÎÄ¼şÃû
-	 * @param string $sl Éú³ÉËõÂÔÍ¼µÄ´óĞ¡ array('width'=>100,'height'=>100); Ã»ÓĞ±íÊ¾²»Ëõ·Å
-	 * @param string $uptypes ÔÊĞíÉÏ´«µÄÀàĞÍ
-	 * @param string $maxFileSize ×î´óÉÏ´«´óĞ¡
+	 * å‡½æ•°UplodeFile,ä¸Šä¼ æ–‡ä»¶
+	 * @param string $fileInput ä¸Šä¼ æ–‡ä»¶æ¡†çš„åå­—
+	 * @param string $dirName æ–‡ä»¶ä¸Šä¼ åæ”¾çš„ç›®å½•å
+	 * @param string $fileName æ–‡ä»¶å
+	 * @param string $sl ç”Ÿæˆç¼©ç•¥å›¾çš„å¤§å° array('width'=>100,'height'=>100); æ²¡æœ‰è¡¨ç¤ºä¸ç¼©æ”¾
+	 * @param string $uptypes å…è®¸ä¸Šä¼ çš„ç±»å‹
+	 * @param string $maxFileSize æœ€å¤§ä¸Šä¼ å¤§å°
 	 * @return string|boolean
 	 */
 	function UplodeFile($fileInput,$dirName,$fileName='',$sl=array(),$uptypes=array('image/jpg','image/jpeg', 'image/png', 'image/pjpeg', 'image/gif', 'image/bmp', 'image/x-png','text/plain'),$maxFileSize=5000000){
 		if(is_uploaded_file($_FILES[$fileInput]['tmp_name'])){
 			$file=$_FILES[$fileInput];
 			if($maxFileSize<$file["size"]){
-				ShowBack('ÄúÉÏ´«µÄÎÄ¼ş³¬¹ıÎÄ¼şÉÏ´«´óĞ¡ÏŞÖÆ');
+				ShowBack('æ‚¨ä¸Šä¼ çš„æ–‡ä»¶è¶…è¿‡æ–‡ä»¶ä¸Šä¼ å¤§å°é™åˆ¶');
 			}
 			if(!in_array($file["type"], $uptypes)){
-				ShowBack('ÄãÉÏ´«µÄÎÄ¼ş²»ÔÚÔÊĞíÉÏ´«µÄÀàĞÍÖ®ÄÚ');
+				ShowBack('ä½ ä¸Šä¼ çš„æ–‡ä»¶ä¸åœ¨å…è®¸ä¸Šä¼ çš„ç±»å‹ä¹‹å†…');
 			}
 			if(!file_exists($dirName)){mkdir($dirName); }
 			
@@ -195,34 +199,34 @@
 				return false;
 			}else{
 				if(is_array($sl) && count($sl)>0){
-					//ÒªËõ·ÅÍ¼
+					//è¦ç¼©æ”¾å›¾
 					require WEB_CLASS."imgsize.php";
 					$img = new Image($fileName);
-					$img->changeSize($sl['width'],$sl['height']);//¸Ä±ä³ß´ç
+					$img->changeSize($sl['width'],$sl['height']);//æ”¹å˜å°ºå¯¸
 					$img->create($fileName);
 					$img->free();
 				}
 				return $fileName;
 			}
 		}else{
-			//Ã»ÓĞÉÏ´«ÎÄ¼ş
+			//æ²¡æœ‰ä¸Šä¼ æ–‡ä»¶
 			return false;
 		}
 	}	
 	/**
-	 * º¯ÊıShowMsg,ÏÔÊ¾ÌáÊ¾ĞÅÏ¢
-	 * @param string $msg ĞÅÏ¢ÄÚÈİ
-	 * @param string $msgType ĞÅÏ¢ÀàĞÍ1ÎªÒ»°ãĞÅÏ¢ 2Îª´íÎóĞÅÏ¢
-	 * @param string $back ·µ»ØµØÖ· Èç¹ûÓĞ¶à¸öÔò´«ÈëÊı×é
-	 * @param string $msgTitle ĞÅÏ¢±êÌâ
+	 * å‡½æ•°ShowMsg,æ˜¾ç¤ºæç¤ºä¿¡æ¯
+	 * @param string $msg ä¿¡æ¯å†…å®¹
+	 * @param string $msgType ä¿¡æ¯ç±»å‹1ä¸ºä¸€èˆ¬ä¿¡æ¯ 2ä¸ºé”™è¯¯ä¿¡æ¯
+	 * @param string $back è¿”å›åœ°å€ å¦‚æœæœ‰å¤šä¸ªåˆ™ä¼ å…¥æ•°ç»„
+	 * @param string $msgTitle ä¿¡æ¯æ ‡é¢˜
 	 * @return boolean
 	 */
-	function ShowMsg($msg,$msgType=1,$back='',$msgTitle='ĞÅÏ¢ÌáÊ¾'){
+	function ShowMsg($msg,$msgType=1,$back='',$msgTitle='ä¿¡æ¯æç¤º'){
 		/*
-		 *msgÏÔÊ¾ĞÅÏ¢ Èç¹ûÒª¶àÌõÔò´«ÈëÊı×é
-		 *msgTypeĞÅÏ¢ÀàĞÍ1ÎªÒ»°ãĞÅÏ¢ 2Îª´íÎóĞÅÏ¢
-		 *backÎª·µ»ØµØÖ· Èç¹ûÓĞ¶à¸öÔò´«ÈëÊı×é
-		 *msgTitleÎªĞÅÏ¢±êÌâ
+		 *msgæ˜¾ç¤ºä¿¡æ¯ å¦‚æœè¦å¤šæ¡åˆ™ä¼ å…¥æ•°ç»„
+		 *msgTypeä¿¡æ¯ç±»å‹1ä¸ºä¸€èˆ¬ä¿¡æ¯ 2ä¸ºé”™è¯¯ä¿¡æ¯
+		 *backä¸ºè¿”å›åœ°å€ å¦‚æœæœ‰å¤šä¸ªåˆ™ä¼ å…¥æ•°ç»„
+		 *msgTitleä¸ºä¿¡æ¯æ ‡é¢˜
 		 */
 		if(is_array($msg)){
 			foreach($msg as $value){
@@ -239,7 +243,7 @@
 				$msg_t="<li style='border-bottom:1px dotted #CCC;padding-left:5px;color:green;'>&middot;$msg</li>";
 			}
 		}
-		$back_t="<li style='border-bottom:1px dotted #CCC;padding-left:5px;'>&middot;<a style='color:#06F; text-decoration:none' href='javascript:history.back()'>·µ»Ø</a></li>";
+		$back_t="<li style='border-bottom:1px dotted #CCC;padding-left:5px;'>&middot;<a style='color:#06F; text-decoration:none' href='javascript:history.back()'>è¿”å›</a></li>";
 		if(is_array($back)){
 			foreach($back as $key=>$value){
 				$back_t.="<li style='border-bottom:1px dotted #CCC;padding-left:5px;'>&middot;<a style='color:#06F; text-decoration:none' href='$value'>$key</a></li>";
@@ -250,7 +254,7 @@
 	<div style='background-color:#09F; font-size:12px;padding:5px; font-weight:bold; color:#FFF;'>$msgTitle</div>
 	<div><ul style='list-style:none; line-height:22px; margin:10px; padding:0'>$msg_t</ul></div>
 	<div style='border:1px #BBDFF8 solid; width:96%; margin:0 auto; margin-bottom:10px;'>
-	<div style='background-color:#BBDFF8; font-size:12px;padding:5px; font-weight:bold; color:#666;'>Äú¿ÉÒÔ£º</div>
+	<div style='background-color:#BBDFF8; font-size:12px;padding:5px; font-weight:bold; color:#666;'>æ‚¨å¯ä»¥ï¼š</div>
 	<div><ul style='list-style:none; line-height:22px; margin:10px; padding:0'>$back_t</ul></div></div>
 	</div></html>";
 		//$msgStr.=$msg;
@@ -258,8 +262,8 @@
 		exit;
 	}
 	/**
-	 * º¯ÊıGetRandStr,»ñÈ¡Ëæ»ú×Ö·û´®
-	 * @param int $len ×Ö·û´®³¤¶È
+	 * å‡½æ•°GetRandStr,è·å–éšæœºå­—ç¬¦ä¸²
+	 * @param int $len å­—ç¬¦ä¸²é•¿åº¦
 	 * @return string
 	 */
 	function GetRandStr($len=4){
@@ -273,8 +277,8 @@
 		return $output;
 	}
 	/**
-	 * º¯Êıp_r,¸ñÊ½»¯Êä³öÊı¾İ
-	 * @param array $arr ÒªÊä³öµÄÊı×é
+	 * å‡½æ•°p_r,æ ¼å¼åŒ–è¾“å‡ºæ•°æ®
+	 * @param array $arr è¦è¾“å‡ºçš„æ•°ç»„
 	 * @return boolean
 	 */	
 	function p_r($arr){

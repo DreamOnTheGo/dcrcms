@@ -1,6 +1,6 @@
 <?php
 require_once("include/common.inc.php");
-include WEB_DR."/common.php";//Ä£°åÍ¨ÓÃÎÄ¼þ ³õÊ¼»¯Ä£°åÀà¼°ÔØÈëÍ¨ÓÃ±äÁ¿Ö®ÀàµÄ
+include WEB_DR."/common.php";//æ¨¡æ¿é€šç”¨æ–‡ä»¶ åˆå§‹åŒ–æ¨¡æ¿ç±»åŠè½½å…¥é€šç”¨å˜é‡ä¹‹ç±»çš„
 
 $classid=intval($classid);
 if($classid>0){
@@ -10,28 +10,30 @@ if(strlen($where)>0){
 	$where='where '.$where;
 }
 
-//²úÆ·
-$totalPage=0;//×ÜÒ³Êý
+//äº§å“
+$totalPage=0;//æ€»é¡µæ•°
 $page=isset($page)?(int)$page:1;
 $start=($page-1)*$list_product_count;
 
 $pro=new Product();
-$prolist=$pro->GetList($classid,array('id','title','logo'),$start,$list_product_count);
+$prolist=$pro->GetList($classid,array('id','title','logo'),$start,$list_product_count,'id desc','',1);
 $tpl->assign('prolist',$prolist);
 
 if($classid==0){
-	$classname="²úÆ·ÖÐÐÄ";
+	$classname="äº§å“ä¸­å¿ƒ";
+	$position='é¦–é¡µ>>äº§å“ä¸­å¿ƒ';
 }else{
-	$classname=$pro->GetClassName($classid);
+	$class_info=$pro->GetClassInfo($classid);
+	$classname=$class_info['classname'];
+	$position=$class_info['position'];
 }
 $tpl->assign('classname',$classname);
+$tpl->assign('position',$position);
 
-//·ÖÒ³
+//åˆ†é¡µ
 include WEB_CLASS."/page_class.php";
-$sqlNum="select id from {tablepre}product $where";
-$db->Execute($sqlNum);
-$pageNum=$db->GetRsNum();
-$totalPage=ceil($pageNum/$list_product_count);//×ÜÒ³Êý
+$pageNum=count($pro->GetList($classid,array('id'),'','','','',1));
+$totalPage=ceil($pageNum/$list_product_count);//æ€»é¡µæ•°
 
 $page=new PageClass($page,$totalPage);
 $fenye=$page->showPage();

@@ -2,9 +2,9 @@
 require_once("include/common.inc.php");
 include WEB_DR."/common.php";
 
-$aid = isset($id) && is_numeric($id) ? $id : 0;//µ±Ç°Ò³
+$aid = isset($id) && is_numeric($id) ? $id : 0;//å½“å‰é¡µ
 if($aid==0){
-	ShowNext('Ã»ÓÐµ±Ç°IDµÄÎÄÕÂ','news_list.php');
+	ShowNext('æ²¡æœ‰å½“å‰IDçš„æ–‡ç« ','news_list.'.$web_url_surfix);
 }
 
 $news->UpdateClick($aid);

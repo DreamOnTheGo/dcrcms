@@ -2,8 +2,8 @@
 session_start();
 include "../include/common.inc.php";
 include "adminyz.php";
-//µ¼³öÄ£°å
-//°ÑÅäÖÃÐ´µ½ÎÄ¼þÖÐ ·Åµ½Ä£°åÄ¿Â¼ÏÂÈ¥
+//å¯¼å‡ºæ¨¡æ¿
+//æŠŠé…ç½®å†™åˆ°æ–‡ä»¶ä¸­ æ”¾åˆ°æ¨¡æ¿ç›®å½•ä¸‹åŽ»
 $config=array(
 			  'prologowidth'=>$prologowidth,
 			  'prologoheight'=>$prologoheight,
@@ -22,13 +22,13 @@ $f=new FClass();
 $f->setText($config);
 $returnValue=$f->saveToFile($filename);
 if($returnValue=='r1'){
-	$msg[]="Ð´ÈëÄ£°åÅäÖÃÊ§°Ü£¬Â·¾¶²»´æÔÚ£º$filename";
+	$msg[]="å†™å…¥æ¨¡æ¿é…ç½®å¤±è´¥ï¼Œè·¯å¾„ä¸å­˜åœ¨ï¼š$filename";
 	ShowMsg($msg,2);
 }elseif($returnValue=='r2'){
-	$msg[]="Ð´ÈëÄ£°åÅäÖÃÊ§°Ü£¬ÎÄ¼þ²»¿ÉÐ´£º$filename";
+	$msg[]="å†™å…¥æ¨¡æ¿é…ç½®å¤±è´¥ï¼Œæ–‡ä»¶ä¸å¯å†™ï¼š$filename";
 	ShowMsg($msg,2);
 }else{
-	$msg[]="µ¼³öÄ£°å³É¹¦!";
+	$msg[]="å¯¼å‡ºæ¨¡æ¿æˆåŠŸ!";
 	ShowMsg($msg);
 }
 ?>

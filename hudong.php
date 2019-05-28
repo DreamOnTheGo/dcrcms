@@ -2,10 +2,10 @@
 require_once("include/common.inc.php");
 include WEB_DR."/common.php";
 
-//ÌáÊ¾ĞÅÏ¢¿ªÊ¼
-$errormsg=array();//´íÎóĞÅÏ¢
-$back=array('Ê×Ò³'=>'index.php');
-//ÌáÊ¾ĞÅÏ¢½áÊø
+//æç¤ºä¿¡æ¯å¼€å§‹
+$errormsg=array();//é”™è¯¯ä¿¡æ¯
+$back=array('é¦–é¡µ'=>'index.'.$web_url_surfix);
+//æç¤ºä¿¡æ¯ç»“æŸ
 
 include WEB_CLASS."/hudong_class.php";
 $hudong=new HuDong();
@@ -14,31 +14,31 @@ if($action=='addorder'){
 	$errormsg='';
 	$iserror=false;
 	if(empty($title)){
-		$errormsg[]='ÇëÌîĞ´ĞÅÏ¢±êÌâ';
+		$errormsg[]='è¯·å¡«å†™ä¿¡æ¯æ ‡é¢˜';
 		$iserror=true;
 	}
 	if(empty($realname)){
-		$errormsg[]='ÇëÌîĞ´ÄúµÄĞÕÃû';
+		$errormsg[]='è¯·å¡«å†™æ‚¨çš„å§“å';
 		$iserror=true;
 	}
 	if(empty($tel)){
-		$errormsg[]='ÇëÌîĞ´ÄúµÄÁªÏµ·½Ê½';
+		$errormsg[]='è¯·å¡«å†™æ‚¨çš„è”ç³»æ–¹å¼';
 		$iserror=true;
 	}
 	if($iserror){
 		ShowMsg($errormsg,2);
 	}else{
-		//Ã»ÓĞ´íÎó
+		//æ²¡æœ‰é”™è¯¯
 		$fieldList=$hudong->GetFiledList(array('fieldname'));
 		foreach($fieldList as $value){
 			$hudongInfo[$value['fieldname']]=$$value['fieldname'];
 		}
 		$hudongInfo['title']=$title;
 		if($hudong->Add($hudongInfo)){
-			$errormsg[]='Ìí¼Ó¶©µ¥³É¹¦';
+			$errormsg[]='æ·»åŠ è®¢å•æˆåŠŸ';
 			ShowMsg($errormsg,1,$back);
 		}else{
-			$errormsg[]='Ìí¼Ó¶©µ¥Ê§°Ü';
+			$errormsg[]='æ·»åŠ è®¢å•å¤±è´¥';
 			ShowMsg($errormsg,2);
 		}
 	}

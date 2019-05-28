@@ -5,13 +5,13 @@ include "adminyz.php";
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><HEAD>
-<META http-equiv=Content-Type content="text/html; charset=gb2312">
+<META http-equiv=Content-Type content="text/html; charset=utf-8">
 <LINK href="css/admin.css" type="text/css" rel="stylesheet">
 <?php include "admin_common.php"; ?>
 <script type='text/javascript'>
 function check(){
 	if($("#classname").val().length==0){
-		ShowMsg('ÇëÊäÈë²úÆ··ÖÀàÃû');
+		ShowMsg('è¯·è¾“å…¥äº§å“åˆ†ç±»å');
 		return false;
 	}
 }
@@ -20,7 +20,7 @@ function check(){
 <BODY>
 <TABLE cellSpacing=0 cellPadding=0 width="100%" align=center border=0>
   <TR height=28>
-    <TD background=images/title_bg1.jpg>µ±Ç°Î»ÖÃ: <a href="main.php">ºóÌ¨Ê×Ò³</a>&gt;&gt;Ìí¼Ó²úÆ··ÖÀà</TD></TR>
+    <TD background=images/title_bg1.jpg>å½“å‰ä½ç½®: <a href="main.php">åå°é¦–é¡µ</a>&gt;&gt;æ·»åŠ äº§å“åˆ†ç±»</TD></TR>
   <TR>
     <TD bgColor=#b1ceef height=1></TD></TR></TABLE>
 <TABLE cellSpacing=0 cellPadding=0 width="95%" align=center border=0>
@@ -28,39 +28,66 @@ function check(){
     <TD></TD></TR>
   <TR height=22>
     <TD style="PADDING-LEFT: 20px; FONT-WEIGHT: bold; COLOR: #ffffff" 
-    align=middle background=images/title_bg2.jpg>Ìí¼Ó²úÆ··ÖÀà</TD></TR>
+    align=middle background=images/title_bg2.jpg>æ·»åŠ äº§å“åˆ†ç±»</TD></TR>
   <TR bgColor=#ecf4fc height=12>
     <TD></TD></TR>
   </TABLE>
 <?php
+	include WEB_CLASS."/product_class.php";
+	$p=new Product(0);
 	if($action=='add'){
 	}else{
 		$action='modify';
 		$id=isset($id)?(int)$id:0;
 		if($id!=0){			
-			include WEB_CLASS."/product_class.php";
-			$p=new Product(0);
 			$productClassInfo=$p->GetClassInfo($id);
 		}else{
-			ShowMsg('ÄúÃ»ÓĞÑ¡ÔñÒªĞŞ¸ÄµÄÎÄµµ');
+			ShowMsg('æ‚¨æ²¡æœ‰é€‰æ‹©è¦ä¿®æ”¹çš„æ–‡æ¡£');
 		}
 	}
 ?>
 <form action="product_class_action.php" method="post" onsubmit="return check();">
 <input type="hidden" name="action" id="action" value="<?php echo $action; ?>">
 <input type="hidden" name="id" id="id" value="<?php echo $productClassInfo['id']; ?>">
-<TABLE cellSpacing=2 cellPadding=5 width="95%" align=center border=0 bgcolor="#ecf4fc">
-  <TR>
-    <TD width=100 align=right bgcolor="#FFFFFF">·ÖÀàÃû(<font color="red" class="txtRed">*</font>)£º</TD>
-    <TD bgcolor="#FFFFFF" style="COLOR: #880000"><input name="classname" type="text" id="classname" size="80" value="<?php echo $productClassInfo['classname']; ?>"></TD></TR>
-  <TR>
-    <TD align=right valign="top" bgcolor="#FFFFFF">·ÖÀàËµÃ÷£º</TD>
-    <TD bgcolor="#FFFFFF" style="COLOR: #880000"><textarea name="classdescription" cols="80" rows="3" id="classdescription"><?php echo $productClassInfo['classdescription']; ?></textarea></TD>
-  </TR>
-  <TR>
-    <TD align=right bgcolor="#FFFFFF"></TD>
-    <TD bgcolor="#FFFFFF" style="COLOR: #880000"><input type="submit" name="button" id="button" value="<?php if($action=='add'){echo 'Ìí¼Ó';}else{echo 'ĞŞ¸Ä';} ?>·ÖÀà">
-    <input type="reset" name="button2" id="button2" value="ÖØÖÃ"></TD></TR>
-    </TABLE>
+<table width="95%" align="center" border="0" cellspacing="1" cellpadding="5" bgcolor="#4776BE" class="itemtable">
+    <tr>
+      <td width="18%" align="right" bgcolor="#FFFFFF">åˆ†ç±»åï¼š</td>
+      <td width="82%" bgcolor="#FFFFFF"><input name="classname" type="text" id="classname" value="<?php echo $productClassInfo['classname']; ?>" />
+        <span class="txtRed">*</span>(20ä¸ªå­—ä»¥å†…)</td>
+      </tr>
+    <tr>
+      <td align="right" bgcolor="#FFFFFF">ä¸Šçº§åˆ†ç±»ï¼š</td>
+      <td bgcolor="#FFFFFF">
+      <?php
+        	$class_list=$p->GetClassList(array('id','classname','parentid'));
+	  ?>
+      <select name="parentid" id="parentid">
+        <option value="0">é¡¶çº§åˆ†ç±»</option>
+        <?php
+            foreach($class_list as $value){
+        ?>
+        <option value="<?php echo $value['id'] ?>" <?php if($value['id']==$parentid || $productClassInfo['parentid']==$value['id']){ ?>selected="selected" <?php } ?>><?php echo $value['classname'] ?></option>
+        	<?php if(is_array($value['sub']) && count($value['sub'])){ ?>
+				<?php
+                    foreach($value['sub'] as $subvalue){
+                ?>
+                <option value="<?php echo $subvalue['id'] ?>" <?php if($subvalue['id']==$parentid || $productClassInfo['parentid']==$subvalue['id']){ ?>selected="selected" <?php } ?>>----<?php echo $subvalue['classname'] ?></option>  
+        <?php }?>
+        <?php }?>
+        <?php }?>
+      </select></td>
+    </tr>
+    <tr>
+      <td align="right" bgcolor="#FFFFFF">æ’åºï¼š</td>
+      <td bgcolor="#FFFFFF"><input name="orderid" type="text" id="orderid" value="<?php echo $productClassInfo['orderid']; ?>" /></td>
+    </tr>
+    <tr>
+      <td align="right" bgcolor="#FFFFFF">åˆ†ç±»æè¿°ï¼š</td>
+      <td bgcolor="#FFFFFF"><textarea name="classdescription" cols="80" rows="5" id="classdescription"><?php echo $productClassInfo['classdescription']; ?></textarea></td>
+    </tr>
+    <tr>
+      <td colspan="2" align="center" bgcolor="#FFFFFF"><input type="submit" name="button" id="button" value="<?php if($action=='add'){echo 'æ·»åŠ åˆ†ç±»';}else{echo 'ç¼–è¾‘åˆ†ç±»';} ?>" /></td>
+    </tr>
+  </table>
  </form>
  </BODY></HTML>

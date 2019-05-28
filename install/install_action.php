@@ -2,14 +2,15 @@
 include "../include/common.func.php";
 error_reporting(E_ALL || ~E_NOTICE);
 
-header('Content-type:text/html;charset=gb2312');
+header('Content-type:text/html;charset=utf-8');
 header('cache-control:no-cache;must-revalidate');
+//æ”¹ç¼–ç çš„è¯ æ³¨æ„è¿™é‡Œ
 ?>
 <?php
-//ÌáÊ¾ĞÅÏ¢¿ªÊ¼
-$errormsg=array();//´íÎóĞÅÏ¢
-$back=array('¹ÜÀíºóÌ¨'=>'../dcr/login.htm','Ê×Ò³'=>'../index.php');
-//ÌáÊ¾ĞÅÏ¢½áÊø
+//æç¤ºä¿¡æ¯å¼€å§‹
+$errormsg=array();//é”™è¯¯ä¿¡æ¯
+$back=array('ç®¡ç†åå°'=>'../dcr/login.htm','é¦–é¡µ'=>'../index.php');
+//æç¤ºä¿¡æ¯ç»“æŸ
 $db_type=$_POST['db_type'];
 $sqlite_table=$_POST['sqlite_table'];
 $sqlite_name=$_POST['sqlite_name'];
@@ -24,19 +25,26 @@ $tablepre=$_POST['tablepre'];
 $adminuser=$_POST['adminuser'];
 $adminpas=$_POST['adminpas'];
 $web_url=$_POST['web_url'];
+$web_dir=$_POST['web_dir'];
 $web_name=$_POST['web_name'];
+$web_url_module=$_POST['web_url_module'];
+
+$web_code='utf8';
+//åˆå§‹åŒ–æ•°æ®
+//web_dirå‰é¢åŠ ä¸Š/
+if(!empty($web_dir) && substr($web_dir,0,1)!='/')$web_dir='/'.$web_dir;
 if($action=='install'){
-	//¿ªÊ¼°²×°
+	//å¼€å§‹å®‰è£…
 	if($db_type==2){
 		$conn=mysql_connect($host,$name,$pass);
 		if($conn){
 			if(mysql_select_db($table)){
-				mysql_query("SET NAMES 'gbk'");
-				//Ã»ÓĞ´íÎó ¿ªÊ¼°²×°
-				//°²×°±í
+				mysql_query("SET NAMES '$web_code'");
+				//æ²¡æœ‰é”™è¯¯ å¼€å§‹å®‰è£…
+				//å®‰è£…è¡¨
 				$fp = fopen(dirname(__FILE__).DIRECTORY_SEPARATOR.'sql_table.txt','r');
 				if(!$fp){
-					$msg[]='¶ÁÈ¡°²×°ÎÄ¼ş(sql_table.txt)´íÎó£¡';
+					$msg[]='è¯»å–å®‰è£…æ–‡ä»¶(sql_table.txt)é”™è¯¯ï¼';
 					ShowMsg($msg,2);
 				}
 				while(!feof($fp)){
@@ -44,6 +52,7 @@ if($action=='install'){
 					 if(ereg(";$",$line)){
 						 $query .= $line."\n";
 						 $query = str_replace('{tablepre}',$tablepre,$query);
+						 $query=str_replace('[web_code]',$web_code,$query);
 						$rs = mysql_query($query,$conn);
 						   $query='';
 					 }
@@ -52,10 +61,10 @@ if($action=='install'){
 					 }
 				}
 				fclose($fp);
-				//³õÊ¼»¯Êı¾İ
+				//åˆå§‹åŒ–æ•°æ®
 				$fp = fopen(dirname(__FILE__).DIRECTORY_SEPARATOR.'sql_data.txt','r');
 				if(!$fp){
-					$msg[]='¶ÁÈ¡°²×°ÎÄ¼ş(sql_data.txt)´íÎó£¡';
+					$msg[]='è¯»å–å®‰è£…æ–‡ä»¶(sql_data.txt)é”™è¯¯ï¼';
 					ShowMsg($msg,2);
 				}
 				while(!feof($fp)){
@@ -63,6 +72,7 @@ if($action=='install'){
 					 if(ereg(";$",$line)){
 						 $query .= $line."\n";
 						 $query = str_replace('{tablepre}',$tablepre,$query);
+						 $query=str_replace('[web_code]',$web_code,$query);
 						 $query=trim($query);
 						 $rs = mysql_query($query);
 						 $query='';
@@ -72,10 +82,10 @@ if($action=='install'){
 					 }
 				}
 				fclose($fp);
-				//²åÈë¹ÜÀíÔ±
+				//æ’å…¥ç®¡ç†å‘˜
 				$sql="insert into $tablepre"."admin(username,password) values('$adminuser','".jiami($adminpas)."')";
 				mysql_query($sql);
-				//¸ü¸ÄÅäÖÃ
+				//æ›´æ”¹é…ç½®
 				$db_config="";
 				$db_config.="<?php\n";
 				$db_config.="\$db_type='2';\n";
@@ -83,7 +93,7 @@ if($action=='install'){
 				$db_config.="\$name='$name';\n";
 				$db_config.="\$pass='$pass';\n";
 				$db_config.="\$table='$table';\n";
-				$db_config.="\$ut='gbk';\n";
+				$db_config.="\$ut='".$web_code."';\n";
 				$db_config.="\$tablepre='$tablepre';\n";
 				$db_config.="?>";
 				require("../include/class/f_class.php");
@@ -95,39 +105,43 @@ if($action=='install'){
 				$config=new Config();
 				$configInfo=array(
 								  'web_url'=>$web_url,
+								  'web_dir'=>$web_dir,
+								  'web_url_module'=>$web_url_module,
+								  'web_tiaoshi'=>'0',
+								  'web_code'=>$web_code,
 								  'web_name'=>$web_name
 								  );
 				$rs=$config->UpdateConfig($configInfo,'../include/config.php');
 				
-				//°Ñ°²×°ÎÄ¼şµÄÃû×Ö»»ÁË
+				//æŠŠå®‰è£…æ–‡ä»¶çš„åå­—æ¢äº†
 				@rename('index.php','index.php_back');
 				
 				if($rs=='r2'){
-					$msg[]='³ÌĞò°²×°³É¹¦£¬ÇëÑ¡ÔñÏÂÃæµÄÁ´½Ó½øÈëµ½Ïà¹ØÒ³Ãæ£¡';
+					$msg[]='ç¨‹åºå®‰è£…æˆåŠŸï¼Œè¯·é€‰æ‹©ä¸‹é¢çš„é“¾æ¥è¿›å…¥åˆ°ç›¸å…³é¡µé¢ï¼';
 					ShowMsg($msg,1,$back);
 				}
 				if($rs=='r3'){
-					$msg[]='¸üĞÂÅäÖÃÊ§°Ü£ºĞ´ÅäÖÃÎÄ¼şÊ±³ö´í,Çë¼ì²éÏà¹ØÎÄ¼ş(include/config.php include/config_db.php)µÄĞ´ÈëÈ¨ÏŞ£¡';
+					$msg[]='æ›´æ–°é…ç½®å¤±è´¥ï¼šå†™é…ç½®æ–‡ä»¶æ—¶å‡ºé”™,è¯·æ£€æŸ¥ç›¸å…³æ–‡ä»¶(include/config.php include/config_db.php)çš„å†™å…¥æƒé™ï¼';
 					ShowMsg($msg,2);
 				}
 			}else{
-				$msg[]='Êı¾İ¿âĞÅÏ¢ÓĞÎó£¡';
+				$msg[]='æ•°æ®åº“ä¿¡æ¯æœ‰è¯¯ï¼';
 				ShowMsg($msg,2);
 			}
 		}else{
-			$msg[]='Êı¾İ¿âĞÅÏ¢ÓĞÎó£¡';
+			$msg[]='æ•°æ®åº“ä¿¡æ¯æœ‰è¯¯ï¼';
 			ShowMsg($msg,2);	
 		}
 	}elseif($db_type==1){
 		$db_path=dirname(__FILE__).'/../data/'.$sqlite_table;
 		$pdo=new PDO("sqlite:$db_path");
 			if($pdo){
-				//Ã»ÓĞ´íÎó ¿ªÊ¼°²×°
-				//°²×°±í
+				//æ²¡æœ‰é”™è¯¯ å¼€å§‹å®‰è£…
+				//å®‰è£…è¡¨
 				$pdo->exec("create table '<?php'(a)");
 				$fp = fopen(dirname(__FILE__).DIRECTORY_SEPARATOR.'sql_table.txt','r');
 				if(!$fp){
-					$msg[]='¶ÁÈ¡°²×°ÎÄ¼ş(sql_table.txt)´íÎó£¡';
+					$msg[]='è¯»å–å®‰è£…æ–‡ä»¶(sql_table.txt)é”™è¯¯ï¼';
 					ShowMsg($msg,2);
 				}
 				while(!feof($fp)){
@@ -139,10 +153,11 @@ if($action=='install'){
 						 $query = str_ireplace(' ON UPDATE CURRENT_TIMESTAMP','',$query);
 						 $query = str_ireplace(' NOT NULL auto_increment','',$query);
 						 //$query = str_replace(' PRIMARY KEY  (`id`)','',$query);
-						 $query = str_ireplace(' ENGINE=MyISAM DEFAULT CHARSET=gbk','',$query);
+						 $query = str_ireplace(' ENGINE=MyISAM DEFAULT CHARSET=[web_code]','',$query);
+						 //echo $query;
 						 //echo $query;
 						 $rs = $pdo->exec($query);
-						 //print_r($pdo->errorInfo());
+						 //p_r($pdo->errorInfo());
 						 //exit;
 						 $query='';
 					 }
@@ -151,10 +166,10 @@ if($action=='install'){
 					 }
 				}
 				fclose($fp);
-				//³õÊ¼»¯Êı¾İ
+				//åˆå§‹åŒ–æ•°æ®
 				$fp = fopen(dirname(__FILE__).DIRECTORY_SEPARATOR.'sql_data.txt','r');
 				if(!$fp){
-					$msg[]='¶ÁÈ¡°²×°ÎÄ¼ş(sql_data.txt)´íÎó£¡';
+					$msg[]='è¯»å–å®‰è£…æ–‡ä»¶(sql_data.txt)é”™è¯¯ï¼';
 					ShowMsg($msg,2);
 				}
 				while(!feof($fp)){
@@ -162,6 +177,7 @@ if($action=='install'){
 					 if(ereg(";$",$line)){
 						 $query .= $line."\n";
 						 $query = str_replace('{tablepre}',$tablepre,$query);
+						 $query=str_replace('[web_code]',$web_code,$query);
 						 $query=trim($query);
 						 $rs = $pdo->exec($query);
 						 $query='';
@@ -171,10 +187,10 @@ if($action=='install'){
 					 }
 				}
 				fclose($fp);
-				//²åÈë¹ÜÀíÔ±
+				//æ’å…¥ç®¡ç†å‘˜
 				$sql="insert into $tablepre"."admin(username,password) values('$adminuser','".jiami($adminpas)."')";
 				$pdo->exec($sql);
-				//¸ü¸ÄÅäÖÃ
+				//æ›´æ”¹é…ç½®
 				$db_config="";
 				$db_config.="<?php\n";
 				$db_config.="\$db_type='1';\n";
@@ -192,23 +208,27 @@ if($action=='install'){
 				$config=new Config();
 				$configInfo=array(
 								  'web_url'=>$web_url,
+								  'web_dir'=>$web_dir,
+								  'web_url_module'=>$web_url_module,
+								  'web_tiaoshi'=>'0',
+								  'web_code'=>$web_code,
 								  'web_name'=>$web_name
 								  );
 				$rs=$config->UpdateConfig($configInfo,'../include/config.php');
 				
-				//°Ñ°²×°ÎÄ¼şµÄÃû×Ö»»ÁË
+				//æŠŠå®‰è£…æ–‡ä»¶çš„åå­—æ¢äº†
 				@rename('index.php','index.php_back');
 				
 				if($rs=='r2'){
-					$msg[]='³ÌĞò°²×°³É¹¦£¬ÇëÑ¡ÔñÏÂÃæµÄÁ´½Ó½øÈëµ½Ïà¹ØÒ³Ãæ£¡';
+					$msg[]='ç¨‹åºå®‰è£…æˆåŠŸï¼Œè¯·é€‰æ‹©ä¸‹é¢çš„é“¾æ¥è¿›å…¥åˆ°ç›¸å…³é¡µé¢ï¼';
 					ShowMsg($msg,1,$back);
 				}
 				if($rs=='r3'){
-					$msg[]='¸üĞÂÅäÖÃÊ§°Ü£ºĞ´ÅäÖÃÎÄ¼şÊ±³ö´í,Çë¼ì²éÏà¹ØÎÄ¼ş(include/config.php include/config.php)µÄĞ´ÈëÈ¨ÏŞ£¡';
+					$msg[]='æ›´æ–°é…ç½®å¤±è´¥ï¼šå†™é…ç½®æ–‡ä»¶æ—¶å‡ºé”™,è¯·æ£€æŸ¥ç›¸å…³æ–‡ä»¶(include/config.php include/config.php)çš„å†™å…¥æƒé™ï¼';
 					ShowMsg($msg,2);
 				}
 		}else{
-			$msg[]='Êı¾İ¿âĞÅÏ¢ÓĞÎó£¡';
+			$msg[]='æ•°æ®åº“ä¿¡æ¯æœ‰è¯¯ï¼';
 			ShowMsg($msg,2);	
 		}
 	}
@@ -216,12 +236,12 @@ if($action=='install'){
 	$conn=mysql_connect($host,$name,$pass);
 	if($conn){
 		if(mysql_select_db($table)){
-			echo 'Êı¾İ¿âĞÅÏ¢ÕıÈ·£¡';
+			echo 'æ•°æ®åº“ä¿¡æ¯æ­£ç¡®ï¼';
 		}else{
-			echo 'Êı¾İ¿âĞÅÏ¢ÓĞÎó£¡';
+			echo 'æ•°æ®åº“ä¿¡æ¯æœ‰è¯¯ï¼';
 		}
 	}else{
-		echo 'Êı¾İ¿âĞÅÏ¢ÓĞÎó£¡';
+		echo 'æ•°æ®åº“ä¿¡æ¯æœ‰è¯¯ï¼';
 	}
 }
 ?>
