@@ -1,0 +1,117 @@
+DROP TABLE IF EXISTS `{tablepre}admin`;
+CREATE TABLE  `{tablepre}admin` (
+  `id` integer unsigned NOT NULL auto_increment,
+  `username` varchar(40) NOT NULL,
+  `password` varchar(40) NOT NULL,
+  `logintime` timestamp NOT NULL default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `loginip` varchar(30) NOT NULL default '127.0.0.1',
+  `logincount` mediumint(8) unsigned NOT NULL default '1',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=[web_code];
+
+DROP TABLE IF EXISTS `{tablepre}flink`;
+CREATE TABLE `{tablepre}flink` (
+  `id` integer unsigned NOT NULL AUTO_INCREMENT,
+  `webname` varchar(50) NOT NULL,
+  `weburl` varchar(100) NOT NULL,
+  `logo` varchar(50) DEFAULT NULL,
+  `addtime` int(10) unsigned DEFAULT 0,
+  `updatetime` int(10) unsigned DEFAULT 0,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=[web_code];
+
+DROP TABLE IF EXISTS `{tablepre}hudong`;
+CREATE TABLE  `{tablepre}hudong` (
+  `id` integer unsigned NOT NULL auto_increment,
+  `type` tinyint(1) unsigned NOT NULL default '1',
+  `title` varchar(100) NOT NULL,
+  `updatetime` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  `loveproduct` varchar(250) NOT NULL default '',
+  `realname` varchar(250) NOT NULL default '',
+  `tel` varchar(250) NOT NULL default '',
+  `address` varchar(250) NOT NULL default '',
+  `content` mediumtext,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=[web_code];
+DROP TABLE IF EXISTS `{tablepre}hudong_field`;
+CREATE TABLE  `{tablepre}hudong_field` (
+  `id` integer unsigned NOT NULL auto_increment,
+  `orderid` int(2) unsigned NOT NULL default '1',
+  `itemname` varchar(100) NOT NULL default '',
+  `fieldname` varchar(100) NOT NULL default '',
+  `dtype` varchar(15) NOT NULL,
+  `vdefault` varchar(100) NOT NULL default '',
+  `maxlength` int(2) unsigned NOT NULL default '250',
+  `updatetime` timestamp NOT NULL default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=[web_code];
+DROP TABLE IF EXISTS `{tablepre}news`;
+CREATE TABLE  `{tablepre}news` (
+  `id` integer unsigned NOT NULL auto_increment,
+  `title` varchar(100) NOT NULL default '',
+  `classid` int(3) unsigned NOT NULL default '0',
+  `istop` tinyint(1) unsigned NOT NULL default '0',
+  `logo` varchar(100) default '',
+  `author` varchar(100) NOT NULL default '',
+  `source` varchar(100) NOT NULL default '',
+  `click` mediumint(8) unsigned NOT NULL default '0',
+  `addtime` int(10) not null default 0,
+  `updatetime` int(10) not null default 0,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=[web_code];
+DROP TABLE IF EXISTS `{tablepre}news_addon`;
+CREATE TABLE  `{tablepre}news_addon` (
+  `id` integer unsigned NOT NULL auto_increment,
+  `aid` mediumint(8) unsigned NOT NULL,
+  `content` text NOT NULL,
+  `keywords` varchar(100) NOT NULL,
+  `description` varchar(200) NOT NULL default '',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=[web_code];
+DROP TABLE IF EXISTS `{tablepre}news_class`;
+CREATE TABLE  `{tablepre}news_class` (
+  `id` integer unsigned NOT NULL auto_increment,
+  `classname` varchar(100) NOT NULL,
+  `classdescription` mediumtext NOT NULL,
+  `updatetime` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=[web_code];
+DROP TABLE IF EXISTS `{tablepre}product`;
+CREATE TABLE  `{tablepre}product` (
+  `id` integer unsigned NOT NULL auto_increment,
+  `title` varchar(100) NOT NULL,
+  `classid` int(3) unsigned NOT NULL,
+  `istop` tinyint(1) unsigned NOT NULL default '0',
+  `logo` varchar(100) NOT NULL default '',
+  `biglogo` varchar(100) NOT NULL default '',
+  `click` int(5) unsigned NOT NULL default '0',
+  `updatetime` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=[web_code];
+DROP TABLE IF EXISTS `{tablepre}product_addon`;
+CREATE TABLE  `{tablepre}product_addon` (
+  `id` integer unsigned NOT NULL auto_increment,
+  `aid` mediumint(8) unsigned NOT NULL,
+  `content` text NOT NULL,
+  `keywords` varchar(100) NOT NULL,
+  `description` varchar(200) NOT NULL default '',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=[web_code];
+DROP TABLE IF EXISTS `{tablepre}product_class`;
+CREATE TABLE  `{tablepre}product_class` (
+  `id` integer unsigned NOT NULL auto_increment,
+  `parentid` mediumint(8) unsigned NOT NULL default '0',
+  `orderid` mediumint(3) unsigned NOT NULL default '1',
+  `classname` varchar(100) NOT NULL,
+  `classdescription` mediumtext NOT NULL,
+  `updatetime` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=[web_code];
+DROP TABLE IF EXISTS `{tablepre}single`;
+CREATE TABLE  `{tablepre}single` (
+  `id` integer unsigned NOT NULL auto_increment,
+  `title` varchar(100) NOT NULL default '',
+  `content` mediumtext NOT NULL,
+  `updatetime` timestamp NOT NULL default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=[web_code];

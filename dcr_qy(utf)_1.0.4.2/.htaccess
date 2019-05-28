@@ -1,0 +1,7 @@
+RewriteEngine On
+RewriteRule ^(.+)_list_(\d+)_p_(\d+).html$ $1_list.php?classid=$2&page=$3
+RewriteRule ^(.+)_list_p_(\d+).html$ $1_list.php?page=$2
+RewriteRule ^news_(\d+).html$ news.php?id=$1
+RewriteRule ^product_(\d+).html$ product.php?id=$1
+RewriteRule ^(.+)_(\d+).html$ $1.php?classid=$2
+RewriteRule ^(.+).html$ $1.php
