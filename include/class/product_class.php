@@ -167,7 +167,7 @@ class Product extends Article{
 	 * @return array
 	 */
 	function GetInfo($aid,$col=array()){
-		global $db;
+		global $db,$web_url;
 		//Òª·µ»ØÀ¸Ä¿ID
 		if(!in_array('classid',$col)){
 			array_push($col,'classid');
@@ -207,7 +207,7 @@ class Product extends Article{
 		if(empty($newsInfo['logo'])){
 			$newsInfo['logo']=$this->nopic;
 		}else{
-			$newsInfo['logo']=$webUrl.'/uploads/product/'.$newsInfo['logo'];
+			$newsInfo['logo']=$web_url.'/uploads/product/'.$newsInfo['logo'];
 		}
 		return $newsInfo;
 	}

@@ -1,8 +1,9 @@
 INSERT INTO `{tablepre}single` (`id`,`title`,`content`) VALUES (1,'关于我们','<p>关于我们</p>');
 INSERT INTO `{tablepre}single` (`id`,`title`,`content`) VALUES (2,'联系我们 ','<p>联系我们</p>');
 
-INSERT INTO `{tablepre}hudong_field` (`id`,`orderid`,`itemname`,`fieldname`,`dtype`,`vdefault`,`maxlength`) VALUES(1,1,'感兴趣的产品','loveproduct','text','',250);
-INSERT INTO `{tablepre}hudong_field` (`id`,`orderid`,`itemname`,`fieldname`,`dtype`,`vdefault`,`maxlength`) VALUES (2,2,'您的姓名','realname','text','',250);
-INSERT INTO `{tablepre}hudong_field` (`id`,`orderid`,`itemname`,`fieldname`,`dtype`,`vdefault`,`maxlength`) VALUES(3,3,'联系电话','tel','text','',250);
-INSERT INTO `{tablepre}hudong_field` (`id`,`orderid`,`itemname`,`fieldname`,`dtype`,`vdefault`,`maxlength`) VALUES (4,4,'详细地址','address','text','',0);
-INSERT INTO `{tablepre}hudong_field` (`id`,`orderid`,`itemname`,`fieldname`,`dtype`,`vdefault`,`maxlength`) VALUES (5,5,'订单说明','content','multitext','',0);
+INSERT INTO `{tablepre}hudong_field` (`id`,`orderid`,`itemname`,`fieldname`,`dtype`,`vdefault`,`maxlength`) VALUES(1,1,'标题','title','text','',250);
+INSERT INTO `{tablepre}hudong_field` (`id`,`orderid`,`itemname`,`fieldname`,`dtype`,`vdefault`,`maxlength`) VALUES(2,2,'感兴趣的产品','loveproduct','text','',250);
+INSERT INTO `{tablepre}hudong_field` (`id`,`orderid`,`itemname`,`fieldname`,`dtype`,`vdefault`,`maxlength`) VALUES (3,3,'您的姓名','realname','text','',250);
+INSERT INTO `{tablepre}hudong_field` (`id`,`orderid`,`itemname`,`fieldname`,`dtype`,`vdefault`,`maxlength`) VALUES(4,4,'联系电话','tel','text','',250);
+INSERT INTO `{tablepre}hudong_field` (`id`,`orderid`,`itemname`,`fieldname`,`dtype`,`vdefault`,`maxlength`) VALUES (5,5,'详细地址','address','text','',250);
+INSERT INTO `{tablepre}hudong_field` (`id`,`orderid`,`itemname`,`fieldname`,`dtype`,`vdefault`,`maxlength`) VALUES (6,6,'订单说明','content','multitext','',0);

@@ -1,5 +1,6 @@
 <?php
-error_reporting(0);
+//error_reporting(0);
+//error_reporting(E_ALL || ~E_NOTICE);
 define('WEB_INCLUDE', ereg_replace("[/\\]{1,}",'/',dirname(__FILE__) ).'/');
 define('WEB_DR', ereg_replace("[/\\]{1,}",'/',substr(WEB_INCLUDE,0,-8) ) );
 define('WEB_CLASS',WEB_INCLUDE.'class/');
@@ -95,5 +96,5 @@ require_once(WEB_INCLUDE.'/common.func.php');
 $db=new DB($db_type,$host,$name,$pass,$table,$ut);
 
 //³ÌÐòÐÅÏ¢
-$version='1.0.0';
+$version='1.0.1';
 ?>

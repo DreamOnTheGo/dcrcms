@@ -201,7 +201,7 @@ include "../include/common.inc.php";
       </TABLE>
       <TABLE cellSpacing=0 cellPadding=0 width=150 border=0>
         <TR height=22>
-          <TD background=images/menu_bt.jpg><A class=menuParent onclick=expand(12) href="javascript:void(0);">系统帮助</A></TD>
+          <TD background=images/menu_bt.jpg><A class=menuParent onclick=expand(12) href="javascript:void(0);">帮助中心</A></TD>
         </TR>
         <TR height=4>
           <TD></TD>
@@ -211,7 +211,11 @@ include "../include/common.inc.php";
       width=150 border=0>
         <TR height=20>
           <TD align=middle width=30><IMG height=9 src="images/menu_icon.gif" width=9></TD>
-          <TD align="left"><A class=menuChild href="http://www.dcrcms.com/news_list.php?id=3" target=_blank>系统帮助</A></TD>
+          <TD align="left"><A class=menuChild href="http://www.dcrcms.com/help.php" target="_blank">系统帮助</A></TD>
+        </TR>
+        <TR height=20>
+          <TD align=middle width=30><IMG height=9 src="images/menu_icon.gif" width=9></TD>
+          <TD align="left"><A class=menuChild href="http://www.dcrcms.com/hudong.php" target="_blank">意见留言</A></TD>
         </TR>
       </TABLE></TD>
     <TD width=1 bgColor=#d1e6f7></TD>

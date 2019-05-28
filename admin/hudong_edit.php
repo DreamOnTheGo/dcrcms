@@ -33,10 +33,6 @@ include "adminyz.php";
 <UL class=Form_Advance id=FormRegStep1>
   <LI class=Title>订单信息</LI>
   <li class="Seperator"><hr></li>
-  <LI>
-  <DIV class=Hint>信息标题：</DIV>
-  <DIV class=Input><span style="COLOR: #880000"><?php echo $hudonginfo['title']; ?></span></DIV>
-  <DIV class=HackBox></DIV></LI> 
   <?php
   	$fieldList=$hudong->GetFiledList(array('fieldname','itemname'));
 	foreach($fieldList as $value){

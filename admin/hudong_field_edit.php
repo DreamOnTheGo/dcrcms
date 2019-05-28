@@ -18,6 +18,10 @@ function check(){
 		ShowMsg('请输入字段名称');
 		return false;
 	}
+	if($("#maxlength").val().length==0){
+		ShowMsg('字段的最大长度请输入，如果不确定就用默认的255');
+		return false;
+	}
 }
 </script>
 </HEAD>

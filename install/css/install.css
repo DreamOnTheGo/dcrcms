@@ -189,4 +189,5 @@ ul.Form_Advance li div.NewLineInfo span{
 ul.Form_Advance li div.Info{
 	float:left;
 	width:240px;
+	+width:220px;
 }

@@ -2,7 +2,7 @@
 require_once("include/common.inc.php");
 include WEB_DR."/common.php";//模板通用文件 初始化模板类及载入通用变量之类的
 
-$classid=intval($id);
+$classid=intval($classid);
 if($classid>0){
 	$where.="classid=$classid";
 }
@@ -18,8 +18,12 @@ $start=($page-1)*$list_product_count;
 $pro=new Product();
 $prolist=$pro->GetList($classid,array('id','title','logo'),$start,$list_product_count);
 $tpl->assign('prolist',$prolist);
-//新闻栏目
-$classname=$pro->GetClassName($classid);
+
+if($classid==0){
+	$classname="产品中心";
+}else{
+	$classname=$pro->GetClassName($classid);
+}
 $tpl->assign('classname',$classname);
 
 //分页

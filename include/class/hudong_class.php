@@ -46,13 +46,6 @@ class HuDong extends Article{
 			$field_t=substr($field_t,0,strlen($field_t)-1);
 			$value_t=substr($value_t,0,strlen($value_t)-1);
 		}
-		if(!empty($field_t)){
-			$field_t='title,'.$field_t;
-			$value_t="'".$info['title']."',".$value_t;
-		}else{
-			$field_t='title';
-			$value_t=$info['title'];
-		}
 		$sql="insert into {tablepre}hudong($field_t) values($value_t)";
 		//echo $sql;
 		global $db;
@@ -229,9 +222,6 @@ class HuDong extends Article{
 		$fieldList=$this->GetFiledList($col,$start,$listnum,$order);
 		$fieldFormatList=array();
 		//加上默认的title
-		$str_t="<input name='title' id='title' type='text'/>";
-		$arr_t=array('itemname'=>'标题','inputtxt'=>$str_t);
-		$fieldFormatList[]=$arr_t;
 		foreach($fieldList as $key=>$value){
 			if($value['dtype']=='text'){
 				$str_t="<input name='".$value['fieldname']."' id='".$value['fieldname']."' type='text' maxlength='".$value['maxlength']."' value='".$value['vdefault']."' />";

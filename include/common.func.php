@@ -236,7 +236,7 @@
 			if($msgType==2){
 				$msg_t="<li style='border-bottom:1px dotted #CCC;padding-left:5px;color:red;'>&middot;$msg</li>";
 			}else{
-				$msg_t="<li style='border-bottom:1px dotted #CCC;padding-left:5px;'>&middot;$msg</li>";
+				$msg_t="<li style='border-bottom:1px dotted #CCC;padding-left:5px;color:green;'>&middot;$msg</li>";
 			}
 		}
 		$back_t="<li style='border-bottom:1px dotted #CCC;padding-left:5px;'>&middot;<a style='color:#06F; text-decoration:none' href='javascript:history.back()'>·µ»Ø</a></li>";

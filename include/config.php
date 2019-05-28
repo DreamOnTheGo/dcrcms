@@ -2,9 +2,9 @@
 //本页的配置值都要用''包括起来
 require_once('config_db.php');
 
-$web_url = 'http://1.com/demo_qy'; //网址
+$web_url = 'http://1.com:81'; //网址
 
-$web_name = '稻草人企业站演示站';//网站标题
+$web_name = '我的网站';//网站标题
 
 //模板设置
 $prologowidth = '160';//产品缩略图大小

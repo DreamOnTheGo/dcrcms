@@ -60,7 +60,7 @@ class DB{
 			}else{
 				return false;
 			}
-			mysql_select_db($this->table,$this->conn) or die('选择数据库失败,请检查数据库中是否有些数据库');
+			mysql_select_db($this->table,$this->conn) or die('选择数据库失败,请检查数据库['.$this->table.']是否创建');
 			mysql_query("SET NAMES '$this->ut'");
 		}
 	}
@@ -154,7 +154,8 @@ class DB{
 		unset($this->rs);
 		if(!$this->result){return false;}
 		$rs=current($this->result);
-		if($rs){
+		if(is_array($rs) && count($rs)>0){
+			next($this->result);
 			$this->rs=$rs;
 			return true;
 		}else{

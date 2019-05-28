@@ -116,7 +116,7 @@ include "adminyz.php";
 </TABLE>
 <TABLE cellSpacing=2 cellPadding=5 width="95%" align=center border=0 bgcolor="#ecf4fc">
   <TR>
-    <TD colspan="2" bgcolor="#FFFFFF"><iframe frameborder="0" scrolling="auto"  src="http://www.dcrcms.com/dcr_qy.php?version=<?php echo $version; ?>" style="width:100%; height:30px;"></iframe></TD>
+    <TD colspan="2" bgcolor="#FFFFFF"><iframe frameborder="0" scrolling="no"  src="http://www.dcrcms.com/dcr_qy.php?dbtype=<?php echo $db_type; ?>&version=<?php echo $version; ?>" style="width:100%; height:30px;"></iframe></TD>
   </TR>
 </TABLE>
 </BODY>

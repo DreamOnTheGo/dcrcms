@@ -193,6 +193,9 @@ a:hover{
 	border:1px #c0c0c0 solid;
 	padding:5px;
 	_padding:4px;
+	_display:inline;
+	_overflow:hidden;
+	_height:173px;
 }
 .products dl dd{
 	text-align:center;
@@ -247,4 +250,9 @@ a:hover{
 }
 .news_content{
 	line-height:25px;
+}
+
+.propic{
+	text-align:center;
+	padding:10px;
 }
