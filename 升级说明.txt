@@ -1,10 +1,20 @@
+1.1.5升级
+1、删除Smarty模板引擎
+2、修改class.page.php下对pagelist的处理
+3、class.template.newslist.php增加addon调用附表字段
+4、class.template.list.php增加列表页调用功能
+5、cls_app删除get_tpl的function，smarty已经完全移除
+6、模板类get_dynamic_var获取动态变量增强
+7、单标签内加func处理,func为可以调用任何内置php和自定义的function
+8、增加验证数据类
+
 1.1.4.1升级
 1、修正修改网站配置后网站路径错误的BUG
 
 1.1.4升级
 1、修正新闻页刷新点击数加2的BUG
 2、修正默认模板中，产品列表页不能显示产品图片的BUG
-3、&$在PHP6中会报警，修正之。谢谢310263119提供的BUG
+3、&$在PHP6中会报警，修正之。(谢谢310263119提供的BUG)
 4、修正同一时间内读取同一个缓存文件时无法读取的BUG
 5、修正pagelist标记无法用tpl属性的BUG
 6、修正生成百度地图时没有title的BUG

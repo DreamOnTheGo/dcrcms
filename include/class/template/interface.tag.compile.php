@@ -13,8 +13,9 @@ defined('IN_DCR') or exit('No permission.');
  * 不允许对程序修改后再进行发布。
  * ==========================================================
  * @author:     我不是稻草人 <junqing124@126.com>
- * @version:    v1.0.0
+ * @version:    v1.0.１
  * @package class
+ * @update 20130806
  * @since 1.0.9
 */
 
@@ -31,12 +32,6 @@ interface interface_tag_compile
 	 * @return string
 	 */
 	function get_content();
-	
-	/**
-	 * 编译块内标签
-	 * @return string
-	 */
-	function compile_block_inner_tag();
 }
 
 ?>

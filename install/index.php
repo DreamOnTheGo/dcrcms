@@ -140,8 +140,7 @@ if($step=="1" || empty($step)){
 </div>
 <?php
 }
-if( "2" == $step )
-{
+if($step=="2"){
 ?>
 <div id="content" style="margin:80px 180px">
   <form action="install_action.php" method="post">

@@ -23,9 +23,9 @@ defined('IN_DCR') or exit('No permission.');
  * @param string $s 要加密的字符串
  * @return string 加密后的字符串
  */
-function encrypt($s)
+function encrypt( $s )
 {
-	return crypt(md5($s),'dcr');
+	return crypt( md5( $s ), 'dcr' );
 }
 
 /**
@@ -33,9 +33,9 @@ function encrypt($s)
  * @param string $s 要加密的字符串
  * @return string 加密后的字符串
  */
-function jiami($s)
+function jiami( $s )
 {
-	return encrypt($s);
+	return encrypt( $s );
 }
 
 /**
@@ -45,9 +45,9 @@ function jiami($s)
  * @param string $istop 是不是在父窗口中跳转
  * @return boolean 跳转到相应的网址
  */
-function show_next($msg, $url, $istop = 0)
+function show_next( $msg, $url, $istop = 0 )
 {
-	if( strlen($msg) > 0 )
+	if( strlen( $msg ) > 0 )
 	{
 		if( $istop )
 		{
@@ -131,7 +131,7 @@ function my_substr($str, $start, $len)
  */
 function put_cookie($key, $value, $kptime = 0, $pa = "/")
 {
-	setcookie($key,$value,time()+$kptime,$pa);
+	setcookie( $key, $value, time() + $kptime, $pa );
 }
 
 /**
@@ -139,9 +139,9 @@ function put_cookie($key, $value, $kptime = 0, $pa = "/")
  * @param string $key cookie名
  * @return boolean 返回true
  */	
-function drop_cookie($key)
+function drop_cookie( $key )
 {
-	setcookie($key,'',time()-360000,"/");
+	setcookie( $key, '', time() - 360000, "/" );
 }
 
 /**
@@ -151,7 +151,7 @@ function drop_cookie($key)
  */		
 function get_cookie($key)
 {
-	if( !isset($_COOKIE[$key]))
+	if( !isset($_COOKIE[$key]) )
 	{
 		return '';
 	}
@@ -167,15 +167,15 @@ function get_cookie($key)
  */	
 function get_ip()
 {
-	if(!empty($_SERVER["HTTP_CLIENT_IP"]))
+	if( ! empty( $_SERVER["HTTP_CLIENT_IP"] ) )
 	{
 		$cip = $_SERVER["HTTP_CLIENT_IP"];
 	}
-	else if(!empty($_SERVER["HTTP_X_FORWARDED_FOR"]))
+	else if( ! empty( $_SERVER["HTTP_X_FORWARDED_FOR"] ) )
 	{
 		$cip = $_SERVER["HTTP_X_FORWARDED_FOR"];
 	}
-	else if(!empty($_SERVER["REMOTE_ADDR"]))
+	else if( ! empty( $_SERVER["REMOTE_ADDR"] ) )
 	{
 		$cip = $_SERVER["REMOTE_ADDR"];
 	}
@@ -184,7 +184,7 @@ function get_ip()
 		$cip = '';
 	}
 	preg_match("/[\d\.]{7,15}/", $cip, $cips);
-	$cip = isset($cips[0]) ? $cips[0] : 'unknown';
+	$cip = isset( $cips[0]) ? $cips[0] : 'unknown';
 	unset($cips);
 	
 	return $cip;
@@ -284,7 +284,7 @@ function show_msg($msg, $msg_type = 1, $back = '', $msgTitle = '信息提示', $
 function get_rand_str($len = 4)
 {
 	$chars = array("a","b","c","d","e","f","g", "h", "i", "j", "k","l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v","w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G","H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R","S", "T", "U", "V", "W", "X", "Y", "Z", "0", "1", "2","3", "4", "5", "6", "7", "8", "9");
-	$charsLen = count($chars)-1;
+	$charsLen = count($chars) - 1;
 	shuffle( $chars );
 	$output = "";
 	for( $i = 0; $i < $len; $i ++ )

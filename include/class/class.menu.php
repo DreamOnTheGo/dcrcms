@@ -168,14 +168,13 @@ class cls_menu extends cls_data
 		{
 			return false;
 		}
-		
 		//得出url
 		foreach($menu_list as $key=> $value)
 		{
 			switch($value['menu_type'])
 			{
 				case 1:
-					if(1 == $web_url_module)
+					if( 1 == $web_url_module )
 					{
 						$url = '?mod=info&id=' . $menu_list[$key]['single_id'];
 					}else
@@ -185,7 +184,7 @@ class cls_menu extends cls_data
 					$menu_list[$key]['url'] = $url;
 					break;
 				case 2:
-					if(1 == $web_url_module)
+					if( 1 == $web_url_module )
 					{
 						if($value['news_class_id'])
 						{

@@ -85,7 +85,7 @@ class cls_template_productlist extends cls_template implements interface_tag_com
 		$php_code = $php_code . "\r\n\$cls_pro = cls_app:: get_product();";
 		$php_code = $php_code . "\r\n\$dcr_pro_data_list = \$cls_pro->get_list(\$classid, array('col'=>'" . $attr_array['col'];
 		$php_code = $php_code .	"', 'order'=>'" . $attr_array['order'] . "', 'group'=> '" . $attr_array['group'] . "', 'where'=> \"" . $attr_array['where'] . "\", 'limit'=>\"" . $limit . "\"), '" . $is_sub . "'," . $addon . ");";
-		$php_code = $php_code .	"\r\n\$page_num = \$cls_pro-> get_list_count(\$classid, \$where);";
+		$php_code = $php_code .	"\r\n\$page_num = \$cls_pro-> get_list_count(\$classid, \$where, {$is_sub});";
 		$php_code = $php_code .	"\r\n\$total_page = ceil(\$page_num/\$page_list_num);    //总页数;";
 		$php_code = $php_code . "\r\n\tforeach(\$dcr_pro_data_list as \$dcr_list_pro_data_info)\r\n\t{";
 		$php_code = $php_code . "\r\n?>";
@@ -98,7 +98,7 @@ class cls_template_productlist extends cls_template implements interface_tag_com
 		//去掉头和尾的标签
 		$compile_content = str_replace($block_first_line, '', $compile_content);
 		$this->compile_content = str_replace('{/dcr:' . $tag_info['tag_name'] . '}', "<?php \r\n\t}\r\n\tunset(\$cls_pro, \$dcr_pro_data_list); \r\n?>", $compile_content);
-		$this->compile_content = $this->compile_block_inner_tag();
+        $this->compile_content = parent::compile_inner_tag( $this->compile_content, 'product' );
 	}
 	
 	
@@ -113,37 +113,6 @@ class cls_template_productlist extends cls_template implements interface_tag_com
 		return $this->compile_content;
 	}
 	
-	/**
-	 * 编译块内标签
-	 * @return 
-	 */	
-	function compile_block_inner_tag( )
-	{
-        $inner_tag = array();
-		$compile_content = $this->compile_content;
-        if(preg_match_all('/\{\$([_a-zA-Z1-9]+)}/U', $compile_content, $inner_tag))
-        {
-            for($i = 0; $i<count($inner_tag[0]); $i++)
-            {
-                $compile_content = str_replace($inner_tag[0][$i], "<?php echo \$dcr_list_pro_data_info['" . $inner_tag[1][$i] . "']; ?>", $compile_content);
-            }
-        }
-
-        
-        //处理标签块里的标记子标记
-        $child_tag = array(); //0=>标记内容 1=>标记类型 2=>标记名
-        if(preg_match_all('/\{dcr\.field\.([_a-zA-Z1-9]+)}/U', $compile_content, $child_tag))
-        {
-            //p_r($child_tag);
-            //exit;
-            for($i = 0; $i<count($child_tag[0]); $i++)
-            {
-                $compile_content = str_replace($child_tag[0][$i], "<?php echo \$dcr_list_pro_data_info['" . $child_tag[1][$i] . "']; ?>", $compile_content);
-            }
-        }
-		
-		return $compile_content;
-	}
 }
 
 ?>

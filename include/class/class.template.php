@@ -166,7 +166,6 @@ class cls_template
         $arr_block_tag = array();//正则出来的块标签内容数组里面是多个数组 0=>标签全部内容 1=>标签名 2=>属性字符串 3=>标签内容(除{dcr:*} 及{/dcr:*})
         //if(preg_match_all( '/{dcr:(.+) ([\s\S]*)}([\s\S]*){\/dcr:\1}/U', $compile_code, $arr_block_tag) )
         //echo $compile_code;
-        
         if(preg_match_all( '/{dcr:(.+) ([^\}]*)}([\w\W]*){\/dcr:\1}/U', $compile_code, $arr_block_tag) )
         {
 			//p_r($arr_block_tag);
@@ -315,14 +314,14 @@ class cls_template
         return $out;
     }
     
-    
     /*以下为大多子类要用到的function 本类也用*/
     /**
      * 编译单标签inner_tag
      * @param string $block_content 模板内容
+     * @param string $type 这个字段是在哪个列表内的 主要是{$title}这类的标记 为product时表示产品列表 为news为表示新闻列表 为空时是默认date_info
      * @return 返回处理好的模板内容
      */
-    function compile_inner_tag($block_content = '')
+    function compile_inner_tag($block_content = '', $type = '')
     {
         //如果block_content为空，则用类的template_compile_code
         if(empty($block_content))
@@ -333,60 +332,136 @@ class cls_template
         {
             return;
         }
-        
-        $inner_tag = array();
-        if(preg_match_all('/\{\$([_a-zA-Z1-9]+)}/U', $block_content, $inner_tag))
+        $var_name = ''; //每个类型的信息info不同
+        if( 'product' == $type )
         {
+            $var_name = 'dcr_list_pro_data_info';
+        }else if( 'news' == $type )
+        {
+            $var_name = 'dcr_list_news_data_info';           
+        }else
+        {
+            $var_name = 'data_info';           
+        }
+		
+        $inner_tag = array();
+        if(preg_match_all('/\{\$([_a-zA-Z1-9]+)( (func|function)=[\'\"]([\w\W]*)[\'\"])*}/U', $block_content, $inner_tag))
+        {
+            //p_r($inner_tag);
             for($i = 0; $i<count($inner_tag[0]); $i++)
             {
-                    $block_content = str_replace($inner_tag[0][$i], "<?php echo \$data_info['" . $inner_tag[1][$i] . "']; ?>", $block_content);
+                //如果有function
+                if( ! empty( $inner_tag[4][$i] )  )
+                {
+                    $echo_txt = str_replace( '~me', "\${$var_name}['" . $inner_tag[1][$i] . "']", $inner_tag[4][$i] );
+                }else
+                {
+                    $echo_txt = "\${$var_name}['" . $inner_tag[1][$i] . "']";
+                }
+                $block_content = str_replace($inner_tag[0][$i], "<?php echo {$echo_txt}; ?>", $block_content);
             }
         }
 
-        
+       
         //处理标签块里的标记子标记
         $child_tag = array(); //0=>标记内容 1=>标记类型 2=>标记名
-        if(preg_match_all('/\{dcr\.([_a-zA-Z1-9]+)\.([_a-zA-Z1-9]+)}/U', $block_content, $child_tag))
+        if(preg_match_all('/\{dcr\.([_a-zA-Z1-9]+)\.([_a-zA-Z1-9]+)( (func|function)=[\'\"]([\w\W]*)[\'\"])*}/U', $block_content, $child_tag))
         {
             //p_r($child_tag);
             //exit;
             for($i = 0; $i<count($child_tag[0]); $i++)
             {
-                if('field' == $child_tag[1][$i])
+                $func_txt = $child_tag[5][$i];
+                $field_name = $child_tag[1][$i];
+                if('field' == $field_name)
                 {
-                    $block_content = str_replace($child_tag[0][$i], "<?php echo \$data_info['" . $child_tag[2][$i] . "']; ?>", $block_content);
+                    //如果有function
+					if( 'product' == $type )
+					{
+						$var_name = 'dcr_list_pro_data_info';
+					}else if( 'news' == $type )
+					{
+						$var_name = 'dcr_list_news_data_info';           
+					}else
+					{
+						$var_name = 'data_info';           
+					}
+                    if( ! empty( $func_txt )  )
+                    {
+                        $echo_txt = str_replace( '~me', "\${$var_name}['" . $child_tag[2][$i] . "']", $func_txt );
+                    }else
+                    {
+                        $echo_txt = "\${$var_name}['" . $child_tag[2][$i] . "']";
+                    }
+                    $block_content = str_replace($child_tag[0][$i], "<?php echo {$echo_txt}; ?>", $block_content);
                 }
-                if('product' == $child_tag[1][$i] || 'pro' == $child_tag[1][$i])
+                if('product' == $field_name || 'pro' == $field_name)
                 {
-                    $block_content = str_replace($child_tag[0][$i], "<?php echo \$dcr_product_data_info['" . $child_tag[2][$i] . "']; ?>", $block_content);
+                    //如果有function
+                    $var_name = 'dcr_product_data_info';
+                    if( ! empty( $func_txt )  )
+                    {
+                        $echo_txt = str_replace( '~me', "\${$var_name}['" . $child_tag[2][$i] . "']", $func_txt );
+                    }else
+                    {
+                        $echo_txt = "\${$var_name}['" . $child_tag[2][$i] . "']";
+                    }
+                    $block_content = str_replace($child_tag[0][$i], "<?php echo {$echo_txt}; ?>", $block_content);
                 }
-                if('news' == $child_tag[1][$i])
+                if('news' == $field_name)
                 {
-                    $block_content = str_replace($child_tag[0][$i], "<?php echo \$dcr_news_data_info['" . $child_tag[2][$i] . "']; ?>", $block_content);
+                    //如果有function
+                    $var_name = 'dcr_news_data_info';
+                    if( ! empty( $func_txt )  )
+                    {
+                        $echo_txt = str_replace( '~me', "\${$var_name}['" . $child_tag[2][$i] . "']", $func_txt );
+                    }else
+                    {
+                        $echo_txt = "\${$var_name}['" . $child_tag[2][$i] . "']";
+                    }
+                    $block_content = str_replace($child_tag[0][$i], "<?php echo {$echo_txt}; ?>", $block_content);                   
                 }
-                if('single' == $child_tag[1][$i] || 'info' == $child_tag[1][$i])
+                if('single' == $field_name || 'info' == $field_name)
                 {
-                    $block_content = str_replace($child_tag[0][$i], "<?php echo \$dcr_single_data_info['" . $child_tag[2][$i] . "']; ?>", $block_content);
+                    //如果有function
+                    $var_name = 'dcr_single_data_info';
+                    if( ! empty( $func_txt )  )
+                    {
+                        $echo_txt = str_replace( '~me', "\${$var_name}['" . $child_tag[2][$i] . "']", $func_txt );
+                    }else
+                    {
+                        $echo_txt = "\${$var_name}['" . $child_tag[2][$i] . "']";
+                    }
+                    $block_content = str_replace($child_tag[0][$i], "<?php echo {$echo_txt}; ?>", $block_content);
                 }
-                if('var' == $child_tag[1][$i])
+                if('var' == $field_name)
                 {
-                    $block_content = str_replace($child_tag[0][$i], "<?php global \$" . $child_tag[2][$i] . "; echo \$" . $child_tag[2][$i] . "; ?>", $block_content);
+                    if( ! empty( $func_txt )  )
+                    {
+                        $echo_txt = str_replace( '~me', "\$" . $child_tag[2][$i], $func_txt );
+                    }else
+                    {
+                        $echo_txt = "\$" . $child_tag[2][$i];
+                    }
+                    $block_content = str_replace($child_tag[0][$i], "<?php global \$" . $child_tag[2][$i] . "; echo {$echo_txt}; ?>", $block_content);
                 }
-                if('cfg' == $child_tag[1][$i])
+                if('cfg' == $field_name)
+
                 {
-                    $block_content = str_replace($child_tag[0][$i], "<?php global \$" . $child_tag[2][$i] . "; echo \$" . $child_tag[2][$i] . "; ?>", $block_content);
+                    if( ! empty( $func_txt )  )
+                    {
+                        $echo_txt = str_replace( '~me', "\$" . $child_tag[2][$i], $func_txt );
+                    }else
+                    {
+                        $echo_txt = "\$" . $child_tag[2][$i] . "";
+                    }
+                    $block_content = str_replace($child_tag[0][$i], "<?php global \$" . $child_tag[2][$i] . "; echo {$echo_txt}; ?>", $block_content);
                 }
             }
         }
-        
-        
-        //$block_content = str_replace( '{/dcr:productclasslist}', '<?php } unset($cls_data, $data_list); >', $block_content );
-        
-        //echo $block_content;
-        //exit;
-        return $block_content;
-    }
-    
+		
+        return $block_content;   
+    }    
     /**
      * 获取一个标签块的第一行 get_block_first_line 如{dcr:foreach for='a'}test{/dcr:foreach} 则返回{dcr:foreach for='a'}
      * @param string $tag_info 标签内容
@@ -426,28 +501,30 @@ class cls_template
     }
     
     
-    /**
+     /**
      * 获取动态变量..操作[dcr.var.pro] 变为 $pro
+	 * 如{dcr:list where="classid='[dcr.var.classid]' and id=[dcr.var.id]"}
      * @param string $str 内容
      * @return string
-     */    
+     */   
     function get_dynamic_var($str)
     {
-        if( strstr( $str, 'dcr.var'  ) )
+        //return $str;
+        $dynamic_var_arr = array();
+        $value = $str;
+        if(preg_match_all('/\[dcr\.var\.([_a-zA-Z1-9]+)]/U', $str, $dynamic_var_arr))
         {
-            $var = str_replace( '[dcr.var.', '', $str );
-            $var = str_replace( ']', '', $var );
-            global $$var;
-            $value = "'" . $$var . "'";
-        }else
-        {
-            $value = $str;
+            //p_r( $dynamic_var_arr );
+            //echo $value . '<br>';
+            for( $i = 0; $i < count($dynamic_var_arr[0]); $i++ )
+            {
+                $var = $dynamic_var_arr[1][$i];
+                global $$var;
+                $value = str_replace( $dynamic_var_arr[0][$i], $$var, $value );
+            }
         }
-        //echo $var;
-        //global $pro2;
-        //var_dump($pro2);
-        //exit;
         return $value;
-    }
+    }   
+
 }
 ?>

@@ -1,5 +1,9 @@
 <?php
 require_once("include/common.inc.php");
+if( ! empty( $tag ) )
+{
+	$k = '标签_' . $tag;
+}
 if( 1 == $s_type )
 {
 	$mod = 'product_search';

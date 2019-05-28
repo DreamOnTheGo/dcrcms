@@ -26,7 +26,7 @@
             <div id=playerImage>
               <ul>
                 {dcr:newslist col="id,title,logo" row="10" where="logo<>''"}                
-                <li <?php if( 1 != $dcr_news_data_info['innerkey'] ){ ?> class="hide"<?php } ?>><img alt="{dcr.field.title}" src="{dcr.field.logo}"></li>
+                <li <?php if( 1 != $dcr_list_news_data_info['innerkey'] ){ ?> class="hide"<?php } ?>><img alt="{dcr.field.title}" src="{dcr.field.logo}"></li>
                 {/dcr:newslist}
               </UL>
             </DIV>

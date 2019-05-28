@@ -1,7 +1,4 @@
 User-agent: *
-Disallow: /dcr
-Disallow: /admin
-Disallow: /data
 Disallow: /include
 Disallow: /install
 Disallow: /templets
