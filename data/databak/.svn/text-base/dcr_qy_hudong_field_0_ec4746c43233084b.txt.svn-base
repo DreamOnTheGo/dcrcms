@@ -1,6 +1,0 @@
-insert into dcr_qy_hudong_field(id,orderid,itemname,fieldname,dtype,vdefault,maxlength,updatetime) values('1','1','标题','title','text','','250','2011-09-10 11:49:45');
-insert into dcr_qy_hudong_field(id,orderid,itemname,fieldname,dtype,vdefault,maxlength,updatetime) values('2','2','感兴趣的产品','loveproduct','text','','250','2011-09-10 11:49:45');
-insert into dcr_qy_hudong_field(id,orderid,itemname,fieldname,dtype,vdefault,maxlength,updatetime) values('3','3','您的姓名','realname','text','','250','2011-09-10 11:49:45');
-insert into dcr_qy_hudong_field(id,orderid,itemname,fieldname,dtype,vdefault,maxlength,updatetime) values('4','4','联系电话','tel','text','','250','2011-09-10 11:49:45');
-insert into dcr_qy_hudong_field(id,orderid,itemname,fieldname,dtype,vdefault,maxlength,updatetime) values('5','5','详细地址','address','text','','250','2011-09-10 11:49:45');
-insert into dcr_qy_hudong_field(id,orderid,itemname,fieldname,dtype,vdefault,maxlength,updatetime) values('6','7','订单说明','content','multitext','','0','2011-09-22 22:15:21');

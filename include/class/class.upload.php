@@ -131,7 +131,8 @@ class cls_upload{
 					$sl_filename = $real_dir_name . '/' . $real_sl_file_name;
 					//echo $sl_filename;
 					$cls_pic = new cls_picture($file_name);
-					$cls_pic->zoom(array('type'=>2, 'width'=>$sl['width'], 'height'=>$sl['height']));//改变尺寸
+					$sl['type'] = ( empty($sl['type']) )?  2: $sl['type'];
+					$cls_pic->zoom(array('type'=>$sl['type'], 'width'=>$sl['width'], 'height'=>$sl['height']));//改变尺寸					
 					$cls_pic->create($sl_filename);
 					unset($cls_pic);
 				}

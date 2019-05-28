@@ -53,7 +53,8 @@ class cls_db
 		$this->pass=$db_pass;
 		$this->table=$db_table;	
 		$this->ut=$db_ut;
-		if(!$this->conn){
+		if(!$this->conn)
+		{
 			$this->connect();
 		}
 	}
@@ -74,7 +75,8 @@ class cls_db
 			{
     			$this->show_error('连接失败: '.$e->getMessage());
 			}
-		}else if($this->db_type == '2')
+		}
+		else if($this->db_type == '2')
 		{
 			if(!$this->conn)
 			{
@@ -145,7 +147,8 @@ class cls_db
 	 * @param int $result_type 返回记录集的类型 默认为MYSQL_ASSOC
 	 * @return array 返回执行结果的数组
 	 */
-	function execute($sql, $result_type = MYSQL_ASSOC){
+	function execute($sql, $result_type = MYSQL_ASSOC)
+	{
 		$sql = $this->option($sql);
 		if( strlen($sql) > 0 )
 		{
@@ -198,7 +201,8 @@ class cls_db
 	function execute_none_query($sql)
 	{	
 		$sql = $this->option($sql);
-		if(!empty($sql)){
+		if(!empty($sql))
+		{
 			if($this->db_type=='1')
 			{
 				$this->pdo->exec($sql);
@@ -342,9 +346,11 @@ class cls_db
 	 */
 	function get_field_value($table_name, $field_name, $where_sql = '')
 	{
-		if(strlen($whereSql)>0){
+		if(strlen($whereSql)>0)
+		{
 			$sql="select $field_name from $table_name where $where_sql";
-		}else{
+		}else
+		{
 			$sql="select $field_name from $table_name";
 		}
 		$arr_t = $this->get_one($sql, MYSQL_NUM);
@@ -406,20 +412,29 @@ class cls_db
 	{
 		$version = mysql_query("SELECT VERSION();", $this->conn);
 		$row = mysql_fetch_array($version);
-		$mysqlVersions = explode('.', trim($row[0]));
+		$mysqlVersions = explode( '.', trim($row[0]) );
 		$mysqlVersion = $mysqlVersions[0] . "." . $mysqlVersions[1];
 		
 		return $mysqlVersion;
 	}
 	
-	/**
-	 * 关闭当前数据库连接
-	 * @return boolean 返回true
-	 */
-	function close_db(){
-		@mysql_free_result($this->result);
-		@mysql_close($this->conn);
-	}	
+    /**
+     * 关闭当前数据库连接
+     * @return boolean 返回true
+     */
+    function close_db()
+    {
+        @mysql_close($this->conn);
+    }   
+   
+    /**
+     * 关闭当前数据库连接
+     * @return boolean 返回true
+     */
+    function __destruct()
+    {
+        $this->close_db();
+    } 
 
 	/**
 	 * 函数show_error,显示数据库错误信息

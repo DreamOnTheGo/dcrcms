@@ -151,11 +151,11 @@ class cls_picture
         return $gd_version;
      }
    
-    /**
-     * 函数zoom,对图片进行缩放
-     * @param array $col 缩放参数 (type=1为按比例缩放 bili为缩放比例) (type=2时为按指定大小缩放 width为宽 height为高
-     * @return true
-     */
+	/**
+    * 函数zoom,对图片进行缩放
+    * @param array $col 缩放参数 (type=1为按比例缩放 bili为缩放比例) (type=2时为按指定大小缩放 width为宽 height为高) (type=3 等比生成缩略图  其它部份用白色填充)
+    * @return true
+    */
     function zoom($zoom_info = array())
     {
         if($zoom_info['type'] == 2)
@@ -166,6 +166,20 @@ class cls_picture
         {
             $zoom_width = $this->pic_width * $zoom_info['bili'];
             $zoom_height = $this->pic_height * $zoom_info['bili'];
+        }else if($zoom_info['type'] == 3)
+        {
+            $zoom_scale = $zoom_info['width'] / $zoom_info['height'];
+            $pic_scale = $this->pic_width / $this->pic_height;
+            if( $zoom_scale > $pic_scale )
+            {
+                $zoom_height = $zoom_info['height'];
+                $zoom_width = $zoom_info['height'] * $this->pic_width / $this->pic_height;
+            } else
+            {
+                $zoom_height = $zoom_info['width'] * $this->pic_height / $this->pic_width ;
+                $zoom_width = $zoom_info['width'];
+            }
+           
         }
    
         $this->pic_resource = imagecreatetruecolor($zoom_width, $zoom_height);
@@ -183,6 +197,28 @@ class cls_picture
             $func_resize = 'imagecopyresampled';
         }
         $func_resize( $this->pic_resource, $this->create_resource, 0, 0, 0, 0, $zoom_width, $zoom_height, $this->pic_width, $this->pic_height );
+       
+        if($zoom_info['type'] == 3)
+        {
+            $t_pic_resource = $this->pic_resource;
+            $this->pic_resource = imagecreatetruecolor($zoom_info['width'], $zoom_info['height']);   
+            /*透明背景 白色填充，如果用别的颜色就换下面的rgb值就行*/
+            $background = imagecolorallocate( $this->pic_resource, 244, 244, 244 );
+            imagefill( $this->pic_resource, 0, 0, $background );
+            imagecolortransparent( $this->pic_resource, $background );   
+
+            $x = $y = 0;
+            if($zoom_info['width'] > $zoom_width)
+            {
+                $x = ($zoom_info['width'] - $zoom_width) / 2;
+            }
+            else
+            {
+                $y = ($zoom_info['height'] - $zoom_height) / 2;
+            }
+           
+               imagecopymerge( $this->pic_resource, $t_pic_resource, $x, $y, 0, 0, $zoom_width, $zoom_height, 100 );
+        }
     }
 
     /**
@@ -384,11 +420,11 @@ class cls_picture
      * @return true
      */
     function __destruct()
-    {
-        /*释放图片*/
-        @imagedestroy($this->TRUE_COLOR);
-        @imagedestroy($this->PICTURE_CREATE);
-    }
+	{
+		/*释放图片*/
+		@imagedestroy($this->pic_resource);
+		@imagedestroy($this->create_resource);
+	}
 }
 
 ?>

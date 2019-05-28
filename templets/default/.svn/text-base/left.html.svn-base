@@ -1,8 +1,0 @@
-<div class=""><a href="<{$web_url}>/news_list.<{$web_url_surfix}>"><img align="middle" src="<{$web_templeturl}>/<{$web_templetdir}>/images/news_pic.gif" width="200" /></a></div>
-<ul class="news_class_ul">
-	<{section name=arr loop=$news_class_list}>
-	<li><a href="<{$news_class_list[arr].url}>"><{$news_class_list[arr].classname}></a></li>
-	<{/section}>
-</ul>
-<div class=""><a href="<{$web_url}>/product_list.<{$web_url_surfix}>"><img src="<{$web_templeturl}>/<{$web_templetdir}>/images/pro_pic.gif" /></a></div>
-<{$pro_class_list_txt}>

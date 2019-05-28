@@ -51,7 +51,7 @@ foreach($_REQUEST as $_k=>$_v)
 	}
 }
 
-function _GetRequest(&$svar)
+function _get_request(&$svar)
 {
 	global $db_type, $magic_quotes;
 	if(!$magic_quotes)
@@ -59,7 +59,7 @@ function _GetRequest(&$svar)
 		//开了转义
 		if(is_array($svar))
 		{
-			foreach($svar as $_k => $_v) $svar[$_k] = _GetRequest($_v);
+			foreach($svar as $_k => $_v) $svar[$_k] = _get_request($_v);
 		}else
 		{
 			if($db_type == 1)
@@ -75,7 +75,7 @@ function _GetRequest(&$svar)
 		//没有开转义..兼容sqlite
 		if(is_array($svar))
 		{
-			foreach($svar as $_k => $_v) $svar[$_k] = _GetRequest($_v);
+			foreach($svar as $_k => $_v) $svar[$_k] = _get_request($_v);
 		}else
 		{
 			if($db_type == 1)
@@ -90,7 +90,7 @@ function _GetRequest(&$svar)
 
 foreach( array('_GET', '_POST', '_COOKIE') as $_request )
 {
-	foreach($$_request as $_k => $_v) ${$_k} = _GetRequest($_v);
+	foreach($$_request as $_k => $_v) ${$_k} = _get_request($_v);
 }
 unset($_GET, $_POST);
 

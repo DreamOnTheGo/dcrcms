@@ -67,12 +67,12 @@ class cls_page
 	  	if($parse_url['query'])
 		{
 	   		//url有参数
-	   		$url_arr = split('&' , $parse_url['query']);
+	   		$url_arr = preg_split('/&/' , $parse_url['query']);
 	   		if(is_array($url_arr))
 			{
 		   		foreach($url_arr as $key=>$value)
 				{
-					$c = split('=', $value);
+					$c = preg_split('/=/', $value);
 					if($c[0] == page)
 					{
 					}else

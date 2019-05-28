@@ -450,99 +450,110 @@ class cls_product extends cls_data
 		}
 	}
 	
-	/**
-	 * 返回产品列表
-	 * @param string|int $classid 产品类别ID
-	 * @param array $canshu 参数列表：
-	 * @param array $canshu['col']        要返回的字段列 以,分隔
-	 * @param array $canshu['where']      条件
-	 * @param array $canshu['limit']      返回的limit
-	 * @param array $canshu['group']      分组grop
-	 * @param array $canshu['order']      排序 默认是istop desc,id desc
-	 * @param boolean $is_sub 是不是也要返回下级的产品
-	 * @return array 返回产品列表
-	 */
-	function get_list($class_id, $canshu = array(), $is_sub = 0){
-		$this-> set_table('{tablepre}product');
-		global $web_url, $web_url_module, $web_url_surfix;
-		
-		//得出要返回的class_id
-		if($class_id>0)
-		{
-			if($is_sub)
-			{
-				$class_id_list = $this->get_sub_class_id_list($class_id, true);
-			}else
-			{
-				$class_id_list = $class_id;
-			}
-		}else
-		{
-			if($is_sub)
-			{
-				$class_id_list = $this->get_sub_class_id_list($class_id, false);
-			}else
-			{
-				$class_id_list = '';
-			}
-		}
-		
-		
-		$where_arr = array();
-		
-		if(!empty($where))
-		{
-			array_push($where_arr, $where);
-		}
-		if(!empty($class_id_list))
-		{
-			array_push($where_arr, 'classid in(' . $class_id_list . ')');
-		}
-		
-		if($where_arr)
-		{
-			$canshu['where'] = implode(' and ', $where_arr);
-		}
-		
-		if(empty($canshu['order']))
-		{
-			$canshu['order'] = 'istop desc,id desc';
-		}
-		
-		$this-> set_table('{tablepre}product');
-		$pro_list = parent:: select_ex($canshu);
-		
-		$pro_count = count($pro_list);
-		
-		for($i=0; $i < $pro_count; $i++)
-		{
-			if(empty($pro_list[$i]['logo']))
-			{
-				$pro_list[$i]['logo'] = $this->nopic;
-			}else
-			{
-				$pro_list[$i]['logo'] = $web_url . '/uploads/product/' . $pro_list[$i]['logo'];
-				//echo $pro_list['logo'];
-			}
-			if(empty($pro_list[$i]['biglogo']))
-			{
-				$pro_list[$i]['biglogo'] = $this->nopic;
-			}else
-			{
-				$pro_list[$i]['biglogo'] = $web_url . '/uploads/product/' . $pro_list[$i]['biglogo'];
-				//echo $pro_list['logo'];
-			}			
-			if($web_url_module == '1')
-			{
-				$pro_list[$i]['url'] = "product.php?id=" . $pro_list[$i]['id'];
-			}else if($web_url_module == '2')
-			{
-				$pro_list[$i]['url'] = "product_" . $pro_list[$i]['id'] . "." . $web_url_surfix;
-			}
-		}
-		
-		return $pro_list;
-	}
+	
+   
+    /**
+     * 返回产品列表
+     * @param string|int $classid 产品类别ID
+     * @param array $canshu 参数列表：
+     * @param array $canshu['col']        要返回的字段列 以,分隔
+     * @param array $canshu['where']      条件
+     * @param array $canshu['limit']      返回的limit
+     * @param array $canshu['group']      分组grop
+     * @param array $canshu['order']      排序 默认是istop desc,id desc
+     * @param boolean $is_sub 是不是也要返回下级的产品
+     * @param string $addon 附加表字段 (含)1.1.0以后有效
+     * @return array 返回产品列表
+     */
+    function get_list($class_id, $canshu = array(), $is_sub = 0, $addon = '' )
+    {
+        $this-> set_table('{tablepre}product');
+        global $web_url, $web_url_module, $web_url_surfix;
+       
+        //得出要返回的class_id
+        if($class_id>0)
+        {
+            if($is_sub)
+            {
+                $class_id_list = $this->get_sub_class_id_list($class_id, true);
+            }else
+            {
+                $class_id_list = $class_id;
+            }
+        }else
+        {
+            if($is_sub)
+            {
+                $class_id_list = $this->get_sub_class_id_list($class_id, false);
+            }else
+            {
+                $class_id_list = '';
+            }
+        }
+       
+       
+        $where_arr = array();
+       
+        if( !empty( $canshu['where'] ) )
+        {
+            array_push($where_arr, $canshu['where'] );
+        }
+        if(!empty($class_id_list))
+        {
+            array_push($where_arr, 'classid in(' . $class_id_list . ')');
+        }
+       
+        if( !empty($addon) )
+        {
+            $canshu['addon_col'] = $addon;
+            $canshu['addon_table'] = '@#@product_addon';
+            array_push($where_arr, $canshu['addon_table'] . '.aid = ' . '@#@product' . '.id');
+        }
+       
+        if($where_arr)
+        {
+            $canshu['where'] = implode(' and ', $where_arr);
+        }
+       
+        if(empty($canshu['order']))
+        {
+            $canshu['order'] = 'istop desc,id desc';
+        }
+       
+        $this-> set_table('{tablepre}product');
+        $pro_list = parent:: select_ex($canshu);
+       
+        $pro_count = count($pro_list);
+       
+        for($i=0; $i < $pro_count; $i++)
+        {
+            if(empty($pro_list[$i]['logo']))
+            {
+                $pro_list[$i]['logo'] = $this->nopic;
+            }else
+            {
+                $pro_list[$i]['logo'] = $web_url . '/uploads/product/' . $pro_list[$i]['logo'];
+                //echo $pro_list['logo'];
+            }
+            if(empty($pro_list[$i]['biglogo']))
+            {
+                $pro_list[$i]['biglogo'] = $this->nopic;
+            }else
+            {
+                $pro_list[$i]['biglogo'] = $web_url . '/uploads/product/' . $pro_list[$i]['biglogo'];
+                //echo $pro_list['logo'];
+            }           
+            if($web_url_module == '1')
+            {
+                $pro_list[$i]['url'] = "product.php?id=" . $pro_list[$i]['id'];
+            }else if($web_url_module == '2')
+            {
+                $pro_list[$i]['url'] = "product_" . $pro_list[$i]['id'] . "." . $web_url_surfix;
+            }
+        }
+       
+        return $pro_list;
+    }
 	
 	/**
 	 * 返回产品信息
@@ -601,6 +612,7 @@ class cls_product extends cls_data
 			}else
 			{
 				$pro_addon_info = current($pro_addon_info);
+				unset($pro_addon_info['id']);
 			}
 		}else
 		{

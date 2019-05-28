@@ -24,9 +24,11 @@ if($action == 'add')
 		$error_msg[] = '请选择产品类别';
 		$iserror = true;
 	}
-	if($iserror){
+	if($iserror)
+	{
 		show_msg($error_msg, 2);
-	}else{
+	}else
+	{
 		//没有错误
 		//上传产品图片
 		include_once(WEB_CLASS."/class.upload.php");
@@ -54,7 +56,8 @@ if($action == 'add')
 							 
 		$rid = $cls_pro->add($info);
 		
-		if(!$rid){
+		if(!$rid)
+		{
 			$error_msg[] = '添加产品失败';
 			show_msg($error_msg, 2);	
 		}else{			
@@ -97,7 +100,8 @@ if($action == 'add')
 			show_msg($error_msg, 1, $back);
 		}
 	}
-}else if($action == 'modify')
+}
+else if($action == 'modify')
 {
 	$iserror = false;
 	if(empty($title))
@@ -234,7 +238,8 @@ if($action == 'add')
 	{
 		show_msg( '请选择要删除的产品' , 2 );
 	}
-}elseif($action=='delsingleproduct')
+}
+elseif($action=='delsingleproduct')
 {	
 	$r = $cls_pro->delete($id);
 	if($r == 1)
@@ -250,7 +255,8 @@ if($action == 'add')
 		$error_msg[] = '删除数据失败:处理数据库数据时失败';
 		show_msg($error_msg, 2, $back);
 	}
-}else if($action == 'top')
+}
+else if($action == 'top')
 {
 	$info = array(
 				'istop'=>1
@@ -267,17 +273,21 @@ if($action == 'add')
 	$info = array(
 				'istop'=>0
 				);
-	if($cls_pro->update($id, $info)){
+	if($cls_pro->update($id, $info))
+	{
 		$error_msg[] = '取消置顶成功';
 		show_msg($error_msg, 1, $back);
 	}else{
 		$error_msg[] = '取消置顶失败' . mysql_error();
 		show_msg($error_msg, 2, $back);
 	}
-}else if($action == 'chang_type')
+}
+else if($action == 'chang_type')
 {
-	if($cur_type){
-		foreach($cur_type as $pro_id=>$classid){
+	if($cur_type)
+	{
+		foreach($cur_type as $pro_id=>$classid)
+		{
 			if($classid)
 			{
 				$cls_pro->update($pro_id, array('classid'=>$classid));
@@ -286,10 +296,13 @@ if($action == 'add')
 	}
 	$error_msg[] = '修改分类成功';
 	show_msg($error_msg, 1, $back);
-}else if($action == 'chang_pl_type')
+}
+else if($action == 'chang_pl_type')
 {
-	if($id){
-		foreach($id as $pro_id){
+	if($id)
+	{
+		foreach($id as $pro_id)
+		{
 			if($pro_id)
 			{
 				$cls_pro->update($pro_id, array('classid'=>$classid));
@@ -298,7 +311,8 @@ if($action == 'add')
 	}
 	$error_msg[] = '修改分类成功';
 	show_msg($error_msg,1,$back);
-}else if($action == 'search_xiangguan_products')
+}
+else if($action == 'search_xiangguan_products')
 {
 	$pro_list = $cls_pro->get_list(0, array('col'=>'id,title', 'order'=>'id desc', 'where'=>"title like '%$pro_search_name%'"));
 	echo '<select name="pro_names" class="pro_names" id="pro_names" multiple="multiple">';
@@ -310,6 +324,19 @@ if($action == 'add')
 		}
 	}
     echo '</select>';
+}
+else if($action == 'update_product_name_byajax')
+{
+    $product_info = array('title'=>$title);
+    if($cls_pro->update( $id, $product_info) )
+    {
+        echo $title;
+    }
+    else
+    {
+        echo '更新失败，请刷新页面';
+    }
+   
 }
 else
 {

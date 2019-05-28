@@ -213,6 +213,7 @@ class cls_news extends cls_data
 			}else
 			{
 				$news_addon_info = current($news_addon_info);
+				unset($news_addon_info['id']);
 			}
 		}else
 		{
@@ -450,78 +451,89 @@ class cls_news extends cls_data
 		return $logo;
 	}
 	
-	/**
-	 * 调用新闻列表
-	 * @param string|int $classid 新闻类型
-	 * @param array $canshu 参数列表：
-	 * @param array $canshu['col']        要返回的字段列 以,分隔
-	 * @param array $canshu['where']      条件
-	 * @param array $canshu['limit']      返回的limit
-	 * @param array $canshu['group']      分组grop
-	 * @param array $canshu['order']      排序 默认是istop desc,id desc
-	 * @param string $date_mode 新闻列表日期格式 参数和date函数一样 (含)1.0.6以后有效
-	 * @return array 返回返回新闻列表
-	 */
-	function get_list($classid, $canshu = array(), $date_mode = 'Y-m-d H:i:s')
-	{
-		global $web_url, $web_url_module, $web_url_surfix;
-		
-		if(empty($canshu['order']))
-		{
-			$canshu['order'] = 'istop desc,id desc';
-		}
-		
-		$where_arr = array();
-		if($classid)
-		{
-			array_push($where_arr, "classid=$classid");
-		}
-		if(!empty($canshu['where']))
-		{
-			array_push($where_arr, $canshu['where']);			
-		}
-		
-		if(is_array($where_arr))
-		{
-			$where_option = implode(' and ', $where_arr);
-		}
-		$canshu['where'] = $where_option;
-		
-		$this-> set_table('{tablepre}news');
-		$news_list = parent::select_ex($canshu);
-		
-		$a_sum = count($news_list);
-		for($i=0; $i < $a_sum; $i++){
-			if(empty($news_list[$i]['logo']))
-			{
-				$news_list[$i]['logo'] = $this->nopic;
-			}else
-			{
-				$news_list[$i]['logo'] = $web_url.'/uploads/news/'.$news_list[$i]['logo'];
-				//echo $news_info['logo'];
-			}
-			
-			if($news_list[$i]['addtime']>0)
-			{
-				$news_list[$i]['addtime'] = date($date_mode, $news_list[$i]['addtime']);
-			}
-			if($news_list[$i]['updatetime']>0)
-			{
-				$news_list[$i]['updatetime'] = date($date_mode, $news_list[$i]['updatetime']);
-			}
-			$news_list[$i]['innerkey'] = $i+1; //内部使用的下标值
-			
-			if($web_url_module == '1')
-			{
-				$news_list[$i]['url'] = "news.php?id=" . $news_list[$i]['id'];
-			}else if($web_url_module == '2')
-			{
-				$news_list[$i]['url'] = "news_" . $news_list[$i]['id'] . "." . $web_url_surfix;
-			}
-		}
-		
-		return $news_list;
-	}
+	
+
+    /**
+     * 调用新闻列表
+     * @param string|int $classid 新闻类型
+     * @param array $canshu 参数列表：
+     * @param array $canshu['col']        要返回的字段列 以,分隔
+     * @param array $canshu['where']      条件
+     * @param array $canshu['limit']      返回的limit
+     * @param array $canshu['group']      分组grop
+     * @param array $canshu['order']      排序 默认是istop desc,id desc
+     * @param string $date_mode 新闻列表日期格式 参数和date函数一样 (含)1.0.6以后有效
+     * @param string $addon 附加表字段 (含)1.1.0以后有效
+     * @return array 返回返回新闻列表
+     */
+    function get_list($classid, $canshu = array(), $date_mode = 'Y-m-d H:i:s' , $addon = 'content')
+    {
+        global $web_url, $web_url_module, $web_url_surfix;
+       
+        if(empty($canshu['order']))
+        {
+            $canshu['order'] = 'istop desc,id desc';
+        }
+       
+        $where_arr = array();
+        if($classid)
+        {
+            array_push($where_arr, "classid=$classid");
+        }
+        if(!empty($canshu['where']))
+        {
+            array_push($where_arr, $canshu['where']);           
+        }
+       
+        if( !empty($addon) )
+        {
+            $canshu['addon_col'] = $addon;
+            $canshu['addon_table'] = '@#@news_addon';
+            array_push($where_arr, $canshu['addon_table'] . '.aid = ' . '@#@news' . '.id');
+        }
+       
+        if(is_array($where_arr))
+        {
+            $where_option = implode(' and ', $where_arr);
+        }
+        $canshu['where'] = $where_option;
+       
+        $this-> set_table('{tablepre}news');
+        $news_list = parent::select_ex($canshu);
+       
+        $a_sum = count($news_list);
+        for( $i = 0; $i < $a_sum; $i++ )
+        {
+            if(empty($news_list[$i]['logo']))
+            {
+                $news_list[$i]['logo'] = $this->nopic;
+            }else
+            {
+                $news_list[$i]['logo'] = $web_url.'/uploads/news/'.$news_list[$i]['logo'];
+                //echo $news_info['logo'];
+            }
+           
+            if($news_list[$i]['addtime']>0)
+            {
+                $news_list[$i]['addtime'] = date($date_mode, $news_list[$i]['addtime']);
+            }
+            if($news_list[$i]['updatetime']>0)
+            {
+                $news_list[$i]['updatetime'] = date($date_mode, $news_list[$i]['updatetime']);
+            }
+            $news_list[$i]['innerkey'] = $i+1; //内部使用的下标值
+           
+            if($web_url_module == '1')
+            {
+                $news_list[$i]['url'] = "news.php?id=" . $news_list[$i]['id'];
+            }else if($web_url_module == '2')
+            {
+                $news_list[$i]['url'] = "news_" . $news_list[$i]['id'] . "." . $web_url_surfix;
+            }
+        }
+       
+        return $news_list;
+    }
 	
 	/**
 	 * 返回新闻数量

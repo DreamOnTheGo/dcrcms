@@ -102,57 +102,94 @@ class cls_data
 	}
 	
 	/**
-	 * 执行sql查询
-	 * @param string $col 需要查询的字段值[例`name`,`gender`,`birthday` 默认为*]
-	 * @param string $where 查询条件[例`name`='$name']
-	 * @param string $limit 返回结果范围[例：10或10,10 默认为空]
-	 * @param string $order 排序方式	[默认按数据库默认方式排序]
-	 * @param string $group 分组方式	[默认为空]
-	 * @return array 查询结果集数组
-	 */
-	public function select($col = '*', $where = '', $limit = '', $order = '', $group = '')
-	{		
-		$col = $col == '' ? '*' : $col;
-		$where = $where == '' ? '' : ' where ' . $where;
-		$order = $order == '' ? '' : ' order by ' . $order;
-		$group = $group == '' ? '' : ' group by ' . $group;
-		$limit = $limit == '' ? '' : ' limit ' . $limit;
-	
-		$sql = 'select ' . $col . ' from `' . $this->table . '`' . $where . $group . $order . $limit;
+     * 执行sql查询
+     * @param string $col 需要查询的字段值[例`name`,`gender`,`birthday` 默认为*]
+     * @param string $where 查询条件[例`name`='$name']
+     * @param string $limit 返回结果范围[例：10或10,10 默认为空]
+     * @param string $order 排序方式    [默认按数据库默认方式排序]
+     * @param string $group 分组方式    [默认为空]
+     * @param string $addon_table 附加表
+     * @param string $addon_col 附加表字段
+     * @return array 查询结果集数组
+     */
+    public function select( $col = '*', $where = '', $limit = '', $order = '', $group = '', $addon_table = '', $addon_col = '' )
+    {       
+        $col = $col == '' ? '*' : $col;
+        $where = $where == '' ? '' : ' where ' . $where;
+        $group = $group == '' ? '' : ' group by ' . $group;
+        $limit = $limit == '' ? '' : ' limit ' . $limit;
+   
+        $table = $this->table;
+        if( !empty($addon_table) )
+        {
+            //这里col都要加上前标
+            $col_arr = explode( ',', $col );
+            foreach( $col_arr as $col_key=> $col_v )
+            {
+                $col_arr[$col_key] = $this->table . '.' . $col_v;
+            }
+            $col = implode( ',', $col_arr );
+           
+            $col_addon_arr = explode( ',', $addon_col );
+            foreach( $col_addon_arr as $col_addon_key=> $col_addon_v )
+            {
+                $col_addon_arr[$col_addon_key] = $addon_table . '.' . $col_addon_v;
+            }
+            $addon_col = implode( ',', $col_addon_arr );
+           
+            $table .= ',' . $addon_table;
+            $col .= ',' . $addon_col ;
+        }
+        $order = $order == '' ? '' : ' order by ' . $order;
+       
+        $sql = 'select ' . $col . ' from ' . $table . $where . $group . $order . $limit;
 
+        //echo $sql;
         $this->set_last_sql($sql);
-		global $db;
-		$db->execute($sql);
-		$data_list = $db->get_array();
-		
-		return $data_list;
-	}
+        global $db;
+        $db->execute($sql);
+        $data_list = $db->get_array();
+       
+        return $data_list;
+    }
 	
 	/**
-	 * 执行sql查询 和select不同的 这个解析字符串来查询
-	 * @param array $canshu 参数 cols 需要查询的字段值[例`name`,`gender`,`birthday` 默认为*] where 查询条件 limit 返回结果范围[例：10或10,10 默认为空] order 排序方式	[默认按数据库默认方式排序] group 分组方式	[默认为空] 例如:array('cols'=>'age', 'where'=>'age>18', limit=>'10', 'order'=>'id desc')
-	 * @return array 查询结果集数组
-	 */
-	public function select_ex($canshu = array())
-	{
-		$data_list = $this->select($canshu['col'], $canshu['where'], $canshu['limit'], $canshu['order'], $canshu['group']);
-		
-		return $data_list;
-	}
+     * 执行sql查询 和select不同的 这个解析字符串来查询
+     * @param array $canshu 参数 cols 需要查询的字段值[例`name`,`gender`,`birthday` 默认为*] where 查询条件 limit 返回结果范围[例：10或10,10 默认为空] order 排序方式    [默认按数据库默认方式排序] group 分组方式    [默认为空]  addon_table附加表 addon_col 附加字段 例如:array('cols'=>'age', 'where'=>'age>18', limit=>'10', 'order'=>'id desc')
+     * @return array 查询结果集数组
+     */
+    public function select_ex( $canshu = array() )
+    {
+        $data_list = $this->select($canshu['col'], $canshu['where'], $canshu['limit'], $canshu['order'], $canshu['group'], $canshu['addon_table'], $canshu['addon_col']);
+       
+        return $data_list;
+    }
 	
 	/**
-	 * 返回一条记录
-	 * @param array $canshu 参数 cols 需要查询的字段值[例`name`,`gender`,`birthday` 默认为*] where 查询条件 order 排序方式	[默认按数据库默认方式排序] group 分组方式	[默认为空] 例如:array('cols'=>'age', 'where'=>'age>18', limit=>'10', 'order'=>'id desc')
-	 * @return array 查询结果集数组
-	 */
-	public function select_one($canshu = array())
-	{
-		$canshu['limit'] = 1;
-		//p_r($canshu);
-		$data_list = $this->select($canshu['col'], $canshu['where'], $canshu['limit'], $canshu['order'], $canshu['group']);
-		
-		return $data_list;
-	}
+     * 返回一条记录
+     * @param array $canshu 参数 同select_ex 的$canshu说明
+     * @return array 查询结果集数组
+     */
+    public function select_one($canshu = array())
+    {
+        $canshu['limit'] = 1;
+        //p_r($canshu);
+        $data_list = $this->select_ex($canshu);
+       
+        return $data_list;
+    }
+	
+	/**
+     * 返回一条记录 跟select_one区别是这个函数返回current($data_list) 而select_one返回$data_list
+     * @param array $canshu 参数 同select_ex 的$canshu说明
+     * @return array 查询结果集数组
+     */
+    public function select_one_ex( $canshu = array() )
+    {
+        $data_list = $this->select_one($canshu);
+       
+        return current($data_list);
+    }
 	
 	/**
 	 * 执行添加记录操作
@@ -166,7 +203,7 @@ class cls_data
         $value_list = implode( "','", array_values($info) );
         $value_list = "'" . $value_list . "'";
         $sql = 'insert into ' . $this->table . "($key_list) values($value_list)";
-       
+       	
         global $db;
         $db->execute_none_query($sql);
         $this->set_last_sql($sql);
@@ -182,9 +219,10 @@ class cls_data
 	 */
 	function update($info = array(), $where= '')
 	{
-		foreach($info as $key => $value){
+		foreach($info as $key => $value)
+		{
 			//如果是+则不要''包围 如:click=click+1
-			if(strpos($value, $key . '+') === false)
+			if( strpos($value, $key . '+') === false && strpos($value, $key . '-') === false )
 			{
 				$update_str .= "`$key`='$value',";
 			}else

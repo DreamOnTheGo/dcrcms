@@ -93,3 +93,60 @@ function set_guanlian_pronames()
 	})
 	$('#pro_guanlian_value').val(str);
 }
+
+
+
+//显示产品标题编辑框
+function show_edit_input(id)
+{
+    $('#span_title_txt_' + id).hide();
+    $('#span_title_input_' + id).show();
+}
+
+//在产品标题上按键，主要是回车更新标题这个操作
+function input_title_keyup(e, id)
+{
+    var key_num
+
+    if(window.event) // IE
+    {
+        key_num = e.keyCode
+    }
+    else if(e.which) // Netscape/Firefox/Opera
+    {
+        key_num = e.which
+    }
+    //console.log(key_num);
+    if( 13 == key_num )
+    {
+        var new_val = $('#input_title_' + id).val();
+        var old_val = $('#input_title_' + id).attr("old_value");
+        if( old_val != new_val )
+        {
+            update_product_name(id, new_val);
+        }else
+        {
+            $('#span_title_txt_' + id).show();
+            $('#span_title_input_' + id).hide();
+        }
+        //console.log(new_val);
+    } else if ( 27 == key_num)
+    {
+        $('#span_title_txt_' + id).show();
+        $('#span_title_input_' + id).hide();
+    }
+}
+
+//更新产品标题
+function update_product_name(id, new_val)
+{
+    action_arr = {id:id, title:new_val};
+    $.post( "product_action.php?action=update_product_name_byajax", action_arr, function( data )
+    {       
+        $('#span_title_txt_' + id).html(data);
+        $('#span_title_txt_' + id).show();
+        $('#title_input_' + id).val(data);
+        $('#title_input_' + id).attr('old_value', data);
+        $('#span_title_input_' + id).hide();
+    });
+}

@@ -1,4 +1,0 @@
-insert into dcr_qy_news(id,title,classid,istop,logo,author,source,click,addtime,updatetime) values('5','123','2','0','2011_09_21/1109211009265407.png','admin','本站','0','1316616266','1316616266');
-insert into dcr_qy_news(id,title,classid,istop,logo,author,source,click,addtime,updatetime) values('4','123','2','0','','admin','本站','0','1316615620','1316615620');
-insert into dcr_qy_news(id,title,classid,istop,logo,author,source,click,addtime,updatetime) values('6','12321','2','0','2011_09_21/1109211009463897.gif','admin','本站','5','1316616286','1316616286');
-insert into dcr_qy_news(id,title,classid,istop,logo,author,source,click,addtime,updatetime) values('7','test','2','0','','admin','本站','7','1316687805','1316687805');

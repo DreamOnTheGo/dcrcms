@@ -10,7 +10,9 @@ $pro_class_list = $cls_pro->get_class_list();
 <html xmlns="http://www.w3.org/1999/xhtml"><head>
 <meta http-equiv=Content-Type content="text/html; charset=utf-8">
 <link href="css/admin.css" type="text/css" rel="stylesheet">
+<?php require_once("admin_common.php");?>
 <script src="../include/js/common.js"></script>
+<script src="js/product.js"></script>
 </head>
 <body>
 <table cellSpacing=0 cellPadding=0 width="100%" align=center border=0>
@@ -95,7 +97,7 @@ $pro_class_list = $cls_pro->get_class_list();
   ?>  
   <tr height="30" bgcolor="#FFFFFF" onMouseMove="javascript:this.style.backgroundColor='#F4F9EB';" onMouseOut="javascript:this.style.backgroundColor='#FFFFFF';">
     <td style="text-align: center"><input type="checkbox" name="id[]" id="id[]" value="<?php echo $value['id']; ?>"><?php echo $value['id']; ?></td>
-    <td style="text-align: left"><a href="product_edit.php?action=modify&id=<?php echo $value['id']; ?>"><?php echo $value['title']; ?></a></td>
+    <td><div ondblclick="show_edit_input(<?php echo $value['id']; ?>)"><span id="span_title_txt_<?php echo $value['id']; ?>"><?php echo $value['title']; ?></span><span style="display:none;" id="span_title_input_<?php echo $value['id']; ?>"><input old_value="<?php echo $value['title']; ?>" type="text" value="<?php echo $value['title']; ?>" onkeyup="input_title_keyup(event, <?php echo $value['id']; ?>)" id="input_title_<?php echo $value['id']; ?>" /></span></div></td>
     <td style="text-align: center">
 	<select id="cur_type[<?php echo $value['id']; ?>]" name="cur_type[<?php echo $value['id']; ?>]">
      <?php

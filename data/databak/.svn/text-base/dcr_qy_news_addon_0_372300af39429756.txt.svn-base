@@ -1,2 +1,0 @@
-insert into dcr_qy_news_addon(id,aid,content,keywords,description) values('6','6','1321<br />','','');
-insert into dcr_qy_news_addon(id,aid,content,keywords,description) values('7','7','sdfds<br />','','');

@@ -317,7 +317,18 @@ function array_remove_empty(& $arr, $trim = true)
     			$arr[$key] = $value;   
     		}   
     	}   
-    }
-} 
+	}
+}
+
+/**
+ * 页面输出信息 弄这个function的目的是想页面所有的测试信息都用这个。以后不想有测试信息直接注释p_r($str)就OK了 ^_^ 懒人一枚唉...
+ * @since 1.1.0
+ * @param string $str 信息内容
+ * @return true
+ */	
+function msg( $str )
+{
+	p_r($str);
+}
  
 ?>
