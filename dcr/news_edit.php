@@ -115,49 +115,15 @@ function tijiaoAddAction(){
     <td bgcolor="#FFFFFF" style="COLOR: #880000"><input name="title" type="text" id="title" size="80" value="<?php echo $news_info['title']; ?>"></td></tr>
   <tr>
     <td align="right" valign="top" bgcolor="#FFFFFF">产品类别(<font color="red" class="txtRed">*</font>)：</td>
-    <td bgcolor="#FFFFFF" style="COLOR: #880000"><span id="productClassList">
-      <?php 
-		$news_class_list = $cls_news-> get_class_list(array('col'=>'id,classname'));
-		if(count($news_class_list)>0)
-		{
-			echo '<select name="classid" id="classid">';
-			echo "<option value='0'>请选择新闻类别</option>";
-			foreach($news_class_list as $value)
-			{
-				echo "<option value='$value[id]'>$value[classname]</option>";
-			}
-			echo '</select>';
-		}else{
-			echo "当前没有分类";
-		}
-	?>
-      <script type="text/javascript">
-	  var classid="<?php echo $news_info['classid'];?>";
-	  if(classid!=''){
-		  document.frmAddNews.classid.value=classid;
-	  }
-	  </script>
-      </span>&nbsp;&nbsp;&nbsp;<a href="#" onclick="javascript:showClassForm()">添加新闻类别</a>
-      <!--<a href="javascript:refreshClassList();">手动刷新列表</a>-->
-      <iframe id="myframe" style="display:none;position:absolute;z-index:9;width:expression(this.nextSibling.offsetWidth);height:expression(this.nextSibling.offsetHeight);top:expression(this.nextSibling.offsetTop);left:expression(this.nextSibling.offsetLeft);" frameborder="0" ></iframe>
-      <div id="AddClass" style="display:none;position:absolute;top:100px; border:5px #999 solid; padding:10px; height:100px; width:650px; left:100px; background-color:#ecf4fc; z-index:10000;">
-        <table cellspacing="0" cellpadding="2" width="95%" align="center" border="0">
-          <tr>
-            <td align="right" width="100">分类名(<font color="red" class="txtRed">*</font>)：</td>
-            <td style="COLOR: #880000"><input name="classname" type="text" id="classname" size="80" onkeypress="tijiaoAddAction();" /></td>
-          </tr>
-          <tr>
-            <td align="right" valign="top">分类说明：</td>
-            <td style="COLOR: #880000"><textarea name="classdescription" cols="80" rows="3" id="classdescription"></textarea></td>
-          </tr>
-          <tr>
-            <td align="right"></td>
-            <td style="COLOR: #880000"><input type="button" onclick="AddClass()" name="button3" id="button3" value="添加分类" />
-              <input type="reset" name="button3" id="button4" value="重置" />
-              <input type="button" value="关闭" onclick="javascript:closeClassForm()" /></td>
-          </tr>
-        </table>
-      </div></td>
+    <td bgcolor="#FFFFFF" style="COLOR: #880000"><span id="pro_class_list">
+    <select name="classid" id="classid">    
+    <?php
+		$class_list = $cls_news-> get_class_list();
+		$cls_news->get_class_list_select($class_list, $news_info['classid']);
+	?></select>    
+    </span>
+      
+      </td>
   </tr>
   <tr>
     <td align=right valign="top" bgcolor="#FFFFFF">缩略图：</td>

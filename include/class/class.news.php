@@ -28,61 +28,200 @@ class cls_news extends cls_data
 	function __construct()
 	{
 		parent::__construct('{tablepre}news');
-	}
-	
-	/**
-	 * 设置类要操作的表
-	 * @param string $table 表名
-	 * @return true
-	 */
-	function set_table($table)
-	{
-		parent:: set_table($table);
-	}
+	}	
 	
 	/**
 	 * 添加新闻分类
-	 * @param array $class_info 插入的新闻分类 用数组表示,用$key=>$value来表示列名=>值 如array('title'=>'标题') 表示插入title的值为 标题
+	 * @param array $pro_class_info 插入的新闻数据 用数组表示,用$key=>$value来表示列名=>值 如array('title'=>'标题') 表示插入title的值为 标题
 	 * @return boolean 成功返回true 失败返回false
 	 */
-	function add_class($class_info)
+	function add_class($pro_class_info)
 	{
-		$this->set_table('{tablepre}news_class');
-		return parent::insert($class_info);
+		parent:: set_table('{tablepre}news_class');
+		
+		$class_id = parent::insert($pro_class_info);
+		
+		$this->write_class_cache();
+		
+		return $class_id;
+	}	
+	
+	/**
+	 * 写新闻分类列表
+	 * @return true
+	 */
+	private function write_class_cache($parent_id = 0)
+	{
+		require_once(WEB_CLASS . '/class.cache.php');
+		$cache_file_name = 'news_class_list.php';
+		$cls_cache = new cls_cache(0, $cache_file_name);
+		
+		$class_list = $this->get_class_list_loop($parent_id);
+			
+		$class_list_txt = var_export($class_list, true);
+		if(!empty($class_list_txt))
+		{
+			$class_list_txt = "<?php\r\n\r\n/*新闻类*/\r\n\r\n \$cache_arr = " .$class_list_txt . ";\r\n\r\n?>";
+		}
+		return $cls_cache->write($class_list_txt);
+	}
+	
+	/**
+	 * 返回类列表
+	 * @return array 返回分类列表
+	 */
+	public function get_class_list($parent_id = 0)
+	{
+		require_once(WEB_CLASS . '/class.cache.php');
+		$cache_file_name = 'news_class_list.php';
+		//1728000 为20天 缓存20天
+		$cls_cache = new cls_cache(1728000, $cache_file_name);
+		if($cls_cache->check())
+		{
+			//缓存存在
+			$class_list = $cls_cache->read();
+		}else
+		{
+			//缓存不存在
+			$r_val = $this->write_class_cache($parent_id);
+			if('r2' == $r_val || 'r1' == $r_val)
+			{
+				//缓存不可写
+				$class_list = $this->get_class_list_loop($parent_id);
+			}else
+			{
+				$class_list = $cls_cache->read();
+			}
+		}
+			
+		return $class_list;
+	}
+	
+	/**
+	 * 返回类列表 内部使用
+	 * @param array $parent_id 父类ID 如果为0则返回全部
+	 * @param string $level 本参数不建议外部传入 主要用于标记当前为几级分类
+	 * @return array 返回新闻分类列表
+	 */
+	private function get_class_list_loop($parent_id = 0 , $level = 1)
+	{
+		global $web_url_module,$web_url_surfix,$web_url;
+		$where = 'parentid=' . $parent_id;
+		$order = 'orderid asc,id desc';
+		parent:: set_table('@#@news_class');
+		$canshu = array('col'=> $col, 'where'=>$where, 'order'=>$order);
+		$class_list = parent::select_ex($canshu);
+		
+		if( $class_list )
+		{
+			foreach( $class_list as $class_key=>$class )
+			{
+				$class_sub = $this-> get_class_list_loop($class['id'] , $level+1);
+				$class_list[$class_key]['class_level'] = $level;
+				
+				if( $web_url_module == '1' ){
+					$class_list[$class_key]['url'] = $web_url . '/news_list.php?classid='.$class['id'];
+				}elseif( $web_url_module == '2' )
+				{
+					$class_list[$class_key]['url'] = $web_url . '/news_list_'.$class['id'].'.'.$web_url_surfix;
+				}
+				
+				if( $class_sub )
+				{
+					$class_list[$class_key]['sub_class'] = $class_sub;
+				}
+			}
+		}
+		
+		return $class_list;
 	}
 	
 	
 	/**
-	 * 返回新闻类列表
-	 * @param array $canshu 参数列表：
-	 * @param array $canshu['col']        要返回的字段列 以,分隔
-	 * @param array $canshu['where']      条件
-	 * @param array $canshu['limit']      返回的limit
-	 * @param array $canshu['group']      分组grop
-	 * @param array $canshu['order']      排序 默认是istop desc,id desc
-	 * @return array 返回产品列表
-	 */
-	function get_class_list($canshu = array())
+	 * 返回新闻类列表 输出<select></select>之间的option内容 version>=1.0.6
+	 * <code>
+	 * <?php
+	 * //前台ul型新闻分类菜单列表
+	 * include WEB_CLASS."/class.product.php";
+	 * $cls_pro = new cls_product();
+	 * echo '<select name="parentid" id="parentid">';
+	 * $product_class_list = $cls_pro->get_class_list();
+	 * $cls_pro-> get_class_list_select($product_class_list, $parentid);
+	 * echo '</select>';
+	 * ?>
+ 	 * </code>
+	 * @param array $class_list 新闻分类 可以用本类的GetClassList来获取
+	 * @param int $cur_id 当前的新闻分类选择ID
+	 * @param string $option_value option值 如果是ID的话value=id 如果是classname的话 value=classname
+	 * @return true 输出select里的option
+	 */	
+	function get_class_list_select( $class_list , $cur_id=0, $option_value = 'id' )
 	{
-		if(empty($canshu['order']))
+		if($class_list)
 		{
-			$canshu['order'] = 'id desc';
-		}
-		$this-> set_table('{tablepre}news_class');
-		$info = parent::select_ex($canshu);
-		global $web_url_module, $web_url_surfix;
-		foreach($info as $i_key=>$i_value)
-		{
-			if($web_url_module == '1')
+			foreach($class_list as $value)
 			{
-				$info[$i_key]['url'] = 'news_list.php?classid=' . $i_value['id'];
-			}else if($web_url_module == '2')
-			{
-				$info[$i_key]['url'] = 'news_list_' . $i_value['id'] . '.' . $web_url_surfix;
+				echo '<option value="'.$value[$option_value].'"';
+				if($cur_id == $value['id'] && $cur_id)
+				{
+					echo 'selected="selected"';
+				}
+				echo '>' . str_repeat("----", $value['class_level']-1) . $value['classname'] . '</option>';
+				if($value['sub_class'] && count($value['sub_class']))
+				{
+					$this-> get_class_list_select($value['sub_class'], $cur_id, $option_value);
+				}
 			}
+		}else
+		{
+			echo '<option value="0">当前没有新闻分类</option>';
 		}
+	}
+	
+	/**
+	 * 返回新闻类ul下的li 主要用于前台的菜单输出 输出<ul></ul>之间的li内容 version>=1.0.6
+	 * <code>
+	 * <?php
+	 * //前台ul型新闻分类菜单列表
+	 * include WEB_CLASS."/class.product.php";
+	 * $cls_pro = new cls_product();
+	 * $product_class_list = $cls_pro->get_class_list();
+	 * $tpl-> assign('product_class_list',$product_class_list);
+	 * $pro_class_list_txt = $cls_pro-> get_class_list_ul($product_class_list);
+	 * $pro_class_list_txt = $cls_pro-> get_class_list_ul_html();
+	 * ?>
+ 	 * </code>
+	 * @param array $class_list 新闻分类 可以用本类的GetClassList来获取
+	 * @return true 没有返回值 主要把值存在了$this->class_list_ul 用GetClassListUlHtml获取就OK了
+	 */	
+	function get_class_list_ul( $class_list )
+	{
+		if( $class_list )
+		{
+			$this-> class_list_ul .= '<ul>';
+			foreach( $class_list as $value )
+			{
+				$this-> class_list_ul .= '<li><a href="' . $value['url'] . '">' . $value['classname'] . '</a>';
+				if( $value['sub_class'] && count($value['sub_class']) )
+				{
+					$this-> get_class_list_ul( $value['sub_class'] );
+				}
+				$this-> class_list_ul .= '</li>';
+			}
+			$this->class_list_ul .= '</ul>';
+		}
+	}
+	
+	/**
+	 * 获取由GetClassListUl产生的HTML 产生这个类主要做为输出前台新闻列表用
+	 * @return string 获取由GetClassListUl产生的HTML
+	 */		
+	function get_class_list_ul_html()
+	{
+		$count = 1;
+		$pro_class_list_txt = str_replace('<ul>', '<ul id="news_navigation">', $this->class_list_ul, $count);
 		
-		return $info;
+		return $pro_class_list_txt;
 	}
 	
 	/**
@@ -93,35 +232,51 @@ class cls_news extends cls_data
 	 */
 	function get_class_info($id, $col = '*')
 	{
-		$this->set_table('{tablepre}news_class');
+		$this->set_table( '{tablepre}news_class' );
 		$info = parent::select_one(array('col'=>$col, 'where'=>"id=$id"));
 		
 		return current($info);
 	}
 	
-	/**
-	 * 更新新闻分类信息
-	 * @param string|int $id 新闻分类ID
-	 * @param array $class_info 更新的数据 用数组表示,用$key=>$value来表示列名=>值 如array('title'=>'标题') 表示插入title的值为 标题
-	 * @return boolean 成功返回true 失败返回false
-	 */
-	function update_class($id, $class_info = array())
-	{
-		$this-> set_table('{tablepre}news_class');
-		
-		return parent::update($class_info, "id=$id");
-	}
 	
 	/**
-	 * 删除新闻分类
-	 * @param array $id_list 删除的文档ID 以,分隔 比如1,2,3 也可以是id数组
+	 * 更新产品类信息
+	 * @param string|int $id 类的ID
+	 * @param array $product_class_info 更新的数据 用数组表示,用$key=>$value来表示列名=>值 如array('title'=>'标题') 表示插入title的值为 标题
 	 * @return boolean 成功返回true 失败返回false
 	 */
-	function delete_class($id_list)
+	function update_class( $id, $class_info = array() )
 	{
-		$this->set_table('{tablepre}news_class');
+		$this-> set_table( '{tablepre}news_class' );
+		$return_val = parent:: update( $class_info, "id=$id" );
 		
-		return parent:: delete($id_list);
+		$this->write_class_cache();
+		
+		return $return_val;
+	}
+	/**
+	 * 删除指定ID数组的分类
+	 * @param array $class_id 删除的ID
+	 * @return boolean 1成功 2有子类不能被删除 3删除失败mysql错误
+	 */
+	function delete_class( $class_id )
+	{
+		$this-> set_table( '{tablepre}news_class' );
+		if( $this-> has_sub_class($class_id) )
+		{
+			return 2;
+		}else
+		{
+			if( parent:: delete($class_id) )
+			{
+				$this->write_class_cache();
+				
+				return 1;
+			}else{
+				
+				return 3;
+			}
+		}
 	}
 	
 	/**

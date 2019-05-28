@@ -330,5 +330,33 @@ function msg( $str )
 {
 	p_r($str);
 }
+
+/**
+ * 获取页面接收的post,get数据
+ * @since 1.1.1
+ * @param string $no_field 不要的字段
+ * @return array
+ */   
+function get_req_data( $no_field = '' )
+{
+    global $req_data;
+    $no_field_arr = array();
+    if( ! empty($no_field) )
+    {
+        $no_field_arr = explode( ',', $no_field);
+    }
+    if( $no_field_arr )
+    {
+        foreach( $no_field_arr as $no_field_name )
+        {
+            unset( $req_data[$no_field_name] );
+        }
+    }
+   
+    $req_data['add_time'] = time();
+    $req_data['update_time'] = time();
+   
+    return $req_data;
+}
  
 ?>

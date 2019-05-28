@@ -1,4 +1,0 @@
-1、后台>>系统管理>>基本设置>>网址模式 选择伪静态 然后点修改配置
-2、根目录下.htaccess_bak文件名改成.htaccess
-
-如果您的要设置支持伪静态 可以看这里：http://www.dcrcms.com/news.php?id=17

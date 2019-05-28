@@ -1,0 +1,1 @@
+ <a href="model_edit.php?action=add">添加模型</a> <a href="model_list.php">模型列表</a>

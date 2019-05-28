@@ -1,0 +1,1 @@
+ <a href="model_art_edit.php?action=add&model_id=<?php echo $model_id ?>">添加文章</a> <a href="model_art_list.php?model_id=<?php echo $model_id ?>">文章列表</a>

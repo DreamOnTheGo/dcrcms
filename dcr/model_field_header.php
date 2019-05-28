@@ -1,0 +1,1 @@
+ <a href="model_field_edit.php?action=add_field&model_id=<?php echo $model_id; ?>">添加字段</a> <a href="model_field_list.php?model_id=<?php echo $model_id; ?>">字段列表</a>

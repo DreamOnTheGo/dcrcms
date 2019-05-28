@@ -23,8 +23,7 @@ $menu_list = $cls_menu->get_list();
 $tpl->assign('menu_list', $menu_list);
 
 //产品类别
-require_once(WEB_CLASS . "/class.product.php");
-$cls_pro = new cls_product();
+$cls_pro = cls_app:: get_product();
 $product_class_list = $cls_pro-> get_class_list();
 $tpl->assign('product_class_list', $product_class_list);
 $pro_class_list_txt = $cls_pro-> get_class_list_ul($product_class_list);
@@ -32,12 +31,13 @@ $pro_class_list_txt = $cls_pro-> get_class_list_ul_html();
 $tpl->assign('pro_class_list_txt', $pro_class_list_txt);
 //p_r($productClassList);
 
-include_once WEB_CLASS."/class.news.php";
-$cls_news = new cls_news();
-$news_class_list = $cls_news->get_class_list(array('col'=>'id,classname'));
+//新闻类别
+$cls_news = cls_app:: get_news();
+$news_class_list = $cls_news-> get_class_list();
 $tpl->assign('news_class_list', $news_class_list);
-//p_r($productClassList);
-unset($product_class_list, $news_class_list);
+$news_class_list_txt = $cls_news-> get_class_list_ul($news_class_list);
+$news_class_list_txt = $cls_news-> get_class_list_ul_html();
+$tpl->assign('news_class_list_txt', $news_class_list_txt);
 
 //友情链接
 $flink_data = cls_app:: get_data('{tablepre}flink');

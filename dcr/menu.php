@@ -164,6 +164,10 @@ session_start();
         </tr>
         <tr height=20>
           <td align="center" width="15"><img height=9 src="images/menu_icon.gif" width=9></td>
+          <td align="left"><a class=menuChild href="model_list.php" target=main>模型管理</a></td>
+        </tr>
+        <tr height=20>
+          <td align="center" width="15"><img height=9 src="images/menu_icon.gif" width=9></td>
           <td align="left"><a class=menuChild href="sitemap_baidu_edit.php" target=main>生成百度sitemap</a></td>
         </tr>
         <tr height=20>

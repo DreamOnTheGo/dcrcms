@@ -2,7 +2,8 @@
 require_once("../include/common.inc.php");
 session_start();
 require_once("adminyz.php");
-require_once(WEB_CLASS . "/class.news.php");
+$cls_news = cls_app::get_news();
+$class_list = $cls_news->get_class_list();
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><head>
@@ -34,14 +35,17 @@ require_once(WEB_CLASS . "/class.news.php");
     </table>
   <table cellSpacing=1 cellPadding=2 width="95%" align=center border=0 bgcolor="#ecf4fc">
   <tr>
-    <td align="left" style="text-align: left">新闻分类：<?php 
-	$cls_news = new cls_news();
-	$news_class_list = $cls_news->get_class_list(array('col'=> 'id,classname', 'order'=> 'id desc'));
-	foreach($news_class_list as $value)
-	{
-		echo "<a href='news_list.php?classid=".$value['id']."'>".$value['classname'].'</a>  ';
-	}
-		?></td>
+    <td align="left" style="text-align: left">
+    <form action="" method="get">
+  	  新闻分类:
+      <select name="classid" id="classid">
+      <option>全部分类</option>
+    <?php
+		$cls_news->get_class_list_select( $class_list, $classid );
+	?></select>
+  	<input type="submit" name="button3" id="button3" value="进入分类" />
+  	</form>
+    </td>
     </tr>    
     </table>
 <form action="news_action.php" method="post">

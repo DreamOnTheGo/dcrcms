@@ -10,7 +10,7 @@ $cls_news = new cls_news();
 $error_msg = array();//错误信息
 $back = array('新闻分类列表'=> 'news_class_list.php');
 
-if($action=='add' || $action=='add_ajax')
+if( $action == 'add' || $action == 'add_ajax' )
 {
 	$error_msg = '';
 	$iserror = false;
@@ -27,14 +27,19 @@ if($action=='add' || $action=='add_ajax')
 		//没有错误
 		if($action == 'add_ajax')
 		{
-			$classname = iconv('utf-8',$web_code,urldecode($classname));
-			$classdescription = iconv('utf-8',$web_code,urldecode($classdescription));
+			$classname = iconv( 'utf-8', $web_code, urldecode( $classname ) );
+			$classdescription = iconv('utf-8', $web_code, urldecode( $classdescription ) );
 		}
-		$rid = $cls_news->add_class(array('classname'=>$classname,
-					   		 'classdescription'=>$classdescription
-							 )
-					   );
-		if(!$rid){
+		$rid = $cls_news->add_class(
+									array(
+											'classname'=>$classname,
+					   		 				'classdescription'=>$classdescription,
+											'parentid'=>(int)$parentid,
+											'orderid'=>(int)$orderid,
+							 			  )
+					  				);
+		if( ! $rid )
+		{
 			$error_msg[] = '添加新闻分类失败';
 			if($action == 'add')
 			{
@@ -64,15 +69,21 @@ if($action=='add' || $action=='add_ajax')
 	}
 	//echo iconv('gb2312','utf-8',$proclass_list[0]['classname']);
 	echo json_encode($class_list);	
-}else if($action == 'modify')
+}else if( $action == 'modify' )
 {
-	if(checkinput()){
-		show_msg($error_msg, 2, $back);	
+	if( checkinput() )
+	{
+		show_msg( $error_msg, 2, $back );
 	}else
 	{
-		if($cls_news->update_class($id,array('classname'=>$classname,
-								 'classdescription'=>$classdescription
-								 ))){
+		$class_info = array(
+							'classname'=> $classname,
+							'parentid'=> (int)$parentid,
+							'orderid'=> (int)$orderid,
+					   		'classdescription'=> $classdescription,
+								 	);
+		if( $cls_news->update_class( $id, $class_info ) )
+		{
 			$error_msg[] = '更新新闻分类成功';
 			show_msg($error_msg, 1, $back);
 		}else
@@ -83,21 +94,36 @@ if($action=='add' || $action=='add_ajax')
 	}
 }else if($action == 'delnewsclass')
 {
-	if($cls_news->delete_class($id))
+	if( $cls_news->delete_class( $id ) )
 	{
 		$error_msg[] = '删除数据成功';
-		show_msg($error_msg, 1, $back);
+		show_msg( $error_msg, 1, $back );
 	}else
 	{
 		$error_msg[] = '删除数据失败';
-		show_msg($error_msg, 2, $back);
+		show_msg( $error_msg, 2, $back );
 	}
+}else if($action == 'order')
+{
+	if( $orderid )
+	{
+		foreach( $orderid as $key=> $value )
+		{
+			$cls_news->update_class( $key, array( 'orderid'=> $value ) );
+		}
+	}
+	$error_msg[] = '更新排序成功';
+	show_msg( $error_msg, 1, $back );
+}else
+{
+	show_msg('非法参数', 2, $back);
 }
 function checkinput(){
-	global $error_msg,$classname;
-	if(strlen($classname)==0){
-		$error_msg[]='请填写新闻分类名';
-		$iserror=true;
+	global $error_msg, $classname;
+	if( strlen( $classname ) == 0 )
+	{
+		$error_msg[] = '请填写新闻分类名';
+		$iserror = true;
 	}
 	return $iserror;
 }

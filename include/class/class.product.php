@@ -429,22 +429,25 @@ class cls_product extends cls_data
 		
 		foreach($pro_info as $key=> $value)
 		{
-			if(in_array($key,$product_col_addon_arr))
+			if( in_array( $key, $product_col_addon_arr ) )
 			{
 				$col_addon[$key] = $value;
-			}else{
+			}else
+			{
 				$col_main[$key] = $value;
 			}
 		}
 		$aid = parent:: insert($col_main);
 		
-		if($aid){
+		if( $aid )
+		{
 			$col_addon['aid'] = $aid;
 			$this-> set_table('{tablepre}product_addon');
 			parent:: insert($col_addon);
 			
 			return $aid;
-		}else{
+		}else
+		{
 			
 			return false;
 		}
@@ -525,9 +528,9 @@ class cls_product extends cls_data
        
         $pro_count = count($pro_list);
        
-        for($i=0; $i < $pro_count; $i++)
+        for( $i=0; $i < $pro_count; $i++ )
         {
-            if(empty($pro_list[$i]['logo']))
+            if( empty($pro_list[$i]['logo']) )
             {
                 $pro_list[$i]['logo'] = $this->nopic;
             }else
@@ -562,7 +565,8 @@ class cls_product extends cls_data
 	 * @param array $option_col 要系统处理的col 比如logo会返回他的真实地址 默认处理的有：logo,biglogo,position,prev,next,tags_list,guanlian_list 为了效率 最好明确指定这个处理
 	 * @return array 产品信息
 	 */
-	function get_info($aid, $col = '', $option_col = array('logo', 'biglogo', 'position', 'prev', 'next', 'tags_list', 'guanlian_list')){
+	function get_info( $aid, $col = '', $option_col = array('logo', 'biglogo', 'position', 'prev', 'next', 'tags_list', 'guanlian_list') )
+	{
 		global $db, $web_url, $product_col_main, $product_col_addon, $product_col_list;
 		
 		if(empty($col))
@@ -602,7 +606,7 @@ class cls_product extends cls_data
 		parent:: set_table('{tablepre}product');
 		$pro_main_info = parent:: select_one(array('col'=>$col_main_list, 'where'=>"id=$aid"));
 		$pro_main_info = current($pro_main_info);
-		if(!empty($col_addon_list))
+		if( ! empty($col_addon_list) )
 		{
 			parent:: set_table('{tablepre}product_addon');
 			$pro_addon_info = parent:: select_one(array('col'=>$col_addon_list, 'where'=>"id=$aid"));
@@ -622,10 +626,11 @@ class cls_product extends cls_data
 		
 		//返回当前路径
 		global $web_url_module, $web_url_surfix;
-		if(in_array('position', $option_col))
+		if( in_array('position', $option_col) )
 		{
 			$parent_info = $this->get_parent_class_info($pro_info['classid'], 'classname,id');
-			if($parent_info){
+			if( $parent_info )
+			{
 				if($web_url_module == '1')
 				{
 					$parent_path = '<a href="' . $web_url . '/product_list.php?id=' . $parent_info['id'] . '">' . $parent_info['classname'] . '</a>>>';
@@ -635,7 +640,7 @@ class cls_product extends cls_data
 				}
 			}
 			
-			$pro_class_name = $this-> get_class_name($pro_info['classid']);
+			$pro_class_name = $this-> get_class_name( $pro_info['classid'] );
 			if($web_url_module == '1')
 			{
 				$class_path = $web_url . '/product_list.php?id=' . $pro_info['classid'];
@@ -647,7 +652,7 @@ class cls_product extends cls_data
 			$pro_info['position'] = $position;
 		}
 		
-		if(in_array('logo', $option_col))
+		if( in_array('logo', $option_col) )
 		{
 			if(empty($pro_info['logo']))
 			{
@@ -667,14 +672,14 @@ class cls_product extends cls_data
 			}
 		}
 		
-		if(in_array('tags_list', $option_col))
+		if( in_array('tags_list', $option_col) )
 		{
 			//得出tagslist
 			$tags_list = '';
 			if(!empty($pro_info['tags']))
 			{
 				$tag_arr = explode(',', $pro_info['tags']);
-				if(is_array($tag_arr))
+				if( is_array($tag_arr) )
 				{
 					foreach($tag_arr as $tagname)
 					{
@@ -687,10 +692,10 @@ class cls_product extends cls_data
 		}
 		
 		//上一篇下一篇		
-		if(in_array('prev', $option_col))
+		if( in_array('prev', $option_col) )
 		{
 			parent:: set_table('{tablepre}product');
-			$prev_info = parent::select_one(array('col'=> 'id,title', 'where'=> "id<$aid and classid=".$pro_info['classid'],'order'=>'id desc'));
+			$prev_info = parent::select_one( array( 'col'=> 'id,title', 'where'=> "id<$aid and classid=" . $pro_info['classid'], 'order'=>'id desc' ) );
 			if($prev_info)
 			{
 				$prev_info = current($prev_info);
@@ -708,14 +713,14 @@ class cls_product extends cls_data
 			}
 		}
 		
-		if(in_array('next', $option_col))
+		if( in_array('next', $option_col) )
 		{		
 			parent::set_table('{tablepre}product');
 			$next_info = parent::select_one(array('col'=> 'id,title', 'where'=> "id>$aid and classid=".$pro_info['classid'],'order'=>'id desc'));
 			if($next_info)
 			{
 				$next_info = current($next_info);
-				if($web_url_module == '1')
+				if( $web_url_module == '1' )
 				{
 					$next_url = $web_url . '/product.php?id=' . $next_info['id'];
 				}else if($web_url_module=='2')
@@ -729,11 +734,11 @@ class cls_product extends cls_data
 			}
 		}
 		
-		if(in_array('guanlian_list', $option_col))
+		if( in_array('guanlian_list', $option_col) )
 		{
 			$guanlian_list = '';
 			parent:: set_table('{tablepre}product');
-			if(!empty($pro_info['guanlian']))
+			if( !empty($pro_info['guanlian']) )
 			{
 				$guanlian_products = parent::select_one(array('col'=> 'id,title', 'where'=> "id in(" . $pro_info['guanlian'] . ")"));
 				if($guanlian_products)
@@ -764,7 +769,7 @@ class cls_product extends cls_data
 	 * @param array $product_info 产品数据 用数组表示,用$key=>$value来表示列名=>值 如array('title'=>'标题') 表示插入title的值为 标题
 	 * @return boolean 成功返回true 失败返回false
 	 */
-	function update($id, $product_info)
+	function update( $id, $product_info )
 	{
 		
 		//把主表和附加表分开来
@@ -783,11 +788,12 @@ class cls_product extends cls_data
 			}
 		}
 		//p_r($col_main);
-		if(parent::update($col_main, "id=$id"))
+		if(parent::update( $col_main, "id=$id") )
 		{
-			if(is_array($col_addon) && count($col_addon) > 0){
+			if( is_array($col_addon) && count($col_addon) > 0 )
+			{
 				$this->set_table('{tablepre}product_addon');
-				if(parent::update($col_addon, "aid=$id"))
+				if( parent::update( $col_addon, "aid=$id") )
 				{
 					return true;
 				}else{
@@ -839,6 +845,9 @@ class cls_product extends cls_data
 				@unlink($file);
 			}
 		}
+		
+		$this-> set_table('@#@product');
+		
 		if(parent::delete($id_list))
 		{
 			$this-> set_table('{tablepre}product_addon');

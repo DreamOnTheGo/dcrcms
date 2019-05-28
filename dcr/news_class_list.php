@@ -2,9 +2,11 @@
 require_once("../include/common.inc.php");
 session_start();
 require_once("adminyz.php");
+$cls_news = cls_app::get_news();
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"><head>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
 <meta http-equiv=Content-Type content="text/html; charset=utf-8">
 <link href="css/admin.css" type="text/css" rel="stylesheet">
 <script src="../include/js/common.js"></script>
@@ -12,62 +14,63 @@ require_once("adminyz.php");
 <body>
 <table cellSpacing=0 cellPadding=0 width="100%" align=center border=0>
   <tr height=28>
-    <td background=images/title_bg1.jpg>当前位置: <a href="main.php">后台首页</a>&gt;&gt;新闻分类列表</td></tr>
+    <td background=images/title_bg1.jpg>当前位置: <a href="main.php">后台首页</a>&gt;&gt;新闻分类列表</td>
+  </tr>
   <tr>
-    <td bgColor=#b1ceef height=1></td></tr></table>
+    <td bgColor=#b1ceef height=1></td>
+  </tr>
+</table>
 <table cellSpacing=0 cellPadding=0 width="95%" align=center border=0>
   <tr height=20>
-    <td></td></tr>
+    <td></td>
+  </tr>
   <tr height=22>
     <td style="PADDING-LEFT: 20px; FONT-WEIGHT: bold; COLOR: #ffffff" 
-    align=middle background=images/title_bg2.jpg>新闻分类</td></tr>
-  <tr bgColor=#ecf4fc height=12>
-    <td></td></tr>
-  </table>
-<form action="news_class_action.php" method="post">
-<input type="hidden" name="action" id="action" value="delnewsclass">
-<table cellSpacing=1 cellPadding=2 width="95%" align=center border=0 bgcolor="#ecf4fc">
-  <tr>
-    <td style="text-align: center" width=57>ID</td>
-    <td width="550" style="text-align: center">标题</td>
-    <td width="255" style="text-align: center">加入时间</td>
-    <td width="213" style="text-align: center">操作</td>
+    align=middle background=images/title_bg2.jpg>新闻分类</td>
   </tr>
-  <?php
-	require_once(WEB_CLASS . "/class.news.php");
-	$page_list_num = 20;//每页显示9条
-	$total_page = 0;//总页数
-	$page = isset($page) ? (int)$page : 1;
-	$start = ($page-1) * $page_list_num;
-	$cls_news = new cls_news();
-	$news_class_list = $cls_news->get_class_list(array('col'=>'id,classname,updatetime', 'limit'=>"$start,$page_list_num", 'order'=>'id desc'));
-	foreach($news_class_list as $value)
-	{
-  ?>  
-  <tr height="30" bgcolor="#FFFFFF" onMouseMove="javascript:this.style.backgroundColor='#F4F9EB';" onMouseOut="javascript:this.style.backgroundColor='#FFFFFF';">
-    <td style="text-align: center"><input type="checkbox" name="id[]" id="id[]" value="<?php echo $value['id']; ?>"><?php echo $value['id']; ?></td>
-    <td style="text-align: left"><a href="news_class_edit.php?action=modify&id=<?php echo $value['id']; ?>"><?php echo $value['classname']; ?></a></td>
-    <td style="text-align: center"><?php echo $value['updatetime']; ?></td>
-    <td style="text-align: center"><a href="news_class_edit.php?action=modify&id=<?php echo $value['id']; ?>">编辑</a></td>
-  </tr>    
-  <?php } ?>  
-  <tr>
-    <td colspan="4" bgcolor="#FFFFFF" align="right">
-    <?php
-	require_once(WEB_CLASS.'/class.page.php');
-	$page_num = $cls_news->get_class_num();
-	$total_page = ceil($page_num / $page_list_num);//总页数
-			
-	$cls_page = new cls_page($page,$total_page);
-	$page_html = $cls_page->show_page(); 
-	echo $page_html;
-	?>
-    </td>
-    </tr>  
-  <tr>
-    <td colspan="4" bgcolor="#FFFFFF"><input type="button" name="button" id="button" value="全选/反选" onClick="javascript:selectAllChk('id[]');">
-      &nbsp; <input type="submit" name="button2" id="button2" onclick="return confirm('确定要删除吗？');" value="删除"></td>
-    </tr>  
-    </table>
- </form>
- </body></html>
+  <tr bgColor=#ecf4fc height=12>
+    <td></td>
+  </tr>
+</table>
+<form action="news_class_action.php" method="post">
+  <input type="hidden" name="action" value="order" />
+  <table width="95%" border="0" cellspacing="1" cellpadding="5" bgcolor="#4776BE" align="center" class="itemtable">
+    <tr>
+      <td colspan="2" align="left" bgcolor="#FFFFFF"><table width="100%" border="0" cellspacing="0" cellpadding="5">
+          <?php
+        	$class_list = $cls_news-> get_class_list();
+           // p_r($class_list);
+		   if($class_list)
+		   {
+			   function show_class_list($class_list)
+			   {
+					foreach($class_list as $value)
+					{
+			?>
+          <tr onMouseMove="javascript:this.bgColor='#F4F9EB';" onMouseOut="javascript:this.bgColor='#FFFFFF';">
+            <td width="4%" bgcolor="#c0c0c0" style="border-bottom:2px dotted #F4F9EB"><?php echo $value['id']; ?></td>
+            <td width="61%" style="border-bottom:2px dotted #c0c0c0"><?php echo str_repeat("&nbsp;", ($value['class_level'] - 1) * 5); ?>·<?php echo $value['classname']; ?></td>
+            <td width="35%" style="border-bottom:2px dotted #c0c0c0"><span style="float:right; margin-right:<?php echo (8 - $value['class_level']) * 18 ?>px;">排序：
+              <input name="orderid[<?php echo $value['id']; ?>]" type="text" value="<?php echo $value['orderid']; ?>" size="5" />
+              </span><a href="news_class_edit.php?action=add&parentid=<?php echo $value['id'];?>">添加下级分类</a>&nbsp; <a href="news_class_edit.php?action=modify&id=<?php echo $value['id'];?>">编辑</a>&nbsp; <a href="news_class_action.php?action=delproductclass&classid=<?php echo $value['id'];?>">删除</a></td>
+          </tr>
+          <?php
+				if($value['sub_class'] && count($value['sub_class']))
+				{
+					show_class_list($value['sub_class']);
+				}
+					}
+			   }
+			   show_class_list($class_list);
+			  ?>
+          <?php } ?>
+          <tr>
+            <td colspan="3"><input type="button" name="button" id="button" onclick="location.href='news_class_edit.php?action=add&parentid=0'" value="添加顶级分类" />
+              <input style="float:right" type="submit" name="button2" id="button2" value="排序" /></td>
+          </tr>
+        </table></td>
+    </tr>
+  </table>
+</form>
+</body>
+</html>

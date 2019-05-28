@@ -82,23 +82,8 @@ function check(){
 		$pro_class_list = $cls_pro-> get_class_list();
 		$cls_pro->get_class_list_select($pro_class_list, $pro_info['classid']);
 	?></select>    
-    </span>&nbsp;&nbsp;&nbsp;<!--<a href="#" onclick="javascript:showProductClassForm()">添加产品类别</a>  <a href="javascript:refreshProductClassList();">手动刷新列表</a>-->
-      <iframe id="myframe" style=" display:none;position:absolute;z-index:9;width:expression(this.nextSibling.offsetWidth);height:expression(this.nextSibling.offsetHeight);top:expression(this.nextSibling.offsetTop);left:expression(this.nextSibling.offsetLeft);" frameborder="0" ></iframe>
-    <div id="AddClass" style="display:none;position:absolute;top:100px; border:5px #999 solid; padding:10px; height:100px; width:650px; left:100px; background-color:#ecf4fc; z-index:11">
-<table cellSpacing=0 cellPadding=2 width="95%" align=center border=0>
-  <tr>
-    <td align=right width=100>分类名(<font color="red" class="txtRed">*</font>)：</td>
-    <td style="COLOR: #880000"><input name="classname" type="text" id="classname" size="80" onkeypress="tijiaoAddAction();"></td></tr>
-  <tr>
-    <td align=right valign="top">分类说明：</td>
-    <td style="COLOR: #880000"><textarea name="classdescription" cols="80" rows="3" id="classdescription"></textarea></td>
-  </tr>
-  <tr>
-    <td align=right></td>
-    <td style="COLOR: #880000"><input type="button" onClick="AddClass()" name="button" id="button" value="添加分类">
-    <input type="reset" name="button2" id="button2" value="重置">  <input type="button" value="关闭" onClick="javascript:closeProductClassForm()"></td></tr>
-    </table>
-</div>
+    </span>
+    
     </td>
   </tr>
   <tr>

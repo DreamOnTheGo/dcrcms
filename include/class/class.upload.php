@@ -26,12 +26,34 @@ class cls_upload{
 	 * 构造函数
 	 * @param string $input_name 上传文件框的名字
 	 */
-	function __construct($input_name){
+	function __construct( $input_name )
+	{
 		//初始化数据
 		$this->input_name = $input_name;
 		$this->allow_files = array('image/jpg', 'image/jpeg', 'image/png', 'image/pjpeg', 'image/gif', 'image/bmp', 'image/x-png');
 		$this->max_file_size = 5000000;
 	}
+	
+    /**
+     * 设置允许上传的文件类型
+     * @param array 允许的文件类型
+     * @return true
+     */   
+    function set_allow_files( $allow_files )
+    {
+        $this->allow_files = $allow_files;
+    }
+   
+    /**
+     * 设置允许上传的文件大小
+     * @param int 允许的文件最大值
+     * @return true
+     */   
+    function set_max_file_size( $max_file_size )
+    {
+        $this->max_file_size = $max_file_size;
+    }
+	
 	/**
 	 * 上传文件
 	 * @param string $dir_name 文件上传后放的目录名 为空时当前目录
@@ -40,12 +62,13 @@ class cls_upload{
 	 * @param array $dir_fei_lei 目录分类 type表示类型 caishu为扩展参数 默认为按日期 (含)1.0.6版本以后有效 现在有效且默认的是array('type'=>'date','caishu'=>'Y_m_d') 为了这个参数 几乎改写了上传过程 大家请以后台上传文件为参考 ^_^ 从这些个变量得出一个结论 最好不要对原变量来改 比如fileName让他从头到尾都是从外传来的值 而用新的变量来记录处理的变量
 	 * @return array|boolean 上传成功filename为原图 sl_filename为缩略图 上传错误则error=1 error_msg表示错误信息 没有文件上传是为false
 	 */
-	function upload($dir_name = '',$file_name = '',$sl = array(),$dir_fei_lei = array('type'=>'date','caishu'=>'Y_m_d')){
+	function upload( $dir_name = '', $file_name = '', $sl = array(), $dir_fei_lei = array ('type'=> 'date', 'caishu'=> 'Y_m_d' ) )
+	{
 		global $web_watermark_type, $web_watermark_txt, $web_watermark_weizhi;
 		
 		$input_name = $this-> input_name;
 		$return_value = array();//返回的结果
-		if(is_uploaded_file($_FILES[$input_name]['tmp_name']))
+		if( is_uploaded_file( $_FILES[$input_name]['tmp_name'] ) )
 		{
 			$file = $_FILES[$input_name];
 			if($this->max_file_size<$file["size"])
@@ -72,18 +95,21 @@ class cls_upload{
 			$old_name = $file['tmp_name'];
 			$pinfo = pathinfo($file["name"]);
 			$ftype = $pinfo['extension'];
-			if(strlen($file_name) == 0){
+			if( strlen($file_name) == 0 )
+			{
 				$real_file_name = date(ymdhms) . rand(1000, 9999) . "." . $ftype;
-			}else{
+			}else
+			{
 				$t_a = explode('.', $file_name);
-				if(count($t_a) > 1){
+				if( count($t_a) > 1 )
+				{
 					$real_file_name = $file_name;
 				}else{
 					$real_file_name = $file_name . "." . $ftype;
 				}
 			}
 			
-			if(!empty($dir_can_shu))
+			if( ! empty($dir_can_shu) )
 			{
 				$real_dir_name = $dir_name.'/'.$dir_can_shu;
 			}else
@@ -96,10 +122,11 @@ class cls_upload{
 			}
 			$file_name = $real_dir_name . '/' . $real_file_name;
 			
-			if(!move_uploaded_file($old_name, $file_name))
+			if( ! move_uploaded_file($old_name, $file_name) )
 			{
 				return false;
-			}else{
+			}else
+			{
 				require_once(WEB_CLASS . "/class.picture.php");
 				//打水印
 				if('2' == $web_watermark_type)
@@ -110,7 +137,7 @@ class cls_upload{
 					$cls_pic->create($file_name);
 					unset($cls_pic);
 					
-				}else if('1' == $web_watermark_type)
+				}else if( '1' == $web_watermark_type )
 				{
 					//文字
 					$cls_pic = new cls_picture($file_name);
@@ -119,10 +146,11 @@ class cls_upload{
 					unset($cls_pic);
 				}
 				
-				if(is_array($sl) && count($sl)>0)
+				if( is_array($sl) && count($sl) > 0 )
 				{
-					if($sl['newpic'] == 1){
-						$real_sl_file_name = self::get_sl($real_file_name);
+					if( $sl['newpic'] == 1 )
+					{
+						$real_sl_file_name = self:: get_sl($real_file_name);
 					}else
 					{
 						$real_sl_file_name = $real_file_name;
@@ -136,7 +164,7 @@ class cls_upload{
 					$cls_pic->create($sl_filename);
 					unset($cls_pic);
 				}
-				if(!empty($dir_can_shu))
+				if( ! empty($dir_can_shu) )
 				{
 					$real_file_name = $dir_can_shu . '/' . $real_file_name;
 					$real_sl_file_name = $dir_can_shu.'/' . $real_sl_file_name;
@@ -147,7 +175,8 @@ class cls_upload{
 					return array('filename'=> $real_file_name);
 				}
 			}
-		}else{
+		}else
+		{
 			//没有上传文件
 			return false;
 		}
@@ -157,7 +186,8 @@ class cls_upload{
 	 * @param string $file_name 图片文件名
 	 * @return string 缩略图名
 	 */
-	static function get_sl($file_name){
+	static function get_sl( $file_name )
+	{
 		$b_name = explode('.', $file_name);
 		return $b_name[0] . '_sl.' . $b_name[1];
 	}

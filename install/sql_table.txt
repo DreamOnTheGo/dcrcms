@@ -71,6 +71,8 @@ CREATE TABLE  `{tablepre}news_addon` (
 DROP TABLE IF EXISTS `{tablepre}news_class`;
 CREATE TABLE  `{tablepre}news_class` (
   `id` integer unsigned NOT NULL auto_increment,
+  `parentid` mediumint(8) unsigned default 0,
+  `orderid` mediumint(3) unsigned default '1',
   `classname` varchar(100) NOT NULL,
   `classdescription` mediumtext,
   `updatetime` timestamp NOT NULL default CURRENT_TIMESTAMP,
@@ -149,5 +151,32 @@ CREATE TABLE `{tablepre}menu` (
   `single_id` int(5) unsigned default 0,
   `addtime` int(11) unsigned default 0,
   `updatetime` int(11) unsigned default 0,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=[db_code];
+
+DROP TABLE IF EXISTS `{tablepre}model`;
+CREATE TABLE IF NOT EXISTS `{tablepre}model` (
+  `id` integer unsigned not null auto_increment,
+  `model_name` varchar(50) NOT NULL,
+  `model_table_name` varchar(50) DEFAULT NULL,
+  `dec` varchar(1000) DEFAULT NULL,
+  `add_time` int(12) unsigned DEFAULT NULL,
+  `update_time` int(12) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=[db_code];
+
+DROP TABLE IF EXISTS `{tablepre}model_field`;
+CREATE TABLE IF NOT EXISTS `{tablepre}model_field` (
+  `id` integer unsigned not null auto_increment,
+  `model_id` int(4) unsigned DEFAULT NULL,
+  `order_id` int(2) unsigned DEFAULT '1',
+  `item_name` varchar(100) DEFAULT '',
+  `field_name` varchar(100) DEFAULT '',
+  `dtype` varchar(15) DEFAULT NULL,
+  `vdefault` varchar(100) DEFAULT '',
+  `maxlength` int(2) unsigned DEFAULT '250',
+  `show_in_list` tinyint(1) unsigned DEFAULT '1',
+  `add_time` int(12) unsigned DEFAULT NULL,
+  `update_time` int(12) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=[db_code];

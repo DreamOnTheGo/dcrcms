@@ -9,13 +9,15 @@ $totalPage = 0;//总页数
 $page = isset($page) ? (int)$page : 1;
 $start = ($page-1) * $list_product_count;
 
-$pro_list = $cls_pro->get_list($classid,array('col'=>'id,title,logo', 'limit'=>"$start,$list_product_count", 'order'=>'id desc'), true);
-$tpl->assign('pro_list',$pro_list);
+$pro_list = $cls_pro->get_list( $classid, array( 'col'=> 'id,title,logo', 'limit'=> "$start,$list_product_count", 'order'=> 'istop desc,id desc'), true );
+$tpl->assign('pro_list', $pro_list);
 
-if($classid == 0){
+if($classid == 0)
+{
 	$classname = "产品中心";
 	$position = '首页>>产品中心';
-}else{
+}else
+{
 	$class_info = $cls_pro->get_class_info($classid);
 	$classname = $class_info['classname'];
 	$position = $class_info['position'];

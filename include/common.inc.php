@@ -25,6 +25,7 @@ $magic_quotes = get_magic_quotes_gpc();
 //配置文件
 require_once(WEB_INCLUDE . '/app.info.php');
 require_once(WEB_INCLUDE . '/config.common.php');
+header('Content-type:text/html;charset=' . $web_code);
 
 if($web_tiaoshi == '0')
 {
@@ -88,9 +89,17 @@ function _get_request(&$svar)
 	return $svar;
 }
 
+$req_data = array();
 foreach( array('_GET', '_POST', '_COOKIE') as $_request )
 {
-	foreach($$_request as $_k => $_v) ${$_k} = _get_request($_v);
+    foreach( $$_request as $_k => $_v )
+    {
+        ${$_k} = _get_request($_v);
+        if( '_COOKIE' != $_request )
+        {
+            $req_data[$_k] = _get_request($_v);
+        }
+    }
 }
 unset($_GET, $_POST);
 
@@ -126,7 +135,6 @@ require_once(WEB_INCLUDE . '/common.func.php');
 $db = new cls_db($db_type, $db_host, $db_name, $db_pass, $db_table, $db_ut);
 $db_host = $db_user = $db_pass = $db_name = NULL;
 
-header('Content-type:text/html;charset=' . $web_code);
 //程序版本
 $version = $app_version;
 
