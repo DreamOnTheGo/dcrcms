@@ -1,0 +1,1 @@
+insert into dcr_qy_flink(id,webname,weburl,logo,addtime,updatetime) values('1','稻草人企业程序 ','http://www.dcrcms.com','','0','1316745830');

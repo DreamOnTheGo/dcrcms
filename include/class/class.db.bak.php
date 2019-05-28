@@ -74,12 +74,12 @@ class cls_db_bak
 		return $t_str;
 	}
 	/**
-	 * 返回单个数据表的数据 主要是insert数据 版本号>=1.0.4
+	 * 返回单个数据表的数据 主要是insert数据 版本号>=1.0.4 1.0.9及1.0.9后废弃
  	 * @param string $table_name 要返回的表
  	 * @param int $space 一个数据文件的大小 默认为2M
 	 * @return array 数据的分割数组 比如12000分为两个数据 array('insert into sdfds...','insert into sdfds...')结果用result_arr返回
 	 */
-	function get_table_data($table_name, &$result_arr, $space=1000000)
+	function get_table_data($table_name, &$result_arr, $space = 1000000)
 	{
 		$c_index = 0;
 		$sql_bak = "select * from $table_name";
@@ -104,6 +104,80 @@ class cls_db_bak
 		}
 		
 		return true;
+	}
+    
+	/**
+	 * 把记录写到文件里
+ 	 * @version>1.0.9
+ 	 * @param string $table_name 要返回的表
+ 	 * @param int $space 一个数据文件的大小 默认为2M
+	 * @return true;
+	 */
+	function write_table_data_to_file($table_name, $space = 2000000)
+	{
+		//这里为了大数据的备份，我们要用最原始的操作
+		//INSERT INTO `shop_yz` (`id`) VALUES(99974),(99975)
+		$sql = 'select * from ' . $table_name;
+		$table_cols = $this->db->get_table_col($table_name);
+		$col_name_list = implode($table_cols, '`,`');
+		$col_name_list = '`' . $col_name_list . '`';
+
+		$conn = $this->db->get_conn();
+		$rs = mysql_query('select * from ' . $table_name, $conn);
+		$insert_sql_txt = ''; //插入语句
+		$file_index = 0;
+		$cur_index = 0; //当前操作到的数据是第几条
+		$rs_num = mysql_num_rows($rs);
+		if( $rs_num == 0 )
+		{
+			return false;
+		}
+		while($row = mysql_fetch_row($rs))
+		{
+			foreach( $row as $row_key=> $row_value)
+			{
+				$row[$row_key] = addslashes( $row_value );
+			}
+			
+			$insert_sql = implode($row, "','");
+			$insert_sql = "('" . $insert_sql . "'),\r\n";
+			$insert_sql_txt .= $insert_sql;
+			if( (strlen($insert_sql_txt) > $space) && ($cur_index < $rs_num - 1) )
+			{
+				//超大的文件了
+
+				$insert_sql_txt = substr( $insert_sql_txt, 0, strlen($insert_sql_txt) - 3 ); //去除字符串尾的'\r\n,' 才能加上';' 哦耶！
+				$insert_sql_txt = "insert into $table_name ($col_name_list) values\r\n" . $insert_sql_txt . ';';
+				$this->write_data_to_file($insert_sql_txt, $table_name, $file_index);
+				$insert_sql = '';
+				$insert_sql_txt = '';
+				$file_index ++ ;
+			}
+			$cur_index ++;
+		}
+
+		$insert_sql_txt = substr( $insert_sql_txt, 0, strlen($insert_sql_txt) - 3 ); //去除字符串尾的'\r\n,' 才能加上';' 哦耶！
+		$insert_sql_txt = "insert into $table_name ($col_name_list) values\r\n" . $insert_sql_txt . ';';
+		$this->write_data_to_file($insert_sql_txt, $table_name, $file_index);
+	}	
+    
+	/**
+	 * 把备份内容写文件
+ 	 * @version>1.0.9
+ 	 * @param string $insert_sql_txt sql内容
+ 	 * @param string $table_name 要返回的表
+ 	 * @param int $file_index 文件标记
+	 * @return true;
+	 */
+	function write_data_to_file($insert_sql_txt, $table_name, $file_index){		
+		require_once(WEB_CLASS . '/class.file.php');
+
+		$data_file_name = WEB_MYSQL_BAKDATA_DIR . '/' .$table_name . '_' . $file_index . '_' 
+						  . substr( md5(time() . mt_rand(1000, 5000) ), 0, 16) . '.txt';
+		$cls_file = new cls_file($data_file_name);
+		$cls_file->set_text($insert_sql_txt);
+		$cls_file-> write();	
+		echo "$table_name(分卷$file_index)备份成功<br>";
 	}
 }
 ?>

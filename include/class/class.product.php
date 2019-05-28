@@ -568,24 +568,22 @@ class cls_product extends cls_data
 		}		
 		if(!in_array('id',$col_arr))
 		{
-			array_push($col_arr,'classid');
+			array_push($col_arr,'id');
 		}
 		
 		$product_col_main_arr = explode(',', $product_col_main);
 		$product_col_addon_arr = explode(',', $product_col_addon);
 		
 		$col_main = $col_addon = array();
-		foreach($col_arr as $key=> $value)
-		{
-			if(in_array($value, $product_col_addon_arr))
-			{
-				array_push($col_addon, $value);
-			}else{
-				array_push($col_main, $value);
-			}			
-		}
-		array_remove_empty($col_main);
-		array_remove_empty($col_addon);
+		
+		$col_main = array_intersect($col_arr, $product_col_main_arr);
+        $col_addon = array_intersect($col_arr, $product_col_addon_arr);
+       
+        array_remove_empty($col_main);
+        array_remove_empty($col_addon);
+       
+        $col_main = array_unique($col_main);
+        $col_addon = array_unique($col_addon);
 		
 		$col_main_list = implode(',', $col_main);
 		$col_addon_list = implode(',', $col_addon);

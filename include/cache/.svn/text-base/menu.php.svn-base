@@ -1,0 +1,92 @@
+<?php
+
+/*导航条*/
+
+ $cache_arr = array (
+  0 => 
+  array (
+    'id' => '24',
+    'menu_type' => '5',
+    'url' => '/',
+    'menu_text' => '首页',
+    'target' => '',
+    'order_id' => '1',
+    'news_class_id' => NULL,
+    'product_class_id' => NULL,
+    'single_id' => NULL,
+    'addtime' => '1317262486',
+    'updatetime' => '1317262486',
+  ),
+  1 => 
+  array (
+    'id' => '25',
+    'menu_type' => '2',
+    'url' => '',
+    'menu_text' => '新闻中心',
+    'target' => '',
+    'order_id' => '2',
+    'news_class_id' => '0',
+    'product_class_id' => NULL,
+    'single_id' => NULL,
+    'addtime' => '1317262493',
+    'updatetime' => '1317262493',
+  ),
+  2 => 
+  array (
+    'id' => '26',
+    'menu_type' => '3',
+    'url' => '',
+    'menu_text' => '产品中心',
+    'target' => '',
+    'order_id' => '3',
+    'news_class_id' => NULL,
+    'product_class_id' => '0',
+    'single_id' => NULL,
+    'addtime' => '1317262501',
+    'updatetime' => '1317262501',
+  ),
+  3 => 
+  array (
+    'id' => '27',
+    'menu_type' => '1',
+    'url' => '',
+    'menu_text' => '关于我们',
+    'target' => '',
+    'order_id' => '4',
+    'news_class_id' => NULL,
+    'product_class_id' => NULL,
+    'single_id' => '1',
+    'addtime' => '1317262511',
+    'updatetime' => '1317262511',
+  ),
+  4 => 
+  array (
+    'id' => '28',
+    'menu_type' => '1',
+    'url' => '',
+    'menu_text' => '联系我们 ',
+    'target' => '',
+    'order_id' => '5',
+    'news_class_id' => NULL,
+    'product_class_id' => NULL,
+    'single_id' => '2',
+    'addtime' => '1317262519',
+    'updatetime' => '1317262519',
+  ),
+  5 => 
+  array (
+    'id' => '29',
+    'menu_type' => '4',
+    'url' => '',
+    'menu_text' => '在线订单',
+    'target' => '',
+    'order_id' => '6',
+    'news_class_id' => NULL,
+    'product_class_id' => NULL,
+    'single_id' => NULL,
+    'addtime' => '1317262524',
+    'updatetime' => '1317262524',
+  ),
+);
+
+?>

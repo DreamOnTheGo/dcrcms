@@ -163,6 +163,38 @@ class cls_app
 		return $cls_pro;
 	}
 	
+    /**
+     * @since 1.0.9
+     * 写一个日志..... 如果不指定log_dir的话，则日志会产生于include/log
+     *
+     * @param string $string 日志内容
+     * @param string $level_1mode  日志级别 默认为ERROR,级别分为DEBUG ERROR INFO NOTICE
+     * @param log_dir $message  日志存放目录，默认为当前目录
+     *
+     * @return true
+     *
+     */
+    public static function log($message, $level_mode = 'ERROR', $log_dir = '')
+    {
+        $date_input   = date('Y-m-d H:i:s');
+       
+        if( !empty($log_dir) )
+        {
+            $log_dir = $log_dir . '/';
+        } else
+        {
+            $log_dir = WEB_LOG . '/';
+        }
+               
+        $file_name    = $log_dir . 'log_' . date('Y_m_d') . '.txt';   
+        require_once( WEB_CLASS . '/class.file.php' );
+        $cls_log_file = new cls_file($file_name);               
+        $logo_content = '[' . $date_input . ']--' . strtoupper($level_mode) . '--' . $message . "\r\n";
+        $cls_log_file-> set_text( $logo_content );
+        $cls_log_file-> write( false, 'a' );
+        //unset($cls_log_file);
+    }
+	
 }
 
 ?>

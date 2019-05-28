@@ -148,7 +148,7 @@ if($action == 'add')
 			$logo_big = $pro_old_info['biglogo'];
 			
 			@unlink(WEB_DR . '/uploads/product/' . $logo);
-			@unlink(WEB_DR . '/uploads/product/' . $logo_big);			
+			@unlink(WEB_DR . '/uploads/product/' . $logo_big);
 		}
 	}
 	

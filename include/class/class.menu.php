@@ -196,7 +196,7 @@ class cls_menu extends cls_data
 						}						
 					}else
 					{
-						if($value['news_class_id'])
+						if( $value['news_class_id'] )
 						{
 							$url = 'news_list_.' . $value['news_class_id'] . $web_url_surfix;
 						}else

@@ -13,12 +13,12 @@ if($s_type==1)
 	//产品
 	
 	//这里搜索tag
-	if(!empty($tag))
+	if( !empty($tag) )
 	{		
 		$k = 'tag:' . $tag;
-		$art_taglist = app:: get_data('{tablepre}taglist');
+		$art_taglist = cls_app:: get_data('{tablepre}taglist');
 		$id_list = $art_taglist->select_ex(array('col'=>'aid', 'where'=> "tag='$tag'"));
-		$id_list = current($id_list);
+		//$id_list = current($id_list);
 		$id_in_list = array();
 		if($id_list)
 		{

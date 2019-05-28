@@ -51,17 +51,19 @@ $pro_class_list = $cls_pro->get_class_list();
     <script type="text/javascript">
 	function do_action($action)
 	{
-		if('delproduct'==$action)
+		if('delproduct' == $action)
 		{
 			if(!confirm('确定要删除?'))
 			{
 				return false;
 			}
 		}
-		document.getElementById("action").value=$action;
-		if('chang_pl_type'==$action)
+		document.getElementById("action").value = $action;
+		if('chang_pl_type' == $action)
 		{
-			document.getElementById("pro_frm").action='product_pl_class.php';
+			var frm_attr = document.getElementById("pro_frm").attributes;
+			frm_attr.getNamedItem("action").value= "product_pl_class.php";
+			
 		}
 		document.getElementById("pro_frm").submit();
 	}
@@ -114,7 +116,6 @@ $pro_class_list = $cls_pro->get_class_list();
 	{
 		$where = implode(' and ',$where_option);
 	}
-	echo $where;
 	$page_num = $cls_pro->get_list_count($classid, $where, 1);
 	$total_page = ceil($page_num / $page_list_num);//总页数
 			

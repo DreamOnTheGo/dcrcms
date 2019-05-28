@@ -43,7 +43,7 @@ if($action == 'addflink')
 		$file_info = $cls_upload->upload(WEB_DR . "/uploads/flink/", '', array('width'=>$flinklogowidth,'height'=>$flinklogoheight),array());
 		$logo = $file_info['sl_filename'];
 		if(strlen($logo)>0)
-		{			
+		{
 			$old_info = $flink_data->select_one(array('col'=> 'logo', 'where'=> "id=$id"));
 			$old_info = current($old_info);
 			@unlink('../uploads/flink/' . $old_info['logo']);

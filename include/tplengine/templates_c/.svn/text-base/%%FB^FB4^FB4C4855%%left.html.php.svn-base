@@ -1,0 +1,44 @@
+<?php /* Smarty version 2.6.25, created on 2011-10-02 19:52:02
+         compiled from left.html */ ?>
+<div class=""><a href="<?php echo $this->_tpl_vars['web_url']; ?>
+/news_list.<?php echo $this->_tpl_vars['web_url_surfix']; ?>
+"><img align="middle" src="<?php echo $this->_tpl_vars['web_templeturl']; ?>
+/<?php echo $this->_tpl_vars['web_templetdir']; ?>
+/images/news_pic.gif" width="200" /></a></div>
+<ul class="news_class_ul">
+	<?php unset($this->_sections['arr']);
+$this->_sections['arr']['name'] = 'arr';
+$this->_sections['arr']['loop'] = is_array($_loop=$this->_tpl_vars['news_class_list']) ? count($_loop) : max(0, (int)$_loop); unset($_loop);
+$this->_sections['arr']['show'] = true;
+$this->_sections['arr']['max'] = $this->_sections['arr']['loop'];
+$this->_sections['arr']['step'] = 1;
+$this->_sections['arr']['start'] = $this->_sections['arr']['step'] > 0 ? 0 : $this->_sections['arr']['loop']-1;
+if ($this->_sections['arr']['show']) {
+    $this->_sections['arr']['total'] = $this->_sections['arr']['loop'];
+    if ($this->_sections['arr']['total'] == 0)
+        $this->_sections['arr']['show'] = false;
+} else
+    $this->_sections['arr']['total'] = 0;
+if ($this->_sections['arr']['show']):
+
+            for ($this->_sections['arr']['index'] = $this->_sections['arr']['start'], $this->_sections['arr']['iteration'] = 1;
+                 $this->_sections['arr']['iteration'] <= $this->_sections['arr']['total'];
+                 $this->_sections['arr']['index'] += $this->_sections['arr']['step'], $this->_sections['arr']['iteration']++):
+$this->_sections['arr']['rownum'] = $this->_sections['arr']['iteration'];
+$this->_sections['arr']['index_prev'] = $this->_sections['arr']['index'] - $this->_sections['arr']['step'];
+$this->_sections['arr']['index_next'] = $this->_sections['arr']['index'] + $this->_sections['arr']['step'];
+$this->_sections['arr']['first']      = ($this->_sections['arr']['iteration'] == 1);
+$this->_sections['arr']['last']       = ($this->_sections['arr']['iteration'] == $this->_sections['arr']['total']);
+?>
+	<li><a href="<?php echo $this->_tpl_vars['news_class_list'][$this->_sections['arr']['index']]['url']; ?>
+"><?php echo $this->_tpl_vars['news_class_list'][$this->_sections['arr']['index']]['classname']; ?>
+</a></li>
+	<?php endfor; endif; ?>
+</ul>
+<div class=""><a href="<?php echo $this->_tpl_vars['web_url']; ?>
+/product_list.<?php echo $this->_tpl_vars['web_url_surfix']; ?>
+"><img src="<?php echo $this->_tpl_vars['web_templeturl']; ?>
+/<?php echo $this->_tpl_vars['web_templetdir']; ?>
+/images/pro_pic.gif" /></a></div>
+<?php echo $this->_tpl_vars['pro_class_list_txt']; ?>
+

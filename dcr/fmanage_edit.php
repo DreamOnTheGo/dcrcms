@@ -123,52 +123,57 @@ function editTab(){
     align=middle background=images/title_bg2.jpg>文件编辑</TD></TR>
   <TR bgColor=#ecf4fc height=12>
 <?php
-	$filepath=WEB_DR.$cpath;
+	$file_path = WEB_DR . $cpath;
 	
-	$pdir=WEB_DR.$cpath;
-	$pdir=pathinfo($pdir);
-	$pdir=$pdir['dirname'];
-	//echo $pdir;
+	$file_path_info = pathinfo($file_path); //文件路径信息
+	$path_info = $file_path_info['dirname']; //文件目录
+	//echo $file_dir;
 	//echo substr(WEB_DR,0,strlen(WEB_DR)-1);
-  if(WEB_DR==WEB_DR.$cpath || WEB_DR==$cpath ||  $pdir==substr(WEB_DR,0,strlen(WEB_DR)-1)){
-	  $pdir='';
-  }else{
-	$pdir=str_replace(WEB_DR,'',$pdir);
-  }
-  	$oldname=$cpath;
-	if(!isset($cpath)){
-		$cpath=WEB_DR;
-	}else{
-		$cpath=WEB_DR.$cpath.'/';
-	}
-	$pinfo=pathinfo($cpath);
-	//p_r($pinfo);
-	//文档路径
-	$path_arr = explode("/",$oldname);
-	$path_rs_arr=array();
-	for($i=0;$i<count($path_arr)-1;$i++)
+	if( WEB_DR == $file_path || WEB_DR == $cpath ||  $file_dir == substr( WEB_DR, 0, strlen(WEB_DR)-1) )
 	{
-		if($i==0)
-		{
-			$href=$path_arr[$i];
-		}else{
-			$t_arr=array();
-			for($j=0;$j<$i+1;$j++)
-			{
-				$t_arr[]=$path_arr[$j];
-			}
-			$t_path=implode('/',$t_arr);
-			$href=$t_path;
-		}
-		$path_rs_arr[]="<a href='fmanage.php?cpath=$href'>$path_arr[$i]</a>";
+		$file_dir = '';
+	}else{
+		$file_dir = str_replace( WEB_DR, '', $file_dir );
 	}
-	$path_rs=implode('/',$path_rs_arr);
+  	$oldname = $cpath;
+	
+	//文档路径
+	$path_arr = explode('/', $oldname);
+	array_remove_empty($path_arr);
+	$path_arr = array_values($path_arr);
+	$path_rs_arr = array();
+	
+	for( $i = 0; $i < count($path_arr) - 1; $i++ )
+	{
+		if( $i == 0)
+		{
+			$href = $path_arr[$i];
+		}else{
+			$t_arr = array();
+			for( $j = 0; $j < $i + 1; $j++ )
+			{ 
+				$t_arr[] = iconv( 'gbk', $web_code, $path_arr[$j] );
+				
+			}
+			$t_path = implode('/', $t_arr);
+			$href = $t_path;
+		}
+		$path_rs_arr[] = "<a href='fmanage.php?cpath=$href'>$path_arr[$i]</a>";
+	}
+	if( $path_rs_arr )
+	{
+		$path_rs = implode( '/', $path_rs_arr );
+		$path_rs = "<a href='fmanage.php'>根目录</a>" . '/' . $path_rs . '/' . $file_path_info['basename'];
+	} else
+	{
+		$path_rs = "<a href='fmanage.php'>根目录</a>" . '/' . $file_path_info['basename'];
+	}
   ?>
-    <TD style="padding:3px;">当前目录：<?php echo $path_rs; ?></TD></TR>
+    <TD style="padding:3px;">当前文件：<?php echo $path_rs; ?></TD></TR>
   </TABLE>
 <form action="fmanage_action.php" method="post">
 <input type="hidden" name="action" id="action" value="edit_file">
-<input type="hidden" name="filepath" id="filepath" value="<?php echo $filepath;?>">
+<input type="hidden" name="filepath" id="filepath" value="<?php echo $file_path;?>">
 <input type="hidden" name="cpath" id="cpath" value="<?php echo $oldname;?>">
 <input type="hidden" name="modi" id="modi" value="false">
 <TABLE cellSpacing=2 cellPadding=5 width="95%" align=center border=0 bgcolor="#ecf4fc">
@@ -176,7 +181,7 @@ function editTab(){
     <TD bgcolor="#FFFFFF"><div id="ln"><textarea id='txt_ln' name='content' rows='10' cols='4' readonly></textarea></div>
     <textarea id='txt_main' name='content' rows='10' cols='70 'onkeydown='editTab()' onChange="document.getElementById('modi').value='ture'" onscroll='show_ln()' wrap='off'><?php
     require_once(WEB_CLASS . '/class.file.php');
-	$cls_file = new cls_file($filepath);
+	$cls_file = new cls_file($file_path);
 	echo $cls_file->read(true);
 	?></textarea>
                <script>for(var i=1; i<=50; i++) document.getElementById('txt_ln').value += i + '\n';</script> </TD>

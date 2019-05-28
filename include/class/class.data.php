@@ -51,6 +51,16 @@ class cls_data
     function get_last_sql()
     {
         return $this->last_sql;
+    } 
+	 
+    /**
+     * 获取数据库最后一条错误信息
+     * @return string
+     */
+    function get_error()
+    {
+        global $db;
+        return $db->get_db_error();
     }
 	
 	/**
@@ -151,21 +161,17 @@ class cls_data
 	 */
 	function insert($info)
 	{
-		foreach($info as $key => $value){
-			$key_list .= '`'.$key.'`,';
-			$value_list .= "'$value',";
-		}
-		if(',' == substr($key_list, strlen($key_list)-1, strlen($key_list))){
-			$key_list = substr($key_list, 0, strlen($key_list)-1);
-			$value_list = substr($value_list, 0, strlen($value_list)-1);
-		}
-		$sql = 'insert into ' . $this->table . "($key_list) values($value_list)";
-		//echo $sql;
-		global $db;
-		$db->execute_none_query($sql);
+        $key_list = implode( '`,`', array_keys($info) );
+        $key_list = '`' . $key_list . '`';
+        $value_list = implode( "','", array_values($info) );
+        $value_list = "'" . $value_list . "'";
+        $sql = 'insert into ' . $this->table . "($key_list) values($value_list)";
+       
+        global $db;
+        $db->execute_none_query($sql);
         $this->set_last_sql($sql);
-		
-		return $db->get_insert_id();
+       
+        return $db->get_insert_id();
 	}
 	
 	/**

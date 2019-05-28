@@ -35,8 +35,9 @@ function check(){
 <?php
 	require_once(WEB_CLASS . "/class.product.php");
 	$cls_pro = new cls_product();
-	if($action=='add')
+	if($action == 'add')
 	{
+		$product_class_info['parentid'] = $parentid;
 	}else
 	{
 		$action = 'modify';

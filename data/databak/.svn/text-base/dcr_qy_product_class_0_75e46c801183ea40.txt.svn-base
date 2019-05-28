@@ -1,0 +1,8 @@
+insert into dcr_qy_product_class(id,parentid,orderid,classname,classdescription,updatetime) values('1','0','3','程序','程序','2011-09-10 11:49:56');
+insert into dcr_qy_product_class(id,parentid,orderid,classname,classdescription,updatetime) values('2','1','9','php','php','2011-09-10 11:49:56');
+insert into dcr_qy_product_class(id,parentid,orderid,classname,classdescription,updatetime) values('3','1','4','c','c','2011-09-10 11:49:56');
+insert into dcr_qy_product_class(id,parentid,orderid,classname,classdescription,updatetime) values('4','3','6','C入门','C入门','2011-09-10 11:49:56');
+insert into dcr_qy_product_class(id,parentid,orderid,classname,classdescription,updatetime) values('5','4','8','C初级入门','C初级入门','2011-09-10 11:49:56');
+insert into dcr_qy_product_class(id,parentid,orderid,classname,classdescription,updatetime) values('6','4','7','C高级入门','C高级入门','2011-09-10 11:49:56');
+insert into dcr_qy_product_class(id,parentid,orderid,classname,classdescription,updatetime) values('7','3','5','C进阶','C进阶','2011-09-10 11:49:56');
+insert into dcr_qy_product_class(id,parentid,orderid,classname,classdescription,updatetime) values('8','0','1','书籍','书籍','2011-09-10 11:49:56');

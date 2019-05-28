@@ -3,7 +3,7 @@
 defined('IN_DCR') or exit('No permission.'); 
 
 //本页的配置值都要用''包括起来
-require_once(WEB_INCLUDE . '/config.db.php');
+require_once(WEB_INCLUDE.'/config.db.php');
 
 $web_url = 'http://localhost'; //网址
 $web_dir = '';//网站目录 以/开头 如:/dcr

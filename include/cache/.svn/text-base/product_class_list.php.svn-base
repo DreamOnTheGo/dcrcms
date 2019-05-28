@@ -1,0 +1,119 @@
+<?php
+
+/*产品类*/
+
+ $cache_arr = array (
+  0 => 
+  array (
+    'id' => '8',
+    'parentid' => '0',
+    'orderid' => '1',
+    'classname' => '书类',
+    'classdescription' => '书籍',
+    'updatetime' => '2011-09-10 11:49:56',
+    'class_level' => 1,
+    'url' => 'http://1.com/product_list.php?classid=8',
+  ),
+  1 => 
+  array (
+    'id' => '1',
+    'parentid' => '0',
+    'orderid' => '3',
+    'classname' => '程序',
+    'classdescription' => '程序',
+    'updatetime' => '2011-09-10 11:49:56',
+    'class_level' => 1,
+    'url' => 'http://1.com/product_list.php?classid=1',
+    'sub_class' => 
+    array (
+      0 => 
+      array (
+        'id' => '3',
+        'parentid' => '1',
+        'orderid' => '4',
+        'classname' => 'c',
+        'classdescription' => 'c',
+        'updatetime' => '2011-09-10 11:49:56',
+        'class_level' => 2,
+        'url' => 'http://1.com/product_list.php?classid=3',
+        'sub_class' => 
+        array (
+          0 => 
+          array (
+            'id' => '7',
+            'parentid' => '3',
+            'orderid' => '5',
+            'classname' => 'C进阶',
+            'classdescription' => 'C进阶',
+            'updatetime' => '2011-09-10 11:49:56',
+            'class_level' => 3,
+            'url' => 'http://1.com/product_list.php?classid=7',
+          ),
+          1 => 
+          array (
+            'id' => '4',
+            'parentid' => '3',
+            'orderid' => '6',
+            'classname' => 'C入门',
+            'classdescription' => 'C入门',
+            'updatetime' => '2011-09-10 11:49:56',
+            'class_level' => 3,
+            'url' => 'http://1.com/product_list.php?classid=4',
+            'sub_class' => 
+            array (
+              0 => 
+              array (
+                'id' => '6',
+                'parentid' => '4',
+                'orderid' => '7',
+                'classname' => 'C高级入门',
+                'classdescription' => 'C高级入门',
+                'updatetime' => '2011-09-10 11:49:56',
+                'class_level' => 4,
+                'url' => 'http://1.com/product_list.php?classid=6',
+              ),
+              1 => 
+              array (
+                'id' => '5',
+                'parentid' => '4',
+                'orderid' => '8',
+                'classname' => 'C初级入门',
+                'classdescription' => 'C初级入门',
+                'updatetime' => '2011-09-10 11:49:56',
+                'class_level' => 4,
+                'url' => 'http://1.com/product_list.php?classid=5',
+              ),
+            ),
+          ),
+        ),
+      ),
+      1 => 
+      array (
+        'id' => '2',
+        'parentid' => '1',
+        'orderid' => '9',
+        'classname' => 'php',
+        'classdescription' => 'php',
+        'updatetime' => '2011-09-10 11:49:56',
+        'class_level' => 2,
+        'url' => 'http://1.com/product_list.php?classid=2',
+        'sub_class' => 
+        array (
+          0 => 
+          array (
+            'id' => '11',
+            'parentid' => '2',
+            'orderid' => '0',
+            'classname' => 'PHP入门',
+            'classdescription' => 'PHP入门',
+            'updatetime' => '2011-09-26 13:17:42',
+            'class_level' => 3,
+            'url' => 'http://1.com/product_list.php?classid=11',
+          ),
+        ),
+      ),
+    ),
+  ),
+);
+
+?>

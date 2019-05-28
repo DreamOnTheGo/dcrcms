@@ -1,6 +1,7 @@
 <?php
 include "../include/common.inc.php";
 session_start();
+set_time_limit(0);
 include "adminyz.php";
 $pdir = WEB_DR.$cpath;
 $pdir = pathinfo($pdir);
@@ -69,8 +70,74 @@ if($action == 'del_dir')
 	{
 		show_msg('修改文件成功', 1, $back);
 	}
-}else
+}else if($action=='zip')
 {
-	show_msg('非法参数', 2, $back);
+	//压缩文件
+	if(class_exists('ZipArchive'))
+	{
+		
+		//把目录压缩进压缩文件 写这里是因为这个function通用性不强
+		function add_dir_to_zip($path, $zip)
+		{
+			$handler = opendir($path); //打开当前文件夹由$path指定。
+			while (($filename = readdir($handler)) !== false) {
+			if ($filename != "." && $filename != "..")
+			{
+				//文件夹文件名字为'.'和‘..’，不要对他们进行操作
+				if (is_dir($path . "/" . $filename))
+				{// 如果读取的某个对象是文件夹，则递归
+					add_dir_to_zip($path . "/" . $filename, $zip);
+				} else { //将文件加入zip对象
+					$zip->addFile($path . "/" . $filename, str_replace( WEB_DR . '/', '', $path . "/" . $filename ));
+				}
+				}
+			}
+			@closedir($path);
+		}
+		
+		//p_r($id);
+		$file_list = array(); //要压缩的对象
+		foreach($id as $path)
+		{
+			array_push( $file_list, str_replace( '根目录/', '', $path ) );
+		}
+		//p_r($file_list);
+		$cls_zip = new ZipArchive();
+		$zip_filename = 'file.zip';
+		@unlink( WEB_DR . '/' . $zip_filename );
+		if( $cls_zip->open( WEB_DR . '/' . $zip_filename, ZipArchive::OVERWRITE) === TRUE)
+		{
+			foreach($file_list as $path)
+			{
+				if( is_file( WEB_DR . '/' . $path) )
+				{
+					$cls_zip->addFile( WEB_DR . '/' . $path , $path);
+				}
+				if( is_dir( WEB_DR . '/' . $path) )
+				{
+					add_dir_to_zip( WEB_DR . '/' . $path, $cls_zip );
+				}
+			}
+			$cls_zip->close();
+		}
+		show_msg( '压缩文件已经生成<a href="' . $web_url . '/' . $zip_filename . '">' . $zip_filename . '</a>', 1 );
+		
+		//p_r($file_list);
+	} else
+	{
+		show_msg( '请在php.ini开启对 php_zip.php支持', 2 );
+	}
+} else if($action=='un_zip')
+{ 
+	$cls_zip = new ZipArchive;
+	if ($cls_zip->open( WEB_DR . '/' . $cpath ) === TRUE)
+	{
+		$cls_zip->extractTo(WEB_DR);
+		$cls_zip->close();
+		show_msg( '解压已完成', 1 );
+	}
+} else
+{
+	show_msg( '非法参数', 2, $back );
 }
 ?>

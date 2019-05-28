@@ -43,10 +43,8 @@ require_once("adminyz.php");
 			?>
             <tr onMouseMove="javascript:this.bgColor='#F4F9EB';" onMouseOut="javascript:this.bgColor='#FFFFFF';">
           <td width="4%" bgcolor="#c0c0c0" style="border-bottom:2px dotted #F4F9EB"><?php echo $value['id']; ?></td>
-          <td width="61%" style="border-bottom:2px dotted #c0c0c0"><?php echo str_repeat("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;",$value['class_level']-1); ?>·<?php echo $value['classname']; ?></td>
-          <td width="35%" style="border-bottom:2px dotted #c0c0c0"><span style="float:right;">排序：
-            <input name="orderid[<?php echo $value['id']; ?>]" type="text" value="<?php echo $value['orderid']; ?>" size="5" />
-          </span><a href="product_class_edit.php?action=add&parentid=<?php echo $value['id'];?>">添加下级分类</a>&nbsp; <a href="product_class_edit.php?action=modify&id=<?php echo $value['id'];?>">编辑</a>&nbsp; <a href="product_class_action.php?action=delproductclass&classid=<?php echo $value['id'];?>">删除</a></td>
+          <td width="61%" style="border-bottom:2px dotted #c0c0c0"><?php echo str_repeat("&nbsp;", ($value['class_level'] - 1) * 5); ?>·<?php echo $value['classname']; ?></td>
+          <td width="35%" style="border-bottom:2px dotted #c0c0c0"><span style="float:right; margin-right:<?php echo (8 - $value['class_level']) * 18 ?>px;">排序：<input name="orderid[<?php echo $value['id']; ?>]" type="text" value="<?php echo $value['orderid']; ?>" size="5" /></span><a href="product_class_edit.php?action=add&parentid=<?php echo $value['id'];?>">添加下级分类</a>&nbsp; <a href="product_class_edit.php?action=modify&id=<?php echo $value['id'];?>">编辑</a>&nbsp; <a href="product_class_action.php?action=delproductclass&classid=<?php echo $value['id'];?>">删除</a></td>
         </tr>
             <?php
 				if($value['sub_class'] && count($value['sub_class']))

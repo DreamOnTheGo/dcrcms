@@ -8,14 +8,15 @@ include WEB_CLASS."/class.db.bak.php";
 //本页为操作新闻的页面
 $db_bak=new cls_db_bak();
 echo '<style>body{font-size:12px;}</style>';
-if($action=='bak_db'){
-	if(count($table_list)==0)exit('没有选择要备份的表！');
-	$bak_data_path=WEB_MYSQL_BAKDATA_DIR;
+if( $action=='bak_db' )
+{
+	if( count($table_list) == 0 ) exit('没有选择要备份的表！');
+	$bak_data_path = WEB_MYSQL_BAKDATA_DIR;
 	//清空备份目录
 	//echo $bak_data_path;
 	include WEB_CLASS . '/class.file.php';
 	require_once(WEB_CLASS . '/class.dir.php');
-	$table_struct_file_name = $bak_data_path.'tables_struct_'.substr(md5(time().mt_rand(1000,5000).$tablepre),0,16).'.txt';
+	$table_struct_file_name = $bak_data_path . '/tables_struct_' . substr( md5(time() . mt_rand(1000,5000) . $tablepre), 0, 16) . '.txt';
 	$cls_file = new cls_file($table_struct_file_name);
 	echo '清空目录中....<br>';
 	//show_msg('清空目录中',1,array(),'提示信息',false)
@@ -23,27 +24,20 @@ if($action=='bak_db'){
 	$cls_dir-> clear_dir();
 	//先得出创建数据
 	$db_bak->set_tables($table_list);
-	$create_data=$db_bak->get_create_table_sql();
+	$create_data = $db_bak-> get_create_table_sql();
 	//$create_data=str_replace("\r","\r\n",$create_data);
 	
 	echo '备份数据中....<br>';
 	$cls_file-> set_text($create_data);	
 	$cls_file-> write();
 	
-	//备份数据
-	foreach($table_list as $table_name){
-		$result_arr=array();
-		$db_bak->get_table_data($table_name,$result_arr);
-		foreach($result_arr as $key=>$value){
-			$cls_file->set_text($value);
-			$data_file_name = $bak_data_path.$table_name . '_' . $key . '_' . substr(md5(time() . mt_rand(1000, 5000) . $tablepre), 0, 16) . '.txt';
-			$cls_file->set_file_name($data_file_name);
-			$cls_file-> write();	
-			echo "$table_name(分卷$key)备份成功<br>";
-		}
+
+	foreach($table_list as $table_name)
+	{
+		$db_bak->write_table_data_to_file($table_name);
 	}
-	echo '<span style=color:green>备份完成！</span>';
-}elseif($action=='restore_db'){
+} elseif($action=='restore_db')
+{
 	//先找到tables_struct_*.txt
 	//echo WEB_MYSQL_BAKDATA_DIR;
 	chdir(WEB_MYSQL_BAKDATA_DIR);

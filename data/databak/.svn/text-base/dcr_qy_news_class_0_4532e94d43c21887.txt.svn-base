@@ -1,0 +1,2 @@
+insert into dcr_qy_news_class(id,classname,classdescription,updatetime) values('1','测试','测试2','2011-09-21 22:03:56');
+insert into dcr_qy_news_class(id,classname,classdescription,updatetime) values('2','test','test','2011-09-21 22:14:10');

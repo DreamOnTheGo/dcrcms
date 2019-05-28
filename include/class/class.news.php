@@ -121,7 +121,7 @@ class cls_news extends cls_data
 	{
 		$this->set_table('{tablepre}news_class');
 		
-		return parent:: delete($idarr);
+		return parent:: delete($id_list);
 	}
 	
 	/**
@@ -183,17 +183,15 @@ class cls_news extends cls_data
 		$news_col_addon_arr = explode(',', $news_col_addon);
 		
 		$col_main = $col_addon = array();
-		foreach($col_arr as $key=> $value)
-		{
-			if(in_array($value, $news_col_addon_arr))
-			{
-				array_push($col_addon, $value);
-			}else{
-				array_push($col_main, $value);
-			}			
-		}
-		array_remove_empty($col_main);
-		array_remove_empty($col_addon);
+		
+        $col_main = array_intersect($col_arr, $news_col_main_arr);
+        $col_addon = array_intersect($col_arr, $news_col_addon_arr);
+       
+        array_remove_empty($col_main);
+        array_remove_empty($col_addon);
+       
+        $col_main = array_unique($col_main);
+        $col_addon = array_unique($col_addon);
 		
 		$col_main_list = implode(',', $col_main);
 		$col_addon_list = implode(',', $col_addon);
@@ -289,6 +287,10 @@ class cls_news extends cls_data
 				$news_info['next'] = '没有了';
 			}
 		}
+		
+		$news_info['title'] = str_replace("\"", "&#34;", $news_info['title']);
+       
+        $news_info['title'] = str_replace("'", "&#39;", $news_info['title']);
 		
 		return $news_info;
 	}

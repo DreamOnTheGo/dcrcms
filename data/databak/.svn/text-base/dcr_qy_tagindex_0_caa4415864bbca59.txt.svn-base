@@ -1,0 +1,5 @@
+insert into dcr_qy_tagindex(id,tag,click,total,addtime) values('8','1','0','5','1316527550');
+insert into dcr_qy_tagindex(id,tag,click,total,addtime) values('9','2','0','2','1316527550');
+insert into dcr_qy_tagindex(id,tag,click,total,addtime) values('10','3','0','2','1316527550');
+insert into dcr_qy_tagindex(id,tag,click,total,addtime) values('5','12','0','1','1316526541');
+insert into dcr_qy_tagindex(id,tag,click,total,addtime) values('7','23','0','1','1316526875');

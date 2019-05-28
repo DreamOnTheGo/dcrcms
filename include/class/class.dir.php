@@ -25,8 +25,8 @@ class cls_dir
 	/**
 	 * @param string $c_dir 目录名 结尾不要带/
 	 */
-	function __construct($c_dir = ''){
-		dir($c_dir);
+	function __construct($c_dir = '')
+	{
 		$this->current_dir = $c_dir;
 	}
 	
@@ -46,7 +46,7 @@ class cls_dir
 	 * @param array $no_delele_file 保留不删除的文件
 	 * @return boolean 成功返回true 失败:如果返回r1 表示目录不存在 r2为文件不可写 r3表示不是目录
 	 */
-	function clear_dir($dir_name = '', $no_delele_file = array())
+	function clear_dir( $dir_name = '', $no_delele_file = array() )
 	{
 		if(empty($dir_name))
 		{

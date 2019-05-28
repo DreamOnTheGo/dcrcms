@@ -31,7 +31,7 @@ class cls_db
 	private $conn;
 	
 	private $result;
-	private $rs;
+	private $rs;	
 	
 	private $str_error; //错误信息
 	
@@ -78,7 +78,7 @@ class cls_db
 		{
 			if(!$this->conn)
 			{
-				$this->conn = mysql_connect($this->host,$this->name,$this->pass) or $this->show_error('连接数据库失败，请检查您的数据库配置');
+				$this->conn = mysql_connect($this->host,$this->name,$this->pass) or die('连接数据库失败，请检查您的数据库配置');
 			}else{
 				return false;
 			}
@@ -88,15 +88,26 @@ class cls_db
 		}
 	}
 	
+
+	/**
+	 * 返回数据连接的resource
+	 * @since 1.0.9
+	 * @return resource
+	 */
+	public function get_conn()
+	{
+		return $this->conn;
+	}
+
 	/**
 	 * 设置数据库错误信息 这个方法不用外面调用 程序自己调用 version>=1.0.6
 	 * @param string $error 错误信息
 	 * @return true
 	 */
-	 private function set_db_error($error)
-	 {
-		 $this->str_error = $error;
-	 }
+	private function set_db_error( $error )
+	{
+		$this->str_error = $error;
+	}
 	
 	/**
 	 * 获取数据库错误信息 version>=1.0.6
@@ -185,15 +196,14 @@ class cls_db
 	 * @return boolean 成功返回true 失败返回false;
 	 */
 	function execute_none_query($sql)
-	{
+	{	
 		$sql = $this->option($sql);
 		if(!empty($sql)){
 			if($this->db_type=='1')
 			{
 				$this->pdo->exec($sql);
 				if($this->pdo->errorCode()=='00000')
-				{
-					
+				{					
 					return true;
 				}else
 				{
@@ -417,6 +427,12 @@ class cls_db
 	 */
 	function show_error($msg,$sql='')
 	{
+		
+		 global $web_tiaoshi;
+		 if( !$web_tiaoshi )
+		 {
+			 return false;
+		 }
 		$msg_str = '';
 		
 		$msg_str = "<div style='width:70%; margin:0 auto 10px auto;background:#f5e2e2;border:1px red solid; font-size:12px;'><div style='font-size:12px;padding:5px; font-weight:bold; color:#FFF;color:red'>DCRCMS DB Error</div>";

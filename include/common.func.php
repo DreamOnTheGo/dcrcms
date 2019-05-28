@@ -187,11 +187,13 @@ function get_ip()
  */	
 function get_top_url($url = '')
 {
-	if(empty($url)){
-		$url=$_SERVER['SERVER_NAME'];
+	if(empty($url))
+	{
+		$url = $_SERVER['SERVER_NAME'];
 	}
-	$t_url=parse_url($url);
-	$t_url=str_replace('www.','',$t_url['path']);
+	$t_url = parse_url($url);
+	$t_url = $t_url['path'];
+	
 	return $t_url;
 }
 	
@@ -290,26 +292,6 @@ function p_r($arr, $is_stop_output = false)
 		exit;
 	}
 }
-
-/**
- * 去除重复数组 一维
- * @since 1.0.8
- * @param array $arr 要操作的数组
- * @return array 去重后的数组
- */	
-function array_remove_duplicate($arr)
-{
-	$result = array();
-	for($i=0; $i<count($arr); $i++){
-		  $source = $arr[$i];
-		 if(array_search($source, $arr) == $i){
-				$result[] = $source;
-		 }
-	}
-	
-	return $result;
-}
-
 
 /**
  * 去除数组空白元素

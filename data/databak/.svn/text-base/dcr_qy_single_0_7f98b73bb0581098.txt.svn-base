@@ -1,0 +1,2 @@
+insert into dcr_qy_single(id,title,content,updatetime) values('1','关于我们','<p>关于我们</p>','2011-09-10 11:49:45');
+insert into dcr_qy_single(id,title,content,updatetime) values('2','联系我们 ','<p>联系我们</p>','2011-09-10 11:49:45');

@@ -189,7 +189,6 @@ class cls_hudong extends cls_data
 			}
 			$sql_alter = "ALTER TABLE {tablepre}hudong MODIFY $add_col_sql";
 			//echo $sql_alter;
-
 			parent::execute($sql_alter);
 
 			$this->set_table('{tablepre}hudong_field');
