@@ -1,6 +1,6 @@
 <?php
-session_start();
 include "../include/common.inc.php";
+session_start();
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -133,11 +133,18 @@ include "../include/common.inc.php";
           <td></td>
         </tr>
       </table>
-      <table id=child7 style="DISPLAY: none" cellSpacing=0 cellPadding=0 
-      width=150 border=0>
+      <table id=child7 style="DISPLAY: none" cellSpacing=0 cellPadding=0 width=150 border=0>
         <tr height=20>
           <td align="center" width="15"><img height=9 src="images/menu_icon.gif" width=9></td>
           <td align="left" width="135"><a class=menuChild href="config_edit.php" target=main>基本设置</a></td>
+        </tr>
+        <tr height=20>
+          <td align="center" width="15"><img height=9 src="images/menu_icon.gif" width=9></td>
+          <td align="left" width="135"><a class=menuChild href="menu_list.php" target=main>导航条设置</a></td>
+        </tr>
+        <tr height=20>
+          <td align="center" width="15"><img height=9 src="images/menu_icon.gif" width=9></td>
+          <td align="left"><a class=menuChild href="watermark_edit.php" target='main'>水印设置</a></td>
         </tr>
         <tr height=20>
           <td align="center" width="15"><img height=9 src="images/menu_icon.gif" width=9></td>
@@ -149,7 +156,7 @@ include "../include/common.inc.php";
         </tr>
         <tr height=20>
           <td align="center" width="15"><img height=9 src="images/menu_icon.gif" width=9></td>
-          <td align="left"><a class=menuChild href="dbmanage.php" target=main>数据库管理</a><span style="color:red;">(测试,慎用)</span></td>
+          <td align="left"><a class=menuChild href="dbmanage.php" target=main>数据库管理</a></td>
         </tr>
         <tr height=20>
           <td align="center" width="15"><img height=9 src="images/menu_icon.gif" width=9></td>

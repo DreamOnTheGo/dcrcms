@@ -1,10 +1,10 @@
 <?php
-session_start();
 include "../include/common.inc.php";
+session_start();
 include "adminyz.php";
 if($db_type==1)
 {
-	ShowMsg('Sqlite无法使用这个功能，抱歉',1);
+	show_msg('Sqlite无法使用这个功能，抱歉',1);
 }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

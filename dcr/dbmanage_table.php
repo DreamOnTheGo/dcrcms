@@ -1,10 +1,10 @@
 <?php
-session_start();
 include "../include/common.inc.php";
+session_start();
 include "adminyz.php";
 if($db_type==1)
 {
-	ShowMsg('Sqlite无法使用这个功能，抱歉',1);
+	show_msg('Sqlite无法使用这个功能，抱歉',1);
 }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -44,9 +44,9 @@ if($db_type==1)
 <input type="hidden" name="action" id="action" value="">
 <?php
 	//数据库的列表'
-	include_once WEB_CLASS."db_bak_class.php";
-	$db_bak=new DB_BAK($db);
-	$table_list=$db_bak->GetTableList();
+	include_once WEB_CLASS . "/class.db.bak.php";
+	$db_bak=new cls_db_bak($db);
+	$table_list=$db_bak->get_table_list();
 	sort($table_list);
 	$table_num=count($table_list);
 ?>

@@ -1,7 +1,7 @@
 <?php
+include "../include/common.inc.php";
 session_start();
 set_time_limit(0);
-include "../include/common.inc.php";
 include "adminyz.php";
 //本页为操作新闻的页面
 if('query' == $action)
@@ -15,11 +15,11 @@ if('query' == $action)
     //如果是查询语句
     if(preg_match("/^select /i", $sql))
     {
-		$db->Execute($sql);
-		$result = $db->GetArray();
+		$db->execute($sql);
+		$result = $db->get_array();
 		if($result)
 		{
-			echo '发现共'.$db->GetRsNum().'记录<br><hr color=green>';
+			echo '发现共'.$db->get_rs_num().'记录<br><hr color=green>';
 			$j = 0;
 			foreach($result as $t_result)
 			{
@@ -54,7 +54,7 @@ if('query' == $action)
 		{
 			continue;
 		}
-		if($db->ExecuteNoneQuery($sql))
+		if($db->execute_none_query($sql))
         {
             $chenggong_num++;
 			echo '<span class="color:green">执行'.$sql.'成功<br></span>';
@@ -62,12 +62,12 @@ if('query' == $action)
 		else
 		{
 			$shibai_num++;
-			echo '<span class="color:red">执行'.$sql.'失败.原因是'.$db->GetDbError().'<br></span>';
+			echo '<span class="color:red">执行'.$sql.'失败.原因是'.$db->get_db_error().'<br></span>';
 		}
 	}
 	echo "成功{$chenggong_num}个SQL语句！<br>失败{$shibai_num}个SQL语句！";
     exit();
 }else{
-	ShowMsg('非法参数',2,array(),'提示信息',false);
+	show_msg('非法参数',2,array(),'提示信息',false);
 }
 ?>

@@ -1,7 +1,7 @@
 <?php
-session_start();
 set_time_limit(0);
 include "../include/common.inc.php";
+session_start();
 include "adminyz.php";
 
 //本页为操作新闻的页面
@@ -13,18 +13,18 @@ if('opimize' == $action)
 		exit;
 	}
 	$sql="optimize table `$table_name` ";
-	$db->ExecuteNoneQuery($sql);
+	$db->execute_none_query($sql);
 	echo "优化" . $table_name . "完成！";
 }elseif('opimize_all' == $action)
 {
-	include_once WEB_CLASS."db_bak_class.php";
-	$db_bak=new DB_BAK($db);
-	$table_list=$db_bak->GetTableList();
+	include_once WEB_CLASS . "/class.db.bak.php";
+	$db_bak = new cls_db_bak($db);
+	$table_list=$db_bak->get_table_list();
 	sort($table_list);
 	$table_num=count($table_list);
 	for($i = 0;$i < $table_num;$i++){		
 		$sql="optimize table `". $table_list[$i] ."` ";
-		$db->ExecuteNoneQuery($sql);
+		$db->execute_none_query($sql);
 		echo "优化". $table_list[$i] ."完成！<br>";
 	}	
 }elseif('view_info' == $action)
@@ -45,21 +45,21 @@ if('opimize' == $action)
 		exit;
 	}
 	$sql="repair table `$table_name` ";
-	$db->ExecuteNoneQuery($sql);
+	$db->execute_none_query($sql);
 	echo "修复" . $table_name . "完成！";
 }elseif('repair_all' == $action)
 {
-	include_once WEB_CLASS."db_bak_class.php";
-	$db_bak=new DB_BAK($db);
-	$table_list=$db_bak->GetTableList();
+	include_once WEB_CLASS . "/class.db.bak.php";
+	$db_bak=new cls_db_bak($db);
+	$table_list=$db_bak->get_table_list();
 	sort($table_list);
 	$table_num=count($table_list);
 	for($i = 0;$i < $table_num;$i++){		
 		$sql="repair table `". $table_list[$i] ."` ";
-		$db->ExecuteNoneQuery($sql);
+		$db->execute_none_query($sql);
 		echo "修复". $table_list[$i] ."完成！<br>";
 	}	
 }else{
-	ShowMsg('非法参数',2,array(),'提示信息',false);
+	show_msg('非法参数',2,array(),'提示信息',false);
 }
 ?>

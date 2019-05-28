@@ -1,100 +1,125 @@
 <?php
+require_once("../include/common.inc.php");
 session_start();
-include "../include/common.inc.php";
-include WEB_CLASS."/product_class.php";
-include "adminyz.php";
+require_once(WEB_CLASS . "/class.product.php");
+require_once("adminyz.php");
 
 header('cache-control:no-cache;must-revalidate');
-$pro=new Product(0);
+$cls_pro = new cls_product();
 
 //提示信息开始
-$errormsg=array();//错误信息
-$back=array('产品分类列表'=>'product_class_list.php');
+$error_msg = array();//错误信息
+$back = array('产品分类列表'=>'product_class_list.php');
 //提示信息结束
 
 //本页为操作新闻的页面
-if($action=='add' || $action=='add_ajax'){
-	$errormsg='';
-	$iserror=false;
-	if(strlen($classname)==0){
-		$errormsg[]='请填写产品分类名';
-		$iserror=true;
+if($action=='add' || $action=='add_ajax')
+{
+	$iserror = false;
+	if(strlen($classname) == 0)
+	{
+		$error_msg[] = '请填写产品分类名';
+		$iserror = true;
 	}
-	if($iserror){
-		if($action=='add'){
-			ShowMsg($errormsg,2,$back);	
-		}elseif($action='add_ajax'){
-			echo implode(',',$errormsg);
+	if($iserror)
+	{
+		if($action == 'add')
+		{
+			show_msg($error_msg, 2, $back);	
+		}elseif($action == 'add_ajax')
+		{
+			echo implode(',',$error_msg);
 		}
 	}else{
 		//没有错误
-		if($action=='add_ajax'){
-			$classname=iconv('utf-8','gb2312',urldecode($classname));
-			$classdescription=iconv('utf-8','gb2312',urldecode($classdescription));
+		if($action == 'add_ajax')
+		{
+			$classname = iconv('utf-8', 'gb2312', urldecode($classname));
+			$classdescription = iconv('utf-8', 'gb2312', urldecode($classdescription));
 		}
-		$rid=$pro->AddClass(array('classname'=>$classname,
+		$rid = $cls_pro->add_class(array('classname'=>$classname,
 								  'parentid'=>(int)$parentid,
 								  'orderid'=>(int)$orderid,
 					   		 'classdescription'=>$classdescription
 							 )
 					   );
-		if(!$rid){
-			$errormsg[]='添加产品分类失败';
-			if($action=='add'){
-				ShowMsg($errormsg,2,$back);	
-			}elseif($action='add_ajax'){
-				echo implode(',',$errormsg).$classname;
+		if(!$rid)
+		{
+			$error_msg[] = '添加产品分类失败';
+			if($action == 'add')
+			{
+				show_msg($error_msg, 2, $back);
+			}else if($action='add_ajax')
+			{
+				echo implode(',', $error_msg) . $classname;
 			}
-		}else{
-			$errormsg[]='添加产品分类成功';
-			if($action=='add'){
-				$back['继续添加']='product_class_edit.php?action=add';
-				ShowMsg($errormsg,1,$back);	
-			}elseif($action='add_ajax'){
-				echo implode(',',$errormsg);
+		}else
+		{
+			$error_msg[] = '添加产品分类成功';
+			if($action == 'add')
+			{
+				$back['继续添加'] = 'product_class_edit.php?action=add';
+				show_msg($error_msg, 1, $back);	
+			}else if($action='add_ajax')
+			{
+				echo implode(',', $error_msg);
 			}
 		}
 	}
-}elseif($action=='getlist_ajax'){
-	$proclasslist=$pro->GetClassList();
-	for($i=0;$i<count($proclasslist);$i++){
-		$proclasslist[$i]['classname']=urlencode(iconv('gb2312','utf-8',$proclasslist[$i]['classname']));
+}else if($action == 'getlist_ajax')
+{
+	$proclasslist = $cls_pro->get_class_list();
+	for($i=0; $i<count($proclasslist); $i++)
+	{
+		$proclasslist[$i]['classname'] = urlencode(iconv('gb2312', 'utf-8', $proclasslist[$i]['classname']));
 	}
 	//echo iconv('gb2312','utf-8',$proclasslist[0]['classname']);
 	echo json_encode($proclasslist);	
-}elseif($action=='modify'){
-	if($pro->UpdateClass($id,array('classname'=>$classname,
+}else if($action == 'modify')
+{
+	if($cls_pro->update_class($id, array('classname'=>$classname,
 								  'parentid'=>(int)$parentid,
 								  'orderid'=>(int)$orderid,
 					   		 'classdescription'=>$classdescription
-							 ))){
-		$errormsg[]='更新产品分类成功';
-		ShowMsg($errormsg,1,$back);
-	}else{
-		$errormsg[]='更新产品分类失败';
-		ShowMsg($errormsg,2,$back);
+							 )))
+	{
+		$error_msg[] = '更新产品分类成功';
+		show_msg($error_msg, 1, $back);
+	}else
+	{
+		$error_msg[] = '更新产品分类失败';
+		show_msg($error_msg, 2, $back);
 	}	
-}elseif($action=='delproductclass'){
-	$r_id=$pro->DeleteClass(array($classid));
-	if($r_id==2){
-		$errormsg[]='删除数据失败：请先删除这个类的子类';
-		ShowMsg($errormsg,2,$back);
-	}elseif($r_id==3){
-		$errormsg[]='删除数据失败';
-		ShowMsg($errormsg,2,$back);
-	}elseif($r_id==1){
-		$errormsg[]='删除数据成功';
-		ShowMsg($errormsg,1,$back);
+}else if($action == 'delproductclass')
+{
+	$r_id = $cls_pro->delete_class($classid);
+	//echo $cls_pro->get_last_sql();
+	if($r_id == 2)
+	{
+		$error_msg[] = '删除数据失败：请先删除这个类的子类';
+		show_msg($error_msg, 2, $back);
+	}else if($r_id == 3)
+	{
+		$error_msg[] = '删除数据失败';
+		show_msg($error_msg, 2, $back);
+	}elseif($r_id == 1)
+	{
+		$error_msg[] = '删除数据成功';
+		show_msg($error_msg, 1, $back);
 	}
-}elseif($action=='order'){
-	if($orderid){
-		foreach($orderid as $key=>$value){
-			$pro->UpdateClass($key,array('orderid'=>$value));
+}else if($action == 'order')
+{
+	if($orderid)
+	{
+		foreach($orderid as $key=>$value)
+		{
+			$cls_pro->update_class($key, array('orderid'=>$value));
 		}
 	}
-	$errormsg[]='更新排序成功';
-	ShowMsg($errormsg,1,$back);
-}else{
-	ShowMsg('非法参数',2,$back);
+	$error_msg[] = '更新排序成功';
+	show_msg($error_msg, 1, $back);
+}else
+{
+	show_msg('非法参数', 2, $back);
 }
 ?>

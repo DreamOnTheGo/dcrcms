@@ -1,7 +1,7 @@
 <?php
+require_once("../include/common.inc.php");
 session_start();
-include "../include/common.inc.php";
-include "adminyz.php";
+require_once("adminyz.php");
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><HEAD>
@@ -26,14 +26,14 @@ include "adminyz.php";
     <TD></TD></TR>
 </TABLE>
 <?php
-	include WEB_CLASS."/hudong_class.php";
-	$hudong=new HuDong();
-	$formTxt=$hudong->GetFieldForm();
+	require_once(WEB_CLASS . "/class.hudong.php");
+	$cls_hudong = new cls_hudong();
+	$form_txt = $cls_hudong-> get_field_form();
 ?>
 <TABLE cellSpacing=2 cellPadding=5 width="95%" align=center border=0 bgcolor="#ecf4fc">  
   <tr>
     <td colspan="2" bgcolor="#FFFFFF" style="text-align: left">
-    <textarea name="frmTxt" cols="145" rows="25" id="frmTxt" type="text"><?php echo htmlspecialchars($formTxt); ?></textarea></td>
+    <textarea name="frmTxt" cols="145" rows="25" id="frmTxt" type="text"><?php echo htmlspecialchars($form_txt); ?></textarea></td>
   </tr>
   <?php //} ?>
   <TR>

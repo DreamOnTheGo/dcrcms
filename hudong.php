@@ -1,45 +1,52 @@
 <?php
+
 require_once("include/common.inc.php");
-include WEB_DR."/common.php";
+require_once(WEB_DR . "/common.php");
 
-//提示信息开始
-$errormsg=array();//错误信息
-$back=array('首页'=>'index.'.$web_url_surfix);
-//提示信息结束
+$error_msg = array();//错误信息
+$back = array('首页'=>'index.'.$web_url_surfix);
 
-include WEB_CLASS."/hudong_class.php";
-$hudong=new HuDong();
+require_once(WEB_CLASS."/class.hudong.php");
+$cls_hudong = new cls_hudong();
 
-if($action=='addorder'){
-	$errormsg='';
-	$iserror=false;
-	if(empty($title)){
-		$errormsg[]='请填写信息标题';
-		$iserror=true;
+if($action == 'addorder')
+{
+	$error_msg = '';
+	$iserror = false;
+	if(empty($title))
+	{
+		$error_msg[] = '请填写信息标题';
+		$iserror = true;
 	}
-	if(empty($realname)){
-		$errormsg[]='请填写您的姓名';
-		$iserror=true;
+	if(empty($realname))
+	{
+		$error_msg[] = '请填写您的姓名';
+		$iserror = true;
 	}
-	if(empty($tel)){
-		$errormsg[]='请填写您的联系方式';
-		$iserror=true;
+	if(empty($tel))
+	{
+		$error_msg[] = '请填写您的联系方式';
+		$iserror = true;
 	}
-	if($iserror){
-		ShowMsg($errormsg,2);
-	}else{
+	if($iserror)
+	{
+		show_msg($error_msg, 2);
+	}else
+	{
 		//没有错误
-		$fieldList=$hudong->GetFiledList(array('fieldname'));
-		foreach($fieldList as $value){
-			$hudongInfo[$value['fieldname']]=$$value['fieldname'];
+		$field_list = $cls_hudong->get_filed_list(array('col'=>'fieldname'));
+		foreach($field_list as $value)
+		{
+			$hudong_info[$value['fieldname']] = strip_tags($$value['fieldname']);
 		}
-		$hudongInfo['title']=$title;
-		if($hudong->Add($hudongInfo)){
+		$hudong_info['title'] = $title;
+		if($cls_hudong->add($hudong_info))
+		{
 			
 			if($web_send_email)
 			{			
 				//发邮件
-				require_once(WEB_CLASS.'/email_class.php');					
+				require_once(WEB_CLASS . '/class.email.php');					
 				$smtpemailto = $web_email_usrename;//发送给谁
 				if('utf-8'==$web_code)
 				{
@@ -60,19 +67,19 @@ if($action=='addorder'){
 				//$smtp->debug = TRUE;//是否显示发送的调试信息
 				@$smtp->sendmail($smtpemailto, $web_email_usrename, $mailsubject, $mailbody, $mailtype);
 				sleep(2);
-			}
+			}			
 			
-			$errormsg[]='添加订单成功';
-			ShowMsg($errormsg,1,$back);
+			show_msg('添加订单成功', 1, $back);
 		}else{
-			$errormsg[]='添加订单失败';
-			ShowMsg($errormsg,2);
+			show_msg('添加订单失败', 2);
 		}
 	}
 
 }
-$fieldList=$hudong->GetFormatFiledList();
-$tpl->assign('fieldList',$fieldList);
-//p_r($fieldList);
+$field_list = $cls_hudong->get_format_filed_list();
+
+$tpl->assign('field_list',$field_list);
+//p_r($field_list);
 $tpl->display('hudong.html');
+
 ?>

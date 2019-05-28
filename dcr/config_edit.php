@@ -1,6 +1,6 @@
 <?php
-session_start();
 include "../include/common.inc.php";
+session_start();
 include "adminyz.php";
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -43,6 +43,24 @@ include "adminyz.php";
   </DIV>
   <div class="Info">
     <div class="alert_txt">网站名称</div>
+  </div>
+  <DIV class=HackBox></DIV></LI>
+  <LI>
+  <DIV class=Hint>网站关键字：</DIV>
+  <DIV class=FormInput>
+    <textarea name="web_keywords_new" cols="48" rows="3" class="Warning" id="web_keywords_new"><?php echo $web_keywords ?></textarea>
+  </DIV>
+  <div class="Info">
+    <div class="alert_txt">网站关键字</div>
+  </div>
+  <DIV class=HackBox></DIV></LI>
+  <LI>
+  <DIV class=Hint>网站简介：</DIV>
+  <DIV class=FormInput>
+    <textarea name="web_description_new" cols="48" rows="5" class="Warning" id="web_description_new"><?php echo $web_description ?></textarea>
+  </DIV>
+  <div class="Info">
+    <div class="alert_txt">网站简介</div>
   </div>
   <DIV class=HackBox></DIV></LI>
   <LI>
@@ -96,7 +114,7 @@ include "adminyz.php";
       <script>document.getElementById('web_editor_new').value='<?php echo $web_editor; ?>';</script>
     </DIV>
     <div class="Info">
-      <div class="alert_txt">1.0.5后默认的kindeditor&nbsp;如果你还喜欢原来的ckeditor 请按这里看设置</div>
+      <div class="alert_txt">1.0.5后默认的kindeditor&nbsp;如果你还喜欢原来的ckeditor <a href="http://www.dcrcms.com/news.php?id=33" target="_blank">请按这里看设置</a></div>
       </div>
     <DIV class=HackBox></DIV></LI>
   <li class="Seperator"><hr></li>

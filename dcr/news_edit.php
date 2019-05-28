@@ -1,7 +1,7 @@
 <?php
+require_once("../include/common.inc.php");
 session_start();
-include "../include/common.inc.php";
-include "adminyz.php";
+require_once("adminyz.php");
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><head>
@@ -11,15 +11,15 @@ include "adminyz.php";
 <script type='text/javascript'>
 function check(){
 	if($("#title").val().length==0){
-		ShowMsg('请输入新闻标题');
+		show_msg('请输入新闻标题');
 		return false;
 	}
 	if($("#classid").val().length==0 || $("#classid").val()==0){
-		ShowMsg('请选择新闻类型');
+		show_msg('请选择新闻类型');
 		return false;
 	}
 	if(getFckeditorText("content").length==0){
-		ShowMsg('请输入新闻内容');
+		show_msg('请输入新闻内容');
 		return false;
 	}
 }
@@ -87,44 +87,43 @@ function tijiaoAddAction(){
     <td></td></tr>
   </table>
 <?php
-	include WEB_CLASS."/news_class.php";
-	$news=new News();
-	if($action=='add'){
-		$newsinfo['click']=0;
-		$newsinfo['author']='admin';
-		$newsinfo['source']='本站';
+	require_once(WEB_CLASS . "/class.news.php");
+	$cls_news = new cls_news();
+	if($action=='add')
+	{
+		$news_info['click'] = 0;
+		$news_info['author'] = 'admin';
+		$news_info['source'] = '本站';
 	}else{
-		$action='modify';
-		$id=isset($id)?(int)$id:0;
-		if($id!=0){
-			$news=new News();
-			$newsinfo=$news->GetInfo($id,$newsColList);
+		$action = 'modify';
+		$id = isset($id) ? (int)$id : 0;
+		if($id != 0)
+		{
+			$news_info = $cls_news->get_info($id);
 		}else{
-			ShowMsg('您没有选择要修改的文档');
+			show_msg('您没有选择要修改的文档');
 		}
-	}
-	if(!isset($issystem)){
-		$issystem=0;
 	}
 ?>
 <form action="news_action.php" method="post" enctype="multipart/form-data" name="frmAddNews" id="frmAddNews" onsubmit="return check();">
 <input type="hidden" name="action" id="action" value="<?php echo $action; ?>">
-<input type="hidden" name="id" id="id" value="<?php echo $newsinfo['id']; ?>">
+<input type="hidden" name="id" id="id" value="<?php echo $news_info['id']; ?>">
 <input type="hidden" name="issystem" id="issystem" value="<?php echo $issystem; ?>">
 <table cellSpacing=2 cellPadding=5 width="95%" align=center border=0 bgcolor="#ecf4fc">  
   <tr>
     <td width=100 align=right bgcolor="#FFFFFF">新闻标题(<font color="red" class="txtRed">*</font>)：</td>
-    <td bgcolor="#FFFFFF" style="COLOR: #880000"><input name="title" type="text" id="title" size="80" value="<?php echo $newsinfo['title']; ?>"></td></tr>
-    <?php if(!$issystem){ ?>
+    <td bgcolor="#FFFFFF" style="COLOR: #880000"><input name="title" type="text" id="title" size="80" value="<?php echo $news_info['title']; ?>"></td></tr>
   <tr>
     <td align="right" valign="top" bgcolor="#FFFFFF">产品类别(<font color="red" class="txtRed">*</font>)：</td>
     <td bgcolor="#FFFFFF" style="COLOR: #880000"><span id="productClassList">
       <?php 
-		$newsClassList=$news->GetClassList(array('id','classname'));
-		if(count($newsClassList)>0){
+		$news_class_list = $cls_news-> get_class_list(array('col'=>'id,classname'));
+		if(count($news_class_list)>0)
+		{
 			echo '<select name="classid" id="classid">';
 			echo "<option value='0'>请选择新闻类别</option>";
-			foreach($newsClassList as $value){
+			foreach($news_class_list as $value)
+			{
 				echo "<option value='$value[id]'>$value[classname]</option>";
 			}
 			echo '</select>';
@@ -133,7 +132,7 @@ function tijiaoAddAction(){
 		}
 	?>
       <script type="text/javascript">
-	  var classid="<?php echo $newsinfo['classid'];?>";
+	  var classid="<?php echo $news_info['classid'];?>";
 	  if(classid!=''){
 		  document.frmAddNews.classid.value=classid;
 	  }
@@ -171,7 +170,7 @@ function tijiaoAddAction(){
         <td><span style="color:white">当前缩略图</span></td>
       </tr>
       <tr>
-        <td bgcolor="#FFFFFF"><?php if(strlen($newsinfo['logo'])>0){echo "<img src='".$newsinfo['logo']."'>";}?></td>
+        <td bgcolor="#FFFFFF"><?php if(strlen($news_info['logo'])>0){echo "<img src='".$news_info['logo']."'>";}?></td>
       </tr>
     </table>
           <input type="file" size="40" name="logo" id="logo"> 
@@ -182,33 +181,32 @@ function tijiaoAddAction(){
   </tr>
   <tr>
     <td align=right bgcolor="#FFFFFF">新闻作者：</td>
-    <td bgcolor="#FFFFFF" style="COLOR: #880000"><input name="author" type="text" id="author" size="50" value="<?php echo $newsinfo['author']; ?>"></td></tr>
+    <td bgcolor="#FFFFFF" style="COLOR: #880000"><input name="author" type="text" id="author" size="50" value="<?php echo $news_info['author']; ?>"></td></tr>
   <tr>
     <td align=right bgcolor="#FFFFFF">新闻来源：</td>
-    <td bgcolor="#FFFFFF" style="COLOR: #880000"><input name="source" type="text" id="source" size="50" value="<?php echo $newsinfo['source']; ?>"></td></tr>
+    <td bgcolor="#FFFFFF" style="COLOR: #880000"><input name="source" type="text" id="source" size="50" value="<?php echo $news_info['source']; ?>"></td></tr>
   <tr>
     <td align=right valign="top" bgcolor="#FFFFFF">新闻关键字：</td>
-    <td bgcolor="#FFFFFF" style="COLOR: #880000"><input name="keywords" type="text" id="keywords" size="80" value="<?php echo $newsinfo['keywords']; ?>">
+    <td bgcolor="#FFFFFF" style="COLOR: #880000"><input name="keywords" type="text" id="keywords" size="80" value="<?php echo $news_info['keywords']; ?>">
       (SEO：新闻关键字，以,分隔)</td>
   </tr>
   <tr>
     <td align=right valign="top" bgcolor="#FFFFFF">新闻描述：</td>
-    <td bgcolor="#FFFFFF" style="COLOR: #880000"><textarea name="description" cols="80" rows="3" id="description"><?php echo $newsinfo['description']; ?></textarea>
+    <td bgcolor="#FFFFFF" style="COLOR: #880000"><textarea name="description" cols="80" rows="3" id="description"><?php echo $news_info['description']; ?></textarea>
       (SEO：新闻的描述)</td>
   </tr>
-  <?php }?>
   <tr>
     <td align=right valign="top" bgcolor="#FFFFFF">点击：</td>
-    <td bgcolor="#FFFFFF" style="COLOR: #880000"><input name="click" type="text" id="click" size="10" value="<?php echo $newsinfo['click']; ?>" /></td>
+    <td bgcolor="#FFFFFF" style="COLOR: #880000"><input name="click" type="text" id="click" size="10" value="<?php echo $news_info['click']; ?>" /></td>
   </tr>
   <tr>
     <td align=right valign="top" bgcolor="#FFFFFF">新闻内容(<font color="red">*</font>)：</td>
     <td bgcolor="#FFFFFF" style="COLOR: #880000">
-	<?php APP::GetEditor('content',$newsinfo['content'],'930','500');?>
+	<?php cls_app::get_editor('content',$news_info['content'],'930','500');?>
     </td></tr>
   <tr>
     <td align=right bgcolor="#FFFFFF">新闻属性：</td>
-    <td bgcolor="#FFFFFF" style="COLOR: #880000"><input name="istop" type="checkbox" <?php if($newsinfo['istop']){echo 'checked="checked"';} ?> id="istop" value="1" />
+    <td bgcolor="#FFFFFF" style="COLOR: #880000"><input name="istop" type="checkbox" <?php if($news_info['istop']){echo 'checked="checked"';} ?> id="istop" value="1" />
       置顶</td>
   </tr>
   <tr>

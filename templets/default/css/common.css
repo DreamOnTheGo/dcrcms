@@ -97,29 +97,9 @@ a:hover{
 	text-align:center;
 	letter-spacing:2px;
 }
+#nav .li_bg{background:url(../images/nav_4.gif) no-repeat;}
 #nav a{
 	color:#000;
-}
-.nav_li_1{
-	background:url(../images/nav_1.gif) no-repeat;
-}
-.nav_li_2{
-	background:url(../images/nav_2.gif) no-repeat;
-}
-.nav_li_3{
-	background:url(../images/nav_3.gif) no-repeat;
-}
-.nav_li_4{
-	background:url(../images/nav_4.gif) no-repeat;
-}
-.nav_li_5{
-	background:url(../images/nav_5.gif) no-repeat;
-}
-.nav_li_6{
-	background:url(../images/nav_6.gif) no-repeat;
-}
-.nav_li_7{
-	background:url(../images/nav_7.gif) no-repeat;
 }
 .backindex{
 	float:left;
@@ -400,4 +380,13 @@ a:hover{
 .propic{
 	text-align:center;
 	padding:10px;
+}
+
+.news_class_ul
+{
+	margin:5px;
+}
+.news_class_ul li
+{
+	line-height:20px;
 }

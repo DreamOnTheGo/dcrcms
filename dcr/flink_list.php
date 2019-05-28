@@ -1,7 +1,7 @@
 <?php
+require_once("../include/common.inc.php");
 session_start();
-include "../include/common.inc.php";
-include "adminyz.php";
+require_once("adminyz.php");
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><head>
@@ -35,14 +35,14 @@ include "adminyz.php";
     <td width="15%" style="text-align: center">操作</td>
   </tr>
   <?php
-	$pageListNum=20;//每页显示?条
-	$totalPage=0;//总页数
-	$page=isset($page)?(int)$page:1;
-	$start=($page-1)*$pageListNum;
+	$page_list_num = 20;//每页显示?条
+	$total_page = 0;//总页数
+	$page = isset($page) ? (int)$page : 1;
+	$start = ($page-1) * $page_list_num;
 	
-	include WEB_CLASS.'article_class.php';
-	$art=new Article('{tablepre}flink');
-	$list=$art->GetList(array(),$start,$pageListNum,$where,'id desc');
+	require_once(WEB_CLASS . '/class.data.php');
+	$flink_data = new cls_data('{tablepre}flink');
+	$list = $flink_data-> select_ex(array('limit'=>"$start,$page_list_num", 'where'=>$where, 'order'=>'id desc'));
 	foreach($list as $value){
   ?>  
   <tr height="30" bgcolor="#FFFFFF" onMouseMove="javascript:this.style.backgroundColor='#F4F9EB';" onMouseOut="javascript:this.style.backgroundColor='#FFFFFF';">
@@ -55,15 +55,17 @@ include "adminyz.php";
   <?php } ?>  
   <tr>
     <td colspan="7" bgcolor="#FFFFFF" align="right">
-				<?php
-				require_once(WEB_CLASS.'/page_class.php');
-				$pageNum=count($art->GetList(array('id'),'','',$where));
-				$totalPage=ceil($pageNum/$pageListNum);//总页数
+	<?php
+		require_once(WEB_CLASS . '/class.page.php');
+		$info_num = $flink_data->select_one(array('col'=>'count(id) as sum', 'where'=>$where));
+		$info_num = current($info_num);		
+		$page_num = $info_num['sum'];
+		$total_page = ceil($page_num / $page_list_num);//总页数
 						
-				$page=new PageClass($page,$totalPage);
-				$showpage=$page->showPage(); 
-				echo $showpage;
-				?>
+		$cls_page = new cls_page($page, $total_page);
+		$page_html = $cls_page->show_page(); 
+		echo $page_html;
+	?>
     </td>
     </tr>      
     </table>

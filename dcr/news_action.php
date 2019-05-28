@@ -1,27 +1,27 @@
 <?php
+require_once("../include/common.inc.php");
 session_start();
-include "../include/common.inc.php";
-include "adminyz.php";
+require_once("adminyz.php");
 
-include WEB_CLASS."/news_class.php";
-$news=new News;
-//提示信息开始
-$errormsg=array();//错误信息
-$back=array('新闻列表'=>'news_list.php');
-//提示信息结束
+require_once(WEB_CLASS . "/class.news.php");
+$cls_news = new cls_news();
+
+$error_msg = array();//错误信息
+$back = array('新闻列表'=>'news_list.php');
 
 //本页为操作新闻的页面
-if($action=='add'){
+if($action == 'add')
+{
 	if(checkinput()){
-		ShowMsg($errormsg,2,$back);
+		show_msg($error_msg, 2, $back);
 	}else{
 		//没有错误
-		include_once(WEB_CLASS."/upload_class.php");
-		$upload=new Upload();
-		$fileInfo=$upload->UploadFile("logo",WEB_DR."/uploads/news/",'',array('width'=>$newslogowidth,'height'=>$newslogoheight));
+		require_once(WEB_CLASS . "/class.upload.php");
+		$cls_upload = new cls_upload('logo');
+		$file_info = $cls_upload->upload(WEB_DR . "/uploads/news/", '', array('width'=>$newslogowidth,'height'=>$newslogoheight));
 		
-		$logo=$fileInfo['sl_filename'];
-		$newsInfo=array('title'=>$title,
+		$logo = $file_info['sl_filename'];
+		$news_info = array('title'=>$title,
 						'classid'=>intval($classid),
 						'istop'=>intval($istop),
 						'click'=>intval($click),
@@ -34,21 +34,26 @@ if($action=='add'){
 						'description'=>$description,
 						'content'=>$content							
 						);
-		$aid=$news->Add($newsInfo);
-		if(!$aid){
-			$errormsg[]='插入新闻失败'.mysql_error();
-			ShowMsg($errormsg,2,$back);	
-		}else{
-			$back['继续添加']='news_edit.php?action=add';
-			$errormsg[]='插入新闻成功';
-			ShowMsg($errormsg,1,$back);
+		$aid = $cls_news->add($news_info);
+		if(!$aid)
+		{
+			$error_msg[] = '插入新闻失败' . mysql_error();
+			show_msg($error_msg, 2, $back);
+		}else
+		{
+			$back['继续添加'] = 'news_edit.php?action=add';
+			$error_msg[] = '插入新闻成功';
+			show_msg($error_msg, 1, $back);
 		}
 	}
-}elseif($action=='modify'){
-	if(checkinput()){
-		ShowMsg($errormsg,2,$back);
-	}else{
-		$newsInfo=array('title'=>$title,
+}else if($action == 'modify')
+{
+	if(checkinput())
+	{
+		show_msg($error_msg, 2, $back);
+	}else
+	{
+		$news_info = array('title'=>$title,
 						'classid'=>intval($classid),
 						'istop'=>intval($istop),
 						'click'=>intval($click),
@@ -59,77 +64,92 @@ if($action=='add'){
 						'description'=>$description,
 						'content'=>$content
 						);
-		include_once(WEB_CLASS."/upload_class.php");
-		$upload=new Upload();
-		$fileInfo=$upload->UploadFile("logo",WEB_DR."/uploads/news/",'',array('width'=>$newslogowidth,'height'=>$newslogoheight));
+						
+		require_once(WEB_CLASS . "/class.upload.php");
+		$cls_upload = new cls_upload('logo');
+		$file_info = $cls_upload->upload(WEB_DR . "/uploads/news/", '', array('width'=>$newslogowidth, 'height'=>$newslogoheight));
 		
-		$logo=$fileInfo['sl_filename'];
-		if(strlen($logo)>0){
-			$newsInfo['logo']=$logo;
+		$logo = $file_info['sl_filename'];
+		if(strlen($logo)>0)
+		{
+			$news_info['logo'] = $logo;
 		}
-		if($news->Update($id,$newsInfo)){
-			$errormsg[]='更新新闻成功';
-			ShowMsg($errormsg,1,$back);
+		if($cls_news->update($id, $news_info)){
+			$error_msg[] = '更新新闻成功';
+			show_msg($error_msg, 1, $back);
 		}else{
-			$errormsg[]='更新新闻失败'.mysql_error();
-			ShowMsg($errormsg,2,$back);
+			$error_msg[] = '更新新闻失败' . mysql_error();
+			show_msg($error_msg, 2, $back);
 		}
 	}	
-}elseif($action=='delnews'){
-	if($news->Delete($id)){
-		$errormsg[]='删除数据成功';
-		ShowMsg($errormsg,1,$back);
-	}else{
-		$errormsg[]='删除数据失败';
-		ShowMsg($errormsg,2,$back);
+}else if($action == 'delnews')
+{
+	if($cls_news->delete($id))
+	{
+		$error_msg[] = '删除数据成功';
+		show_msg($error_msg, 1, $back);
+	}else
+	{
+		$error_msg[] = '删除数据失败';
+		show_msg($error_msg, 2, $back);
 	}
-}elseif($action=='delsinglenews'){
-	if($news->Delete(array($id))){
-		$errormsg[]='删除数据成功';
-		ShowMsg($errormsg,1,$back);
+}else if($action == 'delsinglenews')
+{
+	if($cls_news->delete($id))
+	{
+		$error_msg[] = '删除数据成功';
+		show_msg($error_msg, 1, $back);
 	}else{
-		$errormsg[]='删除数据失败';
-		ShowMsg($errormsg,2,$back);
+		$error_msg[]='删除数据失败';
+		show_msg($error_msg,2,$back);
 	}
-}elseif($action=='top'){
-	$info=array(
+}else if($action == 'top')
+{
+	$info = array(
 				'istop'=>1
 				);
-	if($news->Update($id,$info)){
-		$errormsg[]='置顶成功';
-		ShowMsg($errormsg,1,$back);
-	}else{
-		$errormsg[]='置顶失败'.mysql_error();
-		ShowMsg($errormsg,2,$back);
+	if($cls_news->update($id, $info)){
+		$error_msg[] = '置顶成功';
+		show_msg($error_msg, 1, $back);
+	}else
+	{
+		$error_msg[] = '置顶失败' . mysql_error();
+		show_msg($error_msg, 2, $back);
 	}
-}elseif($action=='top_no'){
-	$info=array(
+}else if($action == 'top_no')
+{
+	$info = array(
 				'istop'=>0
 				);
-	if($news->Update($id,$info)){
-		$errormsg[]='取消置顶成功';
-		ShowMsg($errormsg,1,$back);
-	}else{
-		$errormsg[]='取消置顶失败'.mysql_error();
-		ShowMsg($errormsg,2,$back);
+	if($cls_news->update($id, $info)){
+		$error_msg[] = '取消置顶成功';
+		show_msg($error_msg, 1, $back);
+	}else
+	{
+		$error_msg[] = '取消置顶失败' . mysql_error();
+		show_msg($error_msg, 2, $back);
 	}
-}else{
+}else
+{
 	echo '非法操作？';
 }
-function checkinput(){
-	global $errormsg,$title,$classid,$content,$issystem;
-	if(strlen($title)==0){
-		$errormsg[]='请填写新闻标题';
-		$iserror=true;
+function checkinput()
+{
+	global $error_msg,$title,$classid,$content,$issystem;
+	if(strlen($title) == 0)
+	{
+		$error_msg[] = '请填写新闻标题';
+		$iserror = true;
 	}
-	if($classid==0 && !$issystem){
-		$errormsg[]='请选择新闻类型';
-		$iserror=true;
+	if($classid == 0){
+		$error_msg[] = '请选择新闻类型';
+		$iserror = true;
 	}
-	if(strlen($content)==0){
-		$errormsg[]='请填写新闻内容';
-		$iserror=true;
+	if(strlen($content) == 0){
+		$error_msg[] = '请填写新闻内容';
+		$iserror = true;
 	}
+	
 	return $iserror;
 }
 ?>

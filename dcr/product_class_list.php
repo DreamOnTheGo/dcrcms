@@ -1,7 +1,7 @@
 <?php
+require_once("../include/common.inc.php");
 session_start();
-include "../include/common.inc.php";
-include "adminyz.php";
+require_once("adminyz.php");
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><head>
@@ -30,13 +30,13 @@ include "adminyz.php";
     <tr>
       <td colspan="2" align="left" bgcolor="#FFFFFF"><table width="100%" border="0" cellspacing="0" cellpadding="5">
       	<?php
-			include WEB_CLASS."/product_class.php";
-			$pc=new Product();
-        	$class_list=$pc->GetClassList();
+			require_once(WEB_CLASS . "/class.product.php");
+			$cls_pro = new cls_product();
+        	$class_list = $cls_pro-> get_class_list();
            // p_r($class_list);
 		   if($class_list)
 		   {
-			   function ShowClassList($class_list)
+			   function show_class_list($class_list)
 			   {
 					foreach($class_list as $value)
 					{
@@ -51,16 +51,16 @@ include "adminyz.php";
             <?php
 				if($value['sub_class'] && count($value['sub_class']))
 				{
-					ShowClassList($value['sub_class']);
+					show_class_list($value['sub_class']);
 				}
 					}
 			   }
-			   ShowClassList($class_list);
+			   show_class_list($class_list);
 			  ?>
         <?php } ?>
         <tr>
           <td colspan="3"><input type="button" name="button" id="button" onclick="location.href='product_class_edit.php?action=add&parentid=0'" value="添加顶级分类" />
-            <input type="submit" name="button2" id="button2" value="排序" /></td>
+            <input style="float:right" type="submit" name="button2" id="button2" value="排序" /></td>
           </tr>
       </table>
       </td>

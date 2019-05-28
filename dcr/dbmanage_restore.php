@@ -1,6 +1,6 @@
 <?php
-session_start();
 include "../include/common.inc.php";
+session_start();
 include "adminyz.php";
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -33,12 +33,12 @@ include "adminyz.php";
 <input type="hidden" name="action" id="action" value="restore_db">
 <?php
 	//数据库的列表'
-	include_once WEB_CLASS."f_class.php";
-	$f=new FClass(WEB_MYSQL_BAKDATA_DIR);
-	$file_list=$f->GetFileList();
+	require_once(WEB_CLASS . "/class.dir.php");
+	$cls_file = new cls_dir(WEB_MYSQL_BAKDATA_DIR);
+	$file_list = $cls_file-> get_file_list();
 	//p_r($file_list);
 	sort($file_list);
-	$file_num=count($file_list);
+	$file_num = count($file_list);
 ?>
 <TABLE cellSpacing=2 cellPadding=5 width="95%" align=center border=0 bgcolor="#ecf4fc">
 <?php for($i=0;$i<$file_num;$i++){ ?>

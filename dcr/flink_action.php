@@ -1,71 +1,77 @@
 <?php
+require_once("../include/common.inc.php");
 session_start();
-include "../include/common.inc.php";
-include "adminyz.php";
+require_once("adminyz.php");
 
-include WEB_CLASS.'article_class.php';
-$art=new Article('{tablepre}flink');
-//提示信息开始
-$errormsg=array();//错误信息
-$back=array('友情链接列表'=>'flink_list.php');
-//提示信息结束
+require_once(WEB_CLASS . '/class.data.php');
+$flink_data = new cls_data('{tablepre}flink');
+
+$error_msg = array();//错误信息
+$back = array('友情链接列表'=>'flink_list.php');
 
 //本页为操作新闻的页面
-if($action=='addflink'){
-		//没有错误
-		include_once(WEB_CLASS."/upload_class.php");
-		$upload=new Upload();
-		$fileInfo=$upload->UploadFile("logo",WEB_DR."/uploads/flink/",'',array('width'=>$flinklogowidth,'height'=>$flinklogoheight),array());
+if($action == 'addflink')
+{
+		require_once(WEB_CLASS . "/class.upload.php");
+		$cls_upload = new cls_upload('logo');
+		$file_info = $cls_upload->upload(WEB_DR . "/uploads/flink/", '', array('width'=>$flinklogowidth,'height'=>$flinklogoheight),array());
 		
-		$logo=$fileInfo['sl_filename'];
-		$info=array('webname'=>$webname,
+		$logo = $file_info['sl_filename'];
+		$info = array('webname'=>$webname,
 					   		'logo'=>$logo,
 							'weburl'=>$weburl,
 							'addtime'=>time(),
 							'updatetime'=>time()
 							);
-		$aid=$art->Add($info);
-		if(!$aid){
-			$errormsg[]='添加友情链接失败'.mysql_error();
-			ShowMsg($errormsg,2,$back);	
+		$aid = $flink_data->insert($info);
+		if(!$aid)
+		{
+			show_msg('添加友情链接失败'.mysql_error(), 2, $back);	
 		}else{
-			$back['继续添加']='flink_edit.php?action=add';
-			$errormsg[]='添加友情链接成功';
-			ShowMsg($errormsg,1,$back);
+			$back['继续添加'] = 'flink_edit.php?action=add';
+			show_msg('添加友情链接成功', 1, $back);
 		}
 		//echo mysql_error();
-}elseif($action=='editflink')
+}else if($action == 'editflink')
 {
-			$info=array('webname'=>$webname,
+		$info = array('webname'=>$webname,
 						'weburl'=>$weburl,
 						'updatetime'=>time()
 						);
-		include_once(WEB_CLASS."/upload_class.php");
-		$upload=new Upload();
-		$fileInfo=$upload->UploadFile("logo",WEB_DR."/uploads/flink/",'',array('width'=>$flinklogowidth,'height'=>$flinklogoheight),array());
-		$logo=$fileInfo['sl_filename'];
-			if(strlen($logo)>0){
-				$info['logo']=basename($logo);
-			}
-		if($art->Update($info,"id=$id")){
-			$errormsg[]='更新链接成功';
-			ShowMsg($errormsg,1,$back);
-		}else{
-			$errormsg[]='更新链接失败'.mysql_error();
-			ShowMsg($errormsg,2,$back);
+		require_once(WEB_CLASS . "/class.upload.php");
+		$cls_upload = new cls_upload('logo');
+		$file_info = $cls_upload->upload(WEB_DR . "/uploads/flink/", '', array('width'=>$flinklogowidth,'height'=>$flinklogoheight),array());
+		$logo = $file_info['sl_filename'];
+		if(strlen($logo)>0)
+		{			
+			$old_info = $flink_data->select_one(array('col'=> 'logo', 'where'=> "id=$id"));
+			$old_info = current($old_info);
+			@unlink('../uploads/flink/' . $old_info['logo']);
+			
+			$info['logo'] = basename($logo);
+		}
+		if($flink_data-> update($info, "id=$id"))
+		{
+			show_msg('更新链接成功', 1, $back);
+		}else
+		{
+			show_msg('更新链接失败', 2, $back);
 		}
 }
-elseif($action=='delflink'){
-	$info=$art->GetInfo(array('logo'),"id=$id");
+else if($action=='delflink')
+{
+	$info = $flink_data->select_one(array('col'=> 'logo', 'where'=> "id=$id"));
+	$info = current($info);
 	@unlink('../uploads/flink/'.$info['logo']);
-	if($art->Del(array($id))){
-		$errormsg[]='删除数据成功';
-		ShowMsg($errormsg,1,$back);
-	}else{
-		$errormsg[]='删除数据失败';
-		ShowMsg($errormsg,2,$back);
+	if($flink_data-> delete($id))
+	{
+		show_msg('删除数据成功', 1, $back);
+	}else
+	{
+		show_msg('删除数据失败', 2, $back);
 	}
-}else{
-	echo '非法操作？';
+}else
+{
+	show_msg('非法操作', 2, $back);
 }
 ?>

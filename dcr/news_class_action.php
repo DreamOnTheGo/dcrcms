@@ -1,89 +1,102 @@
 <?php
+require_once("../include/common.inc.php");
 session_start();
-include "../include/common.inc.php";
-include "adminyz.php";
-
-include WEB_CLASS."/news_class.php";
+require_once("adminyz.php");
+require_once(WEB_CLASS . "/class.news.php");
 
 header('cache-control:no-cache;must-revalidate');
-$news=new News();
+$cls_news = new cls_news();
 
-//提示信息开始
-$errormsg=array();//错误信息
-$back=array('新闻分类列表'=>'news_class_list.php');
-//提示信息结束
+$error_msg = array();//错误信息
+$back = array('新闻分类列表'=> 'news_class_list.php');
 
-//本页为操作新闻的页面
-if($action=='add' || $action=='add_ajax'){
-	$errormsg='';
-	$iserror=false;
-	if(checkinput()){
-		if($action=='add'){
-			ShowMsg($errormsg,2,$back);	
-		}elseif($action='add_ajax'){
-			echo implode(',',$errormsg);
+if($action=='add' || $action=='add_ajax')
+{
+	$error_msg = '';
+	$iserror = false;
+	if(checkinput())
+	{
+		if($action == 'add')
+		{
+			show_msg($error_msg, 2, $back);	
+		}else if($action == 'add_ajax')
+		{
+			echo implode(',', $error_msg);
 		}
 	}else{
 		//没有错误
-		if($action=='add_ajax'){
-			$classname=iconv('utf-8',$web_code,urldecode($classname));
-			$classdescription=iconv('utf-8',$web_code,urldecode($classdescription));
+		if($action == 'add_ajax')
+		{
+			$classname = iconv('utf-8',$web_code,urldecode($classname));
+			$classdescription = iconv('utf-8',$web_code,urldecode($classdescription));
 		}
-		$rid=$news->AddClass(array('classname'=>$classname,
+		$rid = $cls_news->add_class(array('classname'=>$classname,
 					   		 'classdescription'=>$classdescription
 							 )
 					   );
 		if(!$rid){
-			$errormsg[]='添加新闻分类失败';
-			if($action=='add'){
-				ShowMsg($errormsg,2,$back);	
-			}elseif($action='add_ajax'){
-				echo implode(',',$errormsg).$classname;
+			$error_msg[] = '添加新闻分类失败';
+			if($action == 'add')
+			{
+				show_msg($error_msg, 2, $back);	
+			}else if($action == 'add_ajax')
+			{
+				echo implode(',', $error_msg) . $classname;
 			}
-		}else{
-			$errormsg[]='添加新闻分类成功';
-			if($action=='add'){
-				$back['继续添加']='news_class_edit.php?action=add';
-				ShowMsg($errormsg,1,$back);	
-			}elseif($action='add_ajax'){
-				echo implode(',',$errormsg);
+		}else
+		{
+			$error_msg[] = '添加新闻分类成功';
+			if($action == 'add')
+			{
+				$back['继续添加'] = 'news_class_edit.php?action=add';
+				show_msg($error_msg, 1, $back);
+			}else if($action == 'add_ajax')
+			{
+				echo implode(',',$error_msg);
 			}
 		}
 	}
-}elseif($action=='getlist_ajax'){
-	$classlist=$news->GetClassList(array('id','classname'));
-	for($i=0;$i<count($classlist);$i++){
-		$classlist[$i]['classname']=urlencode(iconv('gb2312','utf-8',$classlist[$i]['classname']));
+}else if($action == 'getlist_ajax')
+{
+	$class_list = $cls_news-> get_class_list(array('col'=>'id,classname'));
+	for($i=0; $i<count($class_list); $i++){
+		$class_list[$i]['classname'] = urlencode(iconv('gb2312', 'utf-8', $class_list[$i]['classname']));
 	}
-	//echo iconv('gb2312','utf-8',$proclasslist[0]['classname']);
-	echo json_encode($classlist);	
-}elseif($action=='modify'){
+	//echo iconv('gb2312','utf-8',$proclass_list[0]['classname']);
+	echo json_encode($class_list);	
+}else if($action == 'modify')
+{
 	if(checkinput()){
-		ShowMsg($errormsg,2,$back);	
-	}else{
-		if($news->UpdateClass($id,array('classname'=>$classname,
+		show_msg($error_msg, 2, $back);	
+	}else
+	{
+		if($cls_news->update_class($id,array('classname'=>$classname,
 								 'classdescription'=>$classdescription
 								 ))){
-			$errormsg[]='更新新闻分类成功';
-			ShowMsg($errormsg,1,$back);
-		}else{
-			$errormsg[]='更新新闻分类失败';
-			ShowMsg($errormsg,2,$back);
+			$error_msg[] = '更新新闻分类成功';
+			show_msg($error_msg, 1, $back);
+		}else
+		{
+			$error_msg[] = '更新新闻分类失败';
+			show_msg($error_msg, 2, $back);
 		}
 	}
-}elseif($action=='delnewsclass'){
-	if($news->DeleteClass($id)){
-		$errormsg[]='删除数据成功';
-		ShowMsg($errormsg,1,$back);
-	}else{
-		$errormsg[]='删除数据失败';
-		ShowMsg($errormsg,2,$back);
+}else if($action == 'delnewsclass')
+{
+	if($cls_news->delete_class($id))
+	{
+		$error_msg[] = '删除数据成功';
+		show_msg($error_msg, 1, $back);
+	}else
+	{
+		$error_msg[] = '删除数据失败';
+		show_msg($error_msg, 2, $back);
 	}
 }
 function checkinput(){
-	global $errormsg,$classname;
+	global $error_msg,$classname;
 	if(strlen($classname)==0){
-		$errormsg[]='请填写新闻分类名';
+		$error_msg[]='请填写新闻分类名';
 		$iserror=true;
 	}
 	return $iserror;

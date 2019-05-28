@@ -1,6 +1,6 @@
 <?php
-session_start();
 include "../include/common.inc.php";
+session_start();
 include "adminyz.php";
 //导出模板
 //把配置写到文件中 放到模板目录下去
@@ -17,18 +17,18 @@ $config=array(
 $config=serialize($config);
 $filename=WEB_Tpl.$tpl_dir.DIRECTORY_SEPARATOR.'tpl.config';
 
-include WEB_CLASS."/f_class.php";
-$f=new FClass();
-$f->setText($config);
-$returnValue=$f->saveToFile($filename);
+include WEB_CLASS."/class.file.php";
+$cls_file = new cls_file($filename);
+$cls_file-> set_text($config);
+$returnValue = $cls_file-> write();
 if($returnValue=='r1'){
 	$msg[]="写入模板配置失败，路径不存在：$filename";
-	ShowMsg($msg,2);
+	show_msg($msg,2);
 }elseif($returnValue=='r2'){
 	$msg[]="写入模板配置失败，文件不可写：$filename";
-	ShowMsg($msg,2);
+	show_msg($msg,2);
 }else{
 	$msg[]="导出模板成功!";
-	ShowMsg($msg);
+	show_msg($msg);
 }
 ?>

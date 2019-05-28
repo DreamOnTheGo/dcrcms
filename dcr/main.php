@@ -1,6 +1,6 @@
 <?php
-session_start();
 include "../include/common.inc.php";
+session_start();
 include "adminyz.php";
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -47,33 +47,56 @@ include "adminyz.php";
     <TD></TD>
   </TR>
   <TR height=22>
-    <TD style="PADDING-LEFT: 20px; FONT-WEIGHT: bold; COLOR: #ffffff" 
-    align=middle background=images/title_bg2.jpg>您的相关信息</TD>
+    <TD style="PADDING-LEFT: 20px; FONT-WEIGHT: bold; COLOR: #ffffff" background=images/title_bg2.jpg>快捷操作</TD>
+  </TR>
+  <TR bgColor=#ecf4fc height=12>
+    <TD></TD>
+  </TR>
+</TABLE>
+<TABLE cellSpacing=2 cellPadding=5 width="95%" align=center border=0 bgcolor="#ecf4fc">
+  <TR>
+    <TD width=100 align=right bgcolor="#FFFFFF">导航条：</TD>
+    <TD bgcolor="#FFFFFF" style="COLOR: #880000"><a href="menu_list.php">导航条列表</a> <a href="menu_edit.php?action=add">添加导航条</a></TD>
+  </TR>
+  <TR>
+    <TD align=right bgcolor="#FFFFFF">产品中心：</TD>
+    <TD bgcolor="#FFFFFF" style="COLOR: #880000"><a href="product_edit.php?action=add">添加产品</a> <a href="product_list.php">产品列表</a> <a href="product_class_edit.php?action=add">添加产品类</a> <a href="product_class_list.php">产品类列表</a></TD>
+  </TR>
+  <TR>
+    <TD align=right bgcolor="#FFFFFF">新闻中心：</TD>
+    <TD bgcolor="#FFFFFF" style="COLOR: #880000"><a href="news_edit.php?action=add">添加新闻</a> <a href="news_list.php">新闻列表</a> <a href="news_class_edit.php?action=add">添加新闻类</a> <a href="news_class_edit.php?action=add">新闻类列表</a></TD>
+  </TR>
+</TABLE>
+<TABLE cellSpacing=0 cellPadding=0 width="95%" align=center border=0>
+  <TR height=20>
+    <TD></TD>
+  </TR>
+  <TR height=22>
+    <TD style="PADDING-LEFT: 20px; FONT-WEIGHT: bold; COLOR: #ffffff" background=images/title_bg2.jpg>您的相关信息</TD>
   </TR>
   <TR bgColor=#ecf4fc height=12>
     <TD></TD>
   </TR>
 </TABLE>
 <?php
-		$sql="select * from {tablepre}admin where username='$admin_u'";
-		$myinfo=$db->GetOne($sql);
-	?>
+	$my_info = $cls_member_admin->get_info();
+?>
 <TABLE cellSpacing=2 cellPadding=5 width="95%" align=center border=0 bgcolor="#ecf4fc">
   <TR>
     <TD width=100 align=right bgcolor="#FFFFFF">登陆帐号：</TD>
-    <TD bgcolor="#FFFFFF" style="COLOR: #880000"><?php echo $myinfo['username']; ?></TD>
+    <TD bgcolor="#FFFFFF" style="COLOR: #880000"><?php echo $my_info['username']; ?></TD>
   </TR>
   <TR>
     <TD align=right bgcolor="#FFFFFF">登陆次数：</TD>
-    <TD bgcolor="#FFFFFF" style="COLOR: #880000"><?php echo $myinfo['logincount']; ?></TD>
+    <TD bgcolor="#FFFFFF" style="COLOR: #880000"><?php echo $my_info['logincount']; ?></TD>
   </TR>
   <TR>
     <TD align=right bgcolor="#FFFFFF">上线时间：</TD>
-    <TD bgcolor="#FFFFFF" style="COLOR: #880000"><?php echo $myinfo['logintime']; ?></TD>
+    <TD bgcolor="#FFFFFF" style="COLOR: #880000"><?php echo $my_info['logintime']; ?></TD>
   </TR>
   <TR>
     <TD align=right bgcolor="#FFFFFF">IP地址：</TD>
-    <TD bgcolor="#FFFFFF" style="COLOR: #880000"><?php echo $myinfo['loginip']; ?></TD>
+    <TD bgcolor="#FFFFFF" style="COLOR: #880000"><?php echo $my_info['loginip']; ?></TD>
   </TR>
   <TR>
     <TD align=right bgcolor="#FFFFFF">网站开发QQ：</TD>
@@ -85,8 +108,7 @@ include "adminyz.php";
     <TD></TD>
   </TR>
   <TR height=22>
-    <TD style="PADDING-LEFT: 20px; FONT-WEIGHT: bold; COLOR: #ffffff" 
-    align=middle background=images/title_bg2.jpg>程序相关信息</TD>
+    <TD style="PADDING-LEFT: 20px; FONT-WEIGHT: bold; COLOR: #ffffff" background=images/title_bg2.jpg>程序相关信息</TD>
   </TR>
   <TR bgColor=#ecf4fc height=12>
     <TD></TD>
@@ -107,8 +129,7 @@ include "adminyz.php";
     <TD></TD>
   </TR>
   <TR height=22>
-    <TD style="PADDING-LEFT: 20px; FONT-WEIGHT: bold; COLOR: #ffffff" 
-    align=middle background=images/title_bg2.jpg>程序最新动态</TD>
+    <TD style="PADDING-LEFT: 20px; FONT-WEIGHT: bold; COLOR: #ffffff" background=images/title_bg2.jpg>程序最新动态</TD>
   </TR>
   <TR bgColor=#ecf4fc height=12>
     <TD></TD>

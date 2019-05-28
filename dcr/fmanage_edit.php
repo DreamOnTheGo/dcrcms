@@ -1,6 +1,6 @@
 <?php
-session_start();
 include "../include/common.inc.php";
+session_start();
 include "adminyz.php";
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -112,7 +112,7 @@ function editTab(){
 <BODY>
 <TABLE cellSpacing=0 cellPadding=0 width="100%" align=center border=0>
   <TR height=28>
-    <TD background=images/title_bg1.jpg>当前位置: <a href="main.php">后台首页</a>&gt;&gt;<a href="fmanage.php">文件管理器</a>>>文件编辑</TD></TR>
+    <TD background=images/title_bg1.jpg>当前位置: <a href="main.php">后台首页</a>>><a href="fmanage.php">文件管理器</a>>>文件编辑</TD></TR>
   <TR>
     <TD bgColor=#b1ceef height=1></TD></TR></TABLE>
 <TABLE cellSpacing=0 cellPadding=0 width="95%" align=center border=0>
@@ -174,10 +174,10 @@ function editTab(){
 <TABLE cellSpacing=2 cellPadding=5 width="95%" align=center border=0 bgcolor="#ecf4fc">
   <TR>
     <TD bgcolor="#FFFFFF"><div id="ln"><textarea id='txt_ln' name='content' rows='10' cols='4' readonly></textarea></div>
-    <textarea id='txt_main' name='content' rows='10' cols='70 'onkeydown='editTab()' onChange="document.getElementById('modi').value='ture'" onscroll='show_ln()' wrap='off'> <?php
-    include WEB_CLASS.'f_class.php';
-	$f=new FClass($filepath);
-	echo $f->getContent('',true);
+    <textarea id='txt_main' name='content' rows='10' cols='70 'onkeydown='editTab()' onChange="document.getElementById('modi').value='ture'" onscroll='show_ln()' wrap='off'><?php
+    require_once(WEB_CLASS . '/class.file.php');
+	$cls_file = new cls_file($filepath);
+	echo $cls_file->read(true);
 	?></textarea>
                <script>for(var i=1; i<=50; i++) document.getElementById('txt_ln').value += i + '\n';</script> </TD>
     </TR>

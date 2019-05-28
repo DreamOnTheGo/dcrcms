@@ -1,6 +1,6 @@
 <?php
-session_start();
 include "../include/common.inc.php";
+session_start();
 include "adminyz.php";
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -22,40 +22,56 @@ include "adminyz.php";
     <td style="PADDING-LEFT: 20px; FONT-WEIGHT: bold; COLOR: #ffffff" 
     align=middle background=images/title_bg2.jpg>文件列表</td></tr>
   <tr bgColor=#ecf4fc height=12>
+    <td style="padding:3px;">
   <?php
   
-	$pdir=WEB_DR.$cpath;
-	$pdir=pathinfo($pdir);
-	$pdir=$pdir['dirname'];
+	$pdir = WEB_DR . '/' . $cpath;
+	$real_path = realpath($pdir);	
+	if(strlen($real_path) < strlen(WEB_DR))
+	{
+		show_msg('网站目录在权限范围之外', 2);
+	}
+	$pdir = pathinfo($pdir);
+	$pdir = $pdir['dirname'];
 	//echo $pdir;
 	//echo substr(WEB_DR,0,strlen(WEB_DR)-1);
-	if(WEB_DR==WEB_DR.$cpath || WEB_DR==$cpath ||  $pdir==substr(WEB_DR,0,strlen(WEB_DR)-1)){
-		$pdir='';
+	if(WEB_DR == WEB_DR . '/' . $cpath || WEB_DR == $cpath ||  $pdir == substr(WEB_DR,0,strlen(WEB_DR)-1)){
+		$pdir = '';
 	}else{
-		$pdir=str_replace(WEB_DR,'',$pdir);
+		$pdir = str_replace(WEB_DR,'',$pdir);
 	}
 	//文档路径
-	$path_arr = explode("/",$cpath);
-	$path_rs_arr=array();
-	for($i=0;$i<count($path_arr);$i++)
+	$path_arr_t = explode("/", $cpath);
+	$path_arr = array();
+	array_push($path_arr, '根目录');
+	foreach($path_arr_t as $key=> $value)
 	{
-		if($i==0)
+		if(!empty($value))
 		{
-			$href=$path_arr[$i];
+			array_push($path_arr, $value);
+			unset($path_arr_t[$key]);
+		}
+	}
+	$path_rs_arr = array();
+	
+	for($i = 0; $i<count($path_arr); $i++)
+	{
+		if($i == 0)
+		{
+			$href = '';
 		}else{
 			$t_arr=array();
 			for($j=0;$j<$i+1;$j++)
 			{
 				$t_arr[]=$path_arr[$j];
 			}
-			$t_path=implode('/',$t_arr);
-			$href=$t_path;
+			$t_path = implode('/',$t_arr);
+			$href = str_replace('根目录/', '', $t_path);
 		}
 		$path_rs_arr[]="<a href='?cpath=$href'>$path_arr[$i]</a>";
 	}
 	$path_rs=implode('/',$path_rs_arr);
-  ?>
-    <td style="padding:3px;"><a href="fmanage.php?cpath=<?php echo $pdir;?>">上级目录</a> 当前目录：<?php echo $path_rs; ?></td></tr>
+  ?><a href="fmanage.php?cpath=<?php echo $pdir;?>">上级目录</a> 当前目录：<?php echo $path_rs; ?></td></tr>
   </table>
 <form action="product_action.php" method="post">
 <input type="hidden" name="action" id="action" value="delproduct">
@@ -70,15 +86,15 @@ include "adminyz.php";
   </tr>
   <?php
 	if(!isset($cpath)){
-		$cpath=WEB_DR;
+		$cpath = WEB_DR;
 	}else{
-		$cpath=WEB_DR.$cpath.'/';
+		$cpath = WEB_DR . '/' . $cpath.'/';
 	}
 	//数据库的列表'
-	include_once WEB_CLASS."f_class.php";
-	$f=new FClass($cpath);
-	$dir_list=$f->GetDirList();
-	$file_list=$f->GetFileList();
+	include_once WEB_CLASS . "/class.dir.php";
+	$cls_dir = new cls_dir($cpath);
+	$dir_list = $cls_dir->get_dir_list();
+	$file_list = $cls_dir->get_file_list();
 	//p_r($file_list);
 	sort($dir_list);
 	sort($file_list);

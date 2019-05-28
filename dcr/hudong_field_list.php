@@ -1,7 +1,7 @@
 <?php
+require_once("../include/common.inc.php");
 session_start();
-include "../include/common.inc.php";
-include "adminyz.php";
+require_once("adminyz.php");
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><head>
@@ -22,8 +22,8 @@ include "adminyz.php";
     <td style="PADDING-LEFT: 20px; FONT-WEIGHT: bold; COLOR: #ffffff" 
     align=middle background=images/title_bg2.jpg><span style="float:right;"></span>信息字段管理</td></tr>
   <tr bgColor=#ecf4fc height=12>
-    <td><a href="hudong_field_edit.php?action=add">添加字段</a>  <a href="hudong_field_getform.php">生成表单</a></td></tr>
-  </table>
+    <td style="padding:5px;"><a href="hudong_field_edit.php?action=add">添加字段</a>  <a href="hudong_field_getform.php">生成表单</a></td></tr>
+  </table><br />
 <form action="hudong_field_action.php" method="post">
 <input type="hidden" name="action" id="action" value="order">
 <table cellSpacing=2 cellPadding=5 width="95%" align=center border=0 bgcolor="#ecf4fc">
@@ -38,10 +38,11 @@ include "adminyz.php";
     <td colspan="5" style="text-align: center">除了下面列出的字段，还有一个固定的字段：title(标题) 固化在表单中</td>
     </tr>
   <?php
-	include WEB_CLASS."/hudong_class.php";
-	$hudong=new HuDong;
-	$hudongFiledList=$hudong->GetFiledList();
-	foreach($hudongFiledList as $value){
+	require_once(WEB_CLASS . "/class.hudong.php");
+	$cls_hudong = new cls_hudong;
+	$hudong_field_list = $cls_hudong->get_filed_list();
+	foreach($hudong_field_list as $value)
+	{
   ?>  
   <tr height="30" bgcolor="#FFFFFF" onMouseMove="javascript:this.style.backgroundColor='#F4F9EB';" onMouseOut="javascript:this.style.backgroundColor='#FFFFFF';">
     <td style="text-align: center"><?php echo $value['itemname']; ?></td>

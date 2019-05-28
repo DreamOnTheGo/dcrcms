@@ -1,7 +1,7 @@
 <?php
+require_once("../include/common.inc.php");
 session_start();
-include "../include/common.inc.php";
-include "adminyz.php";
+require_once("adminyz.php");
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><head>
@@ -35,15 +35,15 @@ include "adminyz.php";
     <td width="114" style="text-align: center">操作</td>
   </tr>
   <?php
-	include WEB_CLASS."/hudong_class.php";
-	$pageListNum=20;//每页显示9条
-	$totalPage=0;//总页数
-	$page=isset($page)?(int)$page:1;
-	$type=isset($type)?(int)$type:0;
-	$start=($page-1)*$pageListNum;
-	$hudong=new HuDong;
-	$hudongList=$hudong->GetList(array('id','type','title','updatetime'),$type,$start,$pageListNum,'updatetime desc');
-	foreach($hudongList as $value){
+	require_once(WEB_CLASS . "/class.hudong.php");
+	$page_list_num = 20;//每页显示9条
+	$total_page = 0;//总页数
+	$page = isset($page) ? (int)$page : 1;
+	$type = isset($type) ? (int)$type : 0;
+	$start = ($page-1) * $page_list_num;
+	$cls_hudong = new cls_hudong;
+	$hudong_list = $cls_hudong->get_list($type, array('col'=>'id,type,title,updatetime', 'limit'=>"$start,$page_list_num", 'order'=>'updatetime desc'));
+	foreach($hudong_list as $value){
   ?>  
   <tr height="30" bgcolor="#FFFFFF" onMouseMove="javascript:this.style.backgroundColor='#F4F9EB';" onMouseOut="javascript:this.style.backgroundColor='#FFFFFF';">
     <td style="text-align: center"><input type="checkbox" name="id[]" id="id[]" value="<?php echo $value['id']; ?>"></td>
@@ -56,14 +56,14 @@ include "adminyz.php";
   <tr>
     <td colspan="5" bgcolor="#FFFFFF" align="right">
     <?php
-	require_once(WEB_CLASS.'/page_class.php');
+	require_once(WEB_CLASS.'/class.page.php');
 	
-	$rsnum=$hudong->GetNum($type);
-	$totalPage=ceil($rsnum/$pageListNum);//总页数
+	$rsnum = $cls_hudong->get_num($type);
+	$total_page = ceil($rsnum / $page_list_num);//总页数
 			
-	$page=new PageClass($page,$totalPage);
-	$showpage=$page->showPage(); 
-	echo $showpage;
+	$cls_page = new cls_page($page,$total_page);
+	$page_html = $cls_page->show_page(); 
+	echo $page_html;
 	?>
     </td>
     </tr>  

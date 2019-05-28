@@ -1,5 +1,5 @@
 <div class="header clearfix">
-  <div class="clearfix"><a href="http://www.dcrcms.com" title="稻草人官方网站" target="_blank"><img src="<{$web_templeturl}><{$web_templetdir}>/images/banner.gif" width="900" height="120" alt="稻草人企业管理系统" /></a></div>
+  <div class="clearfix"><a href="http://www.dcrcms.com" title="稻草人官方网站" target="_blank"><img src="<{$web_templeturl}>/<{$web_templetdir}>/images/banner.gif" width="900" height="120" alt="稻草人企业管理系统" /></a></div>
   <div class="navdiv">
   	<div class="searchbar"><form action="search.php"><input type="text" name="k" class="txt" />
   	  <select name="s_type" id="s_type">
@@ -9,29 +9,9 @@
   	  <input type="submit" name="button" id="button" value="搜索" />
     </form></div>
     <ul id="nav">
-      <li class="nav_li_1 top"><a href="<{$web_url}>/about.<{$web_url_surfix}>">关于我们</a></li>
-      <li class="nav_li_2 top"><a href="<{$web_url}>/news_list.<{$web_url_surfix}>">新闻动态</a>
-      <{if $news_class_list}>
-      	<ul class="sub">
-            <{section name=arr loop=$news_class_list}>
-            <li><a href="<{$news_class_list[arr].url}>"><{$news_class_list[arr].classname}></a></li>
-            <{/section}>
-		</ul>
-      <{/if}>
-      </li>
-      <li class="nav_li_3 top"><a href="<{$web_url}>/product_list.<{$web_url_surfix}>">产品展示</a>
-      <{if $productClassList}>
-      	<ul class="sub">
-            <{section name=arr loop=$productClassList}>
-            <li><a href="<{$productClassList[arr].url}>"><{$productClassList[arr].classname}></a></li>              
-            <{/section}>
-		</ul>
-      <{/if}>
-      </li>
-      <li class="nav_li_1 top"><a href="<{$web_url}>/lxwm.<{$web_url_surfix}>">联系我们</a></li>
-      <li class="nav_li_5 top"><a href="<{$web_url}>/hudong.<{$web_url_surfix}>">在线订单</a></li>
+      <{section name=arr loop=$menu_list}>
+      <li class="top li_bg"><a href="<{$menu_list[arr].url}>" target="<{$menu_list[arr].target}>"><{$menu_list[arr].menu_text}></a></li>
+      <{/section}>
     </ul>
-	<script type="text/javascript" src="<{$web_templeturl}><{$web_templetdir}>/js/menu.js"></script> 
-    <div class="backindex"><a style="color:red" href="<{$web_url}>">返回首页</a></div>
-  </div>
+	<script type="text/javascript" src="<{$web_templeturl}>/<{$web_templetdir}>/js/menu.js"></script>  </div>
 </div>

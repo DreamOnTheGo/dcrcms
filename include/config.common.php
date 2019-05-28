@@ -1,12 +1,15 @@
 <?php
+
 defined('IN_DCR') or exit('No permission.'); 
 
 //本页的配置值都要用''包括起来
-require_once(WEB_INCLUDE.'/config_db.php');
+require_once(WEB_INCLUDE . '/config.db.php');
 
 $web_url = 'http://localhost'; //网址
 $web_dir = '';//网站目录 以/开头 如:/dcr
 $web_name = '我的网站';//网站标题
+$web_keywords = '网站关键字';//网站关键字
+$web_description = '网站简介';//网站简介
 
 //编辑器目录
 $web_editor = 'kindeditor';
@@ -47,13 +50,24 @@ $web_sitemap_baidu_product_count = '50';//百度地图中产品数
 $web_sitemap_google_news_count = '50';//GG地图中新闻数
 $web_sitemap_google_product_count = '50';//GG地图中产品数
 
-$web_url_surfix='php'; //文件名后缀. 动态为php 静态为html
-if($web_url_module=='1'){
-	$web_url_surfix='php';
-}elseif($web_url_module=='2'){
-	$web_url_surfix='html';
+//水印设置
+$web_watermark_type = '0';//水印类型
+$web_watermark_txt = '';//水印文字
+$web_watermark_weizhi = '4';//水印位置
+
+$web_url_surfix = 'php'; //文件名后缀. 动态为php 静态为html
+if($web_url_module == '1')
+{
+	$web_url_surfix = 'php';
+}elseif($web_url_module == '2')
+{
+	$web_url_surfix = 'html';
 }
 
 //初始化weburl
-if(!empty($web_dir))$web_url=$web_url.$web_dir;
+if(!empty($web_dir))
+{
+	$web_url = $web_url.$web_dir;
+}
+
 ?>

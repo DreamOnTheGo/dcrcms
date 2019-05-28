@@ -1,8 +1,8 @@
 <?php
-session_start();
-include "../include/common.inc.php";
-include "class/member_admin_class.php";
-$m=new Member_Admin('','');
-$isadmin=$m->logout();
-ShowNext('','login.htm');
+	include "../include/common.inc.php";
+	session_start();
+	include "class/class.member.admin.php";
+	$m=new cls_member_admin('','');
+	$isadmin=$m->logout();
+	show_next('','login.htm');
 ?>

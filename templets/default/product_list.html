@@ -5,11 +5,11 @@
 <title><{$classname}>_<{$web_name}></title>
 <meta name="keywords" content="{pro.keywords}"/>
 <meta name="description" content="{pro.description}"/>
-<link href="<{$web_templeturl}><{$web_templetdir}>/css/common.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="<{$web_templeturl}><{$web_templetdir}>/js/jquery.js"></script>
-<script type="text/javascript" src="<{$web_templeturl}><{$web_templetdir}>/js/jquery.cookie.js"></script>
-<script type="text/javascript" src="<{$web_templeturl}><{$web_templetdir}>/js/jquery.treeview.js"></script>
-<link href="<{$web_templeturl}><{$web_templetdir}>/css/jquery.treeview.css" rel="stylesheet" type="text/css" />
+<link href="<{$web_templeturl}>/<{$web_templetdir}>/css/common.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="<{$web_templeturl}>/<{$web_templetdir}>/js/jquery.js"></script>
+<script type="text/javascript" src="<{$web_templeturl}>/<{$web_templetdir}>/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="<{$web_templeturl}>/<{$web_templetdir}>/js/jquery.treeview.js"></script>
+<link href="<{$web_templeturl}>/<{$web_templetdir}>/css/jquery.treeview.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 <div class="wrap">
@@ -20,12 +20,12 @@
         </div>
     	<div id="con_main">
             <div class="products clearfix">
-              <div class="title"><img src="<{$web_templeturl}><{$web_templetdir}>/images/products.gif" width="200" height="22" /></div>
+              <div class="title"><img src="<{$web_templeturl}>/<{$web_templetdir}>/images/products.gif" width="200" height="22" /></div>
               <div class="pro_position"><{$position}></div>
-              <div class="productb clearfix"> <{section name=arr loop=$prolist}>
+              <div class="productb clearfix"> <{section name=arr loop=$pro_list}>
                 <dl>
-                  <dd><a title="<{$prolist[arr].title}>" href="<{$prolist[arr].url}>" target=_blank><img src="<{$prolist[arr].logo}>" width="180" height="140" /></a></dd>
-                  <dt><a title="<{$prolist[arr].title}>" href="<{$prolist[arr].url}>" target=_blank><{$prolist[arr].title}></a></dt>
+                  <dd><a title="<{$pro_list[arr].title}>" href="<{$pro_list[arr].url}>" target=_blank><img src="<{$pro_list[arr].logo}>" width="180" height="140" /></a></dd>
+                  <dt><a title="<{$pro_list[arr].title}>" href="<{$pro_list[arr].url}>" target=_blank><{$pro_list[arr].title}></a></dt>
                 </dl>
                 <{/section}></div>
             </div>

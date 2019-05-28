@@ -1,3 +1,4 @@
+@charset "utf-8";
 BODY {
 	MARGIN: 0px
 }
@@ -168,7 +169,7 @@ ul.Form_Advance li div.FormInput{
 	width:350px;
 	overflow:hidden;
 }
-ul.Form_Advance li div.FormInput input{
+ul.Form_Advance li div.FormInput input.txt{
 	height:25px;
 	padding:2px 8px 0 3px;
 	border:1px solid #A7A6AA;

@@ -1,7 +1,7 @@
 <?php
+require_once("../include/common.inc.php");
 session_start();
-include "../include/common.inc.php";
-include "adminyz.php";
+require_once("adminyz.php");
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><head>
@@ -11,11 +11,11 @@ include "adminyz.php";
 <script type='text/javascript'>
 function check(){
 	if($("#title").val().length==0){
-		ShowMsg('请输入资料标题');
+		show_msg('请输入资料标题');
 		return false;
 	}
 	if(getFckeditorText("content").length==0){
-		ShowMsg('请输入资料内容');
+		show_msg('请输入资料内容');
 		return false;
 	}
 }
@@ -37,30 +37,33 @@ function check(){
     <td></td></tr>
   </table>
 <?php
-	include WEB_CLASS."/single_class.php";
-	$single=new Single();
-	if($action=='add'){
-	}else{
-		$action='modify';
-		$id=isset($id)?(int)$id:0;
-		if($id!=0){
-			$singleinfo=$single->GetInfo($id);
+	require_once(WEB_CLASS . "/class.single.php");
+	$cls_single = new cls_single();
+	if($action == 'add')
+	{
+	}else
+	{
+		$action = 'modify';
+		$id = isset($id) ? (int)$id : 0;
+		if($id != 0)
+		{
+			$single_info = $cls_single->get_info($id);
 		}else{
-			ShowMsg('您没有选择要修改的文档');
+			show_msg('您没有选择要修改的文档');
 		}
 	}
 ?>
 <form action="single_action.php" method="post" id="frmAddNews" name="frmAddNews" onsubmit="return check();">
 <input type="hidden" name="action" id="action" value="<?php echo $action; ?>">
-<input type="hidden" name="id" id="id" value="<?php echo $singleinfo['id']; ?>">
+<input type="hidden" name="id" id="id" value="<?php echo $single_info['id']; ?>">
 <table cellSpacing=2 cellPadding=5 width="95%" align=center border=0 bgcolor="#ecf4fc">  
   <tr>
     <td width=100 align=right bgcolor="#FFFFFF">资料标题(<font color="red" class="txtRed">*</font>)：</td>
-    <td bgcolor="#FFFFFF" style="COLOR: #880000"><input name="title" type="text" id="title" size="80" value="<?php echo $singleinfo['title']; ?>"></td></tr>    
+    <td bgcolor="#FFFFFF" style="COLOR: #880000"><input name="title" type="text" id="title" size="80" value="<?php echo $single_info['title']; ?>"></td></tr>    
   <tr>
     <td align=right valign="top" bgcolor="#FFFFFF">资料内容(<font color="red">*</font>)：</td>
     <td bgcolor="#FFFFFF" style="COLOR: #880000">    
-    <?php APP::GetEditor('content',$singleinfo['content'],'930','500');?>
+    <?php cls_app::get_editor('content',$single_info['content'],'930','500');?>
     </td></tr>
   <tr>
     <td align=right bgcolor="#FFFFFF"></td>

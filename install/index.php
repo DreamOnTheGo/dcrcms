@@ -1,6 +1,8 @@
 <?php
 define('IN_DCR' , TRUE);
 session_start();
+define('WEB_INCLUDE', str_replace("\\",'/',dirname(__FILE__) ));
+define('WEB_DR', str_replace("\\",'/',substr(WEB_INCLUDE,0,-8) ) );
 require("../include/common.func.php");
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -108,15 +110,14 @@ if($step=="1" || empty($step)){
 			else return false;
 		}
 	}
-  	$darr=array(
+  	$darr = array(
 				'/include/*',
 				'/data/*',
 				'/uploads/*',
 				'/templets/*',
-				'/install'
+				'/install',
+				'/include/cache/*'
 				);
-	define('WEB_INCLUDE', str_replace("\\",'/',dirname(__FILE__) ));
-	define('WEB_DR', str_replace("\\",'/',substr(WEB_INCLUDE,0,-8) ) );
 	foreach($darr as $dir){		
 		$filldir = WEB_DR.str_replace('/*','',$dir);
 		$isread=(is_readable($filldir) ? '<font color=green>[√]读</font>' : '<font color=red>[×]读</font>');
@@ -165,38 +166,29 @@ if($step=="2"){
       <li>
         <div class=Hint>数据库名称：</div>
         <div class=FormInput>
-          <input id="sqlite_table" size="24" class="Warning" name="sqlite_table" value="dcr_qy.php" />
+          <input id="sqlite_table" size="24" class="Warning txt" name="sqlite_table" value="dcr_qy.php" />
         </div>
         <div class="Info">
           <div class="alert_txt">请输入的数据库名,默认为dcr_qy.php，数据库会建立在data目录中，为了防止数据库被下载，一般把数据库的后缀设置为.php</div>
         </div>
         <div class=HackBox></div>
       </li>
-      </span> <span id="mysqlpanel" style="display:none">
+      </span> <span id="mysqlpanel" style="display:none"">
       <li>
         <div class=Hint>数据库主机：</div>
         <div class=FormInput>
-          <input id="host" size="24" class="Warning" name="host" value="localhost" />
+          <input id="host" size="24" class="Warning txt" name="host" value="localhost" />
         </div>
         <div class="Info">
           <div class="alert_txt"><span class="Hint">本机的话为localhost,非本机填IP</span></div>
         </div>
         <div class=HackBox></div>
       </li>
-      <li>
-        <div class=Hint>数据库名称：</div>
-        <div class=FormInput>
-          <input id="table" size="24" class="Warning" name="table" />
-        </div>
-        <div class="Info">
-          <div class="alert_txt"></div>
-        </div>
-        <div class=HackBox></div>
-      </li>
+      
       <li>
         <div class=Hint>数据库用户：</div>
         <div class=FormInput>
-          <input name="name" class="Warning" id="name" size="24" />
+          <input name="name" class="Warning txt" id="name" size="24" />
         </div>
         <div class="Info">
           <div class="alert_txt"></div>
@@ -206,7 +198,7 @@ if($step=="2"){
       <li>
         <div class=Hint>数据库密码：</div>
         <div class=FormInput>
-          <input id="pass" size="24" class="Warning" name="pass" />
+          <input id="pass" size="24" class="Warning txt" name="pass" />
         </div>
         <div class="Info">
           <div class="alert_txt">
@@ -215,11 +207,22 @@ if($step=="2"){
         </div>
         <div class=HackBox></div>
       </li>
+      <li>
+        <div class=Hint>数据库名称：</div>
+        <div class=FormInput>
+          <input id="table" size="10" style="width:80px" class="Warning txt" name="table" /> <span id="dbs_panel"><select name="dbs"><option value="">选择数据库</option></select></span> <input id="btn_dbs" type="button" value="搜索已有数据库" /><br />
+			<input style="width:15px; border:none; height:15px;" type="checkbox" value="1" name="auto_creat_db" />数据库不在时自动建立(如果有权限的话)
+        </div>
+        <div class="Info">
+          <div class="alert_txt"></div>
+        </div>
+        <div class=HackBox></div>
+      </li>
       </span>
       <li>
         <div class=Hint>数据库前缀：</div>
         <div class=FormInput>
-          <input id="tablepre" size="24" class="Warning" name="tablepre" value="dcr_qy_" />
+          <input id="tablepre" size="24" class="Warning txt" name="tablepre" value="dcr_qy_" />
         </div>
         <div class="Info">
           <div class="alert_txt">如果数据库中存在相同前缀的表，请用不同的前缀</div>
@@ -232,7 +235,7 @@ if($step=="2"){
       <li>
         <div class=Hint>管理员用户名：</div>
         <div class=FormInput>
-          <input id="adminuser" size="24" class="Warning" name="adminuser" value="admin" />
+          <input id="adminuser" size="24" class="Warning txt" name="adminuser" value="admin" />
         </div>
         <div class="Info">
           <div class="alert_txt"><span class="Hint">管理员用户名</span></div>
@@ -242,7 +245,7 @@ if($step=="2"){
       <li>
         <div class=Hint>管理员密码：</div>
         <div class=FormInput>
-          <input name="adminpas" type="text" class="Warning" id="adminpas" value="admin" size="24" />
+          <input name="adminpas" type="text" class="Warning txt" id="adminpas" value="admin" size="24" />
         </div>
         <div class="Info">
           <div class="alert_txt"><span class="Hint">管理员密码</span></div>
@@ -256,14 +259,14 @@ if($step=="2"){
         <div class=Hint>网址地址：</div>
         <div class=FormInput>
           <?php
-  $topurl='http://'.GetTopUrl();
-  $dir_name=dirname($_SERVER['SCRIPT_NAME']);
-  $dir_name=str_replace('/install','',$dir_name);
-  $dir_name=str_replace('/','',$dir_name);
-  $dir_name=str_replace('\\','',$dir_name);
-  //如果有端口加上
-  ?>
-          <input id="web_url" size="24" class="Warning" name="web_url"  value="<?php echo $topurl;?>" />
+			  $topurl = 'http://'.get_top_url();
+			  $dir_name = dirname($_SERVER['SCRIPT_NAME']);
+			  $dir_name = str_replace('/install','',$dir_name);
+			  $dir_name = str_replace('/','',$dir_name);
+			  $dir_name = str_replace('\\','',$dir_name);
+			  //如果有端口加上
+		  ?>
+          <input id="web_url" size="24" class="Warning txt" name="web_url"  value="<?php echo $topurl;?>" />
         </div>
         <div class="Info">
           <div class="alert_txt">网站地址，这里填写网站的顶级域名 <span style="color:red;">请不要带/</span></div>
@@ -273,7 +276,7 @@ if($step=="2"){
       <li>
         <div class=Hint>网站目录：</div>
         <div class=FormInput>
-          <input id="web_dir" size="24" class="Warning" name="web_dir"  value="<?php echo $dir_name; ?>" />
+          <input id="web_dir" size="24" class="Warning txt" name="web_dir"  value="<?php echo $dir_name; ?>" />
         </div>
         <div class="Info">
           <div class="alert_txt">如果您的<span style="color:red;">网站安装在二级目录</span>下，请在这里填写目录名</div>
@@ -283,7 +286,7 @@ if($step=="2"){
       <li>
         <div class=Hint>网站名称：</div>
         <div class=FormInput>
-          <input id="web_name" size="24" class="Warning" name="web_name" value="我的网站" />
+          <input id="web_name" size="24" class="Warning txt" name="web_name" value="我的网站" />
         </div>
         <div class="Info">
           <div class="alert_txt">网站名称</div>
@@ -320,6 +323,9 @@ if($step=="2"){
 		 $("#mysqlpanel").css("display","block")
 	 }
  }
+ function show_db_name(){
+	 $('#table').val($("#dbs").val());
+ }
  $("#pass").blur(function(){
 	action='checkconnect_ajax';
 	host=$('#host').val();
@@ -336,6 +342,19 @@ if($step=="2"){
 													$('#content_alert').html(alertTxt);
 													}); 
 						 
+						 }); 
+ $("#btn_dbs").click(function(){
+	action='get_db_list';
+	host=$('#host').val();
+	name=$('#name').val();
+	pass=$('#pass').val();
+	actionArr={action:action,host:host,name:name,pass:pass};
+	$.post("install_action.php",actionArr, function(data){
+													$('#dbs_panel').html(data);
+													}); 
+						 
+						 }); 
+ $("#dbs").change(function(){
 						 }); 
 </script>
 </div>

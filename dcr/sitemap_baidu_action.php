@@ -1,16 +1,17 @@
 <?php
-session_start();
 include "../include/common.inc.php";
-include WEB_CLASS."/config_class.php";
+session_start();
+include WEB_CLASS."/class.config.php";
 include "adminyz.php";
 
-$config=new Config();
+$config = new cls_config();
 
-$msg=array();//信息
+$msg = array();//信息
 
 //本页为操作新闻的页面
-if($action == 'sitemap_baidu'){
-	if( empty($web_master_email_new) )ShowMsg('请输入网站管理员Email',2);
+if($action == 'sitemap_baidu')
+{
+	if( empty($web_master_email_new) )show_msg('请输入网站管理员Email',2);
 	
 	$web_sitemap_baidu_news_count_new==0 && $web_sitemap_baidu_news_count_new=50;
 	$web_sitemap_baidu_product_count_new==0 && $web_sitemap_baidu_product_count_new=50;
@@ -24,8 +25,8 @@ if($action == 'sitemap_baidu'){
 	$sitemap_txt .= '<updatetime>'.date('Y-m-d H:i:s').'</updatetime>'."\r\n";
 	$sitemap_txt .= '<version>1.0</version>'."\r\n";
 	//产品条目
-	$pro=APP::GetProduct();
-	$list_pro=$pro->GetList(0,array('id','title'),0,$web_sitemap_baidu_product_count_new,'id desc','',1);
+	$cls_pro= cls_app :: get_product();
+	$list_pro = $cls_pro->get_list(0, array('col'=>'id','title', 'limit'=>"0,$web_sitemap_baidu_product_count_new", 'order'=>'id desc'), 1);
 	if($list_pro)
 	{
 		foreach($list_pro as $product)
@@ -37,8 +38,8 @@ if($action == 'sitemap_baidu'){
 		}
 	}
 	//新闻条目
-	$cls_news=APP::GetNews();
-	$list_news=$cls_news->GetList(0,array('id','title'),0,$web_sitemap_baidu_news_count_new);
+	$cls_news = cls_app :: get_news();
+	$list_news = $cls_news-> get_list(0,array('col'=>'id,title', 'limit'=>"0,$web_sitemap_baidu_news_count_new"));
 	if($list_news)
 	{
 		foreach($list_news as $news)
@@ -52,15 +53,15 @@ if($action == 'sitemap_baidu'){
 	
 	$sitemap_txt .='</document>';	
 	
-	include_once(WEB_CLASS.'f_class.php');
-	$f=new FClass();
-	$file_name = WEB_DR.'sitemap_baidu.xml';	
-	$f->setText($sitemap_txt);
-	$result = $f->saveToFile($file_name);
+	require_once(WEB_CLASS . '/class.file.php');
+	$file_name = WEB_DR . '/sitemap_baidu.xml';
+	$cls_file = new cls_file($file_name);
+	$cls_file-> set_text($sitemap_txt);
+	$result = $cls_file-> write();
 	
 	if('r1' == $result || 'r2' == $result)
 	{
-		ShowMsg('在根目录下生成百度地图失败,地图文件不能创建或不能修改！请检查在根目录下操作文件的权限',2);
+		show_msg('在根目录下生成百度地图失败,地图文件不能创建或不能修改！请检查在根目录下操作文件的权限',2);
 	}
 	
 	$configArr=array(
@@ -68,8 +69,8 @@ if($action == 'sitemap_baidu'){
 					 'web_sitemap_baidu_product_count'=>$web_sitemap_baidu_product_count_new,
 					 'web_master_email'=>$web_master_email_new
 					 );
-	$rs=$config->UpdateConfig($configArr);
+	$rs = $config->modify($configArr);
 	
-	ShowMsg('生成百度地图成功');
+	show_msg('生成百度地图成功');
 }
 ?>

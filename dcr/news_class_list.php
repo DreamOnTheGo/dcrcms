@@ -1,7 +1,7 @@
 <?php
+require_once("../include/common.inc.php");
 session_start();
-include "../include/common.inc.php";
-include "adminyz.php";
+require_once("adminyz.php");
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><head>
@@ -34,14 +34,15 @@ include "adminyz.php";
     <td width="213" style="text-align: center">操作</td>
   </tr>
   <?php
-	include WEB_CLASS."/news_class.php";
-	$pageListNum=20;//每页显示9条
-	$totalPage=0;//总页数
-	$page=isset($page)?(int)$page:1;
-	$start=($page-1)*$pageListNum;
-	$news=new News();
-	$newsClassList=$news->GetClassList(array('id','classname','updatetime'),$start,$pageListNum,'id desc');
-	foreach($newsClassList as $value){
+	require_once(WEB_CLASS . "/class.news.php");
+	$page_list_num = 20;//每页显示9条
+	$total_page = 0;//总页数
+	$page = isset($page) ? (int)$page : 1;
+	$start = ($page-1) * $page_list_num;
+	$cls_news = new cls_news();
+	$news_class_list = $cls_news->get_class_list(array('col'=>'id,classname,updatetime', 'limit'=>"$start,$page_list_num", 'order'=>'id desc'));
+	foreach($news_class_list as $value)
+	{
   ?>  
   <tr height="30" bgcolor="#FFFFFF" onMouseMove="javascript:this.style.backgroundColor='#F4F9EB';" onMouseOut="javascript:this.style.backgroundColor='#FFFFFF';">
     <td style="text-align: center"><input type="checkbox" name="id[]" id="id[]" value="<?php echo $value['id']; ?>"><?php echo $value['id']; ?></td>
@@ -53,13 +54,13 @@ include "adminyz.php";
   <tr>
     <td colspan="4" bgcolor="#FFFFFF" align="right">
     <?php
-	require_once(WEB_CLASS.'/page_class.php');
-	$pageNum=$news->GetClassNum();
-	$totalPage=ceil($pageNum/$pageListNum);//总页数
+	require_once(WEB_CLASS.'/class.page.php');
+	$page_num = $cls_news->get_class_num();
+	$total_page = ceil($page_num / $page_list_num);//总页数
 			
-	$page=new PageClass($page,$totalPage);
-	$showpage=$page->showPage(); 
-	echo $showpage;
+	$cls_page = new cls_page($page,$total_page);
+	$page_html = $cls_page->show_page(); 
+	echo $page_html;
 	?>
     </td>
     </tr>  

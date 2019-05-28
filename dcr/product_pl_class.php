@@ -1,9 +1,9 @@
 <?php
+require_once("../include/common.inc.php");
 session_start();
-include "../include/common.inc.php";
-include "adminyz.php";
-include WEB_CLASS."/product_class.php";
-$pro=new Product(0);
+require_once("adminyz.php");
+require_once(WEB_CLASS . "/class.product.php");
+$cls_pro = new cls_product();
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><head>
@@ -13,7 +13,7 @@ $pro=new Product(0);
 <script type='text/javascript'>
 function check(){
 	if($("#classid").val().length==0 || $("#classid").val()==0){
-		ShowMsg('请选择产品类型');
+		show_msg('请选择产品类型');
 		return false;
 	}
 }
@@ -45,7 +45,7 @@ function check(){
 	{
 		foreach($id as $cur_id)
 		{
-			$cur_info=$pro->GetInfo($cur_id,array('title'));
+			$cur_info = $cls_pro->get_info($cur_id, 'title', array());
 	?>
     <tr>
     <td width=152 align=right bgcolor="#FFFFFF"><?php echo $cur_id;?><input type="hidden" name="id[]" id="id[]" value="<?php echo $cur_id; ?>"></td>
@@ -55,8 +55,8 @@ function check(){
     <td align=right valign="top" bgcolor="#FFFFFF">新的产品类别(<font color="red" class="txtRed">*</font>)：</td>
     <td bgcolor="#FFFFFF" style="COLOR: #880000"><select name="classid" id="classid">    
     <?php
-		$productClassList=$pro->GetClassList();
-		$pro->GetClassListSelect($productClassList);
+		$product_class_list = $cls_pro->get_class_list();
+		$cls_pro-> get_class_list_select($product_class_list);
 	?></select></td>
   </tr>
   <tr>

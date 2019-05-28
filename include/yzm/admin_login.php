@@ -1,4 +1,5 @@
 <?php
+include "../../include/common.inc.php";
 session_start();
 srand((double)microtime()*1000000); 
 $authnum=rand(1000,9999);
