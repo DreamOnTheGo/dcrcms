@@ -1,19 +1,21 @@
-INSERT INTO `{tablepre}single` (`id`,`title`,`content`) VALUES (1,'关于我们','<p>关于我们</p>');
-INSERT INTO `{tablepre}single` (`id`,`title`,`content`) VALUES (2,'联系我们 ','<p>联系我们</p>');
+insert into `{tablepre}single` (`id`,`title`,`content`) VALUES (1,'关于我们','<p>关于我们</p>');
+insert into `{tablepre}single` (`id`,`title`,`content`) VALUES (2,'联系我们 ','<p>联系我们</p>');
 
-INSERT INTO `{tablepre}hudong_field` (`id`,`orderid`,`itemname`,`fieldname`,`dtype`,`vdefault`,`maxlength`) VALUES(1,1,'标题','title','text','',250);
-INSERT INTO `{tablepre}hudong_field` (`id`,`orderid`,`itemname`,`fieldname`,`dtype`,`vdefault`,`maxlength`) VALUES(2,2,'感兴趣的产品','loveproduct','text','',250);
-INSERT INTO `{tablepre}hudong_field` (`id`,`orderid`,`itemname`,`fieldname`,`dtype`,`vdefault`,`maxlength`) VALUES (3,3,'您的姓名','realname','text','',250);
-INSERT INTO `{tablepre}hudong_field` (`id`,`orderid`,`itemname`,`fieldname`,`dtype`,`vdefault`,`maxlength`) VALUES(4,4,'联系电话','tel','text','',250);
-INSERT INTO `{tablepre}hudong_field` (`id`,`orderid`,`itemname`,`fieldname`,`dtype`,`vdefault`,`maxlength`) VALUES (5,5,'详细地址','address','text','',250);
-INSERT INTO `{tablepre}hudong_field` (`id`,`orderid`,`itemname`,`fieldname`,`dtype`,`vdefault`,`maxlength`) VALUES (6,6,'订单说明','content','multitext','',0);
+insert into `{tablepre}hudong_field` (`id`,`orderid`,`itemname`,`fieldname`,`dtype`,`vdefault`,`maxlength`) VALUES(1,1,'标题','title','text','',250);
+insert into `{tablepre}hudong_field` (`id`,`orderid`,`itemname`,`fieldname`,`dtype`,`vdefault`,`maxlength`) VALUES(2,2,'感兴趣的产品','loveproduct','text','',250);
+insert into `{tablepre}hudong_field` (`id`,`orderid`,`itemname`,`fieldname`,`dtype`,`vdefault`,`maxlength`) VALUES (3,3,'您的姓名','realname','text','',250);
+insert into `{tablepre}hudong_field` (`id`,`orderid`,`itemname`,`fieldname`,`dtype`,`vdefault`,`maxlength`) VALUES(4,4,'联系电话','tel','text','',250);
+insert into `{tablepre}hudong_field` (`id`,`orderid`,`itemname`,`fieldname`,`dtype`,`vdefault`,`maxlength`) VALUES (5,5,'详细地址','address','text','',250);
+insert into `{tablepre}hudong_field` (`id`,`orderid`,`itemname`,`fieldname`,`dtype`,`vdefault`,`maxlength`) VALUES (6,6,'订单说明','content','multitext','',0);
 
-INSERT INTO `{tablepre}flink` (`id`,`webname`,`weburl`) VALUES (1,'稻草人企业程序 ','http://www.dcrcms.com');
+insert into `{tablepre}flink` (`id`,`webname`,`weburl`) VALUES (1,'稻草人企业程序 ','http://www.dcrcms.com');
 
-INSERT INTO `{tablepre}menu` (`id`,`menu_type`,`url`,`menu_text`,`target`,`order_id`,`news_class_id`,`product_class_id`,`single_id`,`addtime`,`updatetime`) VALUES 
+insert into `{tablepre}menu` (`id`,`menu_type`,`url`,`menu_text`,`target`,`order_id`,`news_class_id`,`product_class_id`,`single_id`,`addtime`,`updatetime`) VALUES 
  (1,5,'/','首页','',1,NULL,NULL,NULL,1317262486,1317262486);
-INSERT INTO `{tablepre}menu` (`id`,`menu_type`,`url`,`menu_text`,`target`,`order_id`,`news_class_id`,`product_class_id`,`single_id`,`addtime`,`updatetime`) VALUES(2,2,'','新闻中心','',2,0,NULL,NULL,1317262493,1317262493);
-INSERT INTO `{tablepre}menu` (`id`,`menu_type`,`url`,`menu_text`,`target`,`order_id`,`news_class_id`,`product_class_id`,`single_id`,`addtime`,`updatetime`) VALUES(3,3,'','产品中心','',3,NULL,0,NULL,1317262501,1317262501);
-INSERT INTO `{tablepre}menu` (`id`,`menu_type`,`url`,`menu_text`,`target`,`order_id`,`news_class_id`,`product_class_id`,`single_id`,`addtime`,`updatetime`) VALUES(4,1,'','关于我们','',4,NULL,NULL,1,1317262511,1317262511);
-INSERT INTO `{tablepre}menu` (`id`,`menu_type`,`url`,`menu_text`,`target`,`order_id`,`news_class_id`,`product_class_id`,`single_id`,`addtime`,`updatetime`) VALUES(5,1,'','联系我们 ','',5,NULL,NULL,2,1317262519,1317262519);
-INSERT INTO `{tablepre}menu` (`id`,`menu_type`,`url`,`menu_text`,`target`,`order_id`,`news_class_id`,`product_class_id`,`single_id`,`addtime`,`updatetime`) VALUES(6,4,'','在线订单','',6,NULL,NULL,NULL,1317262524,1317262524);
+insert into `{tablepre}menu` (`id`,`menu_type`,`url`,`menu_text`,`target`,`order_id`,`news_class_id`,`product_class_id`,`single_id`,`addtime`,`updatetime`) VALUES(2,2,'','新闻中心','',2,0,NULL,NULL,1317262493,1317262493);
+insert into `{tablepre}menu` (`id`,`menu_type`,`url`,`menu_text`,`target`,`order_id`,`news_class_id`,`product_class_id`,`single_id`,`addtime`,`updatetime`) VALUES(3,3,'','产品中心','',3,NULL,0,NULL,1317262501,1317262501);
+insert into `{tablepre}menu` (`id`,`menu_type`,`url`,`menu_text`,`target`,`order_id`,`news_class_id`,`product_class_id`,`single_id`,`addtime`,`updatetime`) VALUES(4,1,'','关于我们','',4,NULL,NULL,1,1317262511,1317262511);
+insert into `{tablepre}menu` (`id`,`menu_type`,`url`,`menu_text`,`target`,`order_id`,`news_class_id`,`product_class_id`,`single_id`,`addtime`,`updatetime`) VALUES(5,1,'','联系我们 ','',5,NULL,NULL,2,1317262519,1317262519);
+insert into `{tablepre}menu` (`id`,`menu_type`,`url`,`menu_text`,`target`,`order_id`,`news_class_id`,`product_class_id`,`single_id`,`addtime`,`updatetime`) VALUES(6,4,'','在线订单','',6,NULL,NULL,NULL,1317262524,1317262524);
+
+insert into `{tablepre}huandeng` (`url`,`logo`,`add_time`,`update_time`) VALUES ('http://www.dcrcms.com','flash.jpg',1358013040,1358013040);

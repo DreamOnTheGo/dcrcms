@@ -262,7 +262,7 @@ if($step=="2"){
 			  $topurl = 'http://'.get_top_url();
 			  $dir_name = dirname($_SERVER['SCRIPT_NAME']);
 			  $dir_name = str_replace('/install','',$dir_name);
-			  $dir_name = str_replace('/','',$dir_name);
+			  //$dir_name = str_replace('/','',$dir_name);
 			  $dir_name = str_replace('\\','',$dir_name);
 			  //如果有端口加上
 		  ?>

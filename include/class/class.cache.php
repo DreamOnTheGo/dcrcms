@@ -32,7 +32,7 @@ class cls_cache
 	 * @param string $cache_dir 缓存目录
 	 * @return true 返回一个缓存类实例
 	 */	
-	function __construct($cache_limit_time = 0, $cache_file_name = '', $cache_dir = '')
+	function __construct( $cache_file_name = '', $cache_limit_time = 0, $cache_dir = '' )
 	{
 		$this->cache_limit_time = $cache_limit_time;
 		$this->cache_file_name = $cache_file_name;

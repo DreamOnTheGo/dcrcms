@@ -68,7 +68,7 @@ class cls_hudong extends cls_data
 	{
 		$type = (int)$type;
 		$where_arr = array();
-		if($type != 0)
+		if( $type != 0 )
 		{
 			array_push($where_arr, "type=$type");
 		}
@@ -126,11 +126,11 @@ class cls_hudong extends cls_data
 	function get_num($type = 0)
 	{
 		$type = (int)$type;
-		if($type != 0){
+		if( $type != 0 )
+		{
 			$where="type=$type";
 		}
-		$info_sum = parent::select_one(array('col'=>'count(id) as sum', 'where'=>$where));
-		$info_sum = current($info_sum);
+		$info_sum = parent::select_one_ex(array('col'=>'count(id) as sum', 'where'=>$where));
 		
 		return $info_sum['sum'];
 	}
@@ -206,7 +206,7 @@ class cls_hudong extends cls_data
 	{
 		$field_name = $this->get_field_name($id);
 		
-		if(empty($field_name))
+		if( empty($field_name) )
 		{
 			return false;
 		}else
@@ -232,7 +232,7 @@ class cls_hudong extends cls_data
 	 * @param array $canshu['order']      排序 默认是istop desc,id desc
 	 * @return array 成功返回互动表单的自字义列 失败返回false
 	 */
-	function get_filed_list($canshu = array())
+	function get_filed_list( $canshu = array() )
 	{
 		if(empty($canshu['order']))
 		{
@@ -263,7 +263,8 @@ class cls_hudong extends cls_data
 		$field_list = $this->get_filed_list($canshu);
 		$field_format_list = array();
 		//加上默认的title
-		foreach($field_list as $key=>$value){
+		foreach($field_list as $key=> $value)
+		{
 			if($value['dtype']=='text')
 			{
 				$str_t = "<input class='txtbox' name='" . $value['fieldname'] . "' id='" . $value['fieldname'] . "' type='text' maxlength='" . $value['maxlength'] . "' value='" . $value['vdefault'] . "' />";
@@ -333,8 +334,7 @@ class cls_hudong extends cls_data
 		//获取ID为$id的字段名field_name
 		parent::set_table('{tablepre}hudong_field');
 		$canshu = array('col'=>'fieldname', 'where'=>"id=$id");
-		$info = parent::select_one($canshu);
-		$info = current($info);
+		$info = parent::select_one_ex($canshu);
 		
 		return $info['fieldname'];
 	}
@@ -350,8 +350,7 @@ class cls_hudong extends cls_data
 		$canshu['where'] = "id=$id";
 		$canshu['col'] = $col;
 		parent::set_table('{tablepre}hudong_field');
-		$info = parent::select_one($canshu);
-		$info = current($info);
+		$info = parent::select_one_ex($canshu);
 		
 		return $info;
 	}
@@ -366,7 +365,7 @@ class cls_hudong extends cls_data
 		$form_info = $this->get_format_filed_list();
 		$form_txt = '';
 		$form_txt .= "<form method=\"post\" action=\"hudong.php?action=addorder\">\n";
-		foreach($form_info as $key=>$value)
+		foreach( $form_info as $key=> $value )
 		{
 			$form_txt .= $value['itemname'] . ":" . $value['inputtxt'] . "\n";
 		}

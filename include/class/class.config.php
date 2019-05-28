@@ -32,7 +32,7 @@ class cls_config
 	 */
 	function modify($config_info, $config_file_name = '')
 	{
-		if(empty($config_file_name))
+		if( empty($config_file_name) )
 		{
 			$config_file_name = WEB_INCLUDE . '/config.common.php';
 		}
@@ -48,8 +48,7 @@ class cls_config
 		$cls_file->set_text($config_str);
 		
 		if($cls_file->write())
-		{
-			
+		{			
 			return 'r2';
 		}else
 		{

@@ -145,7 +145,7 @@ class cls_menu extends cls_data
 		require_once(WEB_CLASS . '/class.cache.php');
 		$cache_file_name = 'menu.php';
 		//1728000 为20天 缓存20天
-		$cls_cache = new cls_cache(1728000, $cache_file_name);
+		$cls_cache = new cls_cache( $cache_file_name, 1728000 );
 		if($cls_cache->check())
 		{
 			//缓存存在
@@ -164,7 +164,7 @@ class cls_menu extends cls_data
 			}			
 		}
 		
-		if(!is_array($menu_list))
+		if( !is_array($menu_list) )
 		{
 			return false;
 		}
@@ -177,7 +177,7 @@ class cls_menu extends cls_data
 				case 1:
 					if(1 == $web_url_module)
 					{
-						$url = 'info.php?id=' . $menu_list[$key]['single_id'];
+						$url = '?mod=info&id=' . $menu_list[$key]['single_id'];
 					}else
 					{
 						$url = 'info_' . $menu_list[$key]['single_id'] . '.' . $web_url_surfix;
@@ -189,10 +189,10 @@ class cls_menu extends cls_data
 					{
 						if($value['news_class_id'])
 						{
-							$url = 'news_list.php?classid=' . $value['news_class_id'];
+							$url = '?mod=news_list&classid=' . $value['news_class_id'];
 						}else
 						{
-							$url = 'news_list.php';
+							$url = '?mod=news_list';
 						}						
 					}else
 					{
@@ -211,10 +211,10 @@ class cls_menu extends cls_data
 					{
 						if($value['product_class_id'])
 						{
-							$url = 'product_list.php?classid=' . $value['product_class_id'];
+							$url = '?mod=product_list&classid=' . $value['product_class_id'];
 						}else
 						{
-							$url = 'product_list.php';
+							$url = '?mod=product_list';
 						}						
 					}else
 					{
@@ -231,10 +231,10 @@ class cls_menu extends cls_data
 				case 4:
 					if(1 == $web_url_module)
 					{
-						$url = 'hudong.php';
+						$url = '?mod=hudong';
 					}else
 					{
-						$url = 'hudong.' . $web_url_surfix;
+						$url = '?mod=hudong.' . $web_url_surfix;
 					}
 					$menu_list[$key]['url'] = $url;
 					break;
@@ -253,7 +253,7 @@ class cls_menu extends cls_data
 	{
 		require_once(WEB_CLASS . '/class.cache.php');
 		$cache_file_name = 'menu.php';
-		$cls_cache = new cls_cache(0, $cache_file_name);
+		$cls_cache = new cls_cache($cache_file_name);
 		
 		
 		$menu_list = parent::select_ex(array('order'=> 'order_id'));

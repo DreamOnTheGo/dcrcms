@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{dcr.var.k}_搜索结果_{dcr.cfg.web_name}</title>
+<link href="{dcr.cfg.web_templet_url}/css/common.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{dcr.cfg.web_templet_url}/js/jquery.js"></script>
+<script type="text/javascript" src="{dcr.cfg.web_templet_url}/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="{dcr.cfg.web_templet_url}/js/jquery.treeview.js"></script>
+<link href="{dcr.cfg.web_templet_url}/css/jquery.treeview.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div class="wrap">
+	{dcr.include file="header.htm"}
+    <div class="con clearfix">
+    	<div id="con_l">
+			{dcr.include file="left.htm"}
+        </div>
+    	<div id="con_main">
+        	<div class="news_list">
+            	<ul>
+                <?php
+                	$cls_news = cls_app:: get_news();
+                    global $page;
+                    $total_page = 0;
+                    $list_news_count = 9;
+                    $page = isset($page) ? (int)$page:1;
+                    $start = ($page-1) * $list_news_count;
+                    $where = "title like '%$k%'";
+					$newslist = $cls_news-> get_list(0, array('col'=>'id,title,addtime', 'limit'=>"$start,$list_news_count", 'where'=>$where));
+                    if( $newslist )
+                    {
+                    	foreach( $newslist as $data_info )
+                        {
+                ?>
+            		<li><span>[{dcr.field.addtime}]</span><a target="_blank" href="{dcr.field.url}">{dcr.field.title}</a></li>
+                <?php }} ?>
+                </ul>
+            </div>
+            <div class="clearfix p10 tr">
+            	<?php
+                	include WEB_CLASS."/class.page.php";
+                    $rs_total = $cls_news->get_news_count(0, $where);
+                    $total_page = ceil($rs_total/$list_news_count);//总页数
+                    $cls_page = new cls_page($page,$total_page);
+                    $fenye = $cls_page-> show_page();
+                    echo $fenye;
+                ?>
+            </div>
+        </div>
+    </div>
+</div>
+{dcr.include file="footer.htm"}
+</body>
+</html>

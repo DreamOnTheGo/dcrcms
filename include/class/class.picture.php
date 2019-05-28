@@ -69,7 +69,7 @@ class cls_picture
         switch($pic_info[2])
         {
            case 1:
-            $this->create_resource = imagecreatefromgif($this->pic_path);
+           	$this->create_resource = imagecreatefromgif($this->pic_path);
             $this->pic_type = "imagegif";
             $this->pic_ext = "gif";
             break;
@@ -100,7 +100,7 @@ class cls_picture
             return $gd_version;
         }
 
-        if (!extension_loaded('gd'))
+        if ( !extension_loaded('gd') )
         {
             $gd_version = 0;
         }
@@ -405,13 +405,15 @@ class cls_picture
             if( !empty($mudi_pic_path) )
             {
                 $out_func( $this->pic_resource, $mudi_pic_path );
-            } else {
+            } else
+			{
                 $this->send_header();
                 $out_func($this->pic_resource);
             }
             return true;
-        } else {
-            exit('不能创建图片,原因可能是没有设置图片来源.');
+        } else
+		{
+            show_msg('不能创建图片,原因可能是没有设置图片来源.', 2);
         }
     }
    
@@ -422,8 +424,8 @@ class cls_picture
     function __destruct()
 	{
 		/*释放图片*/
-		@imagedestroy($this->pic_resource);
-		@imagedestroy($this->create_resource);
+		@imagedestroy( $this->pic_resource );
+		@imagedestroy( $this->create_resource );
 	}
 }
 

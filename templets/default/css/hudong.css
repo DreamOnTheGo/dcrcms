@@ -1,0 +1,117 @@
+
+.hudong_frm {
+	background:#fff;
+	padding:1em;
+	border:1px solid #eee;
+	margin:1em;
+	width:570px;
+	margin:15px auto;
+}
+.contact {
+}
+fieldset div {
+	margin:0.3em 0;
+	clear:both;
+}
+label {
+	float:left;
+	width:10em;
+	text-align:right;
+	margin-right:1em;
+}
+legend {
+	color:#0b77b7;
+	font-size:1.2em;
+}
+legend span {
+	width:10em;
+	text-align:right;
+}
+.txtbox{
+	padding:5px;
+	width:200px;
+	border:1px solid #ddd;
+	background:#fafafa;
+	font:bold 0.95em arial, sans-serif;
+	-moz-border-radius:0.4em;
+	-khtml-border-radius:0.4em;
+}
+input:hover, input:focus {
+	border-color:#c5c5c5;
+	background:#f6f6f6;
+}
+fieldset {
+	border:1px solid #ddd;
+	padding:0 0.5em 0.5em;
+}
+.date input {
+	background-repeat:no-repeat;
+	background-position:100% 50%;
+}
+
+.date fieldset label {
+	float:none;
+	display:block;
+	text-align:left;
+	width:auto;
+}
+.date fieldset div {
+	float:left;
+	clear:none;
+	margin-right:0.2em;
+}
+.radio, .date {
+	position:relative;
+}
+.radio fieldset, .date fieldset {
+	border:none;
+	width:auto;
+	padding:1px 0 0 11em;
+}
+.radio legend, .date legend {
+	font-size:1em;
+	color:#000;
+}
+.radio legend span, .date legend span {
+	position:absolute;
+	left:0;
+	top:0.3em;
+	width:10em;
+	display:block;
+}
+.radio label, .radio input {
+	vertical-align:middle;
+	display:inline;
+	float:none;
+	width:auto;
+	background:none;
+	border:none;
+}
+.radio div {
+	float:left;
+	white-space:nowrap;
+	clear:none;
+}
+
+.email {
+	width:200px;
+}
+
+input.default {
+	color:#bbb;
+}
+textarea{width:300px; height:50px;}
+
+#submit-go {
+	margin-top:1em;
+	width:69px;
+	height:26px;
+	text-indent:-9999px;
+	overflow:hidden;
+	border:0;
+	display:block;
+	cursor:pointer !important; cursor:hand;
+}
+#submit-go:hover {
+	background-position:0 -26px;
+}

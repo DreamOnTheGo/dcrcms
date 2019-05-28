@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>提交订单_{dcr.cfg.web_name}</title>
+<meta name="keywords" content="提交订单"/>
+<meta name="description" content="提交订单"/>
+<link href="{dcr.cfg.web_templet_url}/css/common.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{dcr.cfg.web_templet_url}/js/jquery.js"></script>
+<script type="text/javascript" src="{dcr.cfg.web_templet_url}/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="{dcr.cfg.web_templet_url}/js/jquery.treeview.js"></script>
+<link href="{dcr.cfg.web_templet_url}/css/jquery.treeview.css" rel="stylesheet" type="text/css" />
+<link href="{dcr.cfg.web_templet_url}/css/hudong.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div class="wrap">
+	{dcr.include file="header.htm"}
+    <div class="con clearfix">
+    	<div id="con_l">
+			{dcr.include file="left.htm"}
+        </div>
+    	<div id="con_main">
+        	<div class="news_main">
+	        	<div class="position">当前位置：<a href="/">首页</a> >> 在线订单 </span></div>
+
+                <form method="post" action="{dcr.cfg.web_url}/?mod=hudong&action=addorder" class="hudong_frm">
+		<p>欢迎您光临本公司，如果您想通过网络订购我们的产品，请留下详细内容及联系方式。 我们将以最快的方式答复您，并欢迎您来电咨询或到本公司参观考察。</p>
+		<fieldset class="contact">
+			<legend>提交订单</legend>
+            <?php            
+                require_once(WEB_CLASS."/class.hudong.php");
+                $cls_hudong = new cls_hudong();
+                $field_list = $cls_hudong->get_format_filed_list();
+                foreach( $field_list as $field_info )
+                {
+            ?>
+			<div>
+				<label for="firstname"><?php echo $field_info['itemname'] ?></label> <?php echo $field_info['inputtxt'] ?>
+			</div>
+	        <?php } ?>
+		</fieldset>
+		<div><button type="submit">提交</button></div>
+	</form>
+            </div>
+        </div>
+    </div>
+</div>
+{dcr.include file="footer.htm"}
+</body>
+</html>

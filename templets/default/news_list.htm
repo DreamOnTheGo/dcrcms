@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>新闻中心_{dcr.cfg.web_name}</title>
+<link href="{dcr.cfg.web_templet_url}/css/common.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{dcr.cfg.web_templet_url}/js/jquery.js"></script>
+<script type="text/javascript" src="{dcr.cfg.web_templet_url}/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="{dcr.cfg.web_templet_url}/js/jquery.treeview.js"></script>
+<link href="{dcr.cfg.web_templet_url}/css/jquery.treeview.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div class="wrap">
+	{dcr.include file="header.htm"}
+    <div class="con clearfix">
+    	<div id="con_l">
+			{dcr.include file="left.htm"}
+        </div>
+    	<div id="con_main">
+        	<div class="news_list">
+            	<ul>
+                {dcr:newslist col="id,title,addtime" row="15" date="Y-m-d"}
+            		<li><span>[{$addtime}]</span><a target="_blank" href="{$url}">{$title}</a></li>
+                {/dcr:newslist}
+                </ul>
+            </div>
+            <div class="clearfix p10 tr">{dcr.pagelist}</div>
+        </div>
+    </div>
+</div>
+{dcr.include file="footer.htm"}
+</body>
+</html>

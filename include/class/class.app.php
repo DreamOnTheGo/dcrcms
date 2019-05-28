@@ -29,7 +29,8 @@ class cls_app
 	public static function get_tpl()
 	{
 		global $web_cache_time, $tpl_dir;
-		if(null === self::$smarty_tpl) {
+		if( null === self::$smarty_tpl )
+		{
 			require_once(WEB_T . "/Smarty.class.php");
 			self::$smarty_tpl = new Smarty();
 			self::$smarty_tpl->template_dir = WEB_Tpl . '/' . $tpl_dir;
@@ -65,10 +66,10 @@ class cls_app
 	public static function get_editor($editor_name, $default_value = '', $editor_width = '930', $editor_height = '500', $daohang = 1)
 	{
 		global $web_url, $web_editor;
-		if($web_editor == 'ckeditor')
+		if( $web_editor == 'ckeditor' )
 		{
 			$editor_t = "<script src=\"" . $web_url . "/include/editor/$web_editor/ckeditor.js\" type=\"text/javascript\"></script>\r\n<script type=\"text/javascript\" src=\"" . $web_url . "/include/editor/$web_editor/ckfinder/ckfinder.js\"></script>\r\n<textarea id=\"" . $editor_name . "\" name=\"" . $editor_name . "\">" . $default_value . "</textarea>\r\n<script type=\"text/javascript\">var editor = CKEDITOR.replace('" . $editor_name . "',{height:'" . $editor_height . "',width:'" . $editor_width . "'});CKFinder.SetupCKEditor(editor, \"" . $web_url . "/include/editor/$web_editor/ckfinder/\");</script>";
-		}else if($web_editor == 'kindeditor')
+		}else if( $web_editor == 'kindeditor' )
 		{
 			//把宽度和高度换成cols和rows
 			$cols = $editor_width / 7;
@@ -194,6 +195,20 @@ class cls_app
         $cls_log_file-> write( false, 'a' );
         //unset($cls_log_file);
     }
+	
+	/**
+	 * 函数get_template，获取一个模板实
+     * @param string $template_file_name 模板文件名
+	 * @return cls_template 返回cls_template实例
+	 */	
+	public static function get_template( $template_file_name )
+	{
+		global $web_cache_time, $tpl_dir;
+		require_once(WEB_CLASS . '/class.template.php');
+		$cls_tpl = new cls_template( $template_file_name . '.htm', $web_cache_time );
+		
+		return $cls_tpl;
+	}
 	
 }
 

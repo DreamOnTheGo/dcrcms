@@ -71,15 +71,17 @@ class cls_upload{
 		if( is_uploaded_file( $_FILES[$input_name]['tmp_name'] ) )
 		{
 			$file = $_FILES[$input_name];
-			if($this->max_file_size<$file["size"])
+			if( $this->max_file_size < $file["size"] )
 			{
-				return array('error'=>1,'error_msg'=>'您上传的文件超过文件上传大小限制');
+				show_msg( '您上传的文件大小[' . $file["size"] . ']超过文件上传大小限制', 2 );
+				return array( 'error'=>1, 'error_msg'=>'您上传的文件超过文件上传大小限制' );
 			}
-			if(!in_array($file["type"], $this->allow_files))
+			if( !in_array($file["type"], $this->allow_files) )
 			{
+				show_msg( '你上传的文件文件类型[' . $file["type"] . ']不在允许上传的类型之内', 2 );
 				return array('error'=>1,'error_msg'=>'你上传的文件不在允许上传的类型之内');
 			}
-			if(is_array($dir_fei_lei) && !empty($dir_fei_lei['type']) && !empty($dir_fei_lei['caishu']));
+			if( is_array($dir_fei_lei) && !empty($dir_fei_lei['type']) && !empty($dir_fei_lei['caishu']) )
 			{
 				if('date' == $dir_fei_lei['type'])
 				{
@@ -169,9 +171,11 @@ class cls_upload{
 					$real_file_name = $dir_can_shu . '/' . $real_file_name;
 					$real_sl_file_name = $dir_can_shu.'/' . $real_sl_file_name;
 				}
-				if(is_array($sl) && count($sl)>0){
+				if( is_array( $sl ) && count( $sl )>0 )
+				{
 					return array('sl_filename'=> $real_sl_file_name, 'filename'=> $real_file_name);
-				}else{
+				}else
+				{
 					return array('filename'=> $real_file_name);
 				}
 			}

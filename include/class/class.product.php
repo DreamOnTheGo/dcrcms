@@ -71,7 +71,7 @@ class cls_product extends cls_data
 	{
 		require_once(WEB_CLASS . '/class.cache.php');
 		$cache_file_name = 'product_class_list.php';
-		$cls_cache = new cls_cache(0, $cache_file_name);
+		$cls_cache = new cls_cache($cache_file_name);
 		
 		$class_list = $this->get_class_list_loop($parent_id);
 			
@@ -92,7 +92,7 @@ class cls_product extends cls_data
 		require_once(WEB_CLASS . '/class.cache.php');
 		$cache_file_name = 'product_class_list.php';
 		//1728000 为20天 缓存20天
-		$cls_cache = new cls_cache(1728000, $cache_file_name);
+		$cls_cache = new cls_cache($cache_file_name, 1728000);
 		if($cls_cache->check())
 		{
 			//缓存存在
@@ -137,7 +137,7 @@ class cls_product extends cls_data
 				$class_list[$class_key]['class_level'] = $level;
 				
 				if( $web_url_module == '1' ){
-					$class_list[$class_key]['url'] = $web_url . '/product_list.php?classid='.$class['id'];
+					$class_list[$class_key]['url'] = $web_url . '/?mod=product_list&classid='.$class['id'];
 				}elseif( $web_url_module == '2' )
 				{
 					$class_list[$class_key]['url'] = $web_url . '/product_list_'.$class['id'].'.'.$web_url_surfix;
@@ -258,7 +258,7 @@ class cls_product extends cls_data
 		{
 			if($web_url_module == '1')
 			{
-				$position = '<a href="' . $web_url . '/">首页</a>>><a href="' . $web_url . '/product_list.php?classid=' . $parent_info['id'].'">' . $parent_info['classname'] . '</a>>>' . $info['classname'] . '';
+				$position = '<a href="' . $web_url . '/">首页</a>>><a href="' . $web_url . '/?mod=product_list&classid=' . $parent_info['id'].'">' . $parent_info['classname'] . '</a>>>' . $info['classname'] . '';
 			}else if($web_url_module == '2')
 			{
 				$position = '<a href="' . $web_url . '/">首页</a>>><a href="' . $web_url . '/product_list_' . $parent_info['id'] . '.' . $web_url_surfix . '">' . $parent_info['classname'] . '</a>>>' . $info['classname'] . '';
@@ -279,7 +279,7 @@ class cls_product extends cls_data
 	 * @param array $product_class_info 更新的数据 用数组表示,用$key=>$value来表示列名=>值 如array('title'=>'标题') 表示插入title的值为 标题
 	 * @return boolean 成功返回true 失败返回false
 	 */
-	function update_class($id, $product_class_info = array())
+	function update_class( $id, $product_class_info = array() )
 	{
 		$this-> set_table('{tablepre}product_class');
 		$return_val = parent:: update($product_class_info, "id=$id");
@@ -296,7 +296,8 @@ class cls_product extends cls_data
 	function delete_class($class_id)
 	{
 		$this-> set_table('{tablepre}product_class');
-		if($this-> has_sub_class($class_id)){
+		if( $this-> has_sub_class( $class_id ) )
+		{
 			return 2;
 		}else{
 			if(parent:: delete($class_id)){
@@ -336,7 +337,7 @@ class cls_product extends cls_data
 		$class_list = $this-> get_class_list($class_id);
 		$this-> get_sub_class_id( $class_list );
 		$str = $this-> class_list_id;
-		if( ''==trim($str) )
+		if( '' == trim($str) )
 		{
 			if( $is_contain_self )
 			{
@@ -387,14 +388,14 @@ class cls_product extends cls_data
 	 */
 	function get_parent_class_info($class_id, $col = '*')
 	{
-		global $db;
-		$this-> set_table('{tablepre}product_class');
-		$parent_info = parent:: select_one(array('col'=>'parentid', 'where'=>"id=$class_id"));
-		$parent_info = current($parent_info);
+		$this-> set_table('@#@product_class');
+		$parent_info = parent:: select_one_ex(array('col'=>'parentid', 'where'=>"id=$class_id"));
+		//echo parent::get_last_sql();select parentid from dcr_qy_product_class where id=5 limit 1
+		//p_r($parent_info);
 		$parentid = $parent_info['parentid'];
-		if($parentid != 0){			
-			
-			return current(parent::select_one(array('col'=>$col, 'where'=>"id=$parentid")));
+		if( $parentid )
+		{
+			return parent::select_one_ex( array('col'=>$col, 'where'=>"id=$parentid") );
 		}else{
 			
 			return false;
@@ -525,6 +526,7 @@ class cls_product extends cls_data
        
         $this-> set_table('{tablepre}product');
         $pro_list = parent:: select_ex($canshu);
+		//echo parent::get_last_sql();
        
         $pro_count = count($pro_list);
        
@@ -548,7 +550,7 @@ class cls_product extends cls_data
             }           
             if($web_url_module == '1')
             {
-                $pro_list[$i]['url'] = "product.php?id=" . $pro_list[$i]['id'];
+                $pro_list[$i]['url'] = "?mod=product&id=" . $pro_list[$i]['id'];
             }else if($web_url_module == '2')
             {
                 $pro_list[$i]['url'] = "product_" . $pro_list[$i]['id'] . "." . $web_url_surfix;
@@ -608,14 +610,13 @@ class cls_product extends cls_data
 		$pro_main_info = current($pro_main_info);
 		if( ! empty($col_addon_list) )
 		{
-			parent:: set_table('{tablepre}product_addon');
-			$pro_addon_info = parent:: select_one(array('col'=>$col_addon_list, 'where'=>"id=$aid"));
-			if(!$pro_addon_info)
+			parent:: set_table('@#@product_addon');
+			$pro_addon_info = parent:: select_one_ex(array('col'=>$col_addon_list, 'where'=>"aid=$aid"));
+			if( !$pro_addon_info )
 			{
 				$pro_addon_info = array();
 			}else
 			{
-				$pro_addon_info = current($pro_addon_info);
 				unset($pro_addon_info['id']);
 			}
 		}else
@@ -633,7 +634,7 @@ class cls_product extends cls_data
 			{
 				if($web_url_module == '1')
 				{
-					$parent_path = '<a href="' . $web_url . '/product_list.php?id=' . $parent_info['id'] . '">' . $parent_info['classname'] . '</a>>>';
+					$parent_path = '<a href="' . $web_url . '/?mod=product_list&id=' . $parent_info['id'] . '">' . $parent_info['classname'] . '</a>>>';
 				}else if($web_url_module == '2')
 				{
 					$parent_path = '<a href="' . $web_url . '/product_list_' . $parent_info['id'] . '.' . $web_url_surfix . '">' . $parent_info['classname'] . '</a>>>';
@@ -643,7 +644,7 @@ class cls_product extends cls_data
 			$pro_class_name = $this-> get_class_name( $pro_info['classid'] );
 			if($web_url_module == '1')
 			{
-				$class_path = $web_url . '/product_list.php?id=' . $pro_info['classid'];
+				$class_path = $web_url . '/?mod=product_list&id=' . $pro_info['classid'];
 			}else if($web_url_module=='2')
 			{
 				$class_path = $web_url . '/product_list_' . $pro_info['classid'] . '.' . $web_url_surfix;
@@ -683,7 +684,7 @@ class cls_product extends cls_data
 				{
 					foreach($tag_arr as $tagname)
 					{
-						$tags_list .= '<a href="search.php?s_type=1&tag=' . urlencode($tagname) . '" target="_blank">' . $tagname.'</a> ';
+						$tags_list .= '<a href="' . $web_url . '/mod=search&s_type=1&tag=' . urlencode($tagname) . '" target="_blank">' . $tagname.'</a> ';
 					}
 				}
 				$pro_info['tags_list'] = $tags_list;
@@ -701,7 +702,7 @@ class cls_product extends cls_data
 				$prev_info = current($prev_info);
 				if($web_url_module == '1')
 				{
-					$prev_url = $web_url . '/product.php?id=' . $prev_info['id'];
+					$prev_url = $web_url . '/?mod=product&id=' . $prev_info['id'];
 				}else if($web_url_module=='2')
 				{
 					$prev_url = $web_url . '/product_' . $prev_info['id'] . '.' . $web_url_surfix;
@@ -716,13 +717,12 @@ class cls_product extends cls_data
 		if( in_array('next', $option_col) )
 		{		
 			parent::set_table('{tablepre}product');
-			$next_info = parent::select_one(array('col'=> 'id,title', 'where'=> "id>$aid and classid=".$pro_info['classid'],'order'=>'id desc'));
+			$next_info = parent::select_one_ex(array('col'=> 'id,title', 'where'=> "id>$aid and classid=" . $pro_info['classid'],'order'=>'id asc'));
 			if($next_info)
 			{
-				$next_info = current($next_info);
 				if( $web_url_module == '1' )
 				{
-					$next_url = $web_url . '/product.php?id=' . $next_info['id'];
+					$next_url = $web_url . '/?mod=product&id=' . $next_info['id'];
 				}else if($web_url_module=='2')
 				{
 					$next_url = $web_url . '/product_' . $next_info['id'] . '.' . $web_url_surfix;
@@ -748,7 +748,7 @@ class cls_product extends cls_data
 						$guan_lian_url = '';
 						if($web_url_module == '1')
 						{
-							$guan_lian_url = $web_url.'/product.php?id=' . $guanlian_product['id'];
+							$guan_lian_url = $web_url.'/?mod=product&id=' . $guanlian_product['id'];
 						}else if($web_url_module == '2')
 						{
 							$guan_lian_url = $web_url.'/product_'.$guanlian_product['id'].'.'.$web_url_surfix;
@@ -793,12 +793,17 @@ class cls_product extends cls_data
 			if( is_array($col_addon) && count($col_addon) > 0 )
 			{
 				$this->set_table('{tablepre}product_addon');
-				if( parent::update( $col_addon, "aid=$id") )
-				{
-					return true;
-				}else{
-					return false;
-				}
+				
+                if( parent:: select_one_ex( array( 'where'=>"aid={$id}" ) ) )
+                {
+                    $reval = parent::update($col_addon, "aid=$id");
+                }else
+                {
+                    $col_addon['aid'] = $id;
+                    $reval = parent::insert($col_addon);
+                }
+				
+				return $reval;
 			}else
 			{
 				return true;
@@ -934,9 +939,9 @@ class cls_product extends cls_data
 		$canshu['col'] = 'count(id) as num';
 		//p_r($canshu);
 		parent:: set_table('@#@product');
-		$info = parent::select_one($canshu);
+		$info = parent::select_one_ex($canshu);
 		
-		return $info[0]['num'];
+		return $info['num'];
 	}
 }
 

@@ -48,7 +48,8 @@ class cls_page
 	  if(strlen($url) == 0)
 	  {
 		  $this-> url = $_SERVER['SERVER_NAME'] . $_SERVER["REQUEST_URI"];
-	  }else{
+	  }else
+	  {
 		  $this-> url = $url;
 	  }
 	  global $web_url_module;
@@ -88,7 +89,8 @@ class cls_page
 		{
 			$url_optionStr_t = implode('&', $url_option);
 	  	}
-	  	if(strlen($url_optionStr_t) > 0){
+	  	if(strlen($url_optionStr_t) > 0)
+		{
 		  	$url_optionStr .= '&' . $url_optionStr_t;
 	  	}
 	
@@ -159,7 +161,8 @@ class cls_page
 		  	$t_word = $matches[1][0];
 			if($this->cpage != 1)
 			{
-				if($this->web_url_module=='1'){
+				if($this->web_url_module=='1')
+				{
 					$new_url = '';
 					$new_url = $url_main . '?page=' . ($this->cpage-1) . $url_optionStr;
 				}elseif($this->web_url_module == '2')
@@ -173,7 +176,8 @@ class cls_page
 					$new_url = $t_arr[0] . $t_file_arr[0] . '_p_' . ($this->cpage-1) . '.' . $t_file_arr[1];
 				}
 				$pre_page = '<a href="' . $new_url . '">' . $t_word . '</a>';
-			}else{
+			}else
+			{
 				$pre_page = $t_word;
 			}
 			$page_html = str_replace($t_tpl, $pre_page, $page_html);
@@ -201,16 +205,17 @@ class cls_page
 					$new_url = $t_arr[0] . $t_file_arr[0] . '_p_' . ($this->cpage+1) . '.' . $t_file_arr[1];
 				}
 			   	$next_page = ' <a href="' . $new_url . '">' . $t_word . '</a>';
-			}else{
+			}else
+			{
 				$next_page = $t_word;
 			}
 			$page_html = str_replace($t_tpl, $next_page, $page_html);
 		}
 		
 		//链接列表
-		if (preg_match("{pagelist}",$tpl_content))
+		if ( preg_match("{pagelist}",$tpl_content) )
 		{
-			for($i=1; $i < $this->total_page+1; $i++)
+			for( $i = 1; $i < $this-> total_page + 1; $i++ )
 			{
 				if($this->web_url_module == '1')
 				{
@@ -234,7 +239,7 @@ class cls_page
 		if (preg_match("{option}",$tpl_content))
 		{
 			$option_page = '<select onchange="javascript:window.location=' . "'" . $url_main . "?page='+this.options[this.selectedIndex].value+" . "'$url_optionStr'" . ';">';
-			for($i=1; $i < $this->total_page+1; $i++)
+			for( $i = 1; $i < $this->total_page + 1; $i++ )
 			{
 				if($i == $this->cpage)
 				{

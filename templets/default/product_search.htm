@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>[{dcr.var.k}]_搜索结果_{dcr.cfg.web_name}</title>
+<link href="{dcr.cfg.web_templet_url}/css/common.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{dcr.cfg.web_templet_url}/js/jquery.js"></script>
+<script type="text/javascript" src="{dcr.cfg.web_templet_url}/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="{dcr.cfg.web_templet_url}/js/jquery.treeview.js"></script>
+<link href="{dcr.cfg.web_templet_url}/css/jquery.treeview.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div class="wrap">
+	{dcr.include file="header.htm"}
+    <div class="con clearfix">
+    	<div id="con_l">
+			{dcr.include file="left.htm"}
+        </div>
+    	<div id="con_main">
+            <div class="products clearfix">
+              <div class="title"><img src="{dcr.cfg.web_templet_url}/images/products.gif" width="200" height="22" /></div>
+              <div class="pro_position"></div>
+              <div class="productb clearfix">
+              	<?php
+                $cls_pro = cls_app:: get_product();
+                global $page;
+                $total_page = 0;
+                $list_product_count = 9;
+                $page = isset($page) ? (int)$page:1;
+                $start = ($page-1) * $list_product_count;
+                $where = "title like '%$k%'";
+                $web_url_module = 1;
+                if( !empty($tag) )
+				{
+                    $k = 'tag:' . $tag;
+                    $art_taglist = cls_app:: get_data('{tablepre}taglist');
+                    $id_list = $art_taglist->select_ex(array('col'=>'aid', 'where'=> "tag='$tag'"));
+                    //$id_list = current($id_list);
+                    $id_in_list = array();
+                    if($id_list)
+                    {
+                        foreach($id_list as $t_id)
+                        {
+                            $id_in_list[] = $t_id['aid'];
+                        }
+                    }
+                    if($id_in_list)
+                    {
+                        $id_in_list = implode(',',$id_in_list);
+                        $where = "id in($id_in_list)";
+                    }
+                }	
+                
+                $pro_list = $cls_pro->get_list(0,array('col'=>'id,title,logo', 'limit'=> "$start,$list_product_count", 'order'=>'istop desc,id desc', 'where'=>$where));
+                if($pro_list){
+                foreach( $pro_list as $data_info ){
+                ?>
+                <dl>
+                  <dd><a title="{dcr.field.title}" href="{dcr.field.url}" target=_blank><img src="{dcr.field.logo}" width="180" height="140" /></a></dd>
+                  <dt><a title="{dcr.field.title}" href="{dcr.field.url}" target=_blank>{dcr.field.title}</a></dt>
+                </dl>
+                <?php }} ?></div>
+            </div>
+            <div class="clearfix tr p10">
+            	<?php
+                	include WEB_CLASS."/class.page.php";
+                    $page_num = $cls_pro-> get_list_count(0, $where);
+                    $total_page = ceil($page_num / $list_product_count);//总页数
+                    
+                    $cls_page = new cls_page($page,$total_page);
+                    $fenye = $cls_page->show_page();
+					echo $fenye;    
+                ?>
+            </div>
+        </div>
+    </div>
+</div>
+{dcr.include file="footer.htm"}
+</body>
+</html>

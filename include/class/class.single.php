@@ -50,8 +50,7 @@ class cls_single extends cls_data
 	 */
 	function get_info($aid, $col = '*')
 	{
-		$single_info = parent::select_one(array('col'=>$col, 'where'=> "id=$aid"));
-		$single_info = current($single_info);
+		$single_info = parent::select_one_ex(array('col'=>$col, 'where'=> "id=$aid"));
 		$single_info['position'] = '<a href="' . $web_url.'">首页</a>>>'.$newsInfo['title'];
 		return $single_info;
 	}
@@ -62,8 +61,7 @@ class cls_single extends cls_data
 	 * @return int 成功返回true 失败返回false
 	 */
 	function add($single_info)
-	{		
-	
+	{
 		return parent::insert($single_info);
 	}
 	
@@ -75,7 +73,6 @@ class cls_single extends cls_data
 	 */
 	function update($id, $single_info)
 	{
-		
 		return parent::update($single_info, "id=$id");
 	}
 	
@@ -99,7 +96,6 @@ class cls_single extends cls_data
 	 */
 	function delete($id_list)
 	{
-		
 		return parent::delete($id_list);
 	}
 	
@@ -115,7 +111,6 @@ class cls_single extends cls_data
 	 */
 	function get_list($canshu)
 	{
-		
 		return parent::select_ex($canshu);
 	}
 }

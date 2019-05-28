@@ -24,7 +24,7 @@ $flinklogowidth = '100';//产品缩略图大小
 $flinklogoheight = '50';
 
 $tpl_dir = 'default';   //模板目录
-$web_cache_time = '0';   //模板缓存时间
+$web_cache_time = '345600';   //模板缓存时间
 
 $index_news_count = '22'; //首页新闻条数
 $index_product_count = '6'; //首页产品条数
@@ -56,18 +56,24 @@ $web_watermark_txt = '';//水印文字
 $web_watermark_weizhi = '4';//水印位置
 
 $web_url_surfix = 'php'; //文件名后缀. 动态为php 静态为html
-if($web_url_module == '1')
+if( $web_url_module == '1' )
 {
 	$web_url_surfix = 'php';
-}elseif($web_url_module == '2')
+}
+elseif( $web_url_module == '2' )
 {
 	$web_url_surfix = 'html';
 }
 
 //初始化weburl
-if(!empty($web_dir))
+if( ! empty($web_dir) )
 {
-	$web_url = $web_url.$web_dir;
+	$web_url = $web_url . $web_dir;
 }
+if( ! empty( $_GET['my_tpl_dir'] ) )
+{
+	$tpl_dir = $_GET['my_tpl_dir'];
+}
+$web_templet_url = $web_url . WEB_TplPath . '/' . $tpl_dir;
 
 ?>

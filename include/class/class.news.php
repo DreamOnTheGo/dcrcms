@@ -54,7 +54,7 @@ class cls_news extends cls_data
 	{
 		require_once(WEB_CLASS . '/class.cache.php');
 		$cache_file_name = 'news_class_list.php';
-		$cls_cache = new cls_cache(0, $cache_file_name);
+		$cls_cache = new cls_cache( $cache_file_name );
 		
 		$class_list = $this->get_class_list_loop($parent_id);
 			
@@ -75,7 +75,7 @@ class cls_news extends cls_data
 		require_once(WEB_CLASS . '/class.cache.php');
 		$cache_file_name = 'news_class_list.php';
 		//1728000 为20天 缓存20天
-		$cls_cache = new cls_cache(1728000, $cache_file_name);
+		$cls_cache = new cls_cache( $cache_file_name, 1728000 );
 		if($cls_cache->check())
 		{
 			//缓存存在
@@ -120,7 +120,7 @@ class cls_news extends cls_data
 				$class_list[$class_key]['class_level'] = $level;
 				
 				if( $web_url_module == '1' ){
-					$class_list[$class_key]['url'] = $web_url . '/news_list.php?classid='.$class['id'];
+					$class_list[$class_key]['url'] = $web_url . '/?mod=news_list&classid='.$class['id'];
 				}elseif( $web_url_module == '2' )
 				{
 					$class_list[$class_key]['url'] = $web_url . '/news_list_'.$class['id'].'.'.$web_url_surfix;
@@ -300,8 +300,7 @@ class cls_news extends cls_data
 	function get_class_name($id)
 	{
 		$this->set_table('{tablepre}news_class');
-		$info = parent:: select_one(array('col'=>'classname', 'where'=>"id=$id"));
-		$info = current($info);
+		$info = parent:: select_one_ex(array('col'=>'classname', 'where'=>"id=$id"));
 		
 		return $info['classname'];
 	}
@@ -383,7 +382,7 @@ class cls_news extends cls_data
 		{
 			$classname = $this->get_class_name($news_info['classid']);
 			
-			$position = '<a href="' . $web_url . '">首页</a>>><a href="news_list.php">新闻中心</a>>><a href="' . $web_url . '/news_list.php?classid=' . $news_info['classid'] . '">' . $classname . '</a>>>' . $news_info['title'];
+			$position = '<a href="' . $web_url . '">首页</a>>><a href="?mod=news_list">新闻中心</a>>><a href="' . $web_url . '/?mod=news_list&classid=' . $news_info['classid'] . '">' . $classname . '</a>>>' . $news_info['title'];
 			
 			$news_info['position'] = $position;
 		}
@@ -401,15 +400,15 @@ class cls_news extends cls_data
 		if(in_array('prev', $option_col))
 		{
 			//上一篇
-			parent::set_table('{tablepre}news');
+			parent::set_table('@#@news');
 			
-			$prev_info = parent::select_one(array('col'=>'id,title', 'where'=>"id<$id and classid=".$news_info['classid'], 'order'=>'id desc'));			
+			$prev_info = parent::select_one( array('col'=>'id,title', 'where'=>"id<$id and classid=".$news_info['classid'], 'order'=>'id desc') );			
 			if($prev_info)
 			{
 				$prev_info = current($prev_info);
 				if($web_url_module == '1')
 				{
-					$prev_url = $web_url . '/news.php?id=' . $prev_info['id'];
+					$prev_url = $web_url . '/?mod=news&id=' . $prev_info['id'];
 				}else if($web_url_module=='2')
 				{
 					$prev_url = $web_url . '/news_' . $prev_info['id'] . '.' . $web_url_surfix;
@@ -432,7 +431,7 @@ class cls_news extends cls_data
 				$next_info = current($next_info);
 				if($web_url_module == '1')
 				{
-					$next_url = $web_url . '/news.php?id=' . $next_info['id'];
+					$next_url = $web_url . '/?mod=news&id=' . $next_info['id'];
 				}else if($web_url_module == '2')
 				{
 					$next_url = $web_url . '/news_' . $next_info['id'] . '.' . $web_url_surfix;
@@ -513,14 +512,10 @@ class cls_news extends cls_data
 		//p_r($col_main);
 		if(parent::update($col_main, "id=$id"))
 		{
-			if(is_array($col_addon) && count($col_addon) > 0){
-				$this->set_table('{tablepre}news_addon');
-				if(parent::update($col_addon, "aid=$id"))
-				{
-					return true;
-				}else{
-					return false;
-				}
+			if(is_array($col_addon) && count($col_addon) > 0)
+			{
+				$this->set_table('@#@news_addon');
+				return parent::update($col_addon, "aid=$id");
 			}else
 			{
 				return true;
@@ -621,7 +616,7 @@ class cls_news extends cls_data
      * @param string $addon 附加表字段 (含)1.1.0以后有效
      * @return array 返回返回新闻列表
      */
-    function get_list($classid, $canshu = array(), $date_mode = 'Y-m-d H:i:s' , $addon = 'content')
+    function get_list($classid, $canshu = array(), $date_mode = 'Y-m-d H:i:s' , $addon = '')
     {
         global $web_url, $web_url_module, $web_url_surfix;
        
@@ -664,7 +659,7 @@ class cls_news extends cls_data
                 $news_list[$i]['logo'] = $this->nopic;
             }else
             {
-                $news_list[$i]['logo'] = $web_url.'/uploads/news/'.$news_list[$i]['logo'];
+                $news_list[$i]['logo'] = $web_url . '/uploads/news/' . $news_list[$i]['logo'];
                 //echo $news_info['logo'];
             }
            
@@ -680,7 +675,7 @@ class cls_news extends cls_data
            
             if($web_url_module == '1')
             {
-                $news_list[$i]['url'] = "news.php?id=" . $news_list[$i]['id'];
+                $news_list[$i]['url'] = "?mod=news&id=" . $news_list[$i]['id'];
             }else if($web_url_module == '2')
             {
                 $news_list[$i]['url'] = "news_" . $news_list[$i]['id'] . "." . $web_url_surfix;
@@ -700,11 +695,12 @@ class cls_news extends cls_data
 		$canshu = array();
 		$this-> set_table('{tablepre}news');
 		$where_arr = array();
-		if($classid != 0){
+		if( $classid )
+		{
 			array_push($where_arr, 'classid=' . $classid);
 		}
 		
-		if(!empty($where))
+		if( !empty($where) )
 		{
 			array_push($where_arr, $where);
 		}
@@ -717,8 +713,7 @@ class cls_news extends cls_data
 		$canshu['where'] = $where_option;
 		
 		$canshu['col'] = 'count(id) as sum';
-		$info = parent::select_one($canshu);
-		$info = current($info);
+		$info = parent::select_one_ex($canshu);
 		return $info['sum'];
 	}
 }

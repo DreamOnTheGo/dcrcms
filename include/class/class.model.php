@@ -60,13 +60,7 @@ class cls_model extends cls_data
 			global $db_tablepre;
 			$creat_table_sql = 'CREATE TABLE  `' . $db_tablepre . $info['model_table_name'] . '` (`id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `model_id` int(5) unsigned DEFAULT NULL,`add_time` int(12) unsigned,`update_time` int(12) unsigned,PRIMARY KEY (`id`))ENGINE=MyISAM DEFAULT CHARSET=' . $db_code . ';';
-			if( parent:: execute_none_query( $creat_table_sql ) )
-			{
-				return true;
-			}else
-			{
-				return false;
-			}
+			return parent:: execute_none_query( $creat_table_sql );
 		} else
 		{
 			return false;
@@ -129,9 +123,9 @@ class cls_model extends cls_data
 		}
 		$this->set_table('{tablepre}model');
 		$canshu['where'] = "id=$id";
-		$info = parent::select_one($canshu);
+		$info = parent::select_one_ex($canshu);
 		
-		return current($info);
+		return $info;
 	}
 	
 	/**
@@ -157,9 +151,9 @@ class cls_model extends cls_data
 	{
 		$this->set_table('{tablepre}model_field');
 		$canshu['where'] = "id=$id";
-		$info = parent::select_one($canshu);
+		$info = parent::select_one_ex($canshu);
 		
-		return current($info);
+		return $info;
 	}
 	
 	/**
@@ -296,9 +290,9 @@ class cls_model extends cls_data
 	 * @param array $canshu['order']      排序 默认是orderid
 	 * @return array 返回一个数组 其中arr['itemname']为表单提示文字 inputtxt为生成的input字段HTML
 	 */
-	function get_format_filed_list($canshu = array())
+	function get_format_filed_list( $canshu = array() )
 	{
-		if(empty($canshu['order']))
+		if( empty($canshu['order']) )
 		{
 			$canshu['order'] = 'orderid';
 		}
@@ -306,8 +300,9 @@ class cls_model extends cls_data
 		$field_list = $this->get_filed_list($canshu);
 		$field_format_list = array();
 		//加上默认的title
-		foreach($field_list as $key=>$value){
-			if($value['dtype']=='text')
+		foreach($field_list as $key=> $value)
+		{			
+			if($value['dtype'] == 'text')
 			{
 				$str_t = "<input class='txtbox' name='" . $value['fieldname'] . "' id='" . $value['fieldname'] . "' type='text' maxlength='" . $value['maxlength'] . "' value='" . $value['vdefault'] . "' />";
 				$arr_t = array('itemname'=> $value['itemname'], 'inputtxt'=>$str_t);

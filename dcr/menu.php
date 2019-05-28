@@ -144,6 +144,10 @@ session_start();
         </tr>
         <tr height=20>
           <td align="center" width="15"><img height=9 src="images/menu_icon.gif" width=9></td>
+          <td align="left" width="135"><a class=menuChild href="huandeng_list.php" target=main>首页幻灯</a></td>
+        </tr>
+        <tr height=20>
+          <td align="center" width="15"><img height=9 src="images/menu_icon.gif" width=9></td>
           <td align="left"><a class=menuChild href="watermark_edit.php" target='main'>水印设置</a></td>
         </tr>
         <tr height=20>
@@ -204,7 +208,7 @@ session_start();
         </tr>
         <tr height=20>
           <td align="center" width="15"><img height=9 src="images/menu_icon.gif" width=9></td>
-          <td align="left"><a class=menuChild href="fmanage.php?cpath=templets/<?php echo $tpl_dir; ?>" target=main>模板文件管理器</a></td>
+          <td align="left"><a class=menuChild href="fmanage.php?cpath=/templets/<?php echo $tpl_dir; ?>" target=main>模板文件管理器</a></td>
         </tr>
         <tr height=20>
           <td align="center" width="15"><img height=9 src="images/menu_icon.gif" width=9></td>

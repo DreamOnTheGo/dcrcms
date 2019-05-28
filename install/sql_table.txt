@@ -180,3 +180,13 @@ CREATE TABLE IF NOT EXISTS `{tablepre}model_field` (
   `update_time` int(12) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=[db_code];
+
+DROP TABLE IF EXISTS `{tablepre}huandeng`;
+CREATE TABLE  `{tablepre}huandeng` (
+  `id` integer unsigned not null auto_increment,
+  `url` varchar(100) NOT NULL,
+  `logo` varchar(50) default '',
+  `add_time` int(10) unsigned default '0',
+  `update_time` int(10) unsigned default '0',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=[db_code];

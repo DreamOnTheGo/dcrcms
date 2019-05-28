@@ -1,0 +1,16 @@
+<div class=""><a href="{dcr.cfg.web_url}/?mod=news_list"><img src="{dcr.cfg.web_templet_url}/images/news_pic.gif" /></a></div>
+<?php
+    $cls_news = cls_app:: get_news();
+    $news_class_list = $cls_news-> get_class_list();
+    $news_class_list_txt = $cls_news-> get_class_list_ul($news_class_list);
+    $news_class_list_txt = $cls_news-> get_class_list_ul_html();
+    echo $news_class_list_txt;
+?>
+<div class=""><a href="{dcr.cfg.web_url}/?mod=product_list"><img src="{dcr.cfg.web_templet_url}/images/pro_pic.gif" /></a></div>
+<?php
+    $cls_pro = cls_app:: get_product();
+    $product_class_list = $cls_pro-> get_class_list();
+    $pro_class_list_txt = $cls_pro-> get_class_list_ul($product_class_list);
+    $pro_class_list_txt = $cls_pro-> get_class_list_ul_html();
+    echo $pro_class_list_txt;
+?>

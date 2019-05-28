@@ -50,7 +50,8 @@ class cls_data
 	 */
     function get_last_sql()
     {
-        return $this->last_sql;
+        global $db;
+        return $db->option( $this->last_sql );
     } 
 	 
     /**
@@ -70,7 +71,7 @@ class cls_data
 	 */
     private function set_last_sql($sql)
     {
-        $this->last_sql=$sql;
+        $this->last_sql = $sql;
     }
 	
 	/**
@@ -230,7 +231,7 @@ class cls_data
 				$update_str .= "`$key`=$value,";
 			}
 		}
-		$update_str = substr($update_str, 0, strlen($update_str)-1);
+		$update_str = substr( $update_str, 0, strlen($update_str) - 1 );
 		$sql = "update ".$this->table." set $update_str where $where";
         $this->set_last_sql($sql);
 		global $db;
@@ -246,16 +247,19 @@ class cls_data
 	 */
 	function delete($id_list, $col = 'id')
 	{
-		if(is_array($id_list)){
+		if( is_array($id_list) )
+		{
 			$id_list = implode(',', $id_list);
 		}
 		
-		if(!empty($id_list)){
+		if( !empty($id_list) )
+		{
 			global $db;
 			$sql = "delete from " . $this->table . " where $col in($id_list)";
         	$this->set_last_sql($sql);
 			$r_val = $db->execute_none_query($sql);
-		}else{
+		}else
+		{
 			$r_val = false;
 		}
 		
@@ -269,7 +273,7 @@ class cls_data
 	 */
 	function delete_ex($where)
 	{
-		if(!empty($where))
+		if( !empty($where) )
 		{
 			$where = ' where ' . $where;
 		}

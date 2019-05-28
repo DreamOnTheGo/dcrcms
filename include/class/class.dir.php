@@ -90,7 +90,7 @@ class cls_dir
 		$dir_name = $this-> current_dir;
 		$file_list = array();
 		$row = 0;
-		if(is_dir($dir_name))
+		if( is_dir($dir_name) )
 		{
 			if($handle = opendir($dir_name))
 			{
@@ -101,17 +101,20 @@ class cls_dir
 					{
 						if(is_dir($dir_name . '/' . $item))
 						{
-						}else{
+						}else
+						{
 							$file_list[$row]['path'] = $dir_name . '/' . $item;
 							$file_list[$row]['filename'] = $item;
 							$row++;
 						}
 					}
 				}
-			}else{
-			closedir( $handle );
+			}else
+			{
+				closedir( $handle );
 			}
-		}else{
+		}else
+		{
 		}
 		
 		return $file_list;
@@ -130,7 +133,7 @@ class cls_dir
 		{
 			if($handle = opendir($dir_name))
 			{
-				while(false !== ($item = readdir($handle)))
+				while( false !== ( $item = readdir( $handle ) ) )
 				{
 					//echo $item;
 					if($item !=  "." && $item != "..")
@@ -140,14 +143,17 @@ class cls_dir
 							$file_list[$row]['path'] = $dir_name . '/' .$item;
 							$file_list[$row]['filename'] = $item;
 							$row++;
-						}else{
+						}else
+						{
 						}
 					}
 				}
-			}else{
-			closedir( $handle );
+			}else
+			{
+				closedir( $handle );
 			}
-		}else{
+		}else
+		{
 		}
 		
 		return $file_list;
@@ -175,20 +181,24 @@ class cls_dir
 					if($item !=  "." && $item != "..")
 					{
 						$path_dir = $dir_name . '/' . $item;
-						if(is_dir($path_dir)){
+						if( is_dir($path_dir) )
+						{
 							if($this-> is_empty_dir($path_dir))
 							{
 								rmdir($path_dir);//直接删除 
-							}else{
+							}else
+							{
 								$this-> delete_dir($path_dir); 
 							}
-						}else{
+						}else
+						{
 							unlink($path_dir);
 						}
 					}
 				}
 				closedir( $handle );
-			}else{
+			}else
+			{
 				closedir( $handle );
 			}
 			@rmdir($dir_name);//直接删除 
@@ -201,17 +211,18 @@ class cls_dir
 	 */
 	function is_empty_dir($path_dir)
 	{
-		if(empty($path_dir))
+		if( empty($path_dir) )
 		{
 			$path_dir = $this-> current_dir;
 		}
-		if(empty($path_dir))
+		if( empty($path_dir) )
 		{
 			return true;
 		}
 		$dhandle = opendir($path_dir); 
 		$i = 0; 
-   		while($t = readdir($dhandle)){
+   		while( $t = readdir($dhandle) )
+		{
 			$i++;
 		}
 		

@@ -1,0 +1,31 @@
+{dcr.page type='single'}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{$title}_{dcr.cfg.web_name}</title>
+<link href="{dcr.cfg.web_templet_url}/css/common.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{dcr.cfg.web_templet_url}/js/jquery.js"></script>
+<script type="text/javascript" src="{dcr.cfg.web_templet_url}/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="{dcr.cfg.web_templet_url}/js/jquery.treeview.js"></script>
+<link href="{dcr.cfg.web_templet_url}/css/jquery.treeview.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div class="wrap">
+	{dcr.include file="header.htm"}
+    <div class="con clearfix">
+    	<div id="con_l">
+			{dcr.include file="left.htm"}
+        </div>
+    	<div id="con_main">
+        	<div class="news_main">
+	        	<div class="position">当前位置：{$position}</div>
+                <h1 class="news_title">{$title}</h1>
+                <div class="news_content">{$content}</div>
+            </div>
+        </div>
+    </div>
+</div>
+{dcr.include file="footer.htm"}
+</body>
+</html>
