@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title><{$pro.title}>_<{$web_name}></title>
+<meta name="keywords" content="{pro.keywords}"/>
+<meta name="description" content="{pro.description}"/>
+<link href="<{$web_templeturl}><{$web_templetdir}>/css/common.css" rel="stylesheet" type="text/css" />
+<link rel="shortcut icon" href="<{$web_templeturl}><{$web_templetdir}>/images/dcr.ico" />
+</head>
+<body>
+<div class="wrap">
+	<{include file="header.html"}>
+    <div class="con clearfix">
+    	<div id="con_l">
+			<{include file="left.html"}>
+        </div>
+    	<div id="con_main">
+            <div class="products clearfix">
+              <div class="title"><span><img src="<{$web_templeturl}><{$web_templetdir}>/images/more.gif" width="38" height="13" /></span><img src="<{$web_templeturl}><{$web_templetdir}>/images/products.gif" width="200" height="22" /></div>
+              <div class="productb clearfix"> <{section name=arr loop=$prolist}>
+                <dl>
+                  <dd><a title="<{$prolist[arr].title}>" href="<{$prolist[arr].url}>" target=_blank><img src="<{$prolist[arr].logo}>" width="180" height="140" /></a></dd>
+                  <dt><a title="<{$prolist[arr].title}>" href="<{$prolist[arr].url}>" target=_blank><{$prolist[arr].title}></a></dt>
+                </dl>
+                <{/section}></div>
+            </div>
+            <div class="clearfix tr p10"><{$fenye}></div>
+        </div>
+    </div>
+</div>
+<{include file="footer.html"}>
+</body>
+</html>
