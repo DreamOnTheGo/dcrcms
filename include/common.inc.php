@@ -138,4 +138,9 @@ $db_host = $db_user = $db_pass = $db_name = NULL;
 //程序版本
 $version = $app_version;
 
+function error_notice($err_no, $err_str, $err_file, $err_line)
+{
+    cls_app:: log('文件' . $err_file . '第' . $err_line . '行发生错误(' . $err_no . '):' . $err_str);
+}
+//set_error_handler( "error_notice", ~E_NOTICE & ~E_STRICT );
 ?>

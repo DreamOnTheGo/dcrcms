@@ -1,6 +1,15 @@
 <?php
 require_once("../include/common.inc.php");
 session_start();
+if( 'change_page_list_num' == $action )
+{
+	put_cookie( 'newslist_page_list_num', $num, 100000 );
+	$page_list_num = $num;
+}else
+{
+	$page_list_num_cookie = get_cookie( 'newslist_page_list_num' );
+	$page_list_num = !empty( $page_list_num_cookie ) ? intval( $page_list_num_cookie ) : 20;
+}
 require_once("adminyz.php");
 $cls_news = cls_app::get_news();
 $class_list = $cls_news->get_class_list();
@@ -10,6 +19,13 @@ $class_list = $cls_news->get_class_list();
 <meta http-equiv=Content-Type content="text/html; charset=utf-8">
 <link href="css/admin.css" type="text/css" rel="stylesheet">
 <script src="../include/js/common.js"></script>
+<script type="text/javascript">
+	function change_page_list_num()
+	{
+		var url = "?action=change_page_list_num&num=" + document.getElementById("page_list_num").value;
+		window.location = url;
+	}
+</script>
 </head>
 <body>
 <table cellSpacing=0 cellPadding=0 width="100%" align=center border=0>
@@ -65,7 +81,6 @@ $class_list = $cls_news->get_class_list();
 		$where = "title like '%$title%'";
 	}
 	
-	$page_list_num = 20;//每页显示9条
 	$total_page = 0;//总页数
 	$page = isset($page) ? (int)$page : 1;
 	$classid = isset($classid) ? intval($classid) : 0;
@@ -87,7 +102,9 @@ $class_list = $cls_news->get_class_list();
   </tr>    
   <?php } ?>  
   <tr>
-    <td colspan="6" bgcolor="#FFFFFF" align="right">
+    <td colspan="6" bgcolor="#FFFFFF">
+    <div style="float:left;">每页显示条目数:&nbsp;<input type="text" id="page_list_num" name="page_list_num" value="<?php echo $page_list_num; ?>" size="5" /><input type="button" onclick="change_page_list_num()" value="更改" /></div>
+    <div style="float:right">
     <?php
 	require_once(WEB_CLASS.'/class.page.php');
 	$page_num = $cls_news-> get_news_count($classid, $where);
@@ -97,6 +114,7 @@ $class_list = $cls_news->get_class_list();
 	$page_html = $cls_page->show_page(); 
 	echo $page_html;
 	?>
+    </div>
     </td>
     </tr>  
   <tr>

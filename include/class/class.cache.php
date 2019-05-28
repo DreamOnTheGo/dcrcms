@@ -43,6 +43,9 @@ class cls_cache
 		{
 			$this->cache_dir = $cache_dir;
 		}
+		//echo $this->cache_limit_time;
+		//echo $this->cache_file_name;
+		//echo $this->cache_dir;
 	}
 	  
 	/**
@@ -79,6 +82,7 @@ class cls_cache
 	function check()
 	{
 		$cache_file = $this->cache_dir . '/' . $this->cache_file_name;
+		//echo $cache_file;
 		return file_exists($cache_file) && filemtime($cache_file) > (time() - $this->cache_limit_time);
 	}
 	

@@ -1,6 +1,7 @@
 <?php
 
-defined('IN_DCR') or exit('No permission.'); 
+defined('IN_DCR') or exit('No permission.');
+require_once( WEB_CLASS . '/template/interface.tag.compile.php' );
 
 /**
  * list块标签处理类
@@ -18,7 +19,7 @@ defined('IN_DCR') or exit('No permission.');
  * @since 1.0.9
 */
 
-class cls_template_include extends cls_template
+class cls_template_include extends cls_template implements interface_tag_compile
 {
 	private $tag_info;//'block_content'=>标签全部内容 'tag_name'=>标签名 'attr_array'=>属性数组 'block_notag_content'=>标签内容(除{dcr:*} 及{/dcr:*})
 	private $attr_array;//属性数组 '属性名'=>属性值
@@ -60,8 +61,7 @@ class cls_template_include extends cls_template
 		$compile_content = "<?php global \$web_cache_time; \$cls_template = new cls_template('" . $file_name . "', \$web_cache_time); \$cls_template -> display(); unset(\$cls_template);  ?>";
 		
 		$this->compile_content = $compile_content;
-	}
-	
+	}	
 	
 	/**
 	 * 获取编译后的内容
@@ -72,6 +72,14 @@ class cls_template_include extends cls_template
 	function get_content()
 	{
 		return $this->compile_content;
+	}
+	
+	/**
+	 * 编译块内标签
+	 * @return 
+	 */	
+	function compile_block_inner_tag()
+	{
 	}
 }
 

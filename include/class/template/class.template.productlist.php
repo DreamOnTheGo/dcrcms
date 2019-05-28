@@ -1,6 +1,7 @@
 <?php
 
-defined('IN_DCR') or exit('No permission.'); 
+defined('IN_DCR') or exit('No permission.');
+require_once( WEB_CLASS . '/template/interface.tag.compile.php' );
 
 /**
  * 新闻列表 listnum='每页数' col='字段' order='排序' data='日期格式'
@@ -19,7 +20,7 @@ defined('IN_DCR') or exit('No permission.');
  * @since 1.0.9
 */
 
-class cls_template_productlist extends cls_template
+class cls_template_productlist extends cls_template implements interface_tag_compile
 {
 	private $tag_info;//'block_content'=>标签全部内容 'tag_name'=>标签名 'attr_array'=>属性数组 'block_notag_content'=>标签内容(除{dcr:*} 及{/dcr:*})
 	private $attr_array;//属性数组 '属性名'=>属性值
@@ -54,18 +55,11 @@ class cls_template_productlist extends cls_template
 		$tag_info = $this->tag_info;
 		$compile_content = $tag_info['block_content']; //标签内容
 		$attr_array = $tag_info['attr_array']; //属性列表
+		//p_r($attr_array);
 		
 		//得出第一行内容即{dcr:list table='test'}这行的内容
 		$block_first_line = parent::get_block_first_line($tag_info);
-		
-		if( isset($attr_array['classid']) )
-		{
-			$classid = $attr_array['classid'];
-		} else
-		{
-			global $classid;			
-			$classid = isset($classid) ? intval($classid) : 0;
-		}
+
 		$is_sub = empty( $attr_array['is_sub'] ) ? 0 : 1;
 		$addon = empty( $attr_array['addon'] ) ? "''" : $attr_array['addon'];
 		$row = empty( $attr_array['row'] ) ? 10 : $attr_array['row'];
@@ -75,27 +69,36 @@ class cls_template_productlist extends cls_template
 		//把{dcr:list *} 处理成sql
 		$php_code = "<?php \r\n\$page_list_num = " . $row . ";  //每页显示9条";
 		$php_code = $php_code . "\r\nglobal \$page;  //总页数";
-		$php_code = $php_code . "\r\n\$classid = $classid;  //classid";
+		
+		if( isset($attr_array['classid']) )
+		{
+			$classid = $attr_array['classid'];
+			$php_code = $php_code . "\r\n\$classid = {$classid};  //classid";
+		} else
+		{
+			$php_code = $php_code . "\r\nglobal \$classid;";
+		}
+		
 		$php_code = $php_code . "\r\n\$total_page = 0;  //总页数";
 		$php_code = $php_code . "\r\n\$cur_page = isset(\$page) ? (int)\$page : 1;";
 		$php_code = $php_code . "\r\n\$start = (\$cur_page-1) * \$page_list_num;";
 		$php_code = $php_code . "\r\n\$cls_pro = cls_app:: get_product();";
-		$php_code = $php_code . "\r\n\$data_list = \$cls_pro->get_list(\$classid, array('col'=>'" . $attr_array['col'];
+		$php_code = $php_code . "\r\n\$dcr_pro_data_list = \$cls_pro->get_list(\$classid, array('col'=>'" . $attr_array['col'];
 		$php_code = $php_code .	"', 'order'=>'" . $attr_array['order'] . "', 'group'=> '" . $attr_array['group'] . "', 'where'=> \"" . $attr_array['where'] . "\", 'limit'=>\"" . $limit . "\"), '" . $is_sub . "'," . $addon . ");";
 		$php_code = $php_code .	"\r\n\$page_num = \$cls_pro-> get_list_count(\$classid, \$where);";
 		$php_code = $php_code .	"\r\n\$total_page = ceil(\$page_num/\$page_list_num);    //总页数;";
-		$php_code = $php_code . "\r\n\tforeach(\$data_list as \$data_info)\r\n\t{";
+		$php_code = $php_code . "\r\n\tforeach(\$dcr_pro_data_list as \$dcr_list_pro_data_info)\r\n\t{";
 		$php_code = $php_code . "\r\n?>";
 		$compile_content = $php_code . $compile_content;
 		
 		//处理inner_tag
-		$compile_inner = parent:: compile_inner_tag($tag_info['block_notag_content']);
-		$compile_content = str_replace($tag_info['block_notag_content'], $compile_inner, $compile_content);
+		//$compile_inner = parent:: compile_inner_tag($tag_info['block_notag_content']);
+		//$compile_content = str_replace($tag_info['block_notag_content'], $compile_inner, $compile_content);
 		
 		//去掉头和尾的标签
 		$compile_content = str_replace($block_first_line, '', $compile_content);
-		$compile_content = str_replace('{/dcr:' . $tag_info['tag_name'] . '}', "<?php \r\n\t}\r\n\tunset(\$cls_pro, \$data_list); \r\n?>", $compile_content);
-		$this->compile_content = $compile_content;
+		$this->compile_content = str_replace('{/dcr:' . $tag_info['tag_name'] . '}', "<?php \r\n\t}\r\n\tunset(\$cls_pro, \$dcr_pro_data_list); \r\n?>", $compile_content);
+		$this->compile_content = $this->compile_block_inner_tag();
 	}
 	
 	
@@ -108,6 +111,38 @@ class cls_template_productlist extends cls_template
 	function get_content()
 	{
 		return $this->compile_content;
+	}
+	
+	/**
+	 * 编译块内标签
+	 * @return 
+	 */	
+	function compile_block_inner_tag( )
+	{
+        $inner_tag = array();
+		$compile_content = $this->compile_content;
+        if(preg_match_all('/\{\$([_a-zA-Z1-9]+)}/U', $compile_content, $inner_tag))
+        {
+            for($i = 0; $i<count($inner_tag[0]); $i++)
+            {
+                $compile_content = str_replace($inner_tag[0][$i], "<?php echo \$dcr_list_pro_data_info['" . $inner_tag[1][$i] . "']; ?>", $compile_content);
+            }
+        }
+
+        
+        //处理标签块里的标记子标记
+        $child_tag = array(); //0=>标记内容 1=>标记类型 2=>标记名
+        if(preg_match_all('/\{dcr\.field\.([_a-zA-Z1-9]+)}/U', $compile_content, $child_tag))
+        {
+            //p_r($child_tag);
+            //exit;
+            for($i = 0; $i<count($child_tag[0]); $i++)
+            {
+                $compile_content = str_replace($child_tag[0][$i], "<?php echo \$dcr_list_pro_data_info['" . $child_tag[1][$i] . "']; ?>", $compile_content);
+            }
+        }
+		
+		return $compile_content;
 	}
 }
 

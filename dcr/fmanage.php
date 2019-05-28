@@ -155,7 +155,7 @@ include "adminyz.php";
     <td width="7%" align="center"><?php if(is_writable($cur_filename)){echo '<span style="color:green;">√</span>';}else{echo '<span style="color:red">X</span>';}?></td>
     <td>
     <?php
-	$allow_edit = 'txt|inc|pl|cgi|asp|xml|xsl|aspx|cfm htm|html|php|js|css';
+	$allow_edit = 'txt|inc|pl|cgi|asp|xml|xsl|aspx|cfm|htm|html|php|js|css';
 	if( preg_match( "/\.($allow_edit)/i", $file_list[$i]['filename']) )
 	{
 	?>

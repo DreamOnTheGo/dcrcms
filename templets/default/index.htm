@@ -25,8 +25,8 @@
           <div id=playerBox>
             <div id=playerImage>
               <ul>
-                {dcr:newslist col="id,title,logo" row="10" where="logo<>''"}
-                <li <?php if( 1 != $data['innerkey'] ){ ?> class="hide"<?php } ?>><img alt="{dcr.field.title}" src="{dcr.field.logo}"></li>
+                {dcr:newslist col="id,title,logo" row="10" where="logo<>''"}                
+                <li <?php if( 1 != $dcr_news_data_info['innerkey'] ){ ?> class="hide"<?php } ?>><img alt="{dcr.field.title}" src="{dcr.field.logo}"></li>
                 {/dcr:newslist}
               </UL>
             </DIV>
@@ -42,14 +42,14 @@
           <script type="text/javascript" src="{dcr.cfg.web_templet_url}/js/player.js"></script>
         </div>
         <ul class="indexnewslist clearfix">
-          {dcr:list table="@#@news" col="title" limit="0,10"}
+          {dcr:newslist col="id,title,logo" row="10"} 
           <li class="nl"><a target="_blank" href="{dcr.field.url}">{dcr.field.title}</a></li>
-          {/dcr:list}
+          {/dcr:newslist}
         </ul>
         </div>
       </div>      
       <div class="products">
-        <div class="title"><span><a href="{dcr.cfg.web_url}/mod=product_list"><img src="{dcr.cfg.web_templet_url}/images/more.gif" width="38" height="13" /></a></span><img src="{dcr.cfg.web_templet_url}/images/products.gif" width="200" height="22" /></div>
+        <div class="title"><span><a href="{dcr.cfg.web_url}/?mod=product_list"><img src="{dcr.cfg.web_templet_url}/images/more.gif" width="38" height="13" /></a></span><img src="{dcr.cfg.web_templet_url}/images/products.gif" width="200" height="22" /></div>
         <div class="productb clearfix">
         {dcr:productlist row='6'}
           <dl>

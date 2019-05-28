@@ -92,16 +92,21 @@ if( $action == 'add' || $action == 'add_ajax' )
 			show_msg($error_msg, 2, $back);
 		}
 	}
-}else if($action == 'delnewsclass')
+}else if($action == 'del_news_class')
 {
-	if( $cls_news->delete_class( $id ) )
+	$r_id = $cls_news->delete_class( $classid );
+	if($r_id == 2)
 	{
-		$error_msg[] = '删除数据成功';
-		show_msg( $error_msg, 1, $back );
-	}else
+		$error_msg[] = '删除数据失败：请先删除这个类的子类';
+		show_msg($error_msg, 2, $back);
+	}else if($r_id == 3)
 	{
 		$error_msg[] = '删除数据失败';
-		show_msg( $error_msg, 2, $back );
+		show_msg($error_msg, 2, $back);
+	}elseif($r_id == 1)
+	{
+		$error_msg[] = '删除数据成功';
+		show_msg($error_msg, 1, $back);
 	}
 }else if($action == 'order')
 {

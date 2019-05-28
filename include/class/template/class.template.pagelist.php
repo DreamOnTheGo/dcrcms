@@ -1,6 +1,7 @@
 <?php
 
 defined('IN_DCR') or exit('No permission.'); 
+require_once( WEB_CLASS . '/template/interface.tag.compile.php' );
 
 /**
  * list块标签处理类
@@ -18,7 +19,7 @@ defined('IN_DCR') or exit('No permission.');
  * @since 1.0.9
 */
 
-class cls_template_pagelist extends cls_template
+class cls_template_pagelist extends cls_template implements interface_tag_compile
 {
 	private $tag_info;//'block_content'=>标签全部内容 'tag_name'=>标签名 'attr_array'=>属性数组 'block_notag_content'=>标签内容(除{dcr:*} 及{/dcr:*})
 	private $attr_array;//属性数组 '属性名'=>属性值
@@ -65,8 +66,8 @@ class cls_template_pagelist extends cls_template
 			$total_page = $attr_array['total_page'];
 		}
 		$php_code .= "\r\n \$cls_page = new cls_page(\$cur_page, \$total_page,'" . $attr_array['tpl'] . "' ,'" . $attr_array['url'] . "' );";
-		$php_code .= "\r\n \$page_html = \$cls_page->show_page();";
-		$php_code .= "\r\n echo \$page_html; \r\n?>";
+		$php_code .= "\r\n \$dcr_page_html = \$cls_page->show_page();";
+		$php_code .= "\r\n echo \$dcr_page_html; \r\n?>";
 		
 		$compile_content = str_replace($compile_content, $php_code, $compile_content);
 		$this->compile_content = $compile_content;
@@ -82,6 +83,14 @@ class cls_template_pagelist extends cls_template
 	function get_content()
 	{
 		return $this->compile_content;
+	}
+	
+	/**
+	 * 编译块内标签
+	 * @return 
+	 */	
+	function compile_block_inner_tag()
+	{
 	}
 }
 

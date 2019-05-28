@@ -44,15 +44,15 @@ class cls_data
 		$this->table = $table;
 	}
 	
-	/**
-	 * 返回最后操作的sql
-	 * @return string
-	 */
+    /**
+     * 返回最后操作的sql
+     * @return string
+     */
     function get_last_sql()
     {
         global $db;
         return $db->option( $this->last_sql );
-    } 
+    }
 	 
     /**
      * 获取数据库最后一条错误信息

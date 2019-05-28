@@ -1,6 +1,7 @@
 <?php
 
 defined('IN_DCR') or exit('No permission.'); 
+require_once( WEB_CLASS . '/template/interface.tag.compile.php' );
 
 /**
  * page单标签处理类
@@ -18,7 +19,7 @@ defined('IN_DCR') or exit('No permission.');
  * @since 1.0.9
 */
 
-class cls_template_page extends cls_template
+class cls_template_page extends cls_template implements interface_tag_compile
 {
 	private $tag_info;//'block_content'=>标签全部内容 'tag_name'=>标签名 'attr_array'=>属性数组 'block_notag_content'=>标签内容(除{dcr:*} 及{/dcr:*})
 	private $attr_array;//属性数组 '属性名'=>属性值
@@ -55,25 +56,50 @@ class cls_template_page extends cls_template
 		$compile_content = $tag_info['block_content']; //标签内容
 		$attr_array = $tag_info['attr_array']; //属性列表
 		$type = $attr_array['type']; //文件名
-		if(empty($type)) return;
+		//$id = $attr_array['id']; //文件名
+		if( empty($type) ) return;
+		
 		switch($type)
 		{
 			case 'single':
 				/*单页面 即后台的公司资料*/
-				$compile_content = "<?php require_once(WEB_CLASS . \"/class.single.php\");\r\n\$cls_single = new cls_single();\r\nglobal \$id;\r\n\$data_info = \$cls_single->get_info(\$id); ?>";
+				$compile_content = "<?php require_once(WEB_CLASS . \"/class.single.php\");\r\n";
+				$compile_content .= "\$cls_single = new cls_single();\r\n";		
+				if( isset($attr_array['id']) )
+				{
+					$classid = $attr_array['id'];
+					$compile_content .= "\r\n\$id = {$id};";
+				} else
+				{
+					$compile_content .= "\r\nglobal \$id;";
+				}
+				$compile_content .= "\$dcr_single_data_info = \$cls_single->get_info(\$id); ?>";
 				break;
 			case 'product':
 				/*产品页*/
-				$compile_content = "<?php \$cls_product = cls_app::get_product();\r\nglobal \$id;\r\n\$data_info = \$cls_product->get_info(\$id);\r\n\$data_info['classname'] = \$cls_product->get_class_name(\$data_info['classid']); ?>";
+				$compile_content = "<?php \$cls_product = cls_app::get_product();\r\n";
+				if( isset($attr_array['id']) )
+				{
+					$id = $attr_array['id'];
+					$compile_content .= "\r\n\$id = {$id};";
+				} else
+				{
+					$compile_content .= "\r\nglobal \$id;";
+				}
+				$compile_content .="\$dcr_product_data_info = \$cls_product->get_info(\$id);\r\n\$dcr_product_data_info['classname'] = \$cls_product->get_class_name(\$dcr_product_data_info['classid']); ?>";
 				break;
 			case 'news':
 				/*产品页*/
-				$compile_content = "<?php \r\n\$cls_news = cls_app::get_news();\r\nglobal \$id;\r\n
-\$cls_news-> update_click(\$id);\r\n\$data_info = \$cls_news->get_info(\$id); ?>";
-				break;
-			case 'media':
-				/*产品页*/
-				$compile_content = "<?php \$cls_media = cls_app::get_media();\r\nglobal \$id;\r\n\$data_info = \$cls_media->get_info(\$id); ?>";
+				$compile_content = "<?php \r\n\$cls_news = cls_app::get_news();\r\n";
+				if( isset($attr_array['id']) )
+				{
+					$classid = $attr_array['id'];
+					$compile_content .= "\r\n\$id = {$id};";
+				} else
+				{
+					$compile_content .= "\r\nglobal \$id;";
+				}
+				$compile_content .= "\$cls_news-> update_click(\$id);\r\n\$dcr_news_data_info = \$cls_news->get_info(\$id); ?>";
 				break;
 			default:
 				break;
@@ -92,6 +118,14 @@ class cls_template_page extends cls_template
 	function get_content()
 	{
 		return $this->compile_content;
+	}
+	
+	/**
+	 * 编译块内标签
+	 * @return 
+	 */	
+	function compile_block_inner_tag()
+	{
 	}
 }
 

@@ -52,17 +52,20 @@ class cls_dir
 		{
 			$dir_name = $this-> current_dir;
 		}
+		//echo $dir_name . '<br>';
 		if(is_dir($dir_name))
 		{
 			if($handle = opendir($dir_name))
 			{
 				while(false !== ($item = readdir($handle)))
 				{
-					if($item != "." && $item != ".."){
+					if($item != "." && $item != "..")
+					{
 						if(is_dir($item))
 						{
 							$this-> clear_dir($dir_name . '/' . $item, $no_delele_file);
-						}else{
+						}else
+						{
 							if(!in_array($item, $no_delele_file))
 							{
 								@unlink($dir_name . '/' . $item);
@@ -72,11 +75,13 @@ class cls_dir
 				}
 				closedir( $handle );
 				return 'r1';
-			}else{
+			}else
+			{
 				closedir( $handle );
 				return 'r2';
 			}
-		}else{
+		}else
+		{
 			return 'r3';
 		}
 	}
@@ -169,7 +174,7 @@ class cls_dir
 			$dir = $this-> current_dir;
 		}
 		$dir_name = $dir;//调试时用的 
-		if($this->is_empty_dir($dir_name))
+		if( $this->is_empty_dir($dir_name) )
 		{
 			@rmdir($dir_name);//直接删除 
 		}else
@@ -218,15 +223,21 @@ class cls_dir
 		if( empty($path_dir) )
 		{
 			return true;
-		}
-		$dhandle = opendir($path_dir); 
-		$i = 0; 
-   		while( $t = readdir($dhandle) )
+		}		
+		is_dir($dir_name) && $dhandle = opendir($path_dir); 
+		if( $dhandle )
 		{
-			$i++;
+			$i = 0; 
+			while( $t = readdir($dhandle) )
+			{
+				$i++;
+			}
+			
+			return $i < 3;
+		}else
+		{
+			return true;
 		}
-		
-		return $i>2;
 	}
 }
 

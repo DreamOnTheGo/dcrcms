@@ -24,14 +24,19 @@ interface interface_tag_compile
 	 * 编译tag
 	 * @return string
 	 */
-	function compile_tag();
-	
+	function compile_tag();	
 	
 	/**
 	 * 获取编译后的内容
 	 * @return string
 	 */
 	function get_content();
+	
+	/**
+	 * 编译块内标签
+	 * @return string
+	 */
+	function compile_block_inner_tag();
 }
 
 ?>

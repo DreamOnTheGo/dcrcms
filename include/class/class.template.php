@@ -94,11 +94,9 @@ class cls_template
     {
         
         $compile_code = $this->template_yuanshi_code;
-        //编译inner_tag
-        $compile_code = $this->compile_inner_tag($compile_code);
+		
         //单标记无法获取的，随便加个标记
-        $compile_code = str_replace('{dcr.pagelist}', '{dcr.pagelist temp}', $compile_code);
-        $compile_code = str_replace('{dcr:menu}', '{dcr:menu temp}', $compile_code);
+        $compile_code = preg_replace('/{dcr([:.])([a-z]+)}/', '{dcr$1$2 temp}', $compile_code);
         $arr_block_tag = array();
         //if(preg_match_all( '/{dcr:(.+)([^\}]*)}([\w\W]*){\/dcr:\1}/U', $compile_code, $arr_block_tag) )
         
@@ -242,6 +240,9 @@ class cls_template
                 }
             }
         }
+        //编译inner_tag
+        $compile_code = $this->compile_inner_tag($compile_code);
+		
         $this->template_compile_code = $compile_code;
         
     }
@@ -355,6 +356,18 @@ class cls_template
                 {
                     $block_content = str_replace($child_tag[0][$i], "<?php echo \$data_info['" . $child_tag[2][$i] . "']; ?>", $block_content);
                 }
+                if('product' == $child_tag[1][$i] || 'pro' == $child_tag[1][$i])
+                {
+                    $block_content = str_replace($child_tag[0][$i], "<?php echo \$dcr_product_data_info['" . $child_tag[2][$i] . "']; ?>", $block_content);
+                }
+                if('news' == $child_tag[1][$i])
+                {
+                    $block_content = str_replace($child_tag[0][$i], "<?php echo \$dcr_news_data_info['" . $child_tag[2][$i] . "']; ?>", $block_content);
+                }
+                if('single' == $child_tag[1][$i] || 'info' == $child_tag[1][$i])
+                {
+                    $block_content = str_replace($child_tag[0][$i], "<?php echo \$dcr_single_data_info['" . $child_tag[2][$i] . "']; ?>", $block_content);
+                }
                 if('var' == $child_tag[1][$i])
                 {
                     $block_content = str_replace($child_tag[0][$i], "<?php global \$" . $child_tag[2][$i] . "; echo \$" . $child_tag[2][$i] . "; ?>", $block_content);
@@ -384,7 +397,7 @@ class cls_template
         $block_first_line = '';
         $zhenze = '{dcr:' . $tag_info['tag_name'] . '([^\}]*)}';
         //echo $zhenze;
-        if( preg_match("/$zhenze/", $tag_info['block_content'], $first_line_result) )
+        if( preg_match("/{$zhenze}/", $tag_info['block_content'], $first_line_result) )
         {
             $block_first_line = $first_line_result[0];
         }

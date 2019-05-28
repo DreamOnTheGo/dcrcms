@@ -1,12 +1,15 @@
 <div class="header clearfix">
   <div class="clearfix"><a href="http://www.dcrcms.com" title="稻草人官方网站" target="_blank"><img src="{dcr.cfg.web_templet_url}/images/banner.gif" width="900" height="120" alt="稻草人企业管理系统" /></a></div>
   <div class="navdiv">
-  	<div class="searchbar"><form action="search.php"><input type="text" name="k" class="txt" />
-  	  <select name="s_type" id="s_type">
-  	    <option value="1">产品</option>
-  	    <option value="2">新闻</option>
+  	<div class="searchbar">
+    <form action="{dcr.cfg.web_url}">
+        <input type="hidden" name="mod" value="search" />
+        <input type="text" name="k" class="txt" />
+  	  	<select name="s_type" id="s_type">
+  	    	<option value="1">产品</option>
+  	    	<option value="2">新闻</option>
 	    </select>
-  	  <input type="submit" name="button" id="button" value="搜索" />
+  	  	<input type="submit" name="button" id="button" value="搜索" />
     </form></div>
     <ul id="nav">
       {dcr:menu}

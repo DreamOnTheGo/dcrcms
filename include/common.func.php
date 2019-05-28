@@ -47,17 +47,23 @@ function jiami($s)
  */
 function show_next($msg, $url, $istop = 0)
 {
-	if(strlen($msg)>0){
-		if($istop){
-			$mymsg="<script type='text/javascript'>alert(\"".$msg."\");top.location.href=\"".$url."\";</script>";
-		}else{
-			$mymsg="<script type='text/javascript'>alert(\"".$msg."\");location.href=\"".$url."\";</script>";
+	if( strlen($msg) > 0 )
+	{
+		if( $istop )
+		{
+			$mymsg = "<script type='text/javascript'>alert(\"" . $msg . "\");top.location.href=\"" . $url . "\";</script>";
+		}else
+		{
+			$mymsg = "<script type='text/javascript'>alert(\"" . $msg . "\");location.href=\"" . $url . "\";</script>";
 		}
-	}else{
-		if($istop){
-			$mymsg="<script type='text/javascript'>top.location.href=\"".$url."\";</script>";
-		}else{
-			$mymsg="<script type='text/javascript'>location.href=\"".$url."\";</script>";
+	}else
+	{
+		if( $istop )
+		{
+			$mymsg = "<script type='text/javascript'>top.location.href=\"" . $url . "\";</script>";
+		}else
+		{
+			$mymsg = "<script type='text/javascript'>location.href=\"" . $url . "\";</script>";
 		}
 	}
 	echo $mymsg;
@@ -71,9 +77,11 @@ function show_next($msg, $url, $istop = 0)
  */
 function show_back($msg = '')
 {
-	if(!empty($msg)){
-		echo "<script>alert(\"".$msg."\");history.back();</script>'";
-	}else{
+	if( !empty($msg) )
+	{
+		echo "<script>alert(\"" . $msg . "\");history.back();</script>'";
+	}else
+	{
 		echo "<script>history.back();</script>'";
 	}
 	exit;
@@ -86,7 +94,7 @@ function show_back($msg = '')
  */
 function redirect($url)
 {
-	echo "<script>location.href='".$url."';</script>'";
+	echo "<script>location.href='" . $url . "';</script>'";
 	exit;
 }
 
@@ -99,16 +107,18 @@ function redirect($url)
  */
 function my_substr($str, $start, $len)
 {
-	$tmpstr = "";
-	$strlen = $start + $len;
-	for($i = 0; $i < $strlen; $i++) {
-		if(ord(substr($str, $i, 1)) > 0xa0) {
-			$tmpstr .= substr($str, $i, 2);
-			$i++;
-		} else
-			$tmpstr .= substr($str, $i, 1);
-	}
-	return $tmpstr;
+    $tmpstr = "";
+    $strlen = $start + $len;
+    for($i = 0; $i < $strlen; $i++)
+    {
+        if( ord( substr($str, $i, 1) ) > 0xa0 )
+        {
+            $tmpstr .= substr($str, $i, 3);
+            $i += 2;
+        } else
+            $tmpstr .= substr($str, $i, 1);
+    }
+    return $tmpstr;
 }
 
 /**
@@ -215,45 +225,54 @@ function show_msg($msg, $msg_type = 1, $back = '', $msgTitle = '信息提示', $
 	 *back为返回地址 如果有多个则传入数组
 	 *msgTitle为信息标题
 	 */
-	if(is_array($msg)){
-		foreach($msg as $value){
-			if($msg_type==2){
-				$msg_t.="<li style='border-bottom:1px dotted #CCC;padding-left:5px;color:red;'>·$value</li>";
+	if( is_array($msg) )
+	{
+		foreach($msg as $value)
+		{
+			if( $msg_type == 2 )
+			{
+				$msg_t .= "<li style='border-bottom:1px dotted #CCC;padding-left:5px;color:red;'>·$value</li>";
 			}else{
-				$msg_t.="<li style='border-bottom:1px dotted #CCC;padding-left:5px;color:green;'>·$value</li>";
+				$msg_t .= "<li style='border-bottom:1px dotted #CCC;padding-left:5px;color:green;'>·$value</li>";
 			}
 		}
-	}else{
-		if($msg_type==2){
-			$msg_t="<li style='border-bottom:1px dotted #CCC;padding-left:5px;color:red;'>·$msg</li>";
-		}else{
-			$msg_t="<li style='border-bottom:1px dotted #CCC;padding-left:5px;color:green;'>·$msg</li>";
+	}else
+	{
+		if( $msg_type == 2 )
+		{
+			$msg_t = "<li style='border-bottom:1px dotted #CCC;padding-left:5px;color:red;'>·$msg</li>";
+		}else
+		{
+			$msg_t = "<li style='border-bottom:1px dotted #CCC;padding-left:5px;color:green;'>·$msg</li>";
 		}
 	}
 	if($is_show_next_tip)
 	{
 		if($is_show_back)
 		{
-			$back_t="<li style='border-bottom:1px dotted #CCC;padding-left:5px;'>·<a style='color:#06F; text-decoration:none' href='javascript:history.back()'>返回</a></li>";
+			$back_t = "<li style='border-bottom:1px dotted #CCC;padding-left:5px;'>·<a style='color:#06F; text-decoration:none' href='javascript:history.back()'>返回</a></li>";
 		}
-		if(is_array($back)){
-			foreach($back as $key=>$value){
-				$back_t.="<li style='border-bottom:1px dotted #CCC;padding-left:5px;'>·<a style='color:#06F; text-decoration:none' href='$value'>$key</a></li>";
+		if( is_array($back) )
+		{
+			foreach($back as $key=> $value )
+			{
+				$back_t .= "<li style='border-bottom:1px dotted #CCC;padding-left:5px;'>·<a style='color:#06F; text-decoration:none' href='$value'>$key</a></li>";
 			}
 		}
 	}
 	global $web_code;
-	$msgStr="<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+	$msg_str = "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
 <html xmlns='http://www.w3.org/1999/xhtml'><head><meta http-equiv='Content-Type' content='text/html; charset=$web_code' /><title>信息提示页面</title></head><body><div style='width:500px; margin:0 auto; border:1px #09F solid; font-size:12px;'>
 <div style='background-color:#09F; font-size:12px;padding:5px; font-weight:bold; color:#FFF;'>$msgTitle</div>
 <div><ul style='list-style:none; line-height:22px; margin:10px; padding:0'>$msg_t</ul></div>";
-if($is_show_next_tip){
-	$msgStr.="<div style='border:1px #BBDFF8 solid; width:96%; margin:0 auto; margin-bottom:10px;'><div style='background-color:#BBDFF8; font-size:12px;padding:5px; font-weight:bold; color:#666;'>您可以：</div>
-<div><ul style='list-style:none; line-height:22px; margin:10px; padding:0'>$back_t</ul></div></div></div>";
-}
-$msgStr.="</body></html>";
-	//$msgStr.=$msg;
-	echo $msgStr;
+	if( $is_show_next_tip )
+	{
+		$msg_str .= "<div style='border:1px #BBDFF8 solid; width:96%; margin:0 auto; margin-bottom:10px;'><div style='background-color:#BBDFF8; font-size:12px;padding:5px; font-weight:bold; color:#666;'>您可以：</div>
+	<div><ul style='list-style:none; line-height:22px; margin:10px; padding:0'>$back_t</ul></div></div></div>";
+	}
+	$msg_str .= "</body></html>";
+	//$msg_str.=$msg;
+	echo $msg_str;
 	exit;
 }
 
@@ -266,9 +285,9 @@ function get_rand_str($len = 4)
 {
 	$chars = array("a","b","c","d","e","f","g", "h", "i", "j", "k","l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v","w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G","H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R","S", "T", "U", "V", "W", "X", "Y", "Z", "0", "1", "2","3", "4", "5", "6", "7", "8", "9");
 	$charsLen = count($chars)-1;
-	shuffle($chars);
-	$output="";
-	for($i=0;$i<$len;$i++)
+	shuffle( $chars );
+	$output = "";
+	for( $i = 0; $i < $len; $i ++ )
 	{
 		$output .= $chars[mt_rand(0, $charsLen)];
 	}

@@ -52,7 +52,7 @@ $cls_news = cls_app::get_news();
             <td width="61%" style="border-bottom:2px dotted #c0c0c0"><?php echo str_repeat("&nbsp;", ($value['class_level'] - 1) * 5); ?>·<?php echo $value['classname']; ?></td>
             <td width="35%" style="border-bottom:2px dotted #c0c0c0"><span style="float:right; margin-right:<?php echo (8 - $value['class_level']) * 18 ?>px;">排序：
               <input name="orderid[<?php echo $value['id']; ?>]" type="text" value="<?php echo $value['orderid']; ?>" size="5" />
-              </span><a href="news_class_edit.php?action=add&parentid=<?php echo $value['id'];?>">添加下级分类</a>&nbsp; <a href="news_class_edit.php?action=modify&id=<?php echo $value['id'];?>">编辑</a>&nbsp; <a href="news_class_action.php?action=delproductclass&classid=<?php echo $value['id'];?>">删除</a></td>
+              </span><a href="news_class_edit.php?action=add&parentid=<?php echo $value['id'];?>">添加下级分类</a>&nbsp; <a href="news_class_edit.php?action=modify&id=<?php echo $value['id'];?>">编辑</a>&nbsp; <a href="news_class_action.php?action=del_news_class&classid=<?php echo $value['id'];?>">删除</a></td>
           </tr>
           <?php
 				if($value['sub_class'] && count($value['sub_class']))

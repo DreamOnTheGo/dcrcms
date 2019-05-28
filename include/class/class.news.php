@@ -254,6 +254,23 @@ class cls_news extends cls_data
 		
 		return $return_val;
 	}
+	
+	
+	/**
+	 * 判断类是不是有子类
+	 * @param $class_id 类ID
+	 * @return boolean 成功返回true 失败返回false
+	 */
+	function has_sub_class($class_id)
+	{
+		$this-> set_table('@#@news_class');
+		$sub_where = 'parentid=' . $class_id;
+			//echo $sub_where;
+		$sub_info = parent:: select_one_ex( array('col'=>'id', 'where'=>$sub_where));
+		
+		return $sub_info;
+	}
+	
 	/**
 	 * 删除指定ID数组的分类
 	 * @param array $class_id 删除的ID
@@ -300,7 +317,8 @@ class cls_news extends cls_data
 	function get_class_name($id)
 	{
 		$this->set_table('{tablepre}news_class');
-		$info = parent:: select_one_ex(array('col'=>'classname', 'where'=>"id=$id"));
+		$info = parent:: select_one(array('col'=>'classname', 'where'=>"id=$id"));
+		$info = current($info);
 		
 		return $info['classname'];
 	}
@@ -569,7 +587,8 @@ class cls_news extends cls_data
 			
 		}
 		parent::set_table('{tablepre}news');
-		if(parent::delete($id_list)){
+		if( parent::delete( $id_list ) )
+		{
 			$this-> set_table('{tablepre}news_addon');
 			if(parent::delete($id_list, 'aid'))
 			{
@@ -654,7 +673,7 @@ class cls_news extends cls_data
         $a_sum = count($news_list);
         for( $i = 0; $i < $a_sum; $i++ )
         {
-            if(empty($news_list[$i]['logo']))
+            if( empty($news_list[$i]['logo']) )
             {
                 $news_list[$i]['logo'] = $this->nopic;
             }else
@@ -671,7 +690,7 @@ class cls_news extends cls_data
             {
                 $news_list[$i]['updatetime'] = date($date_mode, $news_list[$i]['updatetime']);
             }
-            $news_list[$i]['innerkey'] = $i+1; //内部使用的下标值
+            $news_list[$i]['innerkey'] = $i + 1; //内部使用的下标值
            
             if($web_url_module == '1')
             {

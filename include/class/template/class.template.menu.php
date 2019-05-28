@@ -1,6 +1,7 @@
 <?php
 
 defined('IN_DCR') or exit('No permission.'); 
+require_once( WEB_CLASS . '/template/interface.tag.compile.php' );
 
 /**
  * list块标签处理类 这是一个核心类，其它要获取列表的tag都可以调用这个类，本类一定要存在
@@ -18,7 +19,7 @@ defined('IN_DCR') or exit('No permission.');
  * @since 1.0.9
 */
 
-class cls_template_menu extends cls_template
+class cls_template_menu extends cls_template implements interface_tag_compile
 {
 	private $tag_info;//'block_content'=>标签全部内容 'tag_name'=>标签名 'attr_array'=>属性数组 'block_notag_content'=>标签内容(除{dcr:*} 及{/dcr:*})
 	private $attr_array;//属性数组 '属性名'=>属性值
@@ -59,14 +60,15 @@ class cls_template_menu extends cls_template
 		
 		$sql_option = "<?php \r\n \trequire_once(WEB_CLASS . \"\/class.menu.php\");";
 		$sql_option .= "\r\n \t\$cls_menu = new cls_menu();";
-		$sql_option .= "\r\n \t\$menu_list = \$cls_menu->get_list();";
-		$sql_option .= "\r\n\tforeach(\$menu_list as \$data_info)\r\n\t{";
+		$sql_option .= "\r\n \t\$dcr_menu_list = \$cls_menu->get_list();";
+		$sql_option .= "\r\n\tforeach(\$dcr_menu_list as \$dcr_data_info)\r\n\t{";
 		$sql_option .= "\r\n?>";		
 		
 		//去掉头和尾的标签
 		$compile_content = str_replace( $block_first_line, $sql_option, $compile_content );
-		$compile_content = str_replace('{/dcr:' . $tag_info['tag_name'] . '}', "<?php \r\n\t}\r\n\tunset(\$menu_list, \$data_list); \r\n?>", $compile_content);
-		$this->compile_content = $compile_content;
+		$this->compile_content = str_replace('{/dcr:' . $tag_info['tag_name'] . '}', "<?php \r\n\t}\r\n\tunset(\$dcr_data_info, \$dcr_menu_list); \r\n?>", $compile_content);
+		//cls_app:: log($this->compile_content);
+		$this->compile_content = $this->compile_block_inner_tag();
 	}
 	
 	
@@ -79,6 +81,38 @@ class cls_template_menu extends cls_template
 	function get_content()
 	{
 		return $this->compile_content;
+	}
+	
+	/**
+	 * 编译块内标签
+	 * @return 
+	 */	
+	function compile_block_inner_tag()
+	{
+        $inner_tag = array();
+		$compile_content = $this->compile_content;
+        if(preg_match_all('/\{\$([_a-zA-Z1-9]+)}/U', $compile_content, $inner_tag))
+        {
+            for($i = 0; $i<count($inner_tag[0]); $i++)
+            {
+                $compile_content = str_replace($inner_tag[0][$i], "<?php echo \$dcr_data_info['" . $inner_tag[1][$i] . "']; ?>", $compile_content);
+            }
+        }
+
+        
+        //处理标签块里的标记子标记
+        $child_tag = array(); //0=>标记内容 1=>标记类型 2=>标记名
+        if(preg_match_all('/\{dcr\.field\.([_a-zA-Z1-9]+)}/U', $compile_content, $child_tag))
+        {
+            //p_r($child_tag);
+            //exit;
+            for($i = 0; $i<count($child_tag[0]); $i++)
+            {
+                $compile_content = str_replace($child_tag[0][$i], "<?php echo \$dcr_data_info['" . $child_tag[1][$i] . "']; ?>", $compile_content);
+            }
+        }
+		
+		return $compile_content;
 	}
 }
 

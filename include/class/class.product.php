@@ -684,7 +684,7 @@ class cls_product extends cls_data
 				{
 					foreach($tag_arr as $tagname)
 					{
-						$tags_list .= '<a href="' . $web_url . '/mod=search&s_type=1&tag=' . urlencode($tagname) . '" target="_blank">' . $tagname.'</a> ';
+						$tags_list .= '<a href="' . $web_url . '/?mod=search&s_type=1&tag=' . urlencode($tagname) . '" target="_blank">' . $tagname.'</a> ';
 					}
 				}
 				$pro_info['tags_list'] = $tags_list;
