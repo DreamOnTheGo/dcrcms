@@ -1,14 +1,14 @@
 <?php
-session_start();
 include "../include/common.func.php";
 error_reporting(E_ALL || ~E_NOTICE);
 
 header('Content-type:text/html;charset=gb2312');
 header('cache-control:no-cache;must-revalidate');
-
+?>
+<?php
 //提示信息开始
 $errormsg=array();//错误信息
-$back=array('会员后台'=>'../admin/login.htm','首页'=>'../index.php');
+$back=array('管理后台'=>'../dcr/login.htm','首页'=>'../index.php');
 //提示信息结束
 $db_type=$_POST['db_type'];
 $sqlite_table=$_POST['sqlite_table'];
@@ -34,7 +34,11 @@ if($action=='install'){
 				mysql_query("SET NAMES 'gbk'");
 				//没有错误 开始安装
 				//安装表
-				$fp = fopen(dirname(__FILE__).'\sql_table.txt','r');
+				$fp = fopen(dirname(__FILE__).DIRECTORY_SEPARATOR.'sql_table.txt','r');
+				if(!$fp){
+					$msg[]='读取安装文件(sql_table.txt)错误！';
+					ShowMsg($msg,2);
+				}
 				while(!feof($fp)){
 					 $line = rtrim(fgets($fp,1024));
 					 if(ereg(";$",$line)){
@@ -49,7 +53,11 @@ if($action=='install'){
 				}
 				fclose($fp);
 				//初始化数据
-				$fp = fopen(dirname(__FILE__).'\sql_data.txt','r');
+				$fp = fopen(dirname(__FILE__).DIRECTORY_SEPARATOR.'sql_data.txt','r');
+				if(!$fp){
+					$msg[]='读取安装文件(sql_data.txt)错误！';
+					ShowMsg($msg,2);
+				}
 				while(!feof($fp)){
 					 $line = rtrim(fgets($fp,1024));
 					 if(ereg(";$",$line)){
@@ -126,7 +134,7 @@ if($action=='install'){
 					 $line = rtrim(fgets($fp,1024));
 					 if(ereg(";$",$line)){
 						 $query .= $line."\n";
-						 $query = str_ireplace('{tablepre}',$tablepre,$query);
+						 $query = str_replace('{tablepre}',$tablepre,$query);
 						 $query = str_ireplace(' unsigned','',$query);
 						 $query = str_ireplace(' ON UPDATE CURRENT_TIMESTAMP','',$query);
 						 $query = str_ireplace(' NOT NULL auto_increment','',$query);
@@ -215,21 +223,5 @@ if($action=='install'){
 	}else{
 		echo '数据库信息有误！';
 	}
-}
-function checkinput(){
-	global $errormsg,$title,$classid,$content;
-	if(strlen($title)==0){
-		$errormsg[]='请填写新闻标题';
-		$iserror=true;
-	}
-	if($classid==0){
-		$errormsg[]='请选择新闻类型';
-		$iserror=true;
-	}
-	if(strlen($content)==0){
-		$errormsg[]='请填写新闻内容';
-		$iserror=true;
-	}
-	return $iserror;
 }
 ?>

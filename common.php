@@ -9,10 +9,10 @@ $tpl->cache_dir =WEB_T ."/caches/";
 if($web_cache_time>0){
 	$tpl->caching=true;
 	$web_cache_time=(int)$web_cache_time;
+	$tpl->cache_lifetime =$web_cache_time;
 }else{
 	$tpl->caching=false;
 }
-$tpl->cache_lefetime =
 $tpl->left_delimiter = '<{';
 $tpl->right_delimiter = '}>';
 
@@ -31,4 +31,11 @@ include WEB_CLASS."/product_class.php";
 $pc=new Product(0);
 $productClassList=$pc->GetClassList(array('id','classname'));
 $tpl->assign('productClassList',$productClassList);
+
+include_once WEB_CLASS."/news_class.php";
+$news=new News();
+$news_class_list=$news->GetClassList(array('id','classname'));
+$tpl->assign('news_class_list',$news_class_list);
+
+unset($productClassList,$news_class_list);
 ?>

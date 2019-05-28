@@ -2,9 +2,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
-<title><{$art.title}>_<{$web_name}></title>
-<meta name="keywords" content="{art.keywords}"/>
-<meta name="description" content="{art.description}"/>
+<title><{$art.title}>_<{$art.artclass}>_新闻中心_<{$web_name}></title>
+<meta name="keywords" content="<{$art.keywords}>"/>
+<meta name="description" content="<{$art.description}>"/>
 <link href="<{$web_templeturl}><{$web_templetdir}>/css/common.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -18,6 +18,7 @@
         	<div class="news_main">
 	        	<div class="position">当前位置：<{$art.position}></div>
                 <h1 class="news_title"><{$art.title}></h1>
+                <div class="news_info txtGray">来源：<{$art.source}>  作者：<{$art.author}>  点击：<{$art.click}></div>
                 <div class="news_content"><{$art.content}></div>
             </div>
         </div>

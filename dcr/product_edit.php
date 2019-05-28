@@ -50,9 +50,11 @@ function refreshProductClassList(){
 function closeProductClassForm(){
 	$('#classname').val("");
 	$('#classdescription').val("");
+	$('#myframe').css("display","none");
 	$('#AddClass').css("display","none");
 }
 function showProductClassForm(){
+	$('#myframe').css("display","block");
 	$('#AddClass').css("display","block");
 }
 function tijiaoAddAction(){
@@ -125,7 +127,8 @@ function tijiaoAddAction(){
 	  }
 	  </script>
     </span>&nbsp;&nbsp;&nbsp;<a href="#" onclick="javascript:showProductClassForm()">添加产品类别</a>  <!--<a href="javascript:refreshProductClassList();">手动刷新列表</a>-->
-    <div id="AddClass" style="display:none;position:absolute;top:100px; border:5px #999 solid; padding:10px; height:100px; width:650px; left:100px; background-color:#ecf4fc"><div onSubmit="">
+      <iframe id="myframe" style=" display:none;position:absolute;z-index:9;width:expression(this.nextSibling.offsetWidth);height:expression(this.nextSibling.offsetHeight);top:expression(this.nextSibling.offsetTop);left:expression(this.nextSibling.offsetLeft);" frameborder="0" ></iframe>
+    <div id="AddClass" style="display:none;position:absolute;top:100px; border:5px #999 solid; padding:10px; height:100px; width:650px; left:100px; background-color:#ecf4fc; z-index:11">
 <TABLE cellSpacing=0 cellPadding=2 width="95%" align=center border=0>
   <TR>
     <TD align=right width=100>分类名(<font color="red" class="txtRed">*</font>)：</TD>
@@ -176,6 +179,11 @@ $editor->Height = '200' ;
 $editor->Value =$productinfo['content'];
 $editor->Create() ;
 ?></TD></TR>
+  <TR>
+    <TD align=right bgcolor="#FFFFFF">产品属性：</TD>
+    <TD bgcolor="#FFFFFF" style="COLOR: #880000"><input name="istop" type="checkbox" <?php if($productinfo['istop']){echo 'checked="checked"';} ?> id="istop" value="1" />
+置顶</TD>
+  </TR>
   <TR>
     <TD align=right bgcolor="#FFFFFF"></TD>
     <TD bgcolor="#FFFFFF" style="COLOR: #880000"><input type="submit" name="button" id="button" value="<?php if($action=='add'){echo '添加';}else{echo '修改';} ?>产品">

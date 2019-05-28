@@ -94,7 +94,11 @@ class DB{
 				//$this->result=$arr_t;
 				unset($arr_t);
 			}elseif($this->db_type=='2'){
-				$arr_t=mysql_query($sql) or die('执行sql失败，请检查您的SQL语句'.mysql_error());
+				if($arr_t=mysql_query($sql)){
+				}else{
+					global $web_tiaoshi;
+					if($web_tiaoshi=='1'){die('执行sql：['.$sql.']时失败，请检查您的SQL语句'.mysql_error());}
+				}				
 				$arr=array();
 				while($row=mysql_fetch_array($arr_t,$result_type)){
 					$arr[]=$row;

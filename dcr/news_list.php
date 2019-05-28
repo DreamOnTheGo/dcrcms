@@ -24,6 +24,18 @@ include "adminyz.php";
   <TR bgColor=#ecf4fc height=12>
     <TD></TD></TR>
   </TABLE>
+  <TABLE cellSpacing=1 cellPadding=2 width="95%" align=center border=0 bgcolor="#ecf4fc">
+  <TR>
+    <TD align="left" style="text-align: left">新闻分类：<?php 
+	include WEB_CLASS."/news_class.php";
+	$news=new News(0);
+	$newsClassList=$news->GetClassList(array('id','classname'),'','','id desc');
+	foreach($newsClassList as $value){
+		echo "<a href='news_list.php?classid=".$value['id']."'>".$value['classname'].'</a>  ';
+	}
+		?></TD>
+    </TR>    
+    </TABLE>
 <form action="news_action.php" method="post">
 <input type="hidden" name="action" id="action" value="delnews">
 <TABLE cellSpacing=1 cellPadding=2 width="95%" align=center border=0 bgcolor="#ecf4fc">
@@ -35,21 +47,23 @@ include "adminyz.php";
     <TD width="171" style="text-align: center">操作</TD>
   </TR>
   <?php
-	include WEB_CLASS."/news_class.php";
 	$pageListNum=20;//每页显示9条
 	$totalPage=0;//总页数
 	$page=isset($page)?(int)$page:1;
+	$classid=isset($classid)?intval($classid):0;
 	$start=($page-1)*$pageListNum;
-	$news=new News(0);
-	$newslist=$news->GetList(0,array('id','classid','title','addtime'),$start,$pageListNum);
+	$newslist=$news->GetList($classid,array('id','classid','logo','istop','title','addtime'),$start,$pageListNum,'istop desc,id desc');
 	foreach($newslist as $value){
   ?>  
   <TR>
-    <TD bgcolor="#FFFFFF" style="text-align: center"><input type="checkbox" name="id[]" id="id[]" value="<?php echo $value['id']; ?>"></TD>
-    <TD bgcolor="#FFFFFF" style="text-align: left"><a href="news_edit.php?action=modify&id=<?php echo $value['id']; ?>"><?php echo $value['title']; ?></a></TD>
-    <TD bgcolor="#FFFFFF" style="text-align: left"><span style="text-align: center"><?php echo $news->GetClassName($value['classid']); ?></span></TD>
+    <TD bgcolor="#FFFFFF" style="text-align: center"><input type="checkbox" name="id[]" id="id[]" value="<?php echo $value['id']; ?>"><?php echo $value['id']; ?></TD>
+    <TD bgcolor="#FFFFFF" style="text-align: left"><a href="news_edit.php?action=modify&id=<?php echo $value['id']; ?>"><?php echo $value['title']; ?></a><?php if(!empty($value['logo'])){ ?>&nbsp;<span class="txtRed">[图]</span><?php } ?><?php if($value['istop']){ ?>&nbsp;<span class="txtRed">[顶]</span><?php } ?></TD>
+    <TD bgcolor="#FFFFFF" style="text-align: center"><?php
+		$t_newsclassinfo=$news->GetClassInfo($value['classid']);
+		echo "<a href='news_list.php?classid=".$t_newsclassinfo['id']."'>".$t_newsclassinfo['classname'].'</a>  ';
+	?></TD>
     <TD bgcolor="#FFFFFF" style="text-align: center"><?php echo $value['addtime']; ?></TD>
-    <TD bgcolor="#FFFFFF" style="text-align: center"><a href="news_edit.php?action=modify&id=<?php echo $value['id']; ?>">编辑</a></TD>
+    <TD bgcolor="#FFFFFF" style="text-align: center"><a href="news_edit.php?action=modify&id=<?php echo $value['id']; ?>">编辑</a><?php if(!$value['istop']){ ?>&nbsp;<a href="news_action.php?action=top&page=<?php echo $page; ?>&id=<?php echo $value['id']; ?>">置顶</a><?php }else{ ?>&nbsp;<a href="news_action.php?action=top_no&page=<?php echo $page; ?>&id=<?php echo $value['id']; ?>">取消置顶</a><?php } ?></TD>
   </TR>    
   <?php } ?>  
   <TR>

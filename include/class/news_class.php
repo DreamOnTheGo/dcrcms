@@ -118,6 +118,7 @@ class News extends Article{
 	 * @return array
 	 */
 	function GetInfo($aid,$col=array()){
+		$this->setTable('{tablepre}news');
 		global $db,$web_url;
 		//要返回栏目ID
 		if(!in_array('classid',$col)){
@@ -153,8 +154,14 @@ class News extends Article{
 		//返回当前路径
 		//获得栏目信息
 		$artclassname=$this->GetClassName($newsInfo['classid']);
-		$position='<a href="'.$web_url.'">首页</a>>><a href="'.$web_url.'/news_list.php?id='.$newsInfo['classid'].'">'.$artclassname.'</a>>>'.$newsInfo['title'];
+		$position='<a href="'.$web_url.'">首页</a>>><a href="news_list.php">新闻中心</a>>><a href="'.$web_url.'/news_list.php?id='.$newsInfo['classid'].'">'.$artclassname.'</a>>>'.$newsInfo['title'];
 		$newsInfo['position']=$position;
+		
+		if(empty($newsInfo['logo'])){
+			$newsInfo['logo']=$this->nopic;
+		}else{
+			$newsInfo['logo']=$web_url.'/uploads/news/'.$newsInfo['logo'];
+		}
 		return $newsInfo;
 	}
 	/**
@@ -164,6 +171,7 @@ class News extends Article{
 	 * @return int
 	 */
 	function Add($newsinfo){
+		$this->setTable('{tablepre}news');
 		foreach($newsinfo as $key=>$value){
 			if($key=='content' || $key=='keywords' ||  $key=='description'){
 				$col_addon[$key]=$value;
@@ -190,7 +198,8 @@ class News extends Article{
 	 * @param array $newsinfo 更新的数据 用数组表示,用$key=>$value来表示列名=>值 如array('title'=>'标题') 表示插入title的值为 标题
 	 * @return boolean
 	 */
-	function Update($id,$newsinfo){
+	function Update($id,$newsinfo){		
+		$this->setTable('{tablepre}news');
 		//把主表和附加表分开来
 		foreach($newsinfo as $key=>$value){
 			if($key=='content' || $key=='keywords' ||  $key=='description'){
@@ -201,11 +210,15 @@ class News extends Article{
 		}
 		
 		if(parent::Update($col_main,"id=$id")){
-			$this->setTable('{tablepre}news_addon');
-			if(parent::Update($col_addon,"aid=$id")){
-				return true;
+			if(is_array($col_addon) && count($col_addon)>0){
+				$this->setTable('{tablepre}news_addon');
+				if(parent::Update($col_addon,"aid=$id")){
+					return true;
+				}else{
+					return false;
+				}
 			}else{
-				return false;
+				return true;
 			}
 		}else{
 			return false;
@@ -220,7 +233,7 @@ class News extends Article{
 	 */
 	function UpdateClick($aid,$jizhunclick='click'){
 		global $db;
-		$sql="update {tablepre}$table set $jizhunclick=$jizhunclick+1 where id=$aid";
+		$sql="update {tablepre}news set $jizhunclick=$jizhunclick+1 where id=$aid";
 		return $db->ExecuteNoneQuery($sql);
 	}
 	/**
@@ -230,6 +243,7 @@ class News extends Article{
 	 * @return boolean
 	 */
 	function Delete($idarr){
+		$this->setTable('{tablepre}news');
 		//这里的idarr是个数组 要删除的ID数组
 		if(parent::Del($idarr)){
 			$this->setTable('{tablepre}news_addon');
@@ -237,6 +251,23 @@ class News extends Article{
 		}else{
 			return false;
 		}
+	}
+	/**
+	 * 函数GetLogo,返回新闻的LOGO
+	 * 成功返回LOGO 失败返回''
+	 * @param string|int $id ID
+	 * @param boolean $emptyFillDefault 当返回的LOGO为空时 是不是返回缩略图
+	 * @return string
+	 */
+	function GetLogo($id,$emptyFillDefault=true){
+		global $db;
+		$sql="select logo from {tablepre}news where id=$id";
+		$db->GetOne($sql);
+		$logo=$db->f('logo');
+		if(strlen($logo)==0 && $emptyFillDefault){
+			$logo=$this->nopic;
+		}
+		return $logo;
 	}
 	/**
 	 * 函数GetList,调用新闻列表
@@ -247,19 +278,38 @@ class News extends Article{
 	 * @param string $start 开始ID
 	 * @param string $listnum 返回记录数
 	 * @param string $order 排序，不要带order 如updatetime desc
+	 * @param string $whereoption 条件
 	 * @return array
 	 */
-	function GetList($classid,$col=array(),$start='',$listnum='',$order='addtime desc'){
+	function GetList($classid,$col=array(),$start='',$listnum='',$order='istop desc,id desc',$whereoption=''){
+		$this->setTable('{tablepre}news');
 		if($classid!=0){
 			$where="classid=$classid";
 		}
-		$arrlist=parent::GetList($col,$start,$listnum,$where,$order);
-		foreach($arrlist as $key=>$value){
-			$arrlist[$key]['url']="news.php?id=".$value['id'];
+		if(!empty($whereoption)){
+			if(!empty($where)){
+				$where.=' and'.$whereoption;
+			}else{
+				$where=$whereoption;
+			}
 		}
-		return $arrlist;
+		$arr=parent::GetList($col,$start,$listnum,$where,$order);
+		
+		$a_sum=count($arr);
+		for($i=0;$i<$a_sum;$i++){
+			if(empty($arr[$i]['logo'])){
+				$arr[$i]['logo']=$this->nopic;
+			}else{
+				$arr[$i]['logo']=$web_url.'/uploads/news/'.$arr[$i]['logo'];
+				//echo $proinfo['logo'];
+			}
+			$arr[$i]['innerkey']=$i+1; //内部使用的下标值
+			$arr[$i]['url']="news.php?id=".$arr[$i]['id'];
+		}
+		return $arr;
 	}
 	function GetNewsCount($classid){
+		$this->setTable('{tablepre}news');
 		if($classid!=0){
 			$where='classid='.$classid;
 		}

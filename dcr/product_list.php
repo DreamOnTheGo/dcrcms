@@ -24,6 +24,18 @@ include "adminyz.php";
   <TR bgColor=#ecf4fc height=12>
     <TD></TD></TR>
   </TABLE>
+  <TABLE cellSpacing=1 cellPadding=2 width="95%" align=center border=0 bgcolor="#ecf4fc">
+  <TR>
+    <TD align="left" style="text-align: left">新闻分类：<?php 
+	include WEB_CLASS."/product_class.php";
+	$pc=new Product(0);
+	$proClassList=$pc->GetClassList(array('id','classname'),'','','id desc');
+	foreach($proClassList as $value){
+		echo "<a href='product_list.php?classid=".$value['id']."'>".$value['classname'].'</a>  ';
+	}
+		?></TD>
+    </TR>    
+    </TABLE>
 <form action="product_action.php" method="post">
 <input type="hidden" name="action" id="action" value="delproduct">
 <TABLE cellSpacing=2 cellPadding=5 width="95%" align=center border=0 bgcolor="#ecf4fc">
@@ -35,21 +47,24 @@ include "adminyz.php";
     <TD width="132" style="text-align: center">操作</TD>
   </TR>
   <?php
-	include WEB_CLASS."/product_class.php";
 	$pageListNum=20;//每页显示?条
 	$totalPage=0;//总页数
 	$page=isset($page)?(int)$page:1;
 	$start=($page-1)*$pageListNum;
-	$pc=new Product(0);
-	$productClassList=$pc->GetList(0,array('id','title','classid','logo','updatetime'),$start,$pageListNum);
+	$classid=isset($classid)?intval($classid):0;
+	$productClassList=$pc->GetList($classid,array('id','title','istop','classid','logo','updatetime'),$start,$pageListNum);
 	foreach($productClassList as $value){
   ?>  
   <TR>
     <TD bgcolor="#FFFFFF" style="text-align: center"><input type="checkbox" name="id[]" id="id[]" value="<?php echo $value['id']; ?>"><?php echo $value['id']; ?></TD>
     <TD bgcolor="#FFFFFF" style="text-align: left"><a href="product_edit.php?action=modify&id=<?php echo $value['id']; ?>"><?php echo $value['title']; ?></a></TD>
-    <TD bgcolor="#FFFFFF" style="text-align: center"><?php echo $pc->GetClassName($value['classid']); ?></TD>
+    <TD bgcolor="#FFFFFF" style="text-align: center">
+	<?php
+		$t_proclassinfo=$pc->GetClassInfo($value['classid']);
+		echo "<a href='product_list.php?classid=".$t_proclassinfo['id']."'>".$t_proclassinfo['classname'].'</a>  ';
+	?></TD>
     <TD bgcolor="#FFFFFF" style="text-align: center"><?php echo $value['updatetime']; ?></TD>
-    <TD bgcolor="#FFFFFF" style="text-align: center"><a href="product_edit.php?action=modify&id=<?php echo $value['id']; ?>">编辑</a></TD>
+    <TD bgcolor="#FFFFFF" style="text-align: center"><a href="product_edit.php?action=modify&id=<?php echo $value['id']; ?>">编辑</a><?php if(!$value['istop']){ ?>&nbsp;<a href="product_action.php?action=top&page=<?php echo $page; ?>&id=<?php echo $value['id']; ?>">置顶</a><?php }else{ ?>&nbsp;<a href="product_action.php?action=top_no&page=<?php echo $page; ?>&id=<?php echo $value['id']; ?>">取消置顶</a><?php } ?></TD>
   </TR>    
   <?php } ?>  
   <TR>

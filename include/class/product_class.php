@@ -110,6 +110,7 @@ class Product extends Article{
 	 */
 	function Add($proinfo){
 		//把主表和附加表分开来
+		$this->setTable('{tablepre}product');
 		foreach($proinfo as $key=>$value){
 			if($key=='content' || $key=='keywords' ||  $key=='description'){
 				$col_addon[$key]=$value;
@@ -140,7 +141,8 @@ class Product extends Article{
 	 * @param string $listnum 返回记录数
 	 * @return array
 	 */
-	function GetList($classid,$col=array(),$start='',$listnum='',$order='updatetime desc'){
+	function GetList($classid,$col=array(),$start='',$listnum='',$order='istop desc,id desc'){
+		$this->setTable('{tablepre}product');
 		global $web_url;
 		$classid=(int)$classid;
 		if($classid!=0){
@@ -229,11 +231,15 @@ class Product extends Article{
 		}
 		
 		if(parent::Update($col_main,"id=$id")){
-			$this->setTable('{tablepre}product_addon');
-			if(parent::Update($col_addon,"aid=$id")){
-				return true;
+			if(is_array($col_addon) && count($col_addon)>0){
+				$this->setTable('{tablepre}news_addon');
+				if(parent::Update($col_addon,"aid=$id")){
+					return true;
+				}else{
+					return false;
+				}
 			}else{
-				return false;
+				return true;
 			}
 		}else{
 			return false;

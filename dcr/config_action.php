@@ -12,7 +12,8 @@ $msg=array();//пео╒
 if($action=='updateconfig'){
 	$configArr=array(
 					 'web_url'=>$web_url_new,
-					 'web_name'=>$web_name_new
+					 'web_name'=>$web_name_new,
+					 'web_tiaoshi'=>$web_tiaoshi_new
 					 );
 	$rs=$config->UpdateConfig($configArr);
 	if($rs=='r1'){
@@ -30,6 +31,8 @@ if($action=='updateconfig'){
 	
 }
 if($action=='updateconfig_tpl'){
+	$newslogowidth_new==0 && $newslogowidth_new=0.0;
+	$newslogoheight_new==0 && $newslogoheight_new=0.0;
 	$prologowidth_new==0 && $prologowidth_new=0.0;
 	$prologoheight_new==0 && $prologoheight_new=0.0;
 	$web_cache_time_new==0 && $web_cache_time_new=0.0;
@@ -37,6 +40,8 @@ if($action=='updateconfig_tpl'){
 	$index_product_count_new==0 && $index_product_count_new=0.0;
 	$list_product_count_new==0 && $list_product_count_new=0.0;
 	$configArr=array(
+					 'newslogowidth'=>$newslogowidth_new,
+					 'newslogoheight'=>$newslogoheight_new,
 					 'prologowidth'=>$prologowidth_new,
 					 'prologoheight'=>$prologoheight_new,
 					 'tpl_dir'=>$tpl_dir_new,

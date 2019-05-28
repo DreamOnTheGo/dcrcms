@@ -26,7 +26,7 @@ class PageClass{
 	  $this->cpage=$cpage;
 	  $this->totalPage=$totalPage;
 	  if(strlen($tpl)==0){
-		  $this->tpl="{cur=当前页} {index=首页} {next=下一页} {pre=上一页} {end=最后页} {option}"; //中文分页
+		  $this->tpl="{cur=当前页} {index=首页} {pre=上一页} {next=下一页} {end=最后页} {option}"; //中文分页
 	  }else{
 		  $this->tpl=$tpl;
 	  }

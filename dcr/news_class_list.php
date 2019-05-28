@@ -40,11 +40,11 @@ include "adminyz.php";
 	$page=isset($page)?(int)$page:1;
 	$start=($page-1)*$pageListNum;
 	$news=new News();
-	$newsClassList=$news->GetClassList(array('id','classname','updatetime'),$start,$pageListNum);
+	$newsClassList=$news->GetClassList(array('id','classname','updatetime'),$start,$pageListNum,'id desc');
 	foreach($newsClassList as $value){
   ?>  
   <TR>
-    <TD bgcolor="#FFFFFF" style="text-align: center"><input type="checkbox" name="id[]" id="id[]" value="<?php echo $value['id']; ?>"></TD>
+    <TD bgcolor="#FFFFFF" style="text-align: center"><input type="checkbox" name="id[]" id="id[]" value="<?php echo $value['id']; ?>"><?php echo $value['id']; ?></TD>
     <TD bgcolor="#FFFFFF" style="text-align: left"><a href="news_class_edit.php?action=modify&id=<?php echo $value['id']; ?>"><?php echo $value['classname']; ?></a></TD>
     <TD bgcolor="#FFFFFF" style="text-align: center"><?php echo $value['updatetime']; ?></TD>
     <TD bgcolor="#FFFFFF" style="text-align: center"><a href="news_class_edit.php?action=modify&id=<?php echo $value['id']; ?>">±à¼­</a></TD>

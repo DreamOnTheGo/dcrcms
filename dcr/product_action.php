@@ -31,7 +31,8 @@ if($action=='add'){
 		$logo=basename($logo);
 		$rid=$pro->Add(array('title'=>$title,
 					   		 'logo'=>$logo,
-					   		 'classid'=>$classid,
+					   		 'classid'=>intval($classid),
+							 'istop'=>intval($istop),
 					   		 'keywords'=>$keywords,
 					   		 'description'=>$description,
 					   		 'content'=>$content
@@ -59,7 +60,8 @@ if($action=='add'){
 		ShowMsg($errormsg,2);
 	}
 	$productinfo=array('title'=>$title,
-					   'classid'=>$classid,
+					   'classid'=>intval($classid),
+					   'istop'=>intval($istop),
 					   'keywords'=>$keywords,
 					   'description'=>$description,
 					   'content'=>$content
@@ -83,5 +85,29 @@ if($action=='add'){
 		$errormsg[]='删除数据失败';
 		ShowMsg($errormsg,2,$back);
 	}
+}elseif($action=='top'){
+	$info=array(
+				'istop'=>1
+				);
+	if($pro->Update($id,$info)){
+		$errormsg[]='置顶成功';
+		ShowMsg($errormsg,1,$back);
+	}else{
+		$errormsg[]='置顶失败'.mysql_error();
+		ShowMsg($errormsg,2,$back);
+	}
+}elseif($action=='top_no'){
+	$info=array(
+				'istop'=>0
+				);
+	if($pro->Update($id,$info)){
+		$errormsg[]='取消置顶成功';
+		ShowMsg($errormsg,1,$back);
+	}else{
+		$errormsg[]='取消置顶失败'.mysql_error();
+		ShowMsg($errormsg,2,$back);
+	}
+}else{
+	echo '非法操作？';
 }
 ?>

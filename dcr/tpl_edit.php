@@ -27,6 +27,25 @@ include "adminyz.php";
   </li>
   <li class="Seperator"><hr></li>
   <LI>
+  <DIV class=Hint>新闻缩略图宽：</DIV>
+  <DIV class=FormInput>
+    <input id="newslogowidth_new" size="24" class="Warning" name="newslogowidth_new" value="<?php echo $newslogowidth ?>" />
+  </DIV>
+  <div class="Info">
+    <div class="alert_txt"><span class="Hint">文章缩略图宽</span></div>
+  </div>
+  <DIV class=HackBox></DIV></LI>
+  <LI>
+  <DIV class=Hint>新闻缩略图高：</DIV>
+  <DIV class=FormInput>
+    <input id="newslogoheight_new" size="24" class="Warning" name="newslogoheight_new" value="<?php echo $newslogoheight ?>" />
+  </DIV>
+  <div class="Info">
+    <div class="alert_txt"><span class="Hint">文章缩略图高</span></div>
+  </div>
+  <DIV class=HackBox></DIV></LI>
+  <li class="Seperator"><hr></li>
+  <LI>
   <DIV class=Hint>产品缩略图宽：</DIV>
   <DIV class=FormInput>
     <input id="prologowidth_new" size="24" class="Warning" name="prologowidth_new" value="<?php echo $prologowidth ?>" />

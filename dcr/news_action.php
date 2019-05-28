@@ -16,8 +16,12 @@ if($action=='add'){
 		ShowMsg($errormsg,2,$back);
 	}else{
 		//没有错误
+		$logo=UplodeFile("logo",WEB_DR."/uploads/news/",'',array('width'=>$newslogowidth,'height'=>$newslogoheight));
+		$logo=basename($logo);
 			$newsInfo=array('title'=>$title,
-							'classid'=>$classid,
+							'classid'=>intval($classid),
+							'istop'=>intval($istop),
+					   		'logo'=>$logo,
 							'author'=>$author,
 							'source'=>$source,
 							'keywords'=>$keywords,
@@ -29,6 +33,7 @@ if($action=='add'){
 			$errormsg[]='插入新闻失败'.mysql_error();
 			ShowMsg($errormsg,2,$back);	
 		}else{
+			$back['继续添加']='news_edit.php?action=add';
 			$errormsg[]='插入新闻成功';
 			ShowMsg($errormsg,1,$back);
 		}
@@ -38,13 +43,19 @@ if($action=='add'){
 		ShowMsg($errormsg,2,$back);
 	}else{
 			$newsInfo=array('title'=>$title,
-							'classid'=>$classid,
+							'classid'=>intval($classid),
+							'istop'=>intval($istop),
+							'click'=>intval($click),
 							'author'=>$author,
 							'source'=>$source,
 							'keywords'=>$keywords,
 							'description'=>$description,
 							'content'=>$content
 							);
+			$logo=UplodeFile("logo",WEB_DR."/uploads/news/",$news->GetLogo($id,false),array('width'=>$newslogowidth,'height'=>$newslogoheight));
+			if(strlen($logo)>0){
+				$newsInfo['logo']=basename($logo);
+			}
 		if($news->Update($id,$newsInfo)){
 			$errormsg[]='更新新闻成功';
 			ShowMsg($errormsg,1,$back);
@@ -61,6 +72,30 @@ if($action=='add'){
 		$errormsg[]='删除数据失败';
 		ShowMsg($errormsg,2,$back);
 	}
+}elseif($action=='top'){
+	$info=array(
+				'istop'=>1
+				);
+	if($news->Update($id,$info)){
+		$errormsg[]='置顶成功';
+		ShowMsg($errormsg,1,$back);
+	}else{
+		$errormsg[]='置顶失败'.mysql_error();
+		ShowMsg($errormsg,2,$back);
+	}
+}elseif($action=='top_no'){
+	$info=array(
+				'istop'=>0
+				);
+	if($news->Update($id,$info)){
+		$errormsg[]='取消置顶成功';
+		ShowMsg($errormsg,1,$back);
+	}else{
+		$errormsg[]='取消置顶失败'.mysql_error();
+		ShowMsg($errormsg,2,$back);
+	}
+}else{
+	echo '非法操作？';
 }
 function checkinput(){
 	global $errormsg,$title,$classid,$content,$issystem;

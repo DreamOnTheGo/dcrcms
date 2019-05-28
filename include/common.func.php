@@ -29,15 +29,15 @@
 	function ShowNext($msg,$url,$istop=0){
 		if(strlen($msg)>0){
 			if($istop){
-				$mymsg="<script>alert('".$msg."');parent.location.href='".$url."';</script>'";
+				$mymsg="<script type='text/javascript'>alert('".$msg."');top.location.href='".$url."';</script>";
 			}else{
-				$mymsg="<script>alert('".$msg."');location.href='".$url."';</script>'";
+				$mymsg="<script type='text/javascript'>alert('".$msg."');location.href='".$url."';</script>";
 			}
 		}else{
 			if($istop){
-				$mymsg="<script>parent.location.href='".$url."';</script>'";
+				$mymsg="<script type='text/javascript'>top.location.href='".$url."';</script>";
 			}else{
-				$mymsg="<script>location.href='".$url."';</script>'";
+				$mymsg="<script type='text/javascript'>location.href='".$url."';</script>";
 			}
 		}
 		echo $mymsg;

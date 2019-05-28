@@ -54,9 +54,11 @@ function refreshClassList(){
 function closeClassForm(){
 	$('#classname').val("");
 	$('#classdescription').val("");
+	$('#myframe').css("display","none");
 	$('#AddClass').css("display","none");
 }
 function showClassForm(){
+	$('#myframe').css("display","block");
 	$('#AddClass').css("display","block");
 }
 function tijiaoAddAction(){
@@ -88,6 +90,9 @@ function tijiaoAddAction(){
 	include WEB_CLASS."/news_class.php";
 	$news=new News();
 	if($action=='add'){
+		$newsinfo['click']=0;
+		$newsinfo['author']='admin';
+		$newsinfo['source']='本站';
 	}else{
 		$action='modify';
 		$id=isset($id)?(int)$id:0;
@@ -102,7 +107,7 @@ function tijiaoAddAction(){
 		$issystem=0;
 	}
 ?>
-<form action="news_action.php" method="post" id="frmAddNews" name="frmAddNews" onsubmit="return check();">
+<form action="news_action.php" method="post" enctype="multipart/form-data" name="frmAddNews" id="frmAddNews" onsubmit="return check();">
 <input type="hidden" name="action" id="action" value="<?php echo $action; ?>">
 <input type="hidden" name="id" id="id" value="<?php echo $newsinfo['id']; ?>">
 <input type="hidden" name="issystem" id="issystem" value="<?php echo $issystem; ?>">
@@ -135,8 +140,8 @@ function tijiaoAddAction(){
 	  </script>
       </span>&nbsp;&nbsp;&nbsp;<a href="#" onclick="javascript:showClassForm()">添加新闻类别</a>
       <!--<a href="javascript:refreshClassList();">手动刷新列表</a>-->
-      <div id="AddClass" style="display:none;position:absolute;top:100px; border:5px #999 solid; padding:10px; height:100px; width:650px; left:100px; background-color:#ecf4fc">
-      <div onsubmit="">
+      <iframe id="myframe" style="display:none;position:absolute;z-index:9;width:expression(this.nextSibling.offsetWidth);height:expression(this.nextSibling.offsetHeight);top:expression(this.nextSibling.offsetTop);left:expression(this.nextSibling.offsetLeft);" frameborder="0" ></iframe>
+      <div id="AddClass" style="display:none;position:absolute;top:100px; border:5px #999 solid; padding:10px; height:100px; width:650px; left:100px; background-color:#ecf4fc; z-index:10000;">
         <table cellspacing="0" cellpadding="2" width="95%" align="center" border="0">
           <tr>
             <td align="right" width="100">分类名(<font color="red" class="txtRed">*</font>)：</td>
@@ -156,6 +161,26 @@ function tijiaoAddAction(){
       </div></td>
   </tr>
   <TR>
+    <TD align=right valign="top" bgcolor="#FFFFFF">缩略图：</TD>
+    <TD bgcolor="#FFFFFF" style="COLOR: #880000">
+	<table border="0" cellspacing="1" cellpadding="3">
+      <tr>
+        <td>
+        <table width="100" border="0" cellspacing="1" cellpadding="3" bgcolor="#33CCFF">
+      <tr>
+        <td><span style="color:white">当前缩略图</span></td>
+      </tr>
+      <tr>
+        <td bgcolor="#FFFFFF"><?php if(strlen($newsinfo['logo'])>0){echo "<img src='".$newsinfo['logo']."'>";}?></td>
+      </tr>
+    </table>
+          <input type="file" size="40" name="logo" id="logo"> 
+          (默认大小：宽<?php echo $newslogowidth ?>*高<?php echo $newslogoheight ?>)</td>
+        </tr>
+    </table>
+      </TD>
+  </TR>
+  <TR>
     <TD align=right bgcolor="#FFFFFF">新闻作者：</TD>
     <TD bgcolor="#FFFFFF" style="COLOR: #880000"><input name="author" type="text" id="author" size="50" value="<?php echo $newsinfo['author']; ?>"></TD></TR>
   <TR>
@@ -173,6 +198,10 @@ function tijiaoAddAction(){
   </TR>
   <?php }?>
   <TR>
+    <TD align=right valign="top" bgcolor="#FFFFFF">点击：</TD>
+    <TD bgcolor="#FFFFFF" style="COLOR: #880000"><input name="click" type="text" id="click" size="10" value="<?php echo $newsinfo['click']; ?>" /></TD>
+  </TR>
+  <TR>
     <TD align=right valign="top" bgcolor="#FFFFFF">新闻内容(<font color="red">*</font>)：</TD>
     <TD bgcolor="#FFFFFF" style="COLOR: #880000"><?php
 include(WEB_INCLUDE."/editor/fckeditor.php");
@@ -185,9 +214,14 @@ $editor->Value =$newsinfo['content'];
 $editor->Create() ;
 ?></TD></TR>
   <TR>
+    <TD align=right bgcolor="#FFFFFF">新闻属性：</TD>
+    <TD bgcolor="#FFFFFF" style="COLOR: #880000"><input name="istop" type="checkbox" <?php if($newsinfo['istop']){echo 'checked="checked"';} ?> id="istop" value="1" />
+      置顶</TD>
+  </TR>
+  <TR>
     <TD align=right bgcolor="#FFFFFF"></TD>
     <TD bgcolor="#FFFFFF" style="COLOR: #880000"><input type="submit" name="button" id="button" value="<?php if($action=='add'){echo '添加';}else{echo '修改';} ?>新闻">
     <input type="reset" name="button2" id="button2" value="重置"></TD></TR>
     </TABLE>
- </form>
+</form>
  </BODY></HTML>

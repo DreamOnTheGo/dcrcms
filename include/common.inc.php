@@ -1,6 +1,4 @@
 <?php
-//error_reporting(0);
-//error_reporting(E_ALL || ~E_NOTICE);
 define('WEB_INCLUDE', ereg_replace("[/\\]{1,}",'/',dirname(__FILE__) ).'/');
 define('WEB_DR', ereg_replace("[/\\]{1,}",'/',substr(WEB_INCLUDE,0,-8) ) );
 define('WEB_CLASS',WEB_INCLUDE.'class/');
@@ -14,6 +12,8 @@ $magic_quotes=get_magic_quotes_gpc();
 
 //配置文件
 require_once(WEB_INCLUDE.'/config.php');
+
+if($web_tiaoshi=='0'){error_reporting(0);}
 
 //sqlite的sqlite_escape_string
 function my_sqlite_escape_string($str){
@@ -80,8 +80,8 @@ if(is_writeable($sessionPath) && is_readable($sessionPath))
 */
 
 //各个表的列	
-$newsColList=array('id','classid','addtime','click','author','source','content','title','keywords','description');
-$productColList=array('id','title','classid','logo','click','content','keywords','description','updatetime');
+$newsColList=array('id','classid','istop','logo','addtime','click','author','source','content','title','keywords','description');
+$productColList=array('id','title','istop','classid','logo','click','content','keywords','description','updatetime');
 
 //用户访问的网站host
 $web_clihost = 'http://'.$_SERVER['HTTP_HOST'];
@@ -96,5 +96,5 @@ require_once(WEB_INCLUDE.'/common.func.php');
 $db=new DB($db_type,$host,$name,$pass,$table,$ut);
 
 //程序信息
-$version='1.0.1';
+$version='1.0.2';
 ?>
