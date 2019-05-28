@@ -67,14 +67,15 @@ class cls_product extends cls_data
 	 * 写产品分类列表
 	 * @return true
 	 */
-	private function write_class_cache($parent_id = 0)
+	private function write_class_cache( $parent_id = 0 )
 	{
 		require_once(WEB_CLASS . '/class.cache.php');
-		$cache_file_name = 'product_class_list.php';
+		$cache_file_name = 'product_class_list.php';		
 		$cls_cache = new cls_cache($cache_file_name);
 		
 		$class_list = $this->get_class_list_loop($parent_id);
-			
+		
+		
 		$class_list_txt = var_export($class_list, true);
 		if(!empty($class_list_txt))
 		{
@@ -89,11 +90,11 @@ class cls_product extends cls_data
 	 */
 	public function get_class_list($parent_id = 0)
 	{
-		require_once(WEB_CLASS . '/class.cache.php');
+		require_once( WEB_CLASS . '/class.cache.php' );
 		$cache_file_name = 'product_class_list.php';
 		//1728000 为20天 缓存20天
-		$cls_cache = new cls_cache($cache_file_name, 1728000);
-		if($cls_cache->check())
+		$cls_cache = new cls_cache($cache_file_name, 0);
+		if( $cls_cache->check() )
 		{
 			//缓存存在
 			$class_list = $cls_cache->read();
@@ -122,6 +123,7 @@ class cls_product extends cls_data
 	 */
 	private function get_class_list_loop($parent_id = 0 , $level = 1)
 	{
+		if( !isset( $parent_id ) ) return false;
 		global $web_url_module,$web_url_surfix,$web_url;
 		$where = 'parentid=' . $parent_id;
 		$order = 'orderid asc,id desc';
@@ -249,9 +251,9 @@ class cls_product extends cls_data
 	function get_class_info($id, $col = '')
 	{
 		global $db, $web_url_module, $web_url_surfix, $web_url;
-		parent:: set_table('{tablepre}product_class');
-		$info = parent:: select_ex(array('col'=>$col, 'where'=>"id=$id"));
-		$info = current($info);
+		parent:: set_table('@#@product_class');
+		$info = parent:: select_one_ex(array('col'=>$col, 'where'=>"id=$id"));
+		//$info = current($info);
 		//这里返回类别的路径
 		$parent_info = $this-> get_parent_class_info($id, 'classname,id');
 		if($parent_info)
@@ -334,7 +336,7 @@ class cls_product extends cls_data
 	 */
 	function get_sub_class_id_list( $class_id = 0 , $is_contain_self = false)
 	{
-		$class_list = $this-> get_class_list($class_id);
+		$class_list = $this-> get_class_list( $class_id );
 		$this-> get_sub_class_id( $class_list );
 		$str = $this-> class_list_id;
 		if( '' == trim($str) )
@@ -475,7 +477,7 @@ class cls_product extends cls_data
         global $web_url, $web_url_module, $web_url_surfix;
        
         //得出要返回的class_id
-        if($class_id>0)
+        if( $class_id > 0 )
         {
             if($is_sub)
             {
@@ -486,15 +488,14 @@ class cls_product extends cls_data
             }
         }else
         {
-            if($is_sub)
+            if( $is_sub )
             {
-                $class_id_list = $this->get_sub_class_id_list($class_id, false);
+                $class_id_list = $this->get_sub_class_id_list( 0, false );
             }else
             {
                 $class_id_list = '';
             }
         }
-       
        
         $where_arr = array();
        
@@ -529,8 +530,8 @@ class cls_product extends cls_data
 		//echo parent::get_last_sql();
        
         $pro_count = count($pro_list);
-       
-        for( $i=0; $i < $pro_count; $i++ )
+		
+        for( $i = 0; $i < $pro_count; $i ++ )
         {
             if( empty($pro_list[$i]['logo']) )
             {
@@ -556,7 +557,7 @@ class cls_product extends cls_data
                 $pro_list[$i]['url'] = "product_" . $pro_list[$i]['id'] . "." . $web_url_surfix;
             }
         }
-       
+		
         return $pro_list;
     }
 	
@@ -605,12 +606,11 @@ class cls_product extends cls_data
 		$col_main_list = implode(',', $col_main);
 		$col_addon_list = implode(',', $col_addon);
 		
-		parent:: set_table('{tablepre}product');
-		$pro_main_info = parent:: select_one(array('col'=>$col_main_list, 'where'=>"id=$aid"));
-		$pro_main_info = current($pro_main_info);
+		parent:: set_table('@#@product');
+		$pro_main_info = parent:: select_one_ex( array( 'col'=>$col_main_list, 'where'=>"id=$aid" ) );
 		if( ! empty($col_addon_list) )
 		{
-			parent:: set_table('@#@product_addon');
+			parent:: set_table( '@#@product_addon' );
 			$pro_addon_info = parent:: select_one_ex(array('col'=>$col_addon_list, 'where'=>"aid=$aid"));
 			if( !$pro_addon_info )
 			{

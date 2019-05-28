@@ -24,7 +24,7 @@ if($action == 'sitemap_google')
    
     //产品条目
     $cls_pro= cls_app :: get_product();
-    $list_pro = $cls_pro->get_list( 0, array( 'col'=>'id', 'title', 'limit'=>"0,$web_sitemap_google_product_count_new", 'order'=>'id desc' ), 1 );
+    $list_pro = $cls_pro->get_list( 0, array( 'col'=>'id,title', 'limit'=>"0,$web_sitemap_google_product_count_new", 'order'=>'id desc' ), 1 );
     if($list_pro)
     {
         foreach($list_pro as $product)

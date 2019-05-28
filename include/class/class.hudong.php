@@ -182,14 +182,14 @@ class cls_hudong extends cls_data
 		{
 			if($field_info['dtype'] == 'multitext')
 			{
-				$add_col_sql = "column `" . $field_info['field_name'] . "` MEDIUMTEXT";
+				$add_col_sql = "column `" . $field_name . "` MEDIUMTEXT";
 			}else
 			{
-				$add_col_sql = "column `" . $field_info['field_name'] . "` varchar(".$field_info['maxlength'].") not null default ''";
+				$add_col_sql = "column `" . $field_name . "` varchar(".$field_info['maxlength'].") not null default ''";
 			}
 			$sql_alter = "ALTER TABLE {tablepre}hudong MODIFY $add_col_sql";
 			//echo $sql_alter;
-			parent::execute($sql_alter);
+			parent::execute_none_query($sql_alter);
 
 			$this->set_table('{tablepre}hudong_field');
 				

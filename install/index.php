@@ -140,11 +140,13 @@ if($step=="1" || empty($step)){
 </div>
 <?php
 }
-if($step=="2"){
+if( "2" == $step )
+{
 ?>
 <div id="content" style="margin:80px 180px">
   <form action="install_action.php" method="post">
     <input type="hidden" name="action" id="action" value="install">
+    <input type="hidden" name="web_url_module" id="web_url_module" value="1">
     <ul class=Form_Advance id=FormRegStep1>
       <li class=Title>稻草人企业站管理系统_程序安装</li>
       <li class="Seperator">
@@ -293,7 +295,7 @@ if($step=="2"){
         </div>
         <div class=HackBox></div>
       </li>
-      <li>
+      <!--<li>
         <div class=Hint>网址模式：</div>        
         <div class=FormInput>
           <input name="web_url_module" type="radio" id="web_url_module" style="width:15px; border:none; height:15px;" value="1" checked="checked" />
@@ -304,7 +306,7 @@ if($step=="2"){
           <div class="alert_txt">网址模板,动态即网站都以php来展示，伪静态即以html来展示.<a href="http://www.dcrcms.com/news.php?id=17" target="_blank">开启伪静态的方法请点击这里</a></div>
         </div>
         <div class=HackBox></div>
-      </li>
+      </li>-->
       <li class="Seperator">
         <hr>
       </li>

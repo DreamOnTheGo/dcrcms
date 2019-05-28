@@ -33,9 +33,13 @@ if($action == 'addorder')
 		$field_list = $cls_hudong->get_filed_list(array('col'=>'fieldname'));
 		foreach($field_list as $value)
 		{
-			$hudong_info[$value['fieldname']] = strip_tags($$value['fieldname']);
+			if( is_array( $$value['fieldname'] ) )
+			{
+				$$value['fieldname'] = implode( ',', $$value['fieldname'] );
+			}
+			$hudong_info[$value['fieldname']] = cls_safe:: no_html( $$value['fieldname'] );
 		}
-		$hudong_info['title'] = $title;
+		$hudong_info['title'] = cls_safe:: no_html( $title );
 		if($cls_hudong->add($hudong_info))
 		{
 			

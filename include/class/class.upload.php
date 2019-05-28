@@ -18,10 +18,12 @@ defined('IN_DCR') or exit('No permission.');
  * @since 1.0.8
 */
 
-class cls_upload{
+class cls_upload
+{
 	private $allow_files; //允许的文件类型
 	private $max_file_size; //文件最大上传大小
 	private $input_name; //上传框的name
+	
 	/**
 	 * 构造函数
 	 * @param string $input_name 上传文件框的名字
@@ -127,7 +129,8 @@ class cls_upload{
 			if( ! move_uploaded_file($old_name, $file_name) )
 			{
 				return false;
-			}else
+			}
+			else
 			{
 				require_once(WEB_CLASS . "/class.picture.php");
 				//打水印

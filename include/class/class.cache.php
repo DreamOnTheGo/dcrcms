@@ -70,7 +70,7 @@ class cls_cache
 	 */	
 	function read()
 	{
-		include_once($this->get_cache_dir() . '/' . $this->cache_file_name);
+		include($this->get_cache_dir() . '/' . $this->cache_file_name);		
 		
 		return $cache_arr;
 	} 

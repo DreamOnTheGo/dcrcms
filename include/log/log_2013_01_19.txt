@@ -1,0 +1,33 @@
+[2013-01-19 00:36:52]--ERROR--
+[2013-01-19 00:41:05]--ERROR--a
+[2013-01-19 00:41:19]--ERROR--<?php 
+$page_list_num = 12;  //每页显示9条
+global $page;  //总页数
+global $classid;
+$total_page = 0;  //总页数
+$cur_page = isset($page) ? (int)$page : 1;
+$start = ($cur_page-1) * $page_list_num;
+$cls_pro = cls_app:: get_product();
+$dcr_pro_data_list = $cls_pro->get_list($classid, array('col'=>'id,title,logo', 'order'=>'', 'group'=> '', 'where'=> "", 'limit'=>"$start,$page_list_num"), '1','');
+$page_num = $cls_pro-> get_list_count($classid, $where);
+$total_page = ceil($page_num/$page_list_num);    //总页数;
+	foreach($dcr_pro_data_list as $dcr_pro_data_info)
+	{
+?>
+                     <li><a href='<?php echo $data_info['url']; ?>' title="<?php echo $data_info['title']; ?>"><span><img src="<?php echo $data_info['logo']; ?>" alt="<?php echo $data_info['title']; ?>"></span><?php echo $data_info['title']; ?></a></li>
+                     <?php 
+	}
+	unset($cls_pro, $dcr_pro_data_list); 
+?>
+[2013-01-19 23:55:00]--ERROR--<?php 
+ 	require_once(WEB_CLASS . "\/class.menu.php");
+ 	$cls_menu = new cls_menu();
+ 	$dcr_menu_list = $cls_menu->get_list();
+	foreach($dcr_menu_list as $dcr_data_info)
+	{
+?>
+        <li><a href="{$url}">{$menu_text}</a></li>
+        <?php 
+	}
+	unset($dcr_data_info, $dcr_menu_list); 
+?>

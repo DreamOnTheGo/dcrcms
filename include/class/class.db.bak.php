@@ -17,11 +17,12 @@ class cls_db_bak
 	 */
 	function __construct($db=null)
 	{
-		if(is_null($db)){
+		if( is_null($db) )
+		{
 			global $db;
-			$this->db=$db;
+			$this->db = $db;
 		}else{
-			$this->db=$db;			
+			$this->db = $db;			
 		}
 	}
 	/**
@@ -57,18 +58,20 @@ class cls_db_bak
  	 * @param boolean $is_add_drop 是否添加drop table语句
 	 * @return array 成功返回表的创建语句
 	 */
-	function get_create_table_sql($is_add_drop = true)
+	function get_create_table_sql( $is_add_drop = true )
 	{
-		$t_str='';
+		$t_str = '';
 		//
-		foreach($this->table_list as $table_name){
-			if($is_add_drop){
-				$drop_sql="DROP TABLE IF EXISTS `$table_name`;";
-				$t_str.=$drop_sql."\r\n";
+		foreach( $this->table_list as $table_name )
+		{
+			if( $is_add_drop )
+			{
+				$drop_sql = "DROP TABLE IF EXISTS `$table_name`;";
+				$t_str .= $drop_sql . "\r\n";
 			}
-			$sql = 'show create table '.$table_name;
-			$table_create_arr = $this->db->execute($sql,MYSQL_NUM);
-			$t_str .= $table_create_arr[0][1].";\r\n\r\n";
+			$sql = 'show create table ' . $table_name;
+			$table_create_arr = $this->db->execute( $sql, MYSQL_NUM );
+			$t_str .= $table_create_arr[0][1] . ";\r\n\r\n";
 			//echo $t_str;
 		}
 		return $t_str;
@@ -79,28 +82,31 @@ class cls_db_bak
  	 * @param int $space 一个数据文件的大小 默认为2M
 	 * @return array 数据的分割数组 比如12000分为两个数据 array('insert into sdfds...','insert into sdfds...')结果用result_arr返回
 	 */
-	function get_table_data($table_name, &$result_arr, $space = 1000000)
+	function get_table_data($table_name, $result_arr, $space = 1000000)
 	{
 		$c_index = 0;
 		$sql_bak = "select * from $table_name";
 		$table_cols = $this->db->get_table_col($table_name);
 		foreach($table_cols as $col)
 		{
-			$cols .= $col.',';
+			$cols .= $col . ',';
 		}
-		$cols =substr($cols,0,strlen($cols)-1);
-		$r = $this->db->execute($sql_bak);
+		$cols = substr( $cols, 0, strlen( $cols ) - 1 );
+		$r = $this->db->execute( $sql_bak );
 		foreach($r as $value)
 		{
 			$insert_sql = "insert into $table_name($cols) values(";
 			foreach($table_cols as $col)
 			{
-				$insert_sql .= "'".addslashes($value[$col])."',";
+				$insert_sql .= "'" . addslashes( $value[$col] ) . "',";
 			}
-			$insert_sql = substr($insert_sql,0,strlen($insert_sql)-1);
+			$insert_sql = substr( $insert_sql, 0, strlen( $insert_sql ) - 1 );
 			$insert_sql .= ");";
-			if(strlen($result_arr[$c_index])>=$space)++$c_index;
-			$result_arr[$c_index].=$insert_sql."\r\n";
+			if( strlen( $result_arr[$c_index] ) >= $space )
+			{
+				++ $c_index;
+			}
+			$result_arr[$c_index] .= $insert_sql . "\r\n";
 		}
 		
 		return true;
@@ -169,7 +175,8 @@ class cls_db_bak
  	 * @param int $file_index 文件标记
 	 * @return true;
 	 */
-	function write_data_to_file($insert_sql_txt, $table_name, $file_index){		
+	function write_data_to_file($insert_sql_txt, $table_name, $file_index)
+	{
 		require_once(WEB_CLASS . '/class.file.php');
 
 		$data_file_name = WEB_MYSQL_BAKDATA_DIR . '/' .$table_name . '_' . $file_index . '_' 

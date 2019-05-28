@@ -58,7 +58,7 @@ class cls_template_menu extends cls_template implements interface_tag_compile
 		//得出第一行内容即{dcr:list table='test'}这行的内容
 		$block_first_line = parent:: get_block_first_line($tag_info);
 		
-		$sql_option = "<?php \r\n \trequire_once(WEB_CLASS . \"\/class.menu.php\");";
+		$sql_option = "<?php \r\n \trequire_once(WEB_CLASS . \"/class.menu.php\");";
 		$sql_option .= "\r\n \t\$cls_menu = new cls_menu();";
 		$sql_option .= "\r\n \t\$dcr_menu_list = \$cls_menu->get_list();";
 		$sql_option .= "\r\n\tforeach(\$dcr_menu_list as \$dcr_data_info)\r\n\t{";

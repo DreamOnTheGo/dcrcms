@@ -1,4 +1,4 @@
-<?
+<?php
 defined('IN_DCR') or exit('No permission.'); 
 
 /**
@@ -41,7 +41,7 @@ class smtp
 		$this->sock = false;
 	}
 
-/* Main Function */
+	/* Main Function */
 	function sendmail( $to, $from, $subject = "", $body = "", $mailtype, $cc = "", $bcc = "", $additional_headers = "" )
 	{
 		$mail_from = $this->get_address( $this->strip_comment($from) );

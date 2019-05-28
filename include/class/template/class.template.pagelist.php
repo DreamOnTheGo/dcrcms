@@ -65,7 +65,14 @@ class cls_template_pagelist extends cls_template implements interface_tag_compil
 		{
 			$total_page = $attr_array['total_page'];
 		}
-		$php_code .= "\r\n \$cls_page = new cls_page(\$cur_page, \$total_page,'" . $attr_array['tpl'] . "' ,'" . $attr_array['url'] . "' );";
+		if( !empty($attr_array['tpl']) )
+		{
+			$tpl = $attr_array['tpl'];
+			$tpl = str_replace( '[', '{' , $tpl);
+			$tpl = str_replace( ']', '}' , $tpl);
+		}
+		
+		$php_code .= "\r\n \$cls_page = new cls_page(\$cur_page, \$total_page,'" . $tpl . "' ,'" . $attr_array['url'] . "' );";
 		$php_code .= "\r\n \$dcr_page_html = \$cls_page->show_page();";
 		$php_code .= "\r\n echo \$dcr_page_html; \r\n?>";
 		

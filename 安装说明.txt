@@ -12,6 +12,3 @@ http://www.dcrcms.com/news.php?id=4
 
 2、自定义导航条：
 设置方式：系统管理>>导航条设置
-
-3、最新模板说明：
-http://www.dcrcms.com/news.php?id=57

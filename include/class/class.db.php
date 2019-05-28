@@ -71,21 +71,21 @@ class cls_db
             {
                 $db_path = WEB_DATA . '/' . $this->host;
                 $this->pdo = new PDO("sqlite:" . $db_path);
-            }catch(PDOException $e) 
+            }catch( PDOException $e ) 
             {
-                $this->show_error('连接失败: '.$e->getMessage());
+                $this->show_error( '连接失败: ' . $e->getMessage() );
             }
         }
         else if($this->db_type == '2')
         {
             if(!$this->conn)
             {
-                $this->conn = mysql_connect($this->host,$this->name,$this->pass) or die('连接数据库失败，请检查您的数据库配置');
+                $this->conn = mysql_connect( $this->host, $this->name, $this->pass ) or die('连接数据库失败，请检查您的数据库配置');
             }else
             {
                 return false;
             }
-            mysql_select_db($this->table,$this->conn) or $this->show_error('选择数据库失败,请检查数据库['.$this->table.']是否创建');
+            mysql_select_db( $this->table, $this->conn ) or $this->show_error( '选择数据库失败,请检查数据库[' . $this->table . ']是否创建');
             mysql_query("SET NAMES '$this->ut'", $this->conn);
             mysql_query("SET character_set_client=binary", $this->conn);
         }
@@ -130,9 +130,9 @@ class cls_db
     function option($sql)
     {
         global $db_tablepre;
-        $sql = str_replace('{tablepre}',$db_tablepre,$sql);//替换表名    
-        $sql = str_replace('@#@',$db_tablepre,$sql);//替换表名        
-        $sql = $this->safe_sql($sql);//安全处理sql
+        $sql = str_replace( '{tablepre}', $db_tablepre, $sql );//替换表名    
+        $sql = str_replace( '@#@', $db_tablepre, $sql );//替换表名        
+        $sql = $this->safe_sql( $sql );//安全处理sql
         
         return $sql;
     }
@@ -154,7 +154,7 @@ class cls_db
         if( !empty($sql) )
         {
             unset($this->result);
-            if($this->db_type == '1')
+            if( $this->db_type == '1' )
             {
                 $arr_t = $this->pdo->query($sql);
                 if( $arr_t )
@@ -163,14 +163,14 @@ class cls_db
                 }else
                 {
                     $error_info = $this->pdo->errorInfo();
-                    $this->set_db_error($error_info[2]);
-                    $this->show_error($error_info[2], $sql);
+                    $this->set_db_error( $error_info[2] );
+                    $this->show_error( $error_info[2], $sql );
                 }
                 //$this->result=$arr_t;
-                unset($arr_t);
+                unset( $arr_t );
             }else if( $this->db_type == '2' )
             {
-                if( $arr_t = mysql_query($sql,$this->conn) )
+                if( $arr_t = mysql_query( $sql, $this->conn ) )
                 {
                 }else
                 {
@@ -206,33 +206,33 @@ class cls_db
     function execute_none_query($sql)
     {    
         $sql = $this->option($sql);
-        if( !empty($sql) )
+        if( !empty( $sql ) )
         {
-            if($this->db_type=='1')
+            if( $this->db_type == '1' )
             {
-                $this->pdo->exec($sql);
-                if($this->pdo->errorCode()=='00000')
+                $this->pdo->exec( $sql );
+                if( $this->pdo->errorCode() == '00000' )
                 {                    
                     return true;
                 }else
                 {
-                    $error_info=$this->pdo->errorInfo();
-                    $this->set_db_error($error_info[2]);
-                    $this->show_error($error_info[2],$sql);
+                    $error_info = $this->pdo->errorInfo();
+                    $this->set_db_error( $error_info[2] );
+                    $this->show_error( $error_info[2], $sql );
                     
                     return false;
                 }
                 
                 return $err_no == 0;
-            }else if($this->db_type=='2')
+            }else if( $this->db_type == '2' )
             {
-                if( mysql_unbuffered_query($sql, $this->conn) )
+                if( mysql_unbuffered_query( $sql, $this->conn ) )
                 {
                     return true;
                 }else
                 {
                     $this->set_db_error(mysql_error($this->conn));
-                    $this->show_error(mysql_error($this->conn),$sql);
+                    $this->show_error(mysql_error($this->conn), $sql);
                 }
             }
         }else
@@ -267,16 +267,16 @@ class cls_db
      */
     function next()
     {
-        unset($this->rs);
-        if(!$this->result)
+        unset( $this->rs );
+        if( !$this->result )
         {
             return false;
         }
-        $rs = current($this->result);
-        if( is_array($rs) && count($rs) > 0 )
+        $rs = current( $this->result );
+        if( is_array( $rs ) && count( $rs ) > 0 )
         {
-            next($this->result);
-            $this->rs=$rs;
+            next( $this->result );
+            $this->rs = $rs;
             
             return true;
         }else
@@ -290,7 +290,7 @@ class cls_db
      * 返回记录集中指定字段的值
      * @return string|boolean 成功返回指定字段值 失败返回false;
      */
-    function f($name)
+    function f( $name )
     {
         if( is_array($this->rs) )
         {
@@ -324,7 +324,7 @@ class cls_db
             return 0;
         }else{
             
-            return count($this->result);
+            return count( $this->result );
         }
     }
     
@@ -400,10 +400,10 @@ class cls_db
      */
     function get_table_col($table_name)
     {
-        $sql="show columns from $table_name";
+        $sql = "show columns from $table_name";
         $result = mysql_query($sql, $this->conn);
         $t_arr = array();
-        while($rs = mysql_fetch_array($result))
+        while( $rs = mysql_fetch_array($result) )
         {
             $t_arr[] = $rs['Field'];
         }
@@ -419,10 +419,10 @@ class cls_db
     {
         $version = mysql_query("SELECT VERSION();", $this->conn);
         $row = mysql_fetch_array($version);
-        $mysqlVersions = explode( '.', trim($row[0]) );
-        $mysqlVersion = $mysqlVersions[0] . "." . $mysqlVersions[1];
+        $mysql_versions = explode( '.', trim($row[0]) );
+        $mysql_version = $mysql_versions[0] . "." . $mysql_versions[1];
         
-        return $mysqlVersion;
+        return $mysql_version;
     }
     
     /**
@@ -459,7 +459,7 @@ class cls_db
         
         $msg_str = "<div style='width:70%; margin:0 auto 10px auto;background:#f5e2e2;border:1px red solid; font-size:12px;'><div style='font-size:12px;padding:5px; font-weight:bold; color:#FFF;color:red'>DCRCMS DB Error</div>";
         $msg_str .= "<div style='border:1px #f79797 solid;background:#fcf2f2; width:95%; margin:0 auto; margin-bottom:10px;padding:5px;'><ul style='list-style:none;color:green;line-height:22px;'><li><span style='color:red;'>错误页面:</span>".$this->get_cur_script()."</li>";
-        if(!empty($sql))
+        if( !empty($sql) )
         {
             $msg_str .= "<li><span style='color:red;'>错误语句:</span>$sql</li>";
         }
@@ -483,12 +483,13 @@ class cls_db
         else
         {
             $script_name = $_SERVER["PHP_SELF"];
-            if(empty($_SERVER["QUERY_STRING"]))
+            if( empty($_SERVER["QUERY_STRING"]) )
             {
                 $nowurl = $script_name;
             }
-            else {
-                $nowurl = $script_name."?".$_SERVER["QUERY_STRING"];
+            else
+			{
+                $nowurl = $script_name . "?" . $_SERVER["QUERY_STRING"];
             }
         }
         
@@ -501,20 +502,22 @@ class cls_db
      * @param string $querytype 要处理的sql语句的类型
      * @return string 返回一个sql语句安全处理后的sql
      */
-    function safe_sql($db_string, $querytype='select'){
+    function safe_sql( $db_string, $querytype = 'select' ){
         //var_dump($db_string);
         //完整的SQL检查
-        if(empty($db_string)){
+        if( empty( $db_string ) )
+		{
             return false;
         }
-        while (true){            
+        while ( true )
+		{            
             $pos = strpos($db_string, '\'', $pos + 1);
             if ($pos === false)
             {
                 break;
             }
             $clean .= substr($db_string, $old_pos, $pos - $old_pos);
-            while (true)
+            while ( true )
             {
                 $pos1 = strpos($db_string, '\'', $pos + 1);
                 $pos2 = strpos($db_string, '\\', $pos + 1);
@@ -533,44 +536,44 @@ class cls_db
             $old_pos = $pos + 1;
         }
         $clean .= substr($db_string, $old_pos);
-        $clean = trim(strtolower(preg_replace(array('~\s+~s' ), array(' '), $clean)));
+        $clean = trim( strtolower( preg_replace( array('~\s+~s' ), array(' '), $clean) ) );
 
         //老版本的Mysql并不支持union，常用的程序里也不使用union，但是一些黑客使用它，所以检查它
-        if (strpos($clean, 'union') !== false && preg_match('~(^|[^a-z])union($|[^[a-z])~s', $clean) != 0)
+        if ( strpos( $clean, 'union' ) !== false && preg_match( '~(^|[^a-z])union($|[^[a-z])~s', $clean) != 0 )
         {
             $fail = true;
-            $error="union detect";
+            $error = "union detect";
         }
 
         //发布版本的程序可能比较少包括--,#这样的注释，但是黑客经常使用它们
         elseif (strpos($clean, '/*') > 2 || strpos($clean, '--') !== false || strpos($clean, '#') !== false)
         {
             $fail = true;
-            $error="comment detect";
+            $error = "comment detect";
         }
 
         //这些函数不会被使用，但是黑客会用它来操作文件，down掉数据库
         elseif (strpos($clean, 'sleep') !== false && preg_match('~(^|[^a-z])sleep($|[^[a-z])~s', $clean) != 0)
         {
             $fail = true;
-            $error="slown down detect";
+            $error = "slown down detect";
         }
         elseif (strpos($clean, 'benchmark') !== false && preg_match('~(^|[^a-z])benchmark($|[^[a-z])~s', $clean) != 0)
         {
             $fail = true;
-            $error="slown down detect";
+            $error = "slown down detect";
         }
         elseif (strpos($clean, 'load_file') !== false && preg_match('~(^|[^a-z])load_file($|[^[a-z])~s', $clean) != 0)
         {
             $fail = true;
-            $error="file fun detect";
+            $error = "file fun detect";
         }
         elseif (strpos($clean, 'into outfile') !== false && preg_match('~(^|[^a-z])into\s+outfile($|[^[a-z])~s', $clean) != 0)
         {
             $fail = true;
-            $error="file fun detect";
+            $error = "file fun detect";
         }
-        if (!empty($fail))
+        if ( !empty($fail) )
         {
             //fputs(fopen($log_file,'a+'),"$userIP||$getUrl||$db_string||$error\r\n");
             exit("<font size='5' color='red'>Safe Alert: Request Error step 2!</font>");

@@ -9,6 +9,7 @@ define('WEB_Tpl', WEB_DR . '/templets');
 define('WEB_TplPath', '/templets');
 define('WEB_DATA', WEB_DR . '/data');
 define('WEB_CACHE', WEB_INCLUDE . '/cache');
+define('WEB_LOG', WEB_INCLUDE . '/log');
 define('WEB_MYSQL_BAKDATA_DIR', WEB_DR . '/data/databak');
 
 @set_magic_quotes_runtime(0);
@@ -52,7 +53,7 @@ foreach($_REQUEST as $_k=>$_v)
 	}
 }
 
-function _get_request(&$svar)
+function _get_request($svar)
 {
 	global $db_type, $magic_quotes;
 	if(!$magic_quotes)
@@ -122,9 +123,11 @@ require_once(WEB_INCLUDE . '/config.fields.php');
 //用户访问的网站host
 $web_clihost = 'http://'.$_SERVER['HTTP_HOST'];
 
+//安全处理类
+require_once(WEB_CLASS . '/class.safe.php');
+
 //引入数据库类
 require_once(WEB_CLASS . '/class.db.php');
-
 //引入全站程序静态类
 require_once(WEB_CLASS . '/class.app.php');
 

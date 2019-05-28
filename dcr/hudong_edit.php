@@ -43,7 +43,17 @@ require_once("adminyz.php");
   <li class="Seperator"><hr></li>
   <LI>
   <DIV class=Hint><?php echo $value['itemname']; ?>：</DIV>
-  <DIV class=Input><span style="COLOR: #880000"><?php echo $hudong_info[$value['fieldname']]; ?></span></DIV>
+  <DIV class=Input><span style="COLOR: #880000">
+  	<?php
+		if( is_array( $hudong_info[$value['fieldname']] ) )
+		{
+			echo implode( ',', $hudong_info[$value['fieldname']] );
+		}
+		else
+		{
+			echo $hudong_info[$value['fieldname']];
+		}
+	?></span></DIV>
   <DIV class=HackBox></DIV></LI>  
   <?php } ?>
   <li class="Seperator"><hr></li>

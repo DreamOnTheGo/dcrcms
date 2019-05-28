@@ -12,6 +12,7 @@ include "adminyz.php";
 <DIV id="content">
 <form action="config_action.php" method="post">
 <input type="hidden" name="action" id="action" value="updateconfig">
+<input type="hidden" name="web_url_module_new" id="web_url_module_new" value="1">
 <UL class=Form_Advance id=FormRegStep1>
   <LI class=Title>修改网站配置</LI>
   <LI class=Seperator>
@@ -63,7 +64,7 @@ include "adminyz.php";
     <div class="alert_txt">网站简介</div>
   </div>
   <DIV class=HackBox></DIV></LI>
-  <LI>
+  <!--<LI>
   <DIV class=Hint>网址模式：</DIV>
   <DIV class=FormInput>
     <input type="radio" <?php if($web_url_module=='1'){ ?> checked="checked"<?php } ?> style="width:15px; height:20px; border:none; background-image:none" name="web_url_module_new" id="radio" value="1" />
@@ -74,7 +75,7 @@ include "adminyz.php";
   <div class="Info">
     <div class="alert_txt">这里选择你的网站是用动态还是伪静态</div>
   </div>
-  <DIV class=HackBox></DIV></LI>
+  <DIV class=HackBox></DIV></LI>-->
   <LI class=Seperator>
     <HR>
   </LI><LI>

@@ -21,7 +21,7 @@ if($action == 'add')
 				  'addtime'=>time(),
 				  'updatetime'=>time()
 				  );
-	set_id(&$info);
+	set_id($info);
 	$aid = $cls_menu->add($info);
 	if(!$aid)
 	{
@@ -40,7 +40,7 @@ if($action == 'add')
 				  'url'=>$url,
 				  'updatetime'=>time()
 				  );
-	set_id(&$info);
+	set_id($info);
 	if($cls_menu-> update($id, $info))
 	{
 		show_msg('更新成功', 1, $back);

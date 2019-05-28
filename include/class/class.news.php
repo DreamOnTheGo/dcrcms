@@ -253,8 +253,7 @@ class cls_news extends cls_data
 		$this->write_class_cache();
 		
 		return $return_val;
-	}
-	
+	}	
 	
 	/**
 	 * 判断类是不是有子类

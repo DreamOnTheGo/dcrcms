@@ -350,6 +350,7 @@ function msg( $str )
 	p_r($str);
 }
 
+
 /**
  * 获取页面接收的post,get数据
  * @since 1.1.1
