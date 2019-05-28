@@ -1,4 +1,6 @@
 <?php
+defined('IN_DCR') or exit('No permission.'); 
+
 /**
 * 数据库处理
 * @author 我不是稻草人 www.cntaiyn.cn
@@ -19,6 +21,8 @@ class DB{
 	
 	private $result;
 	private $rs;
+	
+	private $str_error; //错误信息
 	/**
 	 * DB的构造函数
  	 * @param string $db_type 数据库类型
@@ -60,9 +64,30 @@ class DB{
 				return false;
 			}
 			mysql_select_db($this->table,$this->conn) or $this->ShowError('选择数据库失败,请检查数据库['.$this->table.']是否创建');
-			mysql_query("SET NAMES '$this->ut'");
+			mysql_query("SET NAMES '$this->ut'",$this->conn);
+			mysql_query("SET character_set_client=binary",$this->conn);
 		}
 	}
+	
+	/**
+	 * 函数SetDbError 设置数据库错误信息 这个方法不用外面调用 程序自己调用 version>=1.0.6
+	 * @param string $error 错误信息
+	 * @return true
+	 */
+	 private function SetDbError($error)
+	 {
+		 $this->str_error=$error;
+	 }
+	
+	/**
+	 * 函数GetDbError 获取数据库错误信息 version>=1.0.6
+	 * @return string 错误信息
+	 */
+	 function GetDbError()
+	 {
+		 return $this->str_error;
+	 }
+	 
 	/**
 	 * 函数option 全局处理sql语句,DB类的每个sql语句执行前要通过这个来处理下
 	 * @param string $sql 要处理的sql语句
@@ -70,8 +95,9 @@ class DB{
 	 */
 	function option($sql){
 		global $tablepre;
-		$sql=str_replace('{tablepre}',$tablepre,$sql);//替换表名
-		$sql=$this->SafeSql($sql);//安全处理sql
+		$sql = str_replace('{tablepre}',$tablepre,$sql);//替换表名	
+		$sql = str_replace('@#@',$tablepre,$sql);//替换表名		
+		$sql = $this->SafeSql($sql);//安全处理sql
 		return $sql;
 	}
 	/**
@@ -86,26 +112,28 @@ class DB{
 	 * @return array 返回执行结果的数组
 	 */
 	function Execute($sql,$result_type=MYSQL_ASSOC){
-		$sql=$this->option($sql);
+		$sql = $this->option($sql);
 		//echo $sql;
 		if(strlen($sql)>0){
 			unset($this->result);
-			if($this->db_type=='1'){
-				$arr_t=$this->pdo->query($sql);
+			if($this->db_type == '1'){
+				$arr_t = $this->pdo->query($sql);
 				if($arr_t)
 				{
 					$this->result=$arr_t->fetchAll();
 				}else
 				{
 					$error_info=$this->pdo->errorInfo();
+					$this->SetDbError($error_info[2]);
 					$this->ShowError($error_info[2],$sql);
 				}
 				//$this->result=$arr_t;
 				unset($arr_t);
 			}elseif($this->db_type=='2'){
-				if($arr_t=mysql_query($sql)){
+				if($arr_t=mysql_query($sql,$this->conn)){
 				}else{
-					$this->ShowError(mysql_error(),$sql);
+					$this->SetDbError(mysql_error($this->conn));
+					$this->ShowError(mysql_error($this->conn),$sql);
 				}				
 				$arr=array();
 				if($arr_t){
@@ -138,17 +166,19 @@ class DB{
 				}else
 				{
 					$error_info=$this->pdo->errorInfo();
+					$this->SetDbError($error_info[2]);
 					$this->ShowError($error_info[2],$sql);
 					return false;
 				}
 				return $err_no==0;
 			}elseif($this->db_type=='2'){
-				if(mysql_unbuffered_query($sql))
+				if(mysql_unbuffered_query($sql,$this->conn))
 				{
 					return true;
 				}else
 				{
-					$this->ShowError(mysql_error(),$sql);
+					$this->SetDbError(mysql_error($this->conn));
+					$this->ShowError(mysql_error($this->conn),$sql);
 				}
 			}
 		}else{
@@ -273,7 +303,7 @@ class DB{
 	 */
 	function GetTableCol($tableName){
 		$sql="show columns from $tableName";
-		$result=mysql_query($sql);
+		$result=mysql_query($sql,$this->conn);
 		$t_arr=array();
 		while($rs=mysql_fetch_array($result)){
 			$t_arr[]=$rs['Field'];

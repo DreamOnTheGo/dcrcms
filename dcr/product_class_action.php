@@ -4,7 +4,6 @@ include "../include/common.inc.php";
 include WEB_CLASS."/product_class.php";
 include "adminyz.php";
 
-header('Content-type:text/html;charset=utf-8');
 header('cache-control:no-cache;must-revalidate');
 $pro=new Product(0);
 
@@ -57,7 +56,7 @@ if($action=='add' || $action=='add_ajax'){
 		}
 	}
 }elseif($action=='getlist_ajax'){
-	$proclasslist=$pro->GetClassList(array('id','classname'));
+	$proclasslist=$pro->GetClassList();
 	for($i=0;$i<count($proclasslist);$i++){
 		$proclasslist[$i]['classname']=urlencode(iconv('gb2312','utf-8',$proclasslist[$i]['classname']));
 	}

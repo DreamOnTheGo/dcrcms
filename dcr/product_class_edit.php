@@ -16,7 +16,6 @@ function check(){
 	}
 }
 </script>
-
 </HEAD>
 <BODY>
 <TABLE cellSpacing=0 cellPadding=0 width="100%" align=center border=0>
@@ -35,7 +34,7 @@ function check(){
   </TABLE>
 <?php
 	include WEB_CLASS."/product_class.php";
-	$p=new Product(0);
+	$p=new Product();
 	if($action=='add'){
 	}else{
 		$action='modify';
@@ -59,24 +58,12 @@ function check(){
     <tr>
       <td align="right" bgcolor="#FFFFFF">上级分类：</td>
       <td bgcolor="#FFFFFF">
-      <?php
-        	$class_list=$p->GetClassList(array('id','classname','parentid'));
-	  ?>
       <select name="parentid" id="parentid">
-        <option value="0">顶级分类</option>
-        <?php
-            foreach($class_list as $value){
-        ?>
-        <option value="<?php echo $value['id'] ?>" <?php if($value['id']==$parentid || $productClassInfo['parentid']==$value['id']){ ?>selected="selected" <?php } ?>><?php echo $value['classname'] ?></option>
-        	<?php if(is_array($value['sub']) && count($value['sub'])){ ?>
-				<?php
-                    foreach($value['sub'] as $subvalue){
-                ?>
-                <option value="<?php echo $subvalue['id'] ?>" <?php if($subvalue['id']==$parentid || $productClassInfo['parentid']==$subvalue['id']){ ?>selected="selected" <?php } ?>>----<?php echo $subvalue['classname'] ?></option>  
-        <?php }?>
-        <?php }?>
-        <?php }?>
-      </select></td>
+      <option>顶级分类</option>
+    <?php
+		$productClassList=$p->GetClassList();
+		$p->GetClassListSelect($productClassList,$parentid);
+	?></select></td>
     </tr>
     <tr>
       <td align="right" bgcolor="#FFFFFF">排序：</td>

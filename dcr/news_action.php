@@ -16,21 +16,24 @@ if($action=='add'){
 		ShowMsg($errormsg,2,$back);
 	}else{
 		//没有错误
-		$logo=UplodeFile("logo",WEB_DR."/uploads/news/",'',array('width'=>$newslogowidth,'height'=>$newslogoheight));
-		$logo=basename($logo);
-			$newsInfo=array('title'=>$title,
-							'classid'=>intval($classid),
-							'istop'=>intval($istop),
-							'click'=>intval($click),
-					   		'logo'=>$logo,
-							'author'=>$author,
-							'source'=>$source,
-							'addtime'=>time(),
-							'updatetime'=>time(),
-							'keywords'=>$keywords,
-							'description'=>$description,
-							'content'=>$content							
-							);
+		include_once(WEB_CLASS."/upload_class.php");
+		$upload=new Upload();
+		$fileInfo=$upload->UploadFile("logo",WEB_DR."/uploads/news/",'',array('width'=>$newslogowidth,'height'=>$newslogoheight));
+		
+		$logo=$fileInfo['sl_filename'];
+		$newsInfo=array('title'=>$title,
+						'classid'=>intval($classid),
+						'istop'=>intval($istop),
+						'click'=>intval($click),
+				   		'logo'=>$logo,
+						'author'=>$author,
+						'source'=>$source,
+						'addtime'=>time(),
+						'updatetime'=>time(),
+						'keywords'=>$keywords,
+						'description'=>$description,
+						'content'=>$content							
+						);
 		$aid=$news->Add($newsInfo);
 		if(!$aid){
 			$errormsg[]='插入新闻失败'.mysql_error();
@@ -45,21 +48,25 @@ if($action=='add'){
 	if(checkinput()){
 		ShowMsg($errormsg,2,$back);
 	}else{
-			$newsInfo=array('title'=>$title,
-							'classid'=>intval($classid),
-							'istop'=>intval($istop),
-							'click'=>intval($click),
-							'author'=>$author,
-							'source'=>$source,
-							'updatetime'=>time(),
-							'keywords'=>$keywords,
-							'description'=>$description,
-							'content'=>$content
-							);
-			$logo=UplodeFile("logo",WEB_DR."/uploads/news/",$news->GetLogo($id,false),array('width'=>$newslogowidth,'height'=>$newslogoheight));
-			if(strlen($logo)>0){
-				$newsInfo['logo']=basename($logo);
-			}
+		$newsInfo=array('title'=>$title,
+						'classid'=>intval($classid),
+						'istop'=>intval($istop),
+						'click'=>intval($click),
+						'author'=>$author,
+						'source'=>$source,
+						'updatetime'=>time(),
+						'keywords'=>$keywords,
+						'description'=>$description,
+						'content'=>$content
+						);
+		include_once(WEB_CLASS."/upload_class.php");
+		$upload=new Upload();
+		$fileInfo=$upload->UploadFile("logo",WEB_DR."/uploads/news/",'',array('width'=>$newslogowidth,'height'=>$newslogoheight));
+		
+		$logo=$fileInfo['sl_filename'];
+		if(strlen($logo)>0){
+			$newsInfo['logo']=$logo;
+		}
 		if($news->Update($id,$newsInfo)){
 			$errormsg[]='更新新闻成功';
 			ShowMsg($errormsg,1,$back);

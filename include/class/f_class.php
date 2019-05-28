@@ -1,4 +1,6 @@
 <?php
+defined('IN_DCR') or exit('No permission.'); 
+
 /**
 * 文件处理的基类 有写入、读取文件的操作方法
 * @author 我不是稻草人 www.dcrcms.com

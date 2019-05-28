@@ -1,4 +1,6 @@
 <?php
+defined('IN_DCR') or exit('No permission.'); 
+
 include_once('article_class.php');
 /**
 * 互动信息处理类

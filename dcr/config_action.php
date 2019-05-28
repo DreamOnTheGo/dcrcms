@@ -11,13 +11,15 @@ $msg=array();//信息
 //本页为操作新闻的页面
 if($action=='updateconfig'){
 	$web_tiaoshi_new==0 && $web_tiaoshi_new=0.0;
+	$web_send_email_new==0 && $web_send_email_new=0.0;
 	$configArr=array(
 					 'web_url'=>$web_url_new,
 					 'web_name'=>$web_name_new,
 					 'web_url_module'=>$web_url_module_new,
 					 'web_dir'=>$web_dir_new,
 					 'web_editor'=>$web_editor_new,
-					 'web_tiaoshi'=>$web_tiaoshi_new
+					 'web_tiaoshi'=>$web_tiaoshi_new,
+					 'web_send_email'=>$web_send_email_new
 					 );
 	$rs=$config->UpdateConfig($configArr);
 	if($rs=='r1'){

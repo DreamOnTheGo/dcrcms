@@ -7,7 +7,7 @@ include "adminyz.php";
 <html xmlns="http://www.w3.org/1999/xhtml"><HEAD>
 <META http-equiv=Content-Type content="text/html; charset=utf-8">
 <LINK href="css/admin.css" type="text/css" rel="stylesheet">
-</head>
+</HEAD>
 <BODY>
 <DIV id="content">
 <form action="config_action.php" method="post">
@@ -70,6 +70,19 @@ include "adminyz.php";
       </DIV>
     <div class="Info">
       <div class="alert_txt">这是为了方便开发者 如果写1表示网站在调试阶段。调试阶段可以方便的显示出各种错误。当调试完毕后，请把这个变量设置为0关闭调试。</div>
+      </div>
+    <DIV class=HackBox></DIV></LI>
+  <li class="Seperator"><hr></li><LI>
+    <DIV class=Hint>留言发送邮件：</DIV>
+    <DIV class=FormInput>
+    
+    <input type="radio" <?php if($web_send_email=='1'){ ?> checked="checked"<?php } ?> style="width:15px; height:20px; border:none; background-image:none" name="web_send_email_new" id="radio" value="1" />
+    开
+    <input type="radio" <?php if($web_send_email=='0'){ ?> checked="checked"<?php } ?> style="width:15px; height:20px; border:none; background-image:none" name="web_send_email_new" id="radio" value="0" />
+    关
+      </DIV>
+    <div class="Info">
+      <div class="alert_txt">这里如果打开的话.当客户留言在在线留言时可以给您的邮箱发送一份的 <a href="email_edit.php">点击这里设置发送邮件的stmp</a></div>
       </div>
     <DIV class=HackBox></DIV></LI>
   <li class="Seperator"><hr></li>

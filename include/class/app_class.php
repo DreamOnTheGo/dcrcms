@@ -1,4 +1,6 @@
 <?php
+defined('IN_DCR') or exit('No permission.'); 
+
 /**
 * 程序信息的类，比如获取一个编辑器 获取程序信息等全局工厂模式的类.
 * 全是静态类
@@ -48,6 +50,13 @@ class APP{
 		include_once(WEB_CLASS.'article_class.php');
 		$art=new Article($table_name);
 		return $art;
+	}
+	/**
+	 * 函数GetA，获取一个Article实例 function GetArticle简写版
+	 * @return Article 一个Article实例
+	 */	
+	public static function GetA($table_name){
+		return self::GetArticle($table_name);
 	}
 	/**
 	 * 函数GetNews，获取一个News实例

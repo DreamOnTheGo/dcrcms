@@ -1,5 +1,7 @@
 1、上传目录下的所有文件到空间上
 2、用http://域名/install/index.php 来安装
 
+网站后台是http://域名/dcr/
+
 更加详细的安装说：
 http://www.dcrcms.com/news.php?id=4

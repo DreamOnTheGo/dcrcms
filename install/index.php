@@ -1,4 +1,5 @@
 <?php
+define('IN_DCR' , TRUE);
 session_start();
 require("../include/common.func.php");
 ?>
@@ -9,11 +10,6 @@ require("../include/common.func.php");
 <link href="css/install.css" type="text/css" rel="stylesheet">
 <title>稻草人企业站管理系统_程序安装</title>
 <script type="text/javascript" src="../include/js/jquery.js"></script>
-<style type="text/css">
-body,td,th {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-}
-</style>
 </head>
 <body>
 <?php

@@ -1,6 +1,8 @@
 <?php
+defined('IN_DCR') or exit('No permission.'); 
+
 //本页的配置值都要用''包括起来
-require_once('config_db.php');
+require_once(WEB_INCLUDE.'/config_db.php');
 
 $web_url = 'http://localhost'; //网址
 $web_dir = '';//网站目录 以/开头 如:/dcr
@@ -30,6 +32,20 @@ $list_product_count = '9';//产品列表页每页数
 $web_tiaoshi = '0';//网站在调试阶段 1为是 0为否
 
 $web_url_module = '1'; //全站网址模式1为动态 2为伪静态
+
+//邮件相关
+$web_send_email = '0';//留言是否发送邮件
+$web_email_server = '';//email server
+$web_email_usrename = '';//email username
+$web_email_password = '';//email password
+$web_email_port = '25';//email port
+
+//baidu sitemap,google sitemap
+$web_master_email = '';//管理员email
+$web_sitemap_baidu_news_count = '50';//百度地图中新闻数
+$web_sitemap_baidu_product_count = '50';//百度地图中产品数
+$web_sitemap_google_news_count = '50';//GG地图中新闻数
+$web_sitemap_google_product_count = '50';//GG地图中产品数
 
 $web_url_surfix='php'; //文件名后缀. 动态为php 静态为html
 if($web_url_module=='1'){

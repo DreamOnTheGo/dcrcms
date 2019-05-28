@@ -8,7 +8,6 @@ include "adminyz.php";
 <meta http-equiv=Content-Type content="text/html; charset=utf-8">
 <link href="css/admin.css" type="text/css" rel="stylesheet">
 <script src="../include/js/common.js"></script>
-
 </head>
 <body>
 <table cellSpacing=0 cellPadding=0 width="100%" align=center border=0>
@@ -66,7 +65,7 @@ include "adminyz.php";
     </tr>  
   <tr>
     <td colspan="4" bgcolor="#FFFFFF"><input type="button" name="button" id="button" value="全选/反选" onClick="javascript:selectAllChk('id[]');">
-      &nbsp; <input type="submit" name="button2" id="button2" value="删除"></td>
+      &nbsp; <input type="submit" name="button2" id="button2" onclick="return confirm('确定要删除吗？');" value="删除"></td>
     </tr>  
     </table>
  </form>

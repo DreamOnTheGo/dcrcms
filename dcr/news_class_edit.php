@@ -16,7 +16,6 @@ function check(){
 	}
 }
 </script>
-
 </HEAD>
 <BODY>
 <div class="boxy"></div>

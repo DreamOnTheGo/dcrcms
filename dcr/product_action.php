@@ -30,9 +30,9 @@ if($action=='add'){
 		include_once(WEB_CLASS."/upload_class.php");
 		$upload=new Upload();
 		$fileInfo=$upload->UploadFile("logo",WEB_DR."/uploads/product/",'',array('width'=>$prologowidth,'height'=>$prologoheight,'newpic'=>1));
-		$logo=basename($fileInfo['sl_filename']);
-		$biglogo=basename($fileInfo['filename']);
-		$rid=$pro->Add(array('title'=>$title,
+		$logo=$fileInfo['sl_filename'];
+		$biglogo=$fileInfo['filename'];
+		$info=array('title'=>$title,
 					   		 'logo'=>$logo,
 					   		 'biglogo'=>$biglogo,
 							 'tags'=>$tags,
@@ -41,8 +41,9 @@ if($action=='add'){
 					   		 'keywords'=>$keywords,
 					   		 'description'=>$description,
 					   		 'content'=>$content
-							 )
-					   );
+							 );
+		
+		$rid=$pro->Add($info);
 		if(!$rid){
 			$errormsg[]='添加产品失败';
 			ShowMsg($errormsg,2);	
@@ -82,7 +83,8 @@ if($action=='add'){
 			ShowMsg($errormsg,1,$back);
 		}
 	}
-}elseif($action=='modify'){	$iserror=false;
+}elseif($action == 'modify'){
+	$iserror = false;
 	if(empty($title)){		
 		$errormsg[]='请填写产品名称';
 		$iserror=true;
@@ -102,16 +104,29 @@ if($action=='add'){
 					   'description'=>$description,
 					   'content'=>$content
 					  );
-	include_once(WEB_CLASS."/upload_class.php");
-		$upload=new Upload();
-	$fileInfo=$upload->UploadFile("logo",WEB_DR."/uploads/product/",$pro->GetLogo($id,false),array('width'=>$prologowidth,'height'=>$prologoheight,'newpic'=>1));
 	
-	if(strlen($fileInfo)>0){
-		$logo=basename($fileInfo['sl_filename']);
-		$biglogo=basename($fileInfo['filename']);
-		$productinfo['logo']=basename($logo);
-		$productinfo['biglogo']=basename($biglogo);
+	//原来的图片要删除
+
+	include_once(WEB_CLASS."/upload_class.php");	
+	$upload=new Upload();
+	$fileInfo=$upload->UploadFile("logo",WEB_DR."/uploads/product/",'',array('width'=>$prologowidth,'height'=>$prologoheight,'newpic'=>1));
+	
+	if($fileInfo)
+	{
+		$productinfo['logo']=$fileInfo['sl_filename'];
+		$productinfo['biglogo']=$fileInfo['filename'];
+	
+		$pro_old_info = $pro->GetInfo($id , array('logo','biglogo') , array());		
+		if($pro_old_info)
+		{	
+			$logo = $pro_old_info['logo'];
+			$logo_big = $pro_old_info['biglogo'];
+			
+			@unlink(WEB_DR . 'uploads/product/' . $logo);
+			@unlink(WEB_DR . 'uploads/product/' . $logo_big);
+		}
 	}
+	
 	if($pro->Update($id,$productinfo)){
 		//处理旧的tags 先减一次
 		if(!empty($oldtags))
@@ -170,18 +185,39 @@ if($action=='add'){
 		ShowMsg($errormsg,2);
 	}	
 }elseif($action=='delproduct'){
-	$r=$pro->Delete($id);
-	if($r==1){
-		$errormsg[]='删除数据成功';
-		ShowMsg($errormsg,1,$back);
-	}elseif($r==3){
-		$errormsg[]='删除数据失败:没有选择要删除的产品';
-		ShowMsg($errormsg,2,$back);
-	}elseif($r==2){
-		$errormsg[]='删除数据失败:处理数据库数据时失败';
-		ShowMsg($errormsg,2,$back);
+	if( is_array($id) )
+	{
+		foreach($id as $id_single)
+		{
+			$pro_info = $pro->GetInfo($id_single , array('logo','biglogo') , array());
+			$logo = $pro_info['logo'];
+			$logo_big = $pro_info['biglogo'];
+			@unlink(WEB_DR.'/uploads/product/'.$logo);
+			@unlink(WEB_DR.'/uploads/product/'.$logo_big);
+		}
+		$r=$pro->Delete($id);
+		if($r==1){
+			$errormsg[]='删除数据成功';
+			ShowMsg($errormsg,1,$back);
+		}elseif($r==3){
+			$errormsg[]='删除数据失败:没有选择要删除的产品';
+			ShowMsg($errormsg,2,$back);
+		}elseif($r==2){
+			$errormsg[]='删除数据失败:处理数据库数据时失败';
+			ShowMsg($errormsg,2,$back);
+		}
+	}else
+	{
+		ShowMsg( '请选择要删除的产品' , 2 );
 	}
 }elseif($action=='delsingleproduct'){
+	
+	$pro_info = $pro->GetInfo($id , array('logo','biglogo') , array());
+	$logo = $pro_info['logo'];
+	$logo_big = $pro_info['biglogo'];
+	@unlink(WEB_DR.'/uploads/product/'.$logo);
+	@unlink(WEB_DR.'/uploads/product/'.$logo_big);
+	
 	$r=$pro->Delete(array($id));
 	if($r==1){
 		$errormsg[]='删除数据成功';
@@ -215,7 +251,30 @@ if($action=='add'){
 		$errormsg[]='取消置顶失败'.mysql_error();
 		ShowMsg($errormsg,2,$back);
 	}
-}else{
+}elseif($action=='chang_type'){
+	if($cur_type){
+		foreach($cur_type as $pro_id=>$classid){
+			if($classid)
+			{
+				$pro->Update($pro_id,array('classid'=>$classid));
+			}
+		}
+	}
+	$errormsg[]='修改分类成功';
+	ShowMsg($errormsg,1,$back);
+}elseif($action=='chang_pl_type'){
+	if($id){
+		foreach($id as $pro_id){
+			if($pro_id)
+			{
+				$pro->Update($pro_id,array('classid'=>$classid));
+			}
+		}
+	}
+	$errormsg[]='修改分类成功';
+	ShowMsg($errormsg,1,$back);
+}
+else{
 	echo '非法操作？';
 }
 ?>

@@ -1,5 +1,7 @@
 <?php
-include_once('article_class.php');
+defined('IN_DCR') or exit('No permission.'); 
+
+include_once(WEB_CLASS . 'article_class.php');
 /**
 * 产品处理类 更新、插入、删除产品等方法
 * @author 我不是稻草人 www.cntaiyn.cn
@@ -9,9 +11,12 @@ include_once('article_class.php');
 */
 class Product extends Article{
 	/**
-	 * Product的构造函数 无需传参数
-	 */
-	 private $nopic;
+	* Product的构造函数 无需传参数
+	*/
+	private $nopic;
+	private $class_list_ul;//记录ul型产品分类列表 记录<ul></ul>之间的li内容.主要用于前台的产品列表
+	private $class_list_id;//记录产品分类id列表 以,分隔 用于记录GetSubClassIDFromList结果
+	
 	function __construct(){
 		global $web_url;
 		parent::__construct('{tablepre}product');
@@ -31,70 +36,133 @@ class Product extends Article{
 	 * @return boolean 成功返回true 失败返回false
 	 */
 	function AddClass($proclassinfo){
-		//添加产品分类
-			//p_r($proclassinfo);
-			//exit;
 		$this->setTable('{tablepre}product_class');
 		return parent::Add($proclassinfo);
 	}
+	
 	/**
-	 * 函数GetClassList,返回产品类列表
-	 * @param array $col 要返回的字段列 如你要返回id,title为：array('id','title') 如果为arrya()时返回全部字段
-	 * @param string $order 排序，不要带order 如updatetime desc
-	 * @param string $start 开始ID
-	 * @param string $listnum 返回记录数
+	 * 函数GetClassList,返回产品类列表 version>=1.0.6
+	 * @param array $parent_id 父类ID 如果为0则返回全部
+	 * @param string $level 本参数不建议外部传入 主要用于标记当前为几级分类
 	 * @return array 返回产品分类列表
 	 */
-	function GetClassList($col=array(),$start='',$listnum='',$order='orderid asc,updatetime desc',$issub=true){
+	function GetClassList($parent_id = 0 , $level = 1)
+	{
 		global $web_url_module,$web_url_surfix;
-		$this->setTable('{tablepre}product_class');
-		//获取顶级栏目:
-		$where='parentid=0';
-		$info=parent::GetList($col,$start,$listnum,$where,$order);
-		if($info)
-		{
-			foreach($info as $i_key=>$i_value){
-				if($web_url_module=='1'){
-					$info[$i_key]['url']='product_list.php?classid='.$i_value['id'];
-				}elseif($web_url_module=='2'){
-					$info[$i_key]['url']='product_list_'.$i_value['id'].'.'.$web_url_surfix;
-				}
-			}
-		}else{
-			return false;
-		}
-		if(!$issub && $info){
-			//只返回一级目录
-			return $info;			
-		}
-		//获取二级栏目：
-		if($info){
-			foreach($info as $ikey=>$ivalue){
-				$t_id=$ivalue['id'];
-				$sub_where='parentid='.$t_id;
-				//echo $sub_where;
-				$sub_info=parent::GetList($col,'','',$sub_where,$order);
-				if($sub_info)$info[$ikey]['sub']=$sub_info;
-			}
-		}else{
-			return false;
-		}
-		//排序出来
+		$where = 'parentid=' . $parent_id;
+		parent::setTable('@#@product_class');
+		$class_list = parent::GetList($col,$start,$listnum,$where,$order);
 		
-		foreach($info as $i_key=>$i_value){
-			//看看二级的
-			if($i_value['sub']){
-				foreach($i_value['sub'] as $sub_key=>$sub_value){
-					if($web_url_module=='1'){
-						$info[$i_key]['sub'][$sub_key]['url']='product_list.php?classid='.$sub_value['id'];
-					}elseif($web_url_module=='2'){
-						$info[$i_key]['sub'][$sub_key]['url']='product_list_'.$sub_value['id'].'.'.$web_url_surfix;
-					}
+		if( $class_list )
+		{
+			foreach( $class_list as $class_key=>$class )
+			{
+				$class_sub = $this->GetClassList($class['id'] , $level+1);
+				$class_list[$class_key]['class_level'] = $level;
+				
+				if( $web_url_module == '1' ){
+					$class_list[$class_key]['url'] = 'product_list.php?classid='.$class['id'];
+				}elseif( $web_url_module == '2' )
+				{
+					$class_list[$class_key]['url'] = 'product_list_'.$class['id'].'.'.$web_url_surfix;
+				}
+				
+				if( $class_sub )
+				{
+					$class_list[$class_key]['sub_class'] = $class_sub;
 				}
 			}
 		}
-		return $info;
+		return $class_list;
 	}
+	
+	/**
+	 * 函数GetClassListSelect,返回产品类列表 输出<select></select>之间的option内容 version>=1.0.6
+	 * <code>
+	 * <?php
+	 * //前台ul型产品分类菜单列表
+	 * include WEB_CLASS."/product_class.php";
+	 * $pro=new Product();
+	 * echo '<select name="parentid" id="parentid">';
+	 * $productClassList = $pro->GetClassList();
+	 * $pro->GetClassListSelect($productClassList,$parentid);
+	 * echo '</select>';
+	 * ?>
+ 	 * </code>
+	 * @param array $class_list 产品分类 可以用本类的GetClassList来获取
+	 * @param array $cur_id 当前的产品分类选择ID
+	 * @return true 输出select里的option
+	 */	
+	function GetClassListSelect( $class_list , $cur_id=0 )
+	{
+		if($class_list)
+		{
+			foreach($class_list as $value)
+			{
+				echo '<option value="'.$value['id'].'"';
+				if($cur_id == $value['id'] && $cur_id)
+				{
+					echo 'selected="selected"';
+				}
+				echo '>'.str_repeat("----",$value['class_level']-1).$value['classname'].'</option>';
+				if($value['sub_class'] && count($value['sub_class']))
+				{
+					$this->GetClassListSelect($value['sub_class'],$cur_id);
+				}
+			}
+		}else
+		{
+			echo '<option value="0">当前没有产品分类</option>';
+		}
+	}
+	
+	/**
+	 * 函数GetClassListUl,返回产品类ul下的li 主要用于前台的菜单输出 输出<ul></ul>之间的li内容 version>=1.0.6
+	 * <code>
+	 * <?php
+	 * //前台ul型产品分类菜单列表
+	 * include WEB_CLASS."/product_class.php";
+	 * $pc=new Product(0);
+	 * $productClassList=$pc->GetClassList();
+	 * $tpl->assign('productClassList',$productClassList);
+	 * $pro_class_list_txt=$pc->GetClassListUl($productClassList);
+	 * $pro_class_list_txt = $pc->GetClassListUlHtml();
+	 * ?>
+ 	 * </code>
+	 * @param array $class_list 产品分类 可以用本类的GetClassList来获取
+	 * @return true 没有返回值 主要把值存在了$this->class_list_ul 用GetClassListUlHtml获取就OK了
+	 */	
+	function GetClassListUl( $class_list )
+	{
+		if( $class_list )
+		{
+			$this->class_list_ul .= '<ul>';
+			foreach( $class_list as $value )
+			{
+				$this->class_list_ul .= '<li><a href="'.$value['url'].'">'.$value['classname'].'</a>';
+				if( $value['sub_class'] && count($value['sub_class']) )
+				{
+					$this->GetClassListUl( $value['sub_class'] );
+				}
+				$this->class_list_ul .= '</li>';
+			}
+			$this->class_list_ul .= '</ul>';
+		}
+	}
+	
+	/**
+	 * 函数GetClassListUlHtml,获取由GetClassListUl产生的HTML version>=1.0.6
+	 * @return string 获取由GetClassListUl产生的HTML
+	 */		
+	function GetClassListUlHtml()
+	{
+		//echo $this->class_list_ul;
+		//exit;
+		$count = 1;
+		$pro_class_list_txt = str_replace('<ul>','<ul id="navigation">',$this->class_list_ul,$count);
+		return $pro_class_list_txt;
+	}
+	
 	/**
 	 * 函数GetClassInfo,返回指定产品分类的数据信息
 	 * @param string|int $id 产品类的ID
@@ -136,8 +204,8 @@ class Product extends Article{
 	}
 	/**
 	 * 函数DeleteClass,删除指定ID数组的产品分类
-	 * @param array $idarr 删除的ID数组 比如要删除ID为1，2，3的文档 则为：array(1,2,3)
-	 * @return boolean 成功返回true 失败返回false
+	 * @param array $idarr 删除的文档ID 可以是数组 比如array('1','2') 也可以用是字符串 但要以,分隔 比如1,2,3
+	 * @return boolean 1成功 2有子类不能被删除 3删除失败mysql错误
 	 */
 	function DeleteClass($idarr){
 		$this->setTable('{tablepre}product_class');
@@ -164,27 +232,59 @@ class Product extends Article{
 		$sub_info=parent::GetList($col,'','',$sub_where,$order);
 		return is_array($sub_info) && count($sub_info);
 	}
+	
 	/**
-	 * 函数GetSubClassList,获取子类列表
-	 * @param $id 父类ID
-	 * @return array 获取子类列表
+	 * 函数GetSubClassIDList,获取一个类所有子类ID列表 以,分隔 version>=1.0.6
+	 * @param $class_id 分类ID
+	 * @param $is_contain_self 如果为true的话,结果里包含本$class_id
+	 * @return array 获取子类ID列表
 	 */
-	function GetSubClassList($id){
-		global $db,$web_url_module,$web_url_surfix;
-		$this->setTable('{tablepre}product_class');
-		$sub_where='parentid='.$id;
-			//echo $sub_where;
-		$order='orderid';
-		$sub_info=parent::GetList($col,'','',$sub_where,$order);
-		foreach($sub_info as $i_key=>$i_value){
-			if($web_url_module=='1'){
-				$sub_info[$i_key]['url']='product_list.php?classid='.$i_value['id'];
-			}elseif($web_url_module=='2'){
-				$sub_info[$i_key]['url']='product_list_'.$i_value['id'].'.'.$web_url_surfix;
+	function GetSubClassIDList( $class_id = 0 , $is_contain_self = false){
+		$class_list = $this->GetClassList($class_id);
+		$this->GetSubClassIDFromResultList( $class_list );
+		$str = $this->class_list_id;
+		if( ''==trim($str) )
+		{
+			if( $is_contain_self )
+			{
+				$str = $class_id;
+			}else
+			{
+				$str = '';
+			}
+		}else
+		{
+			$str = substr($str , 0 , strlen($str)-1);
+			if( $is_contain_self )
+			{
+				$str = $class_id . ',' .$str;
+			}else
+			{
 			}
 		}
-		return $sub_info;
+		return $str;
 	}
+	
+	/**
+	 * 函数GetSubClassIDFromResultList,从一个分类List Array里获取所有的ID以,分隔 主要配合GetSubClassIDList使用 version>=1.0.6
+	 * @param $class_list 分类
+	 * @return array 获取子类ID列表 以,分隔
+	 */
+	private function GetSubClassIDFromResultList( $class_list )
+	{
+		if( $class_list )
+		{
+			foreach( $class_list as $value )
+			{
+				$this->class_list_id .= $value['id'] . ',';
+				if( $value['sub_class'] && count($value['sub_class']) )
+				{
+					$this->GetSubClassIDFromResultList( $value['sub_class'] );
+				}
+			}
+		}
+	}
+	
 	/**
 	 * 函数GetParentClass,获取父类名
 	 * @param $classid 类ID
@@ -274,7 +374,7 @@ class Product extends Article{
 			}
 			$where=implode(' and ',$where_arr);
 			if(!empty($where)){
-				$where.=" or classid in (select id from {tablepre}product_class where parentid=$classid)";
+				$where.=" or classid in (".$this->GetSubClassIDList($classid , true).")";
 				$where=' where '.$where;
 			}else{
 			}
@@ -324,9 +424,10 @@ class Product extends Article{
 	 * 函数GetInfo,返回产品信息
 	 * @param string|int $aid 产品ID
 	 * @param array $col 要返回的字段列 如你要返回id,title为：array('id','title') 如果为arrya()时返回全部字段
+	 * @param array $option_col 要系统处理的col 比如logo会返回他的真实地址 默认处理的有：logo,biglogo,position,prev,next,tags_list 为了效率 最好明确指定这个处理
 	 * @return array 产品信息
 	 */
-	function GetInfo($aid,$col=array()){
+	function GetInfo($aid,$col=array(),$option_col=array('logo','biglogo','position','prev','next','tags_list')){
 		global $db,$web_url;
 		//要返回栏目ID
 		if(!in_array('classid',$col)){
@@ -347,7 +448,7 @@ class Product extends Article{
 				}
 			}
 			 
-			$newsInfo_1=parent::GetInfo($col,"id=$aid");			
+			$newsInfo_1=parent::GetInfo($col,"id=$aid");
 			$this->setTable("{tablepre}product_addon");
 			$newsInfo_2=parent::GetInfo($col_another,"aid=$aid");
 			if(!is_array($newsInfo_1) ||!is_array($newsInfo_2)){
@@ -356,85 +457,105 @@ class Product extends Article{
 				$newsInfo=array_merge($newsInfo_1,$newsInfo_2);
 			}
 		}else{
-			$newsInfo=parent::GetInfo($col,"id=$aid");
+			parent::setTable('{tablepre}product');//1.0.6修改
+			$newsInfo=parent::GetInfo($col,"id=$aid");//1.0.6修改
 		}
 		//返回当前路径
 		//获得栏目信息
 		global $web_url_module,$web_url_surfix;
-		$parent_info=$this->GetParentClassInfo($newsInfo['classid'],array('classname','id'));
-		if($parent_info){
-			if($web_url_module=='1'){
-				$parent_path='<a href="'.$web_url.'/product_list.php?id='.$parent_info['id'].'">'.$parent_info['classname'].'</a>>>';
-			}elseif($web_url_module=='2'){
-				$parent_path='<a href="'.$web_url.'/product_list_'.$parent_info['id'].'.'.$web_url_surfix.'">'.$parent_info['classname'].'</a>>>';
-			}
-		}
-		
-		$proclassname=$this->GetClassName($newsInfo['classid']);
-		if($web_url_module=='1'){
-			$class_path=$web_url.'/product_list.php?id='.$newsInfo['classid'];
-		}elseif($web_url_module=='2'){
-			$class_path=$web_url.'/product_list_'.$newsInfo['classid'].'.'.$web_url_surfix;
-		}
-		$position='<a href="'.$web_url.'">首页</a>>>'.$parent_path.'<a href="'.$class_path.'">'.$proclassname.'</a>>>'.$newsInfo['title'];
-			
-		$newsInfo['position']=$position;
-		
-		if(empty($newsInfo['logo'])){
-			$newsInfo['logo']=$this->nopic;
-		}else{
-			$newsInfo['logo']=$web_url.'/uploads/product/'.$newsInfo['logo'];
-		}
-		
-		if(empty($newsInfo['biglogo'])){
-			$newsInfo['biglogo']=$this->nopic;
-		}else{
-			$newsInfo['biglogo']=$web_url.'/uploads/product/'.$newsInfo['biglogo'];
-		}
-		//得出tagslist
-		$tags_list='';
-		if(!empty($newsInfo['tags']))
+		if(in_array('position',$option_col))
 		{
-			$tag_arr=explode(',',$newsInfo['tags']);
-			if(is_array($tag_arr))
-			{
-				foreach($tag_arr as $tagname)
-				{
-					$tags_list.='<a href="search.php?s_type=1&tag='.$tagname.'" target="_blank">'.$tagname.'</a> ';
+			$parent_info=$this->GetParentClassInfo($newsInfo['classid'],array('classname','id'));
+			if($parent_info){
+				if($web_url_module=='1'){
+					$parent_path='<a href="'.$web_url.'/product_list.php?id='.$parent_info['id'].'">'.$parent_info['classname'].'</a>>>';
+				}elseif($web_url_module=='2'){
+					$parent_path='<a href="'.$web_url.'/product_list_'.$parent_info['id'].'.'.$web_url_surfix.'">'.$parent_info['classname'].'</a>>>';
 				}
 			}
-			$newsInfo['tags_list']=$tags_list;
-			//echo $newsInfo['tags'];
+			
+			$proclassname=$this->GetClassName($newsInfo['classid']);
+			if($web_url_module=='1'){
+				$class_path=$web_url.'/product_list.php?id='.$newsInfo['classid'];
+			}elseif($web_url_module=='2'){
+				$class_path=$web_url.'/product_list_'.$newsInfo['classid'].'.'.$web_url_surfix;
+			}
+			$position='<a href="'.$web_url.'">首页</a>>>'.$parent_path.'<a href="'.$class_path.'">'.$proclassname.'</a>>>'.$newsInfo['title'];			
+			$newsInfo['position']=$position;
 		}
 		
-		//上一篇下一篇
-		parent::setTable('{tablepre}product');
-		$prev_info=parent::GetInfo(array('id','title'),"id<$aid and classid=".$newsInfo['classid'],'id desc');
-		if($prev_info)
+		if(in_array('logo',$option_col))
 		{
-			if($web_url_module=='1'){
-				$prev_url=$web_url.'/product.php?id='.$prev_info['id'];
-			}elseif($web_url_module=='2'){
-				$prev_url=$web_url.'/product_'.$prev_info['id'].'.'.$web_url_surfix;
+			if(empty($newsInfo['logo'])){
+				$newsInfo['logo']=$this->nopic;
+			}else{
+				$newsInfo['logo']=$web_url.'/uploads/product/'.$newsInfo['logo'];
 			}
-			$newsInfo['prev']="<a href='$prev_url'>".$prev_info['title']."</a>";
-		}else
-		{
-			$newsInfo['prev']='没有了';
 		}
 		
-		$next_info=parent::GetInfo(array('id','title'),"id>$aid and classid=".$newsInfo['classid']);
-		if($next_info)
+		if(in_array('biglogo',$option_col))
 		{
-			if($web_url_module=='1'){
-				$next_url=$web_url.'/product.php?id='.$next_info['id'];
-			}elseif($web_url_module=='2'){
-				$next_url=$web_url.'/product_'.$next_info['id'].'.'.$web_url_surfix;
+			if(empty($newsInfo['biglogo'])){
+				$newsInfo['biglogo']=$this->nopic;
+			}else{
+				$newsInfo['biglogo']=$web_url.'/uploads/product/'.$newsInfo['biglogo'];
 			}
-			$newsInfo['next']="<a href='$next_url'>".$next_info['title']."</a>";
-		}else
+		}
+		
+		if(in_array('tags_list',$option_col))
 		{
-			$newsInfo['next']='没有了';
+			//得出tagslist
+			$tags_list='';
+			if(!empty($newsInfo['tags']))
+			{
+				$tag_arr=explode(',',$newsInfo['tags']);
+				if(is_array($tag_arr))
+				{
+					foreach($tag_arr as $tagname)
+					{
+						$tags_list .= '<a href="search.php?s_type=1&tag=' . urlencode($tagname) . '" target="_blank">'.$tagname.'</a> ';
+					}
+				}
+				$newsInfo['tags_list']=$tags_list;
+				//echo $newsInfo['tags'];
+			}
+		}
+		
+		//上一篇下一篇		
+		if(in_array('prev',$option_col))
+		{
+			parent::setTable('{tablepre}product');
+			$prev_info=parent::GetInfo(array('id','title'),"id<$aid and classid=".$newsInfo['classid'],'id desc');
+			if($prev_info)
+			{
+				if($web_url_module=='1'){
+					$prev_url=$web_url.'/product.php?id='.$prev_info['id'];
+				}elseif($web_url_module=='2'){
+					$prev_url=$web_url.'/product_'.$prev_info['id'].'.'.$web_url_surfix;
+				}
+				$newsInfo['prev']="<a href='$prev_url'>".$prev_info['title']."</a>";
+			}else
+			{
+				$newsInfo['prev']='没有了';
+			}
+		}
+		
+		if(in_array('next',$option_col))
+		{		
+			parent::setTable('{tablepre}product');
+			$next_info=parent::GetInfo(array('id','title'),"id>$aid and classid=".$newsInfo['classid']);
+			if($next_info)
+			{
+				if($web_url_module=='1'){
+					$next_url=$web_url.'/product.php?id='.$next_info['id'];
+				}elseif($web_url_module=='2'){
+					$next_url=$web_url.'/product_'.$next_info['id'].'.'.$web_url_surfix;
+				}
+				$newsInfo['next']="<a href='$next_url'>".$next_info['title']."</a>";
+			}else
+			{
+				$newsInfo['next']='没有了';
+			}
 		}
 		return $newsInfo;
 	}
@@ -470,23 +591,29 @@ class Product extends Article{
 		}
 	}
 	/**
-	 * 函数DeleteProduct,删除产品
+	 * 函数Delete,删除产品
 	 * 成功返回true 失败返回false
-	 * @param array $idarr 删除的ID数组 比如要删除ID为1，2，3的文档 则为：array(1,2,3)
-	 * @return int 1表示没有选择要删除的数据 3表示删除数据库中的数据时出错 3表示成功
+	 * @param array $idarr 删除的文档ID 可以是数组 比如array('1','2') 也可以用是字符串 但要以,分隔 比如1,2,3
+	 * @return int 3表示没有选择要删除的数据 2表示删除数据库中的数据时出错 1表示成功
 	 */
 	function Delete($idarr){
-		if(!$idarr){
+		if(empty($idarr)){
 			//数组为空
 			return 3;
 		}
 		//这里的idarr是个数组
 		//先删除缩略图
 		foreach($idarr as $value){
-			$logo=$this->GetLogo($value);
-			if(strlen($logo)>0){
-				//存在图片 就删除
-				$file=WEB_DR."/uploads/product/".$logo;
+			//存在图片 就删除
+			$info=$this->GetInfo($value,array('logo','biglogo'),array());
+			
+			if(strlen($info['logo'])>0){
+				$file=WEB_DR."/uploads/product/".$info['logo'];
+				@unlink($file);
+			}
+			
+			if(strlen($info['biglogo'])>0){
+				$file=WEB_DR."/uploads/product/".$info['biglogo'];
 				@unlink($file);
 			}
 		}
@@ -508,12 +635,13 @@ class Product extends Article{
 	 * @return string 成功返回产品LOGO文件名 失败返回''
 	 */
 	function GetLogo($id,$emptyFillDefault=true){
-		global $db;
-		$sql="select logo from {tablepre}product where id=$id";
-		$db->GetOne($sql);
-		$logo=$db->f('logo');
-		if(strlen($logo)==0 && $emptyFillDefault){
-			$logo=$this->nopic;
+		$pro_info = $this->GetInfo($id , array('logo') , array());
+		if($pro_info)
+		{
+			$logo=$pro_info['logo'];
+			if(strlen($logo)==0 && $emptyFillDefault){
+				$logo=$this->nopic;
+			}			
 		}
 		return $logo;
 	}

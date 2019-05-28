@@ -35,6 +35,33 @@ if($action=='addorder'){
 		}
 		$hudongInfo['title']=$title;
 		if($hudong->Add($hudongInfo)){
+			
+			if($web_send_email)
+			{			
+				//发邮件
+				require_once(WEB_CLASS.'/email_class.php');					
+				$smtpemailto = $web_email_usrename;//发送给谁
+				if('utf-8'==$web_code)
+				{
+					$mailsubject = iconv('utf-8','gb2312',"有人给您留言了_").date('Y-m-d');//邮件主题
+				}else
+				{
+					$mailsubject = "有人给您留言了_".date('Y-m-d');//邮件主题
+				}
+				$mailbody = "标题：$title<br>";//邮件内容
+				$mailbody .= "感兴趣的产品：$loveproduct<br>";//邮件内容
+				$mailbody .= "姓名：$realname<br>";//邮件内容
+				$mailbody .= "电话，E-mail：$tel<br>";//邮件内容
+				$mailbody .= "详细地址：$address<br>";//邮件内容
+				$mailbody .= "订单说明：$content<br>";//邮件内容
+				$mailtype .= "HTML";//邮件格式（HTML/TXT）,TXT为文本邮件
+			
+				$smtp = new smtp($web_email_server,$web_email_port,true,$web_email_usrename,$web_email_password);//这里面的一个true是表示使用身份验证,否则不使用身份验证.
+				//$smtp->debug = TRUE;//是否显示发送的调试信息
+				@$smtp->sendmail($smtpemailto, $web_email_usrename, $mailsubject, $mailbody, $mailtype);
+				sleep(2);
+			}
+			
 			$errormsg[]='添加订单成功';
 			ShowMsg($errormsg,1,$back);
 		}else{

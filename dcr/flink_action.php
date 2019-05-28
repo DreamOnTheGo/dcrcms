@@ -13,8 +13,11 @@ $back=array('友情链接列表'=>'flink_list.php');
 //本页为操作新闻的页面
 if($action=='addflink'){
 		//没有错误
-		$logo=UplodeFile("logo",WEB_DR."/uploads/flink/",'',array('width'=>$flinklogowidth,'height'=>$flinklogoheight));
-		$logo=basename($logo);
+		include_once(WEB_CLASS."/upload_class.php");
+		$upload=new Upload();
+		$fileInfo=$upload->UploadFile("logo",WEB_DR."/uploads/flink/",'',array('width'=>$flinklogowidth,'height'=>$flinklogoheight),array());
+		
+		$logo=$fileInfo['sl_filename'];
 		$info=array('webname'=>$webname,
 					   		'logo'=>$logo,
 							'weburl'=>$weburl,
@@ -39,8 +42,8 @@ if($action=='addflink'){
 						);
 		include_once(WEB_CLASS."/upload_class.php");
 		$upload=new Upload();
-		$fileInfo=$upload->UploadFile("logo",WEB_DR."/uploads/flink/",'',array('width'=>$flinklogowidth,'height'=>$flinklogoheight));
-		$logo=basename($fileInfo['sl_filename']);
+		$fileInfo=$upload->UploadFile("logo",WEB_DR."/uploads/flink/",'',array('width'=>$flinklogowidth,'height'=>$flinklogoheight),array());
+		$logo=$fileInfo['sl_filename'];
 			if(strlen($logo)>0){
 				$info['logo']=basename($logo);
 			}

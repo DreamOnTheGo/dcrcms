@@ -1,4 +1,5 @@
 <?php
+define('IN_DCR' , TRUE);
 include "../include/common.func.php";
 include "../include/app_info.php";
 error_reporting(E_ALL || ~E_NOTICE);

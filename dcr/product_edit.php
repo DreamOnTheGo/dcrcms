@@ -66,7 +66,6 @@ function tijiaoAddAction(){
 	return false;
 }
 </script>
-
 </head>
 <body>
 <table cellSpacing=0 cellPadding=0 width="100%" align=center border=0>
@@ -85,13 +84,15 @@ function tijiaoAddAction(){
   </table>
 <?php
 	include WEB_CLASS."/product_class.php";
+	$pro=new Product(0);
 	if($action=='add'){
 	}else{
 		$action='modify';
 		$id=isset($id)?(int)$id:0;
 		if($id!=0){			
-			$pro=new Product(0);
+			$pro=new Product();
 			$productinfo=$pro->GetInfo($id,$productColList);
+			//p_r($productinfo);
 		}else{
 			$errormsg[]='您没有选择要修改的文档';
 			ShowMsg($errormsg,2,$back);
@@ -108,33 +109,12 @@ function tijiaoAddAction(){
     <td bgcolor="#FFFFFF" style="COLOR: #880000"><input name="title" type="text" id="title" size="80" value="<?php echo $productinfo['title']; ?>"></td></tr>
   <tr>
     <td align=right valign="top" bgcolor="#FFFFFF">产品类别(<font color="red" class="txtRed">*</font>)：</td>
-    <td bgcolor="#FFFFFF" style="COLOR: #880000"><span id="productClassList"> <?php 
-		$pro=new Product(0);
-		$productClassList=$pro->GetClassList(array('id','classname'));
-		if(count($productClassList)>0){
-			echo '<select name="classid" id="classid">';
-			echo "<option value='0'>请选择产品类别</option>";
-			foreach($productClassList as $value){
-				echo "<option value='$value[id]'>$value[classname]</option>";
-				if(is_array($value['sub']) && count($value['sub'])){ ?>
-				<?php
-                    foreach($value['sub'] as $subvalue){
-                ?>
-                <option value="<?php echo $subvalue['id'] ?>" <?php if($subvalue['id']==$parentid || $productClassInfo['parentid']==$subvalue['id']){ ?>selected="selected" <?php } ?>>----<?php echo $subvalue['classname'] ?></option>  
-        <?php }
-		}
-			}
-			echo '</select>';
-		}else{
-			echo "当前没有分类";
-		}
-	?>
-    <script type="text/javascript">
-	  var classid="<?php echo $productinfo['classid'];?>";
-	  if(classid!=''){
-		  document.frmAddProduct.classid.value=classid;
-	  }
-	  </script>
+    <td bgcolor="#FFFFFF" style="COLOR: #880000"><span id="productClassList">
+    <select name="classid" id="classid">    
+    <?php
+		$productClassList=$pro->GetClassList();
+		$pro->GetClassListSelect($productClassList,$productinfo['classid']);
+	?></select>    
     </span>&nbsp;&nbsp;&nbsp;<!--<a href="#" onclick="javascript:showProductClassForm()">添加产品类别</a>  <a href="javascript:refreshProductClassList();">手动刷新列表</a>-->
       <iframe id="myframe" style=" display:none;position:absolute;z-index:9;width:expression(this.nextSibling.offsetWidth);height:expression(this.nextSibling.offsetHeight);top:expression(this.nextSibling.offsetTop);left:expression(this.nextSibling.offsetLeft);" frameborder="0" ></iframe>
     <div id="AddClass" style="display:none;position:absolute;top:100px; border:5px #999 solid; padding:10px; height:100px; width:650px; left:100px; background-color:#ecf4fc; z-index:11">

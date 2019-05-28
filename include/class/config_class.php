@@ -1,4 +1,6 @@
 <?php
+defined('IN_DCR') or exit('No permission.'); 
+
 /**
 * 更新 修改全站配置的类
 * 这个类中有更新全站配置的方法

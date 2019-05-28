@@ -1,4 +1,6 @@
 <?php
+defined('IN_DCR') or exit('No permission.'); 
+
 include_once('article_class.php');
 /**
 * 单页面处理类，即后台的公司资料处理

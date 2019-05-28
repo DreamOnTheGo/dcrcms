@@ -20,7 +20,6 @@ function check(){
 	}
 }
 </script>
-
 </head>
 <body>
 <table cellSpacing=0 cellPadding=0 width="100%" align=center border=0>

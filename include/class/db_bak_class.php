@@ -1,4 +1,6 @@
 <?php
+defined('IN_DCR') or exit('No permission.'); 
+
 /**
 * 数据库备份还原类 只针对mysql 不支持sqlite
 * @author 我不是稻草人 www.dcrcms.com

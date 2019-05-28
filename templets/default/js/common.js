@@ -1,4 +1,4 @@
-//左边产品类别列表
+//宸﹁竟浜у搧绫诲埆鍒楄〃
 function SubNav(id){
 	//alert(document.getElementById("sub_"+id).style.display);
 	var o=document.getElementById("sub_"+id);

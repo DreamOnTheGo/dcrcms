@@ -9,7 +9,6 @@ include "adminyz.php";
 <LINK href="css/admin.css" type="text/css" rel="stylesheet">
 <script src="../include/js/common.js"></script>
 <script src="../include/js/jquery.js"></script>
-
 </HEAD>
 <BODY>
 <TABLE cellSpacing=0 cellPadding=0 width="100%" align=center border=0>

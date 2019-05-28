@@ -6,7 +6,7 @@ include "adminyz.php";
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>杭州合才企业管理有限公司</title>
+<title>编辑友情链接</title>
 <link href="css/admin.css" type="text/css" rel="stylesheet" />
 <style>
 .redtxt{color:red;}
@@ -24,8 +24,7 @@ function check(){
 	}
 }
 </script>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-</head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head>
 <body>
 <div id="page" style="margin:10px">
   <?php
@@ -49,7 +48,7 @@ function check(){
             <table cellspacing="1" cellpadding="3" border="0" bgcolor="#dddddd" width="100%" class="aa">
                                     <tbody><tr bgcolor="#f0f0f0">
                                         <td height="25" colspan="4">
-                                            &nbsp; <b><font color="#00000">【添加友情链接】</font></b></td>
+                                            &nbsp; <b><font color="#00000">添加友情链接</font></b></td>
                                     </tr>
                                     <tr bgcolor="#ffffff">
                                         <td height="25" align="right" width="12%">
@@ -72,7 +71,7 @@ function check(){
                                                 <td><span style="color:white">当前缩略图</span></td>
                                               </tr>
                                               <tr>
-                                                <td bgcolor="#FFFFFF"><?php if(strlen($info['logo'])>0){echo "<img src='../uploads/logo/".$info['logo']."'>";}?></td>
+                                                <td bgcolor="#FFFFFF"><?php if(strlen($info['logo'])>0){echo "<img src='../uploads/flink/".$info['logo']."'>";}?></td>
                                               </tr>
                                             </table>
                                               <input type="file" size="40" name="logo" id="logo" />

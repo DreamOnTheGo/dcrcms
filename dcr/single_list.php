@@ -8,7 +8,6 @@ include "adminyz.php";
 <META http-equiv=Content-Type content="text/html; charset=utf-8">
 <LINK href="css/admin.css" type="text/css" rel="stylesheet">
 <script src="../include/js/common.js"></script>
-
 </HEAD>
 <BODY>
 <TABLE cellSpacing=0 cellPadding=0 width="100%" align=center border=0>

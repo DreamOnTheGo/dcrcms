@@ -1,4 +1,5 @@
 <?php
+define('IN_DCR' , TRUE); 
 define('WEB_INCLUDE', str_replace("\\", '/', dirname(__FILE__) ).'/');
 define('WEB_DR', str_replace("\\", '/', substr(WEB_INCLUDE,0,-8) ) );
 define('WEB_CLASS',WEB_INCLUDE.'class/');
@@ -6,6 +7,7 @@ define('WEB_T',WEB_INCLUDE.'/tplengine/');
 define('WEB_Tpl',WEB_DR.'templets/');
 define('WEB_TplPath','/templets/');
 define('WEB_DATA',WEB_DR.'data/');
+define('WEB_CACHE',WEB_INCLUDE.'cache/');
 define('WEB_MYSQL_BAKDATA_DIR',WEB_DR.'data/databak/');
 
 @set_magic_quotes_runtime(0);
@@ -99,6 +101,8 @@ require_once(WEB_INCLUDE.'/common.func.php');
 
 //连接数据库
 $db=new DB($db_type,$host,$name,$pass,$table,$ut);
+
+header('Content-type:text/html;charset='.$web_code);
 
 //程序信息
 $version=$app_version;

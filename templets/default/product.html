@@ -6,6 +6,10 @@
 <meta name="keywords" content="<{$pro.keywords}>"/>
 <meta name="description" content="<{$pro.description}>"/>
 <link href="<{$web_templeturl}><{$web_templetdir}>/css/common.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="<{$web_templeturl}><{$web_templetdir}>/js/jquery.js"></script>
+<script type="text/javascript" src="<{$web_templeturl}><{$web_templetdir}>/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="<{$web_templeturl}><{$web_templetdir}>/js/jquery.treeview.js"></script>
+<link href="<{$web_templeturl}><{$web_templetdir}>/css/jquery.treeview.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 <div class="wrap">
@@ -18,7 +22,7 @@
         	<div class="news_main">
 	        	<div class="position">当前位置：<{$pro.position}></div>
                 <h1 class="news_title"><{$pro.title}></h1>
-                <div class="news_content propic"><img src="<{$pro.biglogo}>"/></div>
+                <div class="news_content propic"><img onload="if(this.width>600)this.width=600;if(this.height>400)this.height=400;" src="<{$pro.biglogo}>"/></div>
                 <div class="news_content"><{$pro.content}></div>
                 <div class="l22">产品tags:<{$pro.tags_list}></div>
                 <div class="l22"><span class="fRight">下一篇：<{$pro.next}></span>上一篇：<{$pro.prev}></div>

@@ -5,7 +5,6 @@ include "adminyz.php";
 
 include WEB_CLASS."/news_class.php";
 
-header('Content-type:text/html;charset=utf-8');
 header('cache-control:no-cache;must-revalidate');
 $news=new News();
 
@@ -27,8 +26,8 @@ if($action=='add' || $action=='add_ajax'){
 	}else{
 		//没有错误
 		if($action=='add_ajax'){
-			$classname=iconv('utf-8','utf-8',urldecode($classname));
-			$classdescription=iconv('utf-8','utf-8',urldecode($classdescription));
+			$classname=iconv('utf-8',$web_code,urldecode($classname));
+			$classdescription=iconv('utf-8',$web_code,urldecode($classdescription));
 		}
 		$rid=$news->AddClass(array('classname'=>$classname,
 					   		 'classdescription'=>$classdescription

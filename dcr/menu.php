@@ -23,7 +23,6 @@ include "../include/common.inc.php";
 		return;
 	}
 </script>
-
 </head>
 <body style="background-color:#E3EFFB; background:url(images/menu_bg.jpg)">
 <table cellSpacing=0 cellPadding=0 width=170 border=0>
@@ -142,6 +141,10 @@ include "../include/common.inc.php";
         </tr>
         <tr height=20>
           <td align="center" width="15"><img height=9 src="images/menu_icon.gif" width=9></td>
+          <td align="left" width="135"><a class=menuChild href="email_edit.php" target=main>网站邮件配置</a></td>
+        </tr>
+        <tr height=20>
+          <td align="center" width="15"><img height=9 src="images/menu_icon.gif" width=9></td>
           <td align="left"><a class=menuChild href="cache_clear.php" target=main>清空缓存</a></td>
         </tr>
         <tr height=20>
@@ -151,6 +154,14 @@ include "../include/common.inc.php";
         <tr height=20>
           <td align="center" width="15"><img height=9 src="images/menu_icon.gif" width=9></td>
           <td align="left"><a class=menuChild href="fmanage.php" target=main>文件管理器</a></td>
+        </tr>
+        <tr height=20>
+          <td align="center" width="15"><img height=9 src="images/menu_icon.gif" width=9></td>
+          <td align="left"><a class=menuChild href="sitemap_baidu_edit.php" target=main>生成百度sitemap</a></td>
+        </tr>
+        <tr height=20>
+          <td align="center" width="15"><img height=9 src="images/menu_icon.gif" width=9></td>
+          <td align="left"><a class=menuChild href="sitemap_google_edit.php" target=main>生成Google sitemap</a></td>
         </tr>
         <tr height=20>
           <td align="center" width="15"><img height=9 

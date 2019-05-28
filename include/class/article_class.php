@@ -1,4 +1,6 @@
 <?php
+defined('IN_DCR') or exit('No permission.'); 
+
 /**
 * 数据库的处理类，一般数据库处理的类都以为这个父类
 * 这个类中有更新、插入、删除文档 还有获取数据等方法
@@ -169,20 +171,19 @@ class Article{
 	}
 	/**
 	 * 函数Del,删除指定ID数组的所有文章
-	 * @param array $idarr 删除的ID数组 比如要删除ID为1，2，3的文档 则为：array(1,2,3)
+	 * @param array $idarr 删除的文档ID 可以是数组 比如array('1','2') 也可以用是字符串 但要以,分隔 比如1,2,3
 	 * @param string $jizhuncol 删除的基准列名，默认为ID 如删除ID=1的文档 要删除aid=1的文档则这个值为'aid'
 	 * @return boolean 成功返回true 失败返回false
 	 */
 	function Del($idarr,$jizhuncol='id'){
 		if(is_array($idarr)){
 			$idarr=implode(',',$idarr);
-		}else{
-			return false;
 		}
+		
 		if(!empty($idarr)){
 			global $db;
 			$sql="delete from ".$this->table." where $jizhuncol in($idarr)";
-        $this->SetLastSql($sql);
+       		$this->SetLastSql($sql);
 			if($db->ExecuteNoneQuery($sql)){
 				return true;
 			}else{

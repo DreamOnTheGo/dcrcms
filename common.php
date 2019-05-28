@@ -32,8 +32,11 @@ $tpl->assign('web_code',$web_code);
 //产品类别
 include WEB_CLASS."/product_class.php";
 $pc=new Product(0);
-$productClassList=$pc->GetClassList(array('id','classname','parentid'));
+$productClassList=$pc->GetClassList();
 $tpl->assign('productClassList',$productClassList);
+$pro_class_list_txt=$pc->GetClassListUl($productClassList);
+$pro_class_list_txt = $pc->GetClassListUlHtml();
+$tpl->assign('pro_class_list_txt',$pro_class_list_txt);
 //p_r($productClassList);
 
 include_once WEB_CLASS."/news_class.php";

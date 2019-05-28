@@ -7,11 +7,12 @@ include "adminyz.php";
 <html xmlns="http://www.w3.org/1999/xhtml"><head>
 <meta http-equiv=Content-Type content="text/html; charset=utf-8">
 <link href="css/admin.css" type="text/css" rel="stylesheet">
-<script src="../include/js/common.js"></script></head>
+<script src="../include/js/common.js"></script>
+</head>
 <body>
 <table cellSpacing=0 cellPadding=0 width="100%" align=center border=0>
   <tr height=28>
-    <td background=images/title_bg1.jpg>当前位置: <a href="main.php">后台首页</a>&gt;&gt;职位列表</td></tr>
+    <td background=images/title_bg1.jpg>当前位置: <a href="main.php">后台首页</a>&gt;&gt;友情链接列表</td></tr>
   <tr>
     <td bgColor=#b1ceef height=1></td></tr></table>
 <table cellSpacing=0 cellPadding=0 width="95%" align=center border=0>
@@ -19,7 +20,7 @@ include "adminyz.php";
     <td></td></tr>
   <tr height=22>
     <td style="PADDING-LEFT: 20px; FONT-WEIGHT: bold; COLOR: #ffffff" 
-    align=middle background=images/title_bg2.jpg>职位列表</td></tr>
+    align=middle background=images/title_bg2.jpg>友情链接列表</td></tr>
   <tr bgColor=#ecf4fc height=12>
     <td></td></tr>
   </table>

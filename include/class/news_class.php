@@ -1,4 +1,6 @@
 <?php
+defined('IN_DCR') or exit('No permission.'); 
+
 include_once('article_class.php');
 /**
 * 新闻处理类
@@ -268,12 +270,11 @@ class News extends Article{
 	}
 	/**
 	 * 函数Delete,删除指定ID数组的新闻
-	 * @param array $idarr 删除的ID数组 比如要删除ID为1，2，3的文档 则为：array(1,2,3)
+	 * @param array $idarr 删除的新闻ID 可以是数组 比如array('1','2') 也可以用是字符串 但要以,分隔 比如1,2,3
 	 * @return boolean 成功返回true 失败返回false
 	 */
 	function Delete($idarr){
 		$this->setTable('{tablepre}news');
-		//这里的idarr是个数组 要删除的ID数组
 		if(parent::Del($idarr)){
 			$this->setTable('{tablepre}news_addon');
 			return parent::Del($idarr,'aid');
@@ -306,9 +307,10 @@ class News extends Article{
 	 * @param string $listnum 返回记录数
 	 * @param string $order 排序，不要带order 如updatetime desc
 	 * @param string $where_option 条件
+	 * @param string $date_mode 新闻列表日期格式 参数和date函数一样 (含)1.0.6以后有效
 	 * @return array 返回返回新闻列表
 	 */
-	function GetList($classid,$col=array(),$start='',$listnum='',$order='istop desc,id desc',$where_option=''){
+	function GetList($classid,$col=array(),$start='',$listnum='',$order='istop desc,id desc',$where_option='',$date_mode='Y-m-d H:i:s'){
 		global $web_url,$web_url_module,$web_url_surfix;
 		$this->setTable('{tablepre}news');
 		if($classid!=0){
@@ -316,7 +318,7 @@ class News extends Article{
 		}
 		if(!empty($where_option)){
 			if(!empty($where)){
-				$where.=' and'.$where_option;
+				$where.=' and '.$where_option;
 			}else{
 				$where=$where_option;
 			}
@@ -333,11 +335,11 @@ class News extends Article{
 			}
 			if($arr[$i]['addtime']>0)
 			{
-				$arr[$i]['addtime']=date('Y-m-d H:i:s',$arr[$i]['addtime']);
+				$arr[$i]['addtime']=date($date_mode,$arr[$i]['addtime']);
 			}
 			if($arr[$i]['updatetime']>0)
 			{
-				$arr[$i]['updatetime']=date('Y-m-d H:i:s',$arr[$i]['updatetime']);
+				$arr[$i]['updatetime']=date($date_mode,$arr[$i]['updatetime']);
 			}
 			$arr[$i]['innerkey']=$i+1; //内部使用的下标值
 			if($web_url_module=='1'){

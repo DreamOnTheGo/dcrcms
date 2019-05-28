@@ -8,7 +8,6 @@ include "adminyz.php";
 <meta http-equiv=Content-Type content="text/html; charset=utf-8">
 <link href="css/admin.css" type="text/css" rel="stylesheet">
 <script src="../include/js/common.js"></script>
-
 </head>
 <body>
 <table cellSpacing=0 cellPadding=0 width="100%" align=center border=0>
@@ -31,33 +30,33 @@ include "adminyz.php";
     <tr>
       <td colspan="2" align="left" bgcolor="#FFFFFF"><table width="100%" border="0" cellspacing="0" cellpadding="5">
       	<?php
-	include WEB_CLASS."/product_class.php";
-	$pc=new Product(0);
+			include WEB_CLASS."/product_class.php";
+			$pc=new Product();
         	$class_list=$pc->GetClassList();
            // p_r($class_list);
 		   if($class_list)
 		   {
-            foreach($class_list as $value){
-        ?>
-        <tr onMouseMove="javascript:this.bgColor='#F4F9EB';" onMouseOut="javascript:this.bgColor='#FFFFFF';">
+			   function ShowClassList($class_list)
+			   {
+					foreach($class_list as $value)
+					{
+			?>
+            <tr onMouseMove="javascript:this.bgColor='#F4F9EB';" onMouseOut="javascript:this.bgColor='#FFFFFF';">
           <td width="4%" bgcolor="#c0c0c0" style="border-bottom:2px dotted #F4F9EB"><?php echo $value['id']; ?></td>
-          <td width="61%" style="border-bottom:2px dotted #c0c0c0">·<?php echo $value['classname']; ?></td>
+          <td width="61%" style="border-bottom:2px dotted #c0c0c0"><?php echo str_repeat("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;",$value['class_level']-1); ?>·<?php echo $value['classname']; ?></td>
           <td width="35%" style="border-bottom:2px dotted #c0c0c0"><span style="float:right;">排序：
             <input name="orderid[<?php echo $value['id']; ?>]" type="text" value="<?php echo $value['orderid']; ?>" size="5" />
           </span><a href="product_class_edit.php?action=add&parentid=<?php echo $value['id'];?>">添加下级分类</a>&nbsp; <a href="product_class_edit.php?action=modify&id=<?php echo $value['id'];?>">编辑</a>&nbsp; <a href="product_class_action.php?action=delproductclass&classid=<?php echo $value['id'];?>">删除</a></td>
         </tr>
-         	<?php if(is_array($value['sub']) && count($value['sub'])){ 
-                   foreach($value['sub'] as $sub_value){
-                ?>
-            <tr onMouseMove="javascript:this.bgColor='#c0c0c0';" onMouseOut="javascript:this.bgColor='#FFFFFF';">
-              <td width="4%" bgcolor="#c0c0c0" style="border-bottom:1px dotted white"><?php echo $sub_value['id']; ?></td>
-              <td width="66%" style="border-bottom:1px dotted #c0c0c0"><?php echo str_repeat("&nbsp;",4); ?>·<?php echo $sub_value['classname']; ?></td>
-              <td width="30%" style="border-bottom:1px dotted #c0c0c0"><span style="float:right;">排序：
-            <input name="orderid[<?php echo $sub_value['id']; ?>]" type="text" value="<?php echo $sub_value['orderid']; ?>" size="5" />
-          </span><a href="product_class_edit.php?action=modify&id=<?php echo $sub_value['id'];?>">编辑</a>&nbsp; <a href="product_class_action.php?action=delproductclass&classid=<?php echo $sub_value['id'];?>">删除</a></td>
-            </tr>
-        <?php }}?>
-        <?php }?>
+            <?php
+				if($value['sub_class'] && count($value['sub_class']))
+				{
+					ShowClassList($value['sub_class']);
+				}
+					}
+			   }
+			   ShowClassList($class_list);
+			  ?>
         <?php } ?>
         <tr>
           <td colspan="3"><input type="button" name="button" id="button" onclick="location.href='product_class_edit.php?action=add&parentid=0'" value="添加顶级分类" />

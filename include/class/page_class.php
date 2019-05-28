@@ -1,4 +1,6 @@
 <?php
+defined('IN_DCR') or exit('No permission.'); 
+
 /**
 * 分页类
 * URL有多个参数也能分页，还能自定义分页样式

@@ -7,7 +7,8 @@ include "adminyz.php";
 <html xmlns="http://www.w3.org/1999/xhtml"><HEAD>
 <META http-equiv=Content-Type content="text/html; charset=utf-8">
 <LINK href="css/admin.css" type="text/css" rel="stylesheet">
-<script src="../include/js/common.js"></script></head>
+<script src="../include/js/common.js"></script>
+</HEAD>
 <BODY>
 <TABLE cellSpacing=0 cellPadding=0 width="100%" align=center border=0>
   <TR height=28>
